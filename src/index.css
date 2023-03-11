@@ -1,0 +1,64 @@
+*,
+*::after,
+*::before {
+	font-family: Roboto, sans-serif;
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+	border: 0;
+	background: none;
+	outline: none;
+}
+
+body {
+	display: flex;
+	flex-direction: column;
+	overflow: hidden;
+}
+
+:is(*, *::after, *::before):focus-visible {
+	outline: 2px solid coral;
+}
+
+input {
+	padding: 8px 12px;
+	border: 1px solid var(--color-primary-dark);
+	border-radius: 999px;
+}
+
+button {
+	font-weight: 500;
+	font-size: inherit;
+	color: inherit;
+	text-transform: inherit;
+	background: none;
+	padding: 0;
+	border: none;
+}
+
+button:not(:disabled) {
+	cursor: pointer;
+}
+
+.container {
+	width: min(900px, 100%);
+	margin: 0 auto;
+}
+.noselect {
+	-webkit-touch-callout: none; /* iOS Safari */
+	-webkit-user-select: none; /* Safari */
+	-khtml-user-select: none; /* Konqueror HTML */
+	-moz-user-select: none; /* Old versions of Firefox */
+	-ms-user-select: none; /* Internet Explorer/Edge */
+	user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome, Edge, Opera and Firefox */
+}
+
+li {
+	list-style-type: none;
+}
+
+a {
+	text-decoration: none;
+	color: inherit;
+}
