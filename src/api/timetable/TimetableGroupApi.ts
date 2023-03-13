@@ -27,7 +27,7 @@ class TimetableGroupApi extends TimetableBaseApi {
 	}
 
 	public async getGroups(params?: GetGroupsParams) {
-		return this.get<ArrayResponse<Group>, GetGroupsParams>('', params);
+		return this.get<ArrayResponse<Group>, GetGroupsParams>('/', params);
 	}
 
 	public async createGroup(group: GroupWithoutId) {

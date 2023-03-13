@@ -13,9 +13,10 @@ const res1: GroupTreeNode = {
 	name: 'root',
 	scopes: [],
 	children: [
-		{ id: 2, name: 'student', children: [], scopes: [] },
-		{ id: 3, name: 'lecturer', children: [], scopes: [] },
+		{ id: 2, name: 'student', children: [], scopes: [], parent_id: 1 },
+		{ id: 3, name: 'lecturer', children: [], scopes: [], parent_id: 1 },
 	],
+	parent_id: null,
 };
 
 describe('Convert array of groups to tree test', () => {

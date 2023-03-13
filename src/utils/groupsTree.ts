@@ -4,7 +4,7 @@ import { reactive } from 'vue';
 export class GroupTreeNode {
 	id: number;
 	name: string;
-	scopes: string[];
+	scopes: number[];
 	children: GroupTreeNode[] = [];
 	parent_id: number | null;
 
