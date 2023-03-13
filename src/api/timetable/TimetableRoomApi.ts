@@ -11,8 +11,7 @@ export interface GetRoomsParams {
 
 class TimetableRoomApi extends TimetableBaseApi {
 	constructor() {
-		super();
-		this.url += '/room';
+		super('/room');
 	}
 
 	public async getRoom(id: number) {
@@ -28,11 +27,11 @@ class TimetableRoomApi extends TimetableBaseApi {
 	}
 
 	public async getRooms(params?: GetRoomsParams) {
-		return this.get<ArrayResponse<Room>, GetRoomsParams>('/', params);
+		return this.get<ArrayResponse<Room>, GetRoomsParams>('', params);
 	}
 
 	public async createRoom(room: RoomWithoutId) {
-		return this.post<Room, RoomWithoutId>('/', room);
+		return this.post<Room, RoomWithoutId>('', room);
 	}
 }
 

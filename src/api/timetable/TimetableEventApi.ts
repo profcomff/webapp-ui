@@ -23,8 +23,7 @@ interface GetEventsParams {
 
 class TimetableEventApi extends TimetableBaseApi {
 	constructor() {
-		super();
-		this.url += '/event';
+		super('/event');
 	}
 
 	public async getEvent(id: number) {
@@ -48,7 +47,7 @@ class TimetableEventApi extends TimetableBaseApi {
 	}
 
 	public async createEvent(event: ModifyEventBody) {
-		return this.post<Event, ModifyEventBody>('/', event);
+		return this.post<Event, ModifyEventBody>('', event);
 	}
 
 	public async createEvents(events: ModifyEventBody[]) {

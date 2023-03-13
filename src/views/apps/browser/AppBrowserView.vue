@@ -3,7 +3,7 @@ import { IrdomToolbar } from '@/components';
 </script>
 
 <template>
-	<IrdomToolbar backable />
+	<IrdomToolbar back="/apps" />
 	<iframe :src="$route.hash.slice(1)" frameborder="0" class="iframe" />
 </template>
 

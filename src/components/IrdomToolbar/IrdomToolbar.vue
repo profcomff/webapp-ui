@@ -5,25 +5,26 @@ import { ToolbarAction, ToolbarActionButton, ToolbarActionLink, ToolbarMenuItem 
 interface Props {
 	menuItems?: ToolbarMenuItem[];
 	title?: string;
-	backable?: boolean;
+	back?: string | boolean;
 	actions?: ToolbarAction[];
 }
 
 withDefaults(defineProps<Props>(), {
 	menuItems: () => [],
 	title: 'Твой ФФ!',
-	backable: false,
 	actions: () => [],
 });
+
+const defaultBack = history.state.back;
 </script>
 
 <template>
 	<header class="toolbar">
 		<div class="container wrapper">
-			<div class="meta" v-if="title || backable">
-				<button type="button" @click="$router.go(-1)" v-if="backable" aria-label="Назад">
+			<div class="meta" v-if="title || back">
+				<RouterLink :to="back === true ? defaultBack : back" v-if="back" aria-label="Назад">
 					<MaterialIcon name="arrow_back" />
-				</button>
+				</RouterLink>
 				<h1 class="noselect title">{{ title }}</h1>
 			</div>
 
@@ -31,27 +32,28 @@ withDefaults(defineProps<Props>(), {
 				<slot />
 			</div>
 
-			<div class="actions" v-if="actions.length > 0">
-				<template v-for="action of actions">
-					<RouterLink
-						:to="(action as ToolbarActionLink).href"
-						v-if="(action as ToolbarActionLink).href"
-						class="button"
-					>
-						<MaterialIcon :name="action.icon" />
-					</RouterLink>
+			<div class="flex">
+				<div class="actions" v-if="actions.length > 0">
+					<template v-for="action of actions">
+						<RouterLink
+							:to="(action as ToolbarActionLink).href"
+							v-if="(action as ToolbarActionLink).href"
+							class="button"
+						>
+							<MaterialIcon :name="action.icon" />
+						</RouterLink>
 
-					<button
-						type="button"
-						@click="(action as ToolbarActionButton).onClick"
-						:aria-label="action.ariaLabel"
-						class="button"
-						v-else-if="(action as ToolbarActionButton).onClick"
-					>
-						<MaterialIcon :name="action.icon" />
-					</button>
-				</template>
-
+						<button
+							type="button"
+							@click="(action as ToolbarActionButton).onClick"
+							:aria-label="action.ariaLabel"
+							class="button"
+							v-else-if="(action as ToolbarActionButton).onClick"
+						>
+							<MaterialIcon :name="action.icon" />
+						</button>
+					</template>
+				</div>
 				<IrdomPopover v-if="menuItems.length > 0" style="min-width: 48px; height: 100%">
 					<ul>
 						<li v-for="{ name, onClick } of menuItems">
@@ -89,6 +91,10 @@ withDefaults(defineProps<Props>(), {
 
 .title {
 	font-size: 18px;
+	white-space: nowrap;
+	max-width: 100%;
+	overflow: hidden;
+	text-overflow: ellipsis;
 }
 
 .button {
@@ -109,6 +115,8 @@ withDefaults(defineProps<Props>(), {
 	display: flex;
 	align-items: center;
 	gap: 4px;
+	max-width: 100%;
+	overflow: hidden;
 }
 
 .actions {

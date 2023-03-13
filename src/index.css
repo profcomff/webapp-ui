@@ -14,6 +14,8 @@ body {
 	display: flex;
 	flex-direction: column;
 	overflow: hidden;
+	padding-bottom: var(--navbar-height);
+	height: 100vh;
 }
 
 :is(*, *::after, *::before):focus-visible {
@@ -44,7 +46,8 @@ button:not(:disabled) {
 	width: min(900px, 100%);
 	margin: 0 auto;
 }
-.noselect {
+.noselect,
+summary {
 	-webkit-touch-callout: none; /* iOS Safari */
 	-webkit-user-select: none; /* Safari */
 	-khtml-user-select: none; /* Konqueror HTML */
@@ -61,4 +64,12 @@ li {
 a {
 	text-decoration: none;
 	color: inherit;
+}
+
+.flex {
+	display: flex;
+}
+
+summary {
+	cursor: pointer;
 }

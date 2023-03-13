@@ -13,8 +13,7 @@ export interface GetLecturersParams {
 
 class TimetableLecturerApi extends TimetableBaseApi {
 	constructor() {
-		super();
-		this.url += '/lecturer';
+		super('/lecturer');
 	}
 
 	public getLecturer(id: number) {
@@ -30,11 +29,11 @@ class TimetableLecturerApi extends TimetableBaseApi {
 	}
 
 	public getLecturers(params?: GetLecturersParams) {
-		return this.get<ArrayResponse<Lecturer>, GetLecturersParams>('/', params);
+		return this.get<ArrayResponse<Lecturer>, GetLecturersParams>('', params);
 	}
 
 	public createLecturer(lecturer: CreateLecturerBody) {
-		return this.post<Lecturer, CreateLecturerBody>('/', lecturer);
+		return this.post<Lecturer, CreateLecturerBody>('', lecturer);
 	}
 }
 

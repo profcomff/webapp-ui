@@ -31,6 +31,7 @@
 		<!-- Google fonts and icons -->
 
 		<script>
+			// фикс неправльных 100vh на мобилках из-за строки с url
 			const setHeight = event => {
 				document.querySelector('body').style.height = `${event.target.innerHeight}px`;
 			};

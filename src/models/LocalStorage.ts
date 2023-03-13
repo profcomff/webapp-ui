@@ -5,6 +5,7 @@ import { parseDate } from '../utils';
 enum LocalStorageItem {
 	Group = 'group',
 	LastTwoWeeksPreloadDate = 'last-two-week-preload-date',
+	Token = 'token',
 }
 
 export class LocalStorage {
@@ -27,5 +28,17 @@ export class LocalStorage {
 
 	static setLastTwoWeeksPreloadDate(date: Date) {
 		localStorage.setItem(LocalStorageItem.LastTwoWeeksPreloadDate, stringifyDate(date));
+	}
+
+	static getToken(): string | null {
+		return localStorage.getItem(LocalStorageItem.Token);
+	}
+
+	static setToken(token: string) {
+		localStorage.setItem(LocalStorageItem.Token, token);
+	}
+
+	static removeToken() {
+		localStorage.removeItem(LocalStorageItem.Token);
 	}
 }

@@ -2,10 +2,12 @@
 import { MaterialIcon } from '@/components/lib';
 import AsyncContent from './AsyncContent.vue';
 import { IrdomLayout } from '@/components';
+
+const back = history.state.back?.startsWith('/timetable/event') ? history.state.back : '/timetable';
 </script>
 
 <template>
-	<IrdomLayout backable>
+	<IrdomLayout :back="back">
 		<Suspense>
 			<AsyncContent :id="+$route.params.id" />
 

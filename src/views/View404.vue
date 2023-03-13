@@ -3,7 +3,7 @@ import { IrdomLayout } from '@/components';
 </script>
 
 <template>
-	<IrdomLayout backable>
+	<IrdomLayout :back="true">
 		<h1>404</h1>
 	</IrdomLayout>
 </template>

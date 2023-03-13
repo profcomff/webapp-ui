@@ -5,13 +5,13 @@ import { ToolbarAction, ToolbarMenuItem } from './IrdomToolbar/types';
 defineProps<{
 	toolbarActions?: ToolbarAction[];
 	toolbarMenu?: ToolbarMenuItem[];
-	backable?: boolean;
+	back?: string | boolean;
 	title?: string;
 }>();
 </script>
 
 <template>
-	<IrdomToolbar :actions="toolbarActions" :menu-items="toolbarMenu" :backable="backable" :title="title">
+	<IrdomToolbar :actions="toolbarActions" :menu-items="toolbarMenu" :back="back" :title="title">
 		<slot name="toolbar" />
 	</IrdomToolbar>
 

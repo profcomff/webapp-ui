@@ -1,36 +1,13 @@
-import { stringifyDate } from '@/utils';
-import { AppsView, TimetableInitView, TimetableView } from '@/views';
-import { LocalStorage } from '@/models';
+import { adminRoutes } from './admin';
+import { authRoutes, authHandler } from './auth';
+import { AppsView } from '@/views';
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router';
+import { timetableRoutes, timetableHandler } from './timetable';
 
 const routes: Array<RouteRecordRaw> = [
 	{
 		path: '/',
 		redirect: '/timetable',
-	},
-	{
-		path: '/timetable',
-		redirect: `/timetable/${stringifyDate(new Date())}`,
-	},
-	{
-		path: '/timetable/:date(\\d{2}-\\d{2}-\\d{4})',
-		component: TimetableView,
-	},
-	{
-		path: '/timetable/event/:id(\\d+)',
-		component: () => import('../views/timetable/event/TimetableEventView.vue'),
-	},
-	{
-		path: '/timetable/lecturer/:id(\\d+)',
-		component: () => import('../views/timetable/lecturer/TimetableLecturerView.vue'),
-	},
-	{
-		path: '/timetable/room/:id(\\d+)',
-		component: () => import('../views/timetable/room/TimetableRoomView.vue'),
-	},
-	{
-		path: '/timetable/init',
-		component: TimetableInitView,
 	},
 	{
 		path: '/apps',
@@ -39,6 +16,22 @@ const routes: Array<RouteRecordRaw> = [
 	{
 		path: '/apps/browser',
 		component: () => import('../views/apps/browser/AppBrowserView.vue'),
+	},
+	{
+		path: '/timetable',
+		children: timetableRoutes,
+	},
+	{
+		path: '/auth',
+		children: authRoutes,
+	},
+	{
+		path: '/admin',
+		children: adminRoutes,
+	},
+	{
+		path: '/profile',
+		component: () => import('../views/profile/ProfileView.vue'),
 	},
 	{
 		path: '/:pathMatch(.*)',
@@ -51,16 +44,7 @@ const router = createRouter({
 	routes,
 });
 
-router.beforeEach(to => {
-	const group = LocalStorage.getGroup();
-
-	if (to.path !== '/timetable/init' && to.path.startsWith('/timetable') && !group) {
-		return { path: '/timetable/init' };
-	}
-
-	if (to.path === '/timetable/init' && group) {
-		return { path: '/timetable' };
-	}
-});
+router.beforeEach(timetableHandler);
+router.beforeEach(authHandler);
 
 export default router;

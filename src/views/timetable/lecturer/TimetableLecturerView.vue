@@ -4,7 +4,7 @@ import AsyncContent from './AsyncContent.vue';
 </script>
 
 <template>
-	<IrdomLayout backable>
+	<IrdomLayout>
 		<Suspense>
 			<AsyncContent :id="+$route.params.id" />
 		</Suspense>

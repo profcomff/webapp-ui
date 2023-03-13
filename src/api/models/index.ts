@@ -75,3 +75,15 @@ export interface AppButtonCategory {
 	type: 'grid3' | 'list';
 	items: AppButton[];
 }
+
+export interface AuthGroup {
+	id: number;
+	name: string;
+	parent_id: number | null;
+}
+
+export interface Scope {
+	id: number;
+	name: string;
+	comment: string;
+}

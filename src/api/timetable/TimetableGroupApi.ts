@@ -11,8 +11,7 @@ export interface GetGroupsParams {
 
 class TimetableGroupApi extends TimetableBaseApi {
 	constructor() {
-		super();
-		this.url += '/group';
+		super('/group');
 	}
 
 	public async getGroup(id: number) {
@@ -28,11 +27,11 @@ class TimetableGroupApi extends TimetableBaseApi {
 	}
 
 	public async getGroups(params?: GetGroupsParams) {
-		return this.get<ArrayResponse<Group>, GetGroupsParams>('/', params);
+		return this.get<ArrayResponse<Group>, GetGroupsParams>('', params);
 	}
 
 	public async createGroup(group: GroupWithoutId) {
-		return this.post<Group, GroupWithoutId>('/', group);
+		return this.post<Group, GroupWithoutId>('', group);
 	}
 }
 

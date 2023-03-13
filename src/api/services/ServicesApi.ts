@@ -11,7 +11,7 @@ class ServicesApi extends BaseApi {
 	}
 
 	public async getCategories(params?: { offset?: number; limit?: number }) {
-		return this.get<Category[], { offset?: number; limit?: number }>('/', params);
+		return this.get<Category[], { offset?: number; limit?: number }>('', params);
 	}
 
 	public getButtons(categoryId: number) {
