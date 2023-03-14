@@ -18,21 +18,20 @@ interface GetGroupParams {
 	info: Array<GroupInfo>;
 }
 
+type GetGroupResponse<Info extends GroupInfo> = Group & {
+	[GroupInfo.Scopes]: GroupInfo.Scopes extends Info ? Scope[] : never;
+	[GroupInfo.IndirectScopes]: GroupInfo.IndirectScopes extends Info ? Scope[] : never;
+	[GroupInfo.Children]: GroupInfo.Children extends Info ? Group[] : never;
+	[GroupInfo.Users]: never;
+};
+
 class AuthGroupApi extends AuthBaseApi {
 	constructor() {
 		super('/group');
 	}
 
 	public async getGroup<Info extends GroupInfo = never>(id: number, params?: GetGroupParams) {
-		return this.get<
-			Group & {
-				[GroupInfo.Scopes]: GroupInfo.Scopes extends Info ? Scope[] : never;
-				[GroupInfo.IndirectScopes]: GroupInfo.IndirectScopes extends Info ? Scope[] : never;
-				[GroupInfo.Children]: GroupInfo.Children extends Info ? Group[] : never;
-				[GroupInfo.Users]: never;
-			},
-			GetGroupParams
-		>(`/${id}`, params);
+		return this.get<GetGroupResponse<Info>, GetGroupParams>(`/${id}`, params);
 	}
 
 	public async deleteGroup(id: number) {
@@ -43,8 +42,8 @@ class AuthGroupApi extends AuthBaseApi {
 		return this.patch<Group, Partial<CreateGroupBody>>(`/${id}`, body);
 	}
 
-	public async getGroups(params?: GetGroupParams) {
-		return this.get<{ items: Group[] }, GetGroupParams>('', params);
+	public async getGroups<Info extends GroupInfo>(params?: GetGroupParams) {
+		return this.get<{ items: GetGroupResponse<Info>[] }, GetGroupParams>('', params);
 	}
 
 	public async createGroup(body: CreateGroupBody) {

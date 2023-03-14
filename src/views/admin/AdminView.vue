@@ -1,23 +1,18 @@
 <script setup lang="ts">
-import { MeInfo, authProfileApi } from '@/api/auth';
 import { IrdomLayout, AnonymousMessage } from '@/components';
+import { scopename } from '@/models';
 import { useProfileStore } from '@/store';
-import { onMounted } from 'vue';
 
-const profileStore = useProfileStore();
-
-onMounted(async () => {
-	if (profileStore.token && !profileStore.userScopes) {
-		const { data } = await authProfileApi.getMe<MeInfo.UserScopes>({ info: [MeInfo.UserScopes] });
-	}
-});
+const { isUserLogged, hasTokenAccess } = useProfileStore();
 </script>
 
 <template>
 	<IrdomLayout title="Админка">
-		<template v-if="profileStore.token">
+		<template v-if="isUserLogged()">
 			<RouterLink to="/admin/groups" class="link">Редактироване групп пользователей</RouterLink>
-			<RouterLink to="/admin/scopes" class="link">Редактирование прав доступа</RouterLink>
+			<RouterLink to="/admin/scopes" class="link" v-if="hasTokenAccess(scopename.auth.scope.read)">
+				Редактирование прав доступа
+			</RouterLink>
 		</template>
 		<AnonymousMessage v-else />
 	</IrdomLayout>

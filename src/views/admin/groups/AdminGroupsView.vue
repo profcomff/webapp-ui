@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { authGroupApi } from '@/api/auth';
+import { GroupInfo, authGroupApi } from '@/api/auth';
 import { useAuthStore } from '@/store';
 import { onMounted, computed } from 'vue';
 import GroupTreeNode from './GroupTreeNode.vue';
@@ -11,12 +11,13 @@ onMounted(async () => {
 	if (authStore.groups.size === 0) {
 		const {
 			data: { items: groups },
-		} = await authGroupApi.getGroups({ info: ['child', 'scopes'] });
+		} = await authGroupApi.getGroups<GroupInfo.Children | GroupInfo.Scopes>({
+			info: [GroupInfo.Children, GroupInfo.Scopes],
+		});
 
 		for (const group of groups) {
-			const { data } = await authGroupApi.getGroup<'child' | 'scopes'>(group.id, { info: ['child', 'scopes'] });
-			authStore.setScopes(data.scopes);
-			authStore.setGroup(data);
+			authStore.setScopes(group.scopes);
+			authStore.setGroup(group);
 		}
 	}
 });

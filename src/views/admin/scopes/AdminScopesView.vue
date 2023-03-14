@@ -1,16 +1,19 @@
 <script setup lang="ts">
 import { authScopeApi } from '@/api/auth/AuthScopeApi';
 import ScopesTable from '../ScopesTable.vue';
-import { onMounted } from 'vue';
+import { onMounted, computed } from 'vue';
 import { useAuthStore, useProfileStore } from '@/store';
 import { IrdomLayout } from '@/components';
 import { MaterialIcon } from '@/components/lib';
+import { scopename } from '@/models';
 
 const authStore = useAuthStore();
-const { token } = useProfileStore();
+const { hasTokenAccess, isUserLogged } = useProfileStore();
+
+const hasAccess = computed(() => hasTokenAccess(scopename.auth.scope.read));
 
 onMounted(async () => {
-	if (token && authStore.scopes.size === 0) {
+	if (hasAccess.value && authStore.scopes.size === 0) {
 		const scopes = await authScopeApi.getScopes().then(res => res.data);
 		for (const scope of scopes) {
 			authStore.scopes.set(scope.id, scope);
@@ -19,7 +22,7 @@ onMounted(async () => {
 });
 
 const deleteScope = async (scopeId: number) => {
-	if (token) {
+	if (isUserLogged()) {
 		await authScopeApi.deleteScope(scopeId);
 		authStore.scopes.delete(scopeId);
 	}
@@ -32,7 +35,7 @@ const createScope = async (e: Event) => {
 		const comment = formData.get('comment')?.toString();
 		const name = formData.get('name')?.toString();
 
-		if (name && token) {
+		if (name && isUserLogged()) {
 			const { data } = await authScopeApi.createScope({ comment, name });
 
 			form.reset();
@@ -44,28 +47,32 @@ const createScope = async (e: Event) => {
 
 <template>
 	<IrdomLayout title="Редактирование прав доступа" back="/admin">
-		<ScopesTable
-			:scopes="authStore.scopes.values()"
-			delete-icon="delete_forever"
-			@delete="deleteScope"
-			style="width: 100%"
-		/>
-		<form @submit.prevent="createScope" class="form">
-			<MaterialIcon name="add" />
-			<label for="name">
-				name
-				<input type="text" id="name" name="name" autocomplete="off" required />
-			</label>
+		<template v-if="hasAccess">
+			<ScopesTable
+				:scopes="authStore.scopes.values()"
+				delete-icon="delete_forever"
+				@delete="deleteScope"
+				style="width: 100%"
+			/>
+			<form @submit.prevent="createScope" class="form">
+				<MaterialIcon name="add" />
+				<label for="name">
+					name
+					<input type="text" id="name" name="name" autocomplete="off" required />
+				</label>
 
-			<label for="comment">
-				comment
-				<input type="text" id="comment" name="comment" autocomplete="off" />
-			</label>
+				<label for="comment">
+					comment
+					<input type="text" id="comment" name="comment" autocomplete="off" />
+				</label>
 
-			<button type="submit">
-				<MaterialIcon name="done" />
-			</button>
-		</form>
+				<button type="submit">
+					<MaterialIcon name="done" />
+				</button>
+			</form>
+		</template>
+
+		<ForbiddenMessage v-else />
 	</IrdomLayout>
 </template>
 

@@ -7,7 +7,7 @@ import { useRoute } from 'vue-router';
 import { IrdomLayout } from '@/components';
 import { MaterialIcon } from '@/components/lib';
 
-const { token } = useProfileStore();
+const { isUserLogged } = useProfileStore();
 const authStore = useAuthStore();
 const back = history.state.back?.startsWith('/admin') ? history.state.back : '/admin/groups';
 const route = useRoute();
@@ -23,14 +23,14 @@ onMounted(async () => {
 		authStore.setGroup(data);
 	}
 
-	if (authStore.scopes.size === 0 && token) {
+	if (isUserLogged() && authStore.scopes.size === 0) {
 		const { data } = await authScopeApi.getScopes();
 		authStore.setScopes(data);
 	}
 });
 
 const deleteScope = async (scopeId: number) => {
-	if (token && group.value) {
+	if (isUserLogged() && group.value) {
 		const ids = [...group.value.scopes.keys()].filter(id => id !== scopeId);
 
 		await authGroupApi.patchGroup(group.value.id, { scopes: ids });
@@ -44,7 +44,7 @@ const addScope = async (e: Event) => {
 
 	const scopeId = +formData.get('id')!.toString();
 
-	if (token && group.value && scopeId) {
+	if (isUserLogged() && group.value && scopeId) {
 		await authGroupApi.patchGroup(groupId.value, { scopes: [...group.value.scopes.keys(), scopeId] });
 		authStore.setGroupScopeById(groupId.value, scopeId);
 		form.reset();

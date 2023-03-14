@@ -9,7 +9,7 @@ const props = withDefaults(defineProps<{ node: AuthGroup | null; indentSize?: nu
 	indentSize: 32,
 });
 
-const { token } = useProfileStore();
+const { isUserLogged } = useProfileStore();
 const authStore = useAuthStore();
 
 const createGroup = async (e: Event) => {
@@ -21,7 +21,7 @@ const createGroup = async (e: Event) => {
 		const parentId = props.node.id;
 		const group = authStore.groups.get(parentId);
 
-		if (group && token) {
+		if (isUserLogged() && group) {
 			const { data } = await authGroupApi.createGroup({ name, parent_id: group.id, scopes: [] });
 			authStore.setGroup(data);
 
@@ -34,7 +34,7 @@ const createGroup = async (e: Event) => {
 };
 
 const deleteGroup = async (groupId?: number) => {
-	if (token && groupId) {
+	if (isUserLogged() && groupId) {
 		await authGroupApi.deleteGroup(groupId);
 		authStore.deleteGroup(groupId);
 	}

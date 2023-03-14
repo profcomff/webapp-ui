@@ -38,7 +38,7 @@ const back = history.state.back?.startsWith('/timetable/event') ? history.state.
 	width: min(100%, 400px);
 	height: auto;
 	aspect-ratio: 16 / 10;
-	background: no-repeat center/80% url('../../../assets/map-background.webp');
+	background: no-repeat center/80% url('../../../assets/map_background.webp');
 	position: relative;
 	border-radius: 16px;
 	overflow: hidden;

@@ -5,3 +5,4 @@ export type { ToolbarActionButton, ToolbarActionLink, ToolbarAction, ToolbarMenu
 export { default as IrdomLayout } from './IrdomLayout.vue';
 export { default as DataRow } from './DataRow.vue';
 export { default as AnonymousMessage } from './AnonymousMessage.vue';
+export { default as ForbiddenMessage } from './ForbiddenMessage.vue';

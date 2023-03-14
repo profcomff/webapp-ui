@@ -6,9 +6,9 @@ export const useProfileStore = defineStore('profile', () => {
 	const token = ref<string | null>(null);
 	const tokenScopes = ref<string[]>([]);
 
-	const groups = ref<string[] | null>([]);
-	const indirectGroups = ref<string[] | null>([]);
-	const userScopes = ref<string[] | null>([]);
+	const groups = ref<string[] | null>(null);
+	const indirectGroups = ref<string[] | null>(null);
+	const userScopes = ref<string[] | null>(null);
 
 	function updateToken(newToken?: string) {
 		token.value = newToken ?? LocalStorage.get(LocalStorageItem.Token);
@@ -26,6 +26,14 @@ export const useProfileStore = defineStore('profile', () => {
 		tokenScopes.value = newTokenScopes ?? LocalStorage.getObject<string[]>(LocalStorageItem.TokenScopes) ?? [];
 	}
 
+	function isUserLogged() {
+		return token.value !== null;
+	}
+
+	function isAdmin() {
+		return indirectGroups.value?.includes('admin') || groups.value?.includes('root');
+	}
+
 	return {
 		token,
 		updateToken,
@@ -36,5 +44,7 @@ export const useProfileStore = defineStore('profile', () => {
 		hasTokenAccess,
 		hasUserAccess,
 		updateTokenScopes,
+		isUserLogged,
+		isAdmin,
 	};
 });

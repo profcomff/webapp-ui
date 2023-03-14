@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { timetableLecturerApi } from '@/api/timetable';
 import { useTimetableStore } from '@/store';
-import Placeholder from '@/assets/lecturer-placeholder.webp';
+import Placeholder from '@/assets/lecturer_placeholder.webp';
 import { computed } from 'vue';
 
 const timetableStore = useTimetableStore();
