@@ -4,8 +4,7 @@ import AsyncContent from './AsyncContent.vue';
 import { authProfileApi } from '@/api/auth';
 import { LocalStorage } from '@/models';
 import { useProfileStore } from '@/store';
-import { computed } from '@vue/reactivity';
-import { onMounted } from 'vue';
+import { onMounted, computed } from 'vue';
 
 const profileStore = useProfileStore();
 

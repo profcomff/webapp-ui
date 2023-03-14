@@ -1,7 +1,7 @@
 import { BaseApi } from '../BaseApi';
 
 export class TimetableBaseApi extends BaseApi {
-	constructor(path: string = '') {
+	constructor(path = '') {
 		super(`/timetable${path}`);
 	}
 }

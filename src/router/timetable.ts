@@ -30,7 +30,7 @@ export const timetableRoutes: Array<RouteRecordRaw> = [
 	},
 ];
 
-export const timetableHandler: NavigationGuard = (to, from) => {
+export const timetableHandler: NavigationGuard = to => {
 	const group = LocalStorage.getGroup();
 
 	if (to.path !== '/timetable/init' && to.path.startsWith('/timetable') && !group) {
@@ -39,8 +39,5 @@ export const timetableHandler: NavigationGuard = (to, from) => {
 
 	if (to.path === '/timetable/init' && group) {
 		return { path: '/timetable' };
-	}
-
-	if (to.path.startsWith('/timetable/lecturer') || to.path.startsWith('/timetable/room')) {
 	}
 };

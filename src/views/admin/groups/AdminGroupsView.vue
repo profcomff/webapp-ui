@@ -1,10 +1,9 @@
 <script setup lang="ts">
 import { authGroupApi } from '@/api/auth';
 import { useAuthStore } from '@/store';
-import { onMounted } from 'vue';
+import { onMounted, computed } from 'vue';
 import GroupTreeNode from './GroupTreeNode.vue';
 import { IrdomLayout } from '@/components';
-import { computed } from '@vue/reactivity';
 
 const authStore = useAuthStore();
 
@@ -15,7 +14,8 @@ onMounted(async () => {
 		} = await authGroupApi.getGroups({ info: ['child', 'scopes'] });
 
 		for (const group of groups) {
-			const { data } = await authGroupApi.getGroup(group.id, { info: ['child', 'scopes'] });
+			const { data } = await authGroupApi.getGroup<'child' | 'scopes'>(group.id, { info: ['child', 'scopes'] });
+			authStore.setScopes(data.scopes);
 			authStore.setGroup(data);
 		}
 	}

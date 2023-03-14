@@ -35,7 +35,7 @@ const routes: Array<RouteRecordRaw> = [
 	},
 	{
 		path: '/:pathMatch(.*)',
-		component: () => import('../views/View404.vue'),
+		component: () => import('../views/ViewError404.vue'),
 	},
 ];
 

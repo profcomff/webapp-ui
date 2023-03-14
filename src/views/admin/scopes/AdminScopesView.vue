@@ -4,7 +4,6 @@ import { LocalStorage } from '@/models';
 import ScopesTable from '../ScopesTable.vue';
 import { onMounted } from 'vue';
 import { useAuthStore } from '@/store';
-import { Scope } from '@/api/models';
 import { IrdomLayout } from '@/components';
 import { MaterialIcon } from '@/components/lib';
 
@@ -20,10 +19,10 @@ onMounted(async () => {
 	}
 });
 
-const deleteScope = async (scope: Scope) => {
+const deleteScope = async (scopeId: number) => {
 	if (token) {
-		await authScopeApi.deleteScope(scope.id, token);
-		authStore.scopes.delete(scope.id);
+		await authScopeApi.deleteScope(scopeId, token);
+		authStore.scopes.delete(scopeId);
 	}
 };
 
@@ -47,7 +46,7 @@ const createScope = async (e: Event) => {
 <template>
 	<IrdomLayout title="Редактирование прав доступа" back="/admin">
 		<ScopesTable
-			:scopes="Array.from(authStore.scopes.values())"
+			:scopes="authStore.scopes.values()"
 			delete-icon="delete_forever"
 			@delete="deleteScope"
 			style="width: 100%"

@@ -61,9 +61,11 @@ export const authHandler: NavigationGuard = async to => {
 						return { path: '/profile', state: { token } };
 					} else {
 						// ошибка во внешнем сервисе
+						break;
 					}
 				case 409:
-				// пользователь уже существует
+					// пользователь уже существует
+					break;
 			}
 		}
 

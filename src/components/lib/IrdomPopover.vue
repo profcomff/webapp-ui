@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { StyleValue, onMounted, onUnmounted, ref } from 'vue';
+import { onMounted, onUnmounted, ref } from 'vue';
 import MaterialIcon from './MaterialIcon.vue';
 
 const show = ref(false);
@@ -8,7 +8,7 @@ const menu = ref<HTMLMenuElement | null>(null);
 const id = `popover-${Math.trunc(Math.random() * Number.MAX_SAFE_INTEGER).toString(16)}`;
 
 const clickOutsideHandler = (event: MouseEvent) => {
-	if (show && event.target !== button.value) {
+	if (show.value && event.target !== button.value) {
 		event.preventDefault();
 		show.value = false;
 	}

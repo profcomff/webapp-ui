@@ -2,9 +2,8 @@
 import { authGroupApi, authScopeApi } from '@/api/auth';
 import { useAuthStore } from '@/store';
 import ScopesTable from '../ScopesTable.vue';
-import { computed } from '@vue/reactivity';
 import { LocalStorage } from '@/models';
-import { onMounted } from 'vue';
+import { onMounted, computed } from 'vue';
 import { useRoute } from 'vue-router';
 import { IrdomLayout } from '@/components';
 import { MaterialIcon } from '@/components/lib';
@@ -19,8 +18,8 @@ const group = computed(() => authStore.groups.get(groupId.value));
 
 onMounted(async () => {
 	if (!group.value) {
-		const { data } = await authGroupApi.getGroup(+route.params.id, {
-			info: ['scopes', 'child'],
+		const { data } = await authGroupApi.getGroup<'scopes'>(+route.params.id, {
+			info: ['scopes'],
 		});
 		authStore.setGroup(data);
 	}
@@ -71,7 +70,7 @@ const addScope = async (e: Event) => {
 				<input type="text" id="id" name="id" autocomplete="off" required list="scope-names" />
 
 				<datalist id="scope-names">
-					<option v-for="{ id, name } of authStore.scopes.values()" :value="id">{{ name }}</option>
+					<option v-for="{ id, name } of authStore.scopes.values()" :value="id" :key="id">{{ name }}</option>
 				</datalist>
 			</label>
 

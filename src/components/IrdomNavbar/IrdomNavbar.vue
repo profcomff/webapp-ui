@@ -9,7 +9,11 @@ defineProps<{
 <template>
 	<nav class="nav">
 		<div class="container wrapper">
-			<div v-for="{ icon, name, path } in items" :class="['nav-item', { active: $route.path.startsWith(path) }]">
+			<div
+				v-for="{ icon, name, path } in items"
+				:class="['nav-item', { active: $route.path.startsWith(path) }]"
+				:key="name"
+			>
 				<MaterialIcon :name="icon" />
 				<RouterLink :key="name" :to="path" class="link">
 					{{ name }}

@@ -15,13 +15,13 @@ const categories =
 </script>
 
 <template>
-	<section v-for="{ name, type, items } of categories" class="section">
+	<section v-for="{ name, type, items } of categories" class="section" :key="name">
 		<h2 class="h2">
 			{{ name }}
 		</h2>
 
 		<div :class="{ grid3: type === 'grid3', list: type === 'list' }">
-			<div v-for="{ icon, path, text } of items" class="app">
+			<div v-for="{ icon, path, text } of items" class="app" :key="text">
 				<img
 					v-if="typeof icon === 'object'"
 					:src="icon.src"
@@ -71,7 +71,7 @@ const categories =
 	font-size: 14px;
 	line-height: 90%;
 	text-align: center;
-    overflow-wrap: anywhere;
+	overflow-wrap: anywhere;
 }
 
 .list .app {

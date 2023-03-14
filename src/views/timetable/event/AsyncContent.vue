@@ -4,7 +4,7 @@ import { DataRow } from '@/components';
 import { MaterialIcon } from '@/components/lib';
 import { useTimetableStore } from '@/store';
 import { formatTime } from '@/utils';
-import { computed } from '@vue/reactivity';
+import { computed } from 'vue';
 
 const props = defineProps<{ id: number }>();
 
@@ -46,7 +46,14 @@ const scheduleInfo = computed(() =>
 		<MaterialIcon name="schedule" class="icon" />
 	</DataRow>
 
-	<DataRow v-for="{ name, id } of event?.room" :title="name" class="row" :href="`/timetable/room/${id}`" clickable>
+	<DataRow
+		v-for="{ name, id } of event?.room"
+		:title="name"
+		class="row"
+		:href="`/timetable/room/${id}`"
+		:key="id"
+		clickable
+	>
 		<MaterialIcon name="location_on" />
 	</DataRow>
 
@@ -57,6 +64,7 @@ const scheduleInfo = computed(() =>
 		:info="last_name"
 		class="row"
 		clickable
+		:key="id"
 	>
 		<MaterialIcon name="person" />
 	</DataRow>

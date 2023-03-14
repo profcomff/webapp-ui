@@ -12,7 +12,7 @@ withDefaults(defineProps<Props>(), {
 </script>
 
 <template>
-	<span aria-hidden="true" :class="['material-symbols-sharp', { outlined }]" :style="{fontSize: `${size}px`}">
+	<span aria-hidden="true" :class="['material-symbols-sharp', { outlined }]" :style="{ fontSize: `${size}px` }">
 		{{ name }}
 	</span>
 </template>

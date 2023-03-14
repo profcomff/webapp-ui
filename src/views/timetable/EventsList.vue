@@ -2,10 +2,9 @@
 import { timetableEventApi } from '@/api/timetable';
 import { LocalStorage } from '@/models';
 import { getDateWithDayOffset, getNameWithInitials, formatTime, stringifyDate } from '@/utils';
-import { Lecturer, Room } from '@/api/models';
+import { Lecturer, Room, Event } from '@/api/models';
 import { DataRow } from '@/components';
 import { useTimetableStore } from '@/store';
-import { Event } from '@/api/models';
 import { ref } from 'vue';
 
 const props = defineProps<{ date: Date }>();
@@ -90,6 +89,7 @@ const formatEventInfo = ({ lecturer, room }: FormatEventInfoArgs) => {
 		class="row"
 		:href="`/timetable/event/${id}`"
 		clickable
+		:key="id"
 	>
 		<b>{{ formatTime(start_ts) }}</b>
 		<span>{{ formatTime(end_ts) }}</span>

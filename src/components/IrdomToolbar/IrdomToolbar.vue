@@ -39,6 +39,7 @@ const defaultBack = history.state.back;
 							:to="(action as ToolbarActionLink).href"
 							v-if="(action as ToolbarActionLink).href"
 							class="button"
+							:key="`link-${action.icon}`"
 						>
 							<MaterialIcon :name="action.icon" />
 						</RouterLink>
@@ -49,6 +50,7 @@ const defaultBack = history.state.back;
 							:aria-label="action.ariaLabel"
 							class="button"
 							v-else-if="(action as ToolbarActionButton).onClick"
+							:key="`button-${action.icon}`"
 						>
 							<MaterialIcon :name="action.icon" />
 						</button>
@@ -56,7 +58,7 @@ const defaultBack = history.state.back;
 				</div>
 				<IrdomPopover v-if="menuItems.length > 0" style="min-width: 48px; height: 100%">
 					<ul>
-						<li v-for="{ name, onClick } of menuItems">
+						<li v-for="{ name, onClick } of menuItems" :key="name">
 							<button @click="onClick" class="menuItem">{{ name }}</button>
 						</li>
 					</ul>

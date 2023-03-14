@@ -36,17 +36,24 @@ export const useAuthStore = defineStore('auth', () => {
 
 		if (!groups.value.has(group.id)) {
 			(group as unknown as AuthGroup).children = new Map();
-			(group as unknown as AuthGroup).scopes = new Map();
+			(group as unknown as AuthGroup).scopes = new Map(
+				group.scopes.map(s => {
+					if (!scopes.value.has(s.id)) {
+						scopes.value.set(s.id, s);
+					}
+					return [s.id, scopes.value.get(s.id)!];
+				}),
+			);
 			(group as unknown as AuthGroup).parent = null;
 			groups.value.set(group.id, group as unknown as AuthGroup);
+		} else {
+			setGroupScopes(group.id, group.scopes);
 		}
 
 		const g = groups.value.get(group.id)!;
 		for (const c of group.child) {
 			g.children.set(c.id, groups.value.get(c.id)!);
 		}
-
-		setGroupScopes(group.id, group.scopes);
 
 		if (group.parent_id) {
 			if (!groups.value.has(group.parent_id)) {
@@ -108,7 +115,5 @@ export const useAuthStore = defineStore('auth', () => {
 		}
 	}
 
-	function deleteScope() {}
-
-	return { groups, scopes, setGroup, deleteGroup, setScopes, deleteScope, setGroupScopeById };
+	return { groups, scopes, setGroup, deleteGroup, setScopes, setGroupScopeById, setGroupScopes };
 });

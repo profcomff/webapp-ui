@@ -3,7 +3,7 @@ import { timetableRoomApi } from '@/api/timetable';
 import { DataRow } from '@/components';
 import { MaterialIcon } from '@/components/lib';
 import { useTimetableStore } from '@/store';
-import { computed } from '@vue/reactivity';
+import { computed } from 'vue';
 
 const props = defineProps<{ id: number }>();
 

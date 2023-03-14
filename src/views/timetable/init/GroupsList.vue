@@ -33,7 +33,7 @@ const setGroup = (group: StudyGroup) => {
 
 <template>
 	<ul class="ul">
-		<li v-for="group of groups" class="li">
+		<li v-for="group of groups" class="li" :key="group.id">
 			<button type="button" class="label" @click="setGroup(group)">{{ group.number }}</button>
 		</li>
 	</ul>

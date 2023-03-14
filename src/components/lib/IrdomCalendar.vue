@@ -39,7 +39,7 @@ const changeMonthHandler = (offset: number) => {
 			</button>
 		</div>
 		<div class="grid">
-			<span v-for="weekday of weekdays" class="noselect weekday">{{ weekday }}</span>
+			<span v-for="weekday of weekdays" class="noselect weekday" :key="weekday">{{ weekday }}</span>
 			<RouterLink
 				v-for="i in getDays(date)"
 				class="day"
@@ -47,6 +47,7 @@ const changeMonthHandler = (offset: number) => {
 				:class="['day', { current: isCurrent(i) }]"
 				:style="{ 'grid-column': i === 1 ? getItemDate(i).getDay() : 'unset' }"
 				:aria-label="getAriaLabel(i)"
+				:key="i"
 			>
 				{{ i }}
 			</RouterLink>

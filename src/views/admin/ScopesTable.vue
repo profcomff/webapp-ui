@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { Scope } from '@/api/models';
 import { MaterialIcon } from '@/components/lib';
-import { computed } from '@vue/reactivity';
+import { computed } from 'vue';
 
 const props = defineProps<{
 	scopes: Iterable<Scope>;
@@ -22,7 +22,7 @@ const sorted = computed(() => [...props.scopes].sort((a, b) => (a.name > b.name 
 			<th>name</th>
 			<th>comment</th>
 		</thead>
-		<tr v-for="{ id, name, comment } of sorted" class="row">
+		<tr v-for="{ id, name, comment } of sorted" class="row" :key="id">
 			<td>{{ id }}</td>
 			<td>{{ name }}</td>
 			<td>{{ comment }}</td>
