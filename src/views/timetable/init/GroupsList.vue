@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { StudyGroup } from '@/api/models';
 import { timetableGroupApi } from '@/api/timetable';
-import { LocalStorage } from '@/models';
+import { LocalStorage, LocalStorageItem } from '@/models';
 import { useTimetableStore } from '@/store';
 import { computed } from 'vue';
 import { useRouter } from 'vue-router';
@@ -21,7 +21,7 @@ const groups = computed(() =>
 );
 
 const setGroup = (group: StudyGroup) => {
-	LocalStorage.setStudyGroup(group);
+	LocalStorage.set<StudyGroup>(LocalStorageItem.StudyGroup, group);
 	updateGroup();
 
 	router.push('/timetable');

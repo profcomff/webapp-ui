@@ -1,1 +1,1 @@
-export { LocalStorage } from './LocalStorage';
+export { LocalStorage, LocalStorageItem } from './LocalStorage';

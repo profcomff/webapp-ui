@@ -1,4 +1,4 @@
-import { LocalStorage } from '@/models';
+import { LocalStorage, LocalStorageItem } from '@/models';
 import { authPhysicsApi } from '@/api/auth';
 import { AxiosError } from 'axios';
 import { NavigationGuard, RouteRecordRaw } from 'vue-router';
@@ -35,7 +35,7 @@ export const authHandler: NavigationGuard = async to => {
 				data: { token },
 			} = await authPhysicsApi.login({ state, code, scopes });
 
-			LocalStorage.setToken(token);
+			LocalStorage.set<string>(LocalStorageItem.Token, token);
 
 			return { path: '/profile', state: { token } };
 		} catch (e) {
@@ -48,7 +48,7 @@ export const authHandler: NavigationGuard = async to => {
 
 						const token = await register({ scopes, id_token: response.data.id_token });
 						if (token) {
-							LocalStorage.setToken(token);
+							LocalStorage.set<string>(LocalStorageItem.Token, token);
 						}
 						return { path: '/profile', state: { token } };
 					} else {

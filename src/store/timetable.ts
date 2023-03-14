@@ -1,4 +1,4 @@
-import { LocalStorage } from '@/models';
+import { LocalStorage, LocalStorageItem } from '@/models';
 import { StudyGroup } from './../api/models/index';
 import { Lecturer, Room, Event } from '@/api/models';
 import { stringifyDate } from '@/utils';
@@ -30,7 +30,7 @@ export const useTimetableStore = defineStore('timetable', () => {
 	}
 
 	function updateGroup(newGroup?: StudyGroup) {
-		group.value = newGroup ?? LocalStorage.getStudyGroup();
+		group.value = newGroup ?? LocalStorage.getObject<StudyGroup>(LocalStorageItem.StudyGroup);
 	}
 
 	return { events, days, lecturers, rooms, eventList, group, updateGroup };

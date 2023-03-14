@@ -1,34 +1,29 @@
-import { StudyGroup } from '../api/models';
-
-enum LocalStorageItem {
+export enum LocalStorageItem {
 	StudyGroup = 'study-group',
 	LastTwoWeeksPreloadDate = 'last-two-week-preload-date',
 	Token = 'token',
+	TokenScopes = 'token-scopes',
 }
 
 export class LocalStorage {
-	static setStudyGroup(group: StudyGroup) {
-		localStorage.setItem(LocalStorageItem.StudyGroup, JSON.stringify(group));
+	static set<T>(name: LocalStorageItem, body: T) {
+		if (typeof body === 'object') {
+			localStorage.setItem(name, JSON.stringify(body));
+		} else {
+			localStorage.setItem(name, `${body}`);
+		}
 	}
 
-	static getStudyGroup(): StudyGroup | null {
-		const group = localStorage.getItem(LocalStorageItem.StudyGroup);
-		return group === null ? null : JSON.parse(group);
+	static getObject<T>(name: LocalStorageItem): T | null {
+		const body = localStorage.getItem(name);
+		return body ? JSON.parse(body) : null;
 	}
 
-	static deleteStudyGroup() {
-		localStorage.removeItem(LocalStorageItem.StudyGroup);
+	static get(name: LocalStorageItem): string | null {
+		return localStorage.getItem(name);
 	}
 
-	static getToken(): string | null {
-		return localStorage.getItem(LocalStorageItem.Token);
-	}
-
-	static setToken(token: string) {
-		localStorage.setItem(LocalStorageItem.Token, token);
-	}
-
-	static deleteToken() {
-		localStorage.removeItem(LocalStorageItem.Token);
+	static delete(name: LocalStorageItem) {
+		localStorage.removeItem(name);
 	}
 }

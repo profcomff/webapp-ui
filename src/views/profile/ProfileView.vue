@@ -2,7 +2,7 @@
 import { IrdomLayout, ToolbarMenuItem } from '@/components';
 import AsyncContent from './AsyncContent.vue';
 import { authProfileApi } from '@/api/auth';
-import { LocalStorage } from '@/models';
+import { LocalStorage, LocalStorageItem } from '@/models';
 import { useProfileStore } from '@/store';
 import { onMounted, computed } from 'vue';
 
@@ -16,7 +16,7 @@ const toolbarMenu = computed<ToolbarMenuItem[]>(() => {
 			onClick: async () => {
 				if (profileStore.token) {
 					authProfileApi.logout(profileStore.token).then(() => {
-						LocalStorage.deleteToken();
+						LocalStorage.delete(LocalStorageItem.Token);
 						profileStore.updateToken();
 						delete history.state.token;
 					});

@@ -45,7 +45,7 @@ const changeMonthHandler = (offset: number) => {
 				v-for="i in getDays(date)"
 				class="day"
 				:to="`/timetable/${getItemStringDate(i)}`"
-				:class="['day', { current: isCurrent(i), today: isToday(i) }]"
+				:class="['day', { current: isCurrent(i), today: isToday(i) && !isCurrent(i) }]"
 				:style="{ 'grid-column': i === 1 ? getItemDate(i).getDay() : 'unset' }"
 				:aria-label="getAriaLabel(i)"
 				:key="i"

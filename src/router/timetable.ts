@@ -1,4 +1,5 @@
-import { LocalStorage } from '@/models';
+import { StudyGroup } from './../api/models/index';
+import { LocalStorage, LocalStorageItem } from '@/models';
 import { stringifyDate } from '@/utils';
 import { TimetableView } from '@/views';
 import { NavigationGuard, RouteRecordRaw } from 'vue-router';
@@ -31,7 +32,7 @@ export const timetableRoutes: Array<RouteRecordRaw> = [
 ];
 
 export const timetableHandler: NavigationGuard = to => {
-	const group = LocalStorage.getStudyGroup();
+	const group = LocalStorage.getObject<StudyGroup>(LocalStorageItem.StudyGroup);
 
 	if (to.path !== '/timetable/init' && to.path.startsWith('/timetable') && !group) {
 		return { path: '/timetable/init' };

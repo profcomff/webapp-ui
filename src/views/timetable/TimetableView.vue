@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { IrdomLayout, ToolbarActionLink, ToolbarMenuItem } from '@/components';
-import { LocalStorage } from '@/models';
+import { LocalStorage, LocalStorageItem } from '@/models';
 import { parseDate, stringifyDate } from '@/utils';
 import DateNavigation from './DateNavigation.vue';
 import { useRoute, useRouter } from 'vue-router';
@@ -25,7 +25,7 @@ const toolbarMenu: ToolbarMenuItem[] = [
 	{
 		name: 'Изменить группу',
 		onClick: () => {
-			LocalStorage.deleteStudyGroup();
+			LocalStorage.delete(LocalStorageItem.StudyGroup);
 			timetableStore.updateGroup();
 			timetableStore.days.clear();
 			router.push('/timetable/init');
