@@ -1,7 +1,7 @@
-import { ArrayResponse, Group } from './../models';
+import { ArrayResponse, StudyGroup } from './../models';
 import { TimetableBaseApi } from './TimetaleBaseApi';
 
-type GroupWithoutId = Omit<Group, 'id'>;
+type StudyGroupNoId = Omit<StudyGroup, 'id'>;
 
 export interface GetGroupsParams {
 	query?: string;
@@ -15,23 +15,23 @@ class TimetableGroupApi extends TimetableBaseApi {
 	}
 
 	public async getGroup(id: number) {
-		return this.get<Group>(`/${id}`);
+		return this.get<StudyGroup>(`/${id}`);
 	}
 
 	public async deleteGroup(id: number) {
 		return this.delete<string>(`/${id}`);
 	}
 
-	public async patchGroup(id: number, body: GroupWithoutId) {
-		return this.patch<Group, GroupWithoutId>(`/${id}`, body);
+	public async patchGroup(id: number, body: StudyGroupNoId) {
+		return this.patch<StudyGroup, StudyGroupNoId>(`/${id}`, body);
 	}
 
 	public async getGroups(params?: GetGroupsParams) {
-		return this.get<ArrayResponse<Group>, GetGroupsParams>('/', params);
+		return this.get<ArrayResponse<StudyGroup>, GetGroupsParams>('/', params);
 	}
 
-	public async createGroup(group: GroupWithoutId) {
-		return this.post<Group, GroupWithoutId>('', group);
+	public async createGroup(group: StudyGroupNoId) {
+		return this.post<StudyGroup, StudyGroupNoId>('', group);
 	}
 }
 

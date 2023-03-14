@@ -1,6 +1,5 @@
 import { stringifyDate } from './../utils/date';
-import { Group } from '../api/models';
-import { parseDate } from '../utils';
+import { StudyGroup } from '../api/models';
 
 enum LocalStorageItem {
 	Group = 'group',
@@ -9,11 +8,11 @@ enum LocalStorageItem {
 }
 
 export class LocalStorage {
-	static setGroup(group: Group) {
+	static setGroup(group: StudyGroup) {
 		localStorage.setItem(LocalStorageItem.Group, JSON.stringify(group));
 	}
 
-	static getGroup(): Group | null {
+	static getGroup(): StudyGroup | null {
 		const group = localStorage.getItem(LocalStorageItem.Group);
 		return group === null ? null : JSON.parse(group);
 	}

@@ -1,20 +1,20 @@
-import { AuthGroup, Scope } from '../models';
+import { Group, Scope } from '../models';
 import { AuthBaseApi } from './AuthBaseApi';
 
-interface GetGroupResponse extends AuthGroup {
-	scopes: Scope[];
-	indirect_scopes: Scope[];
-	child: AuthGroup[];
-}
-
-interface ModifyGroupBody {
-	name?: string;
-	parent_id?: number;
-	scopes?: number[];
+interface CreateGroupBody {
+	name: string;
+	parent_id: number;
+	scopes: number[];
 }
 
 interface GetGroupParams {
 	info: Array<'child' | 'scopes' | 'indirect_scopes'>;
+}
+
+export enum GroupInfo {
+	Child = 'child',
+	Scopes = 'scopes',
+	IndirectScopes = 'indirect_scopes',
 }
 
 class AuthGroupApi extends AuthBaseApi {
@@ -22,8 +22,15 @@ class AuthGroupApi extends AuthBaseApi {
 		super('/group');
 	}
 
-	public async getGroup(id: number, params?: GetGroupParams) {
-		return this.get<GetGroupResponse, GetGroupParams>(`/${id}`, params);
+	public async getGroup<Info = never>(id: number, params?: GetGroupParams) {
+		return this.get<
+			Group & {
+				scopes: GroupInfo.Scopes extends Info ? Scope[] : never;
+				indirect_scopes: GroupInfo.IndirectScopes extends Info ? Scope[] : never;
+				child: GroupInfo.Child extends Info ? Group[] : never;
+			},
+			GetGroupParams
+		>(`/${id}`, params);
 	}
 
 	public async deleteGroup(id: number, token: string) {
@@ -32,18 +39,18 @@ class AuthGroupApi extends AuthBaseApi {
 		});
 	}
 
-	public async patchGroup(id: number, body: ModifyGroupBody, token: string) {
-		return this.patch<AuthGroup, ModifyGroupBody>(`/${id}`, body, {
+	public async patchGroup(id: number, body: Partial<CreateGroupBody>, token: string) {
+		return this.patch<Group, Partial<CreateGroupBody>>(`/${id}`, body, {
 			Authorization: token,
 		});
 	}
 
 	public async getGroups(params?: GetGroupParams) {
-		return this.get<{ items: AuthGroup[] }, GetGroupParams>('', params);
+		return this.get<{ items: Group[] }, GetGroupParams>('', params);
 	}
 
-	public async createGroup(body: ModifyGroupBody, token: string) {
-		return this.post<AuthGroup, ModifyGroupBody>('', body, {
+	public async createGroup(body: CreateGroupBody, token: string) {
+		return this.post<Group, CreateGroupBody>('', body, {
 			Authorization: token,
 		});
 	}

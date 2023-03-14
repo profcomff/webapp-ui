@@ -1,12 +1,12 @@
-import { AuthGroup, Scope } from '../models';
+import { Group, Scope } from '../models';
 import { AuthBaseApi } from './AuthBaseApi';
 
 interface GetMeResponse {
 	id: number;
 	email: string;
 	scopes: Scope[];
-	indirect_groups: AuthGroup[];
-	groups: AuthGroup[];
+	indirect_groups: Group[];
+	groups: Group[];
 }
 
 interface GetMeParams {

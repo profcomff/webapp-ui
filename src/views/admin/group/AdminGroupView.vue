@@ -5,7 +5,6 @@ import ScopesTable from '../ScopesTable.vue';
 import { computed } from '@vue/reactivity';
 import { LocalStorage } from '@/models';
 import { onMounted } from 'vue';
-import { Scope } from '@/api/models';
 import { useRoute } from 'vue-router';
 import { IrdomLayout } from '@/components';
 import { MaterialIcon } from '@/components/lib';
@@ -17,43 +16,27 @@ const route = useRoute();
 
 const groupId = computed(() => +route.params.id);
 const group = computed(() => authStore.groups.get(groupId.value));
-const scopes = computed(() => {
-	if (group.value) {
-		const arr = [];
-		for (const scopeId of group.value.scopes) {
-			const scope = authStore.scopes.get(scopeId);
-			if (scope) {
-				arr.push(scope);
-			}
-		}
-		return arr;
-	}
-	return null;
-});
 
 onMounted(async () => {
 	if (!group.value) {
 		const { data } = await authGroupApi.getGroup(+route.params.id, {
 			info: ['scopes', 'child'],
 		});
-		authStore.addGroup({ ...data, children: [], scopes: data.scopes.map(s => s.id) });
+		authStore.setGroup(data);
 	}
 
 	if (authStore.scopes.size === 0 && token) {
 		const { data } = await authScopeApi.getScopes(token);
-		for (const scope of data) {
-			authStore.scopes.set(scope.id, scope);
-		}
+		authStore.setScopes(data);
 	}
 });
 
-const deleteScope = async (scope: Scope) => {
+const deleteScope = async (scopeId: number) => {
 	if (token && group.value) {
-		const names = group.value.scopes.filter(id => id !== scope.id);
-		const ids = names.map(name => authStore.scopes.get(name)!.id);
+		const ids = [...group.value.scopes.keys()].filter(id => id !== scopeId);
 
 		await authGroupApi.patchGroup(group.value.id, { scopes: ids }, token);
-		authStore.groups.get(groupId.value)!.scopes = names;
+		authStore.groups.get(groupId.value)!.scopes.delete(scopeId);
 	}
 };
 
@@ -64,8 +47,8 @@ const addScope = async (e: Event) => {
 	const scopeId = +formData.get('id')!.toString();
 
 	if (token && group.value && scopeId) {
-		await authGroupApi.patchGroup(groupId.value, { scopes: [...group.value.scopes, scopeId] }, token);
-		authStore.groups.get(groupId.value)?.scopes.push();
+		await authGroupApi.patchGroup(groupId.value, { scopes: [...group.value.scopes.keys(), scopeId] }, token);
+		authStore.setGroupScopeById(groupId.value, scopeId);
 		form.reset();
 	}
 };
@@ -74,7 +57,7 @@ const addScope = async (e: Event) => {
 <template>
 	<IrdomLayout :back="back">
 		<ScopesTable
-			:scopes="scopes ?? []"
+			:scopes="group?.scopes.values() ?? []"
 			style="margin-left: 16px; width: calc(100% - 16px)"
 			delete-icon="delete"
 			@delete="deleteScope"

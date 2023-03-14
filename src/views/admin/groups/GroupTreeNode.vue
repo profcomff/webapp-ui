@@ -1,11 +1,12 @@
 <script setup lang="ts">
-import { GroupTreeNode as TreeNode } from '@/utils/groupsTree';
 import { LocalStorage } from '@/models';
 import { authGroupApi } from '@/api/auth';
 import { useAuthStore } from '@/store';
 import { MaterialIcon } from '@/components/lib';
+import { AuthGroup } from '@/store/auth';
+import { ref } from 'vue';
 
-const props = withDefaults(defineProps<{ node: TreeNode | null; indentSize?: number }>(), {
+const props = withDefaults(defineProps<{ node: AuthGroup | null; indentSize?: number }>(), {
 	indentSize: 32,
 });
 
@@ -23,35 +24,46 @@ const createGroup = async (e: Event) => {
 
 		if (group && token) {
 			const { data } = await authGroupApi.createGroup({ name, parent_id: group.id, scopes: [] }, token);
-			authStore.addGroup({ ...data, scopes: [], children: [] });
+			authStore.setGroup(data);
 		}
 	}
 };
 
-const deleteGroup = async ({ id, name, parent_id }: { id: number; name: string; parent_id: number | null }) => {
-	if (token && parent_id) {
-		await authGroupApi.deleteGroup(id, token);
-		authStore.removeGroup({ id, name, parent_id });
+const deleteGroup = async (groupId?: number) => {
+	if (token && groupId) {
+		await authGroupApi.deleteGroup(groupId, token);
+		authStore.deleteGroup(groupId);
 	}
 };
+
+const open = ref(false);
 </script>
 
 <template>
-	<details v-if="node" :style="{ marginLeft: `${node.parent_id ? indentSize : 0}px` }" class="node" :open="true">
+	<details
+		v-if="node"
+		:style="{ marginLeft: `${node.parent_id ? indentSize : 0}px` }"
+		class="node"
+		:open="node.parent_id === null ? true : false"
+		@toggle="open = !open"
+	>
 		<summary class="summary">
 			<RouterLink :to="`/admin/group/${node.id}`" class="link">
 				{{ node.name }}
 			</RouterLink>
-			<button
-				type="button"
-				@click="deleteGroup({ id: node!.id, name: node!.name, parent_id: node!.parent_id })"
-				v-if="node.parent_id"
-			>
+			<button type="button" @click="deleteGroup(node?.id)" v-if="node.parent_id">
 				<MaterialIcon name="delete_forever" />
 			</button>
 		</summary>
 
-		<GroupTreeNode v-for="child of node.children" :node="child" :indent-size="indentSize" />
+		<template v-if="open">
+			<GroupTreeNode
+				v-for="child of node.children.values()"
+				:node="child"
+				:indent-size="indentSize"
+				:key="child.id"
+			/>
+		</template>
 
 		<form class="form" @submit.prevent="createGroup">
 			<MaterialIcon name="add" />

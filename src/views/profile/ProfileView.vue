@@ -19,6 +19,7 @@ const toolbarMenu = computed<ToolbarMenuItem[]>(() => {
 					authProfileApi.logout(profileStore.token).then(() => {
 						LocalStorage.removeToken();
 						profileStore.updateToken();
+						delete history.state.token;
 					});
 				}
 			},

@@ -3,33 +3,37 @@ import { authGroupApi } from '@/api/auth';
 import { useAuthStore } from '@/store';
 import { onMounted } from 'vue';
 import GroupTreeNode from './GroupTreeNode.vue';
-import { convertGroupArrayToTree } from '@/utils/groupsTree';
 import { IrdomLayout } from '@/components';
+import { computed } from '@vue/reactivity';
 
 const authStore = useAuthStore();
 
 onMounted(async () => {
-	if (!authStore.groupsTree) {
+	if (authStore.groups.size === 0) {
 		const {
 			data: { items: groups },
 		} = await authGroupApi.getGroups({ info: ['child', 'scopes'] });
 
 		for (const group of groups) {
 			const { data } = await authGroupApi.getGroup(group.id, { info: ['child', 'scopes'] });
-			authStore.addGroup({
-				...data,
-				children: data.child.map(c => c.id),
-				scopes: data.scopes.map(s => s.id),
-			});
+			authStore.setGroup(data);
 		}
-		authStore.groupsTree = convertGroupArrayToTree(Array.from(authStore.groups.values()));
 	}
+});
+
+const root = computed(() => {
+	for (const group of authStore.groups.values()) {
+		if (group.parent_id === null) {
+			return group;
+		}
+	}
+	return null;
 });
 </script>
 
 <template>
 	<IrdomLayout title="Редактирование групп пользователей" back="/admin">
-		<GroupTreeNode :node="authStore.groupsTree" />
+		<GroupTreeNode :node="root" />
 	</IrdomLayout>
 </template>
 

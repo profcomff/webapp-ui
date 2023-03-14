@@ -1,4 +1,4 @@
-import { Group } from './../api/models/index';
+import { StudyGroup } from './../api/models/index';
 import { Lecturer, Room, Event } from '@/api/models';
 import { stringifyDate } from '@/utils';
 import { defineStore } from 'pinia';
@@ -9,7 +9,7 @@ export const useTimetableStore = defineStore('timetable', () => {
 	const days = ref<Map<string, number[]>>(new Map());
 	const lecturers = ref<Map<number, Lecturer>>(new Map());
 	const rooms = ref<Map<number, Room>>(new Map());
-	const groups = ref<Group[] | null>(null);
+	const groups = ref<StudyGroup[] | null>(null);
 
 	function eventList(date: Date) {
 		const ids = days.value.get(stringifyDate(date));

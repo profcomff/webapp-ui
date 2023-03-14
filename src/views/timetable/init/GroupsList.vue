@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Group } from '@/api/models';
+import { StudyGroup } from '@/api/models';
 import { timetableGroupApi } from '@/api/timetable';
 import { LocalStorage } from '@/models';
 import { useTimetableStore } from '@/store';
@@ -25,7 +25,7 @@ const groups = computed(() =>
 	data?.filter(g => g.number.includes(props.query)).sort((a, b) => parseInt(a.number) - parseInt(b.number)),
 );
 
-const setGroup = (group: Group) => {
+const setGroup = (group: StudyGroup) => {
 	LocalStorage.setGroup(group);
 	router.push('/timetable');
 };

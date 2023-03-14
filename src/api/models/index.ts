@@ -15,20 +15,20 @@ export type ArrayResponse<I> = {
 	total: number;
 };
 
+export interface StudyGroup {
+	id: number;
+	name: string;
+	number: string;
+}
+
 export interface Event {
 	id: number;
 	name: string;
 	room: Room[];
-	group: Group;
+	group: StudyGroup;
 	lecturer: Lecturer[];
 	start_ts: string;
 	end_ts: string;
-}
-
-export interface Group {
-	id: number;
-	name: string;
-	number: string;
 }
 
 export interface Lecturer {
@@ -76,7 +76,7 @@ export interface AppButtonCategory {
 	items: AppButton[];
 }
 
-export interface AuthGroup {
+export interface Group {
 	id: number;
 	name: string;
 	parent_id: number | null;

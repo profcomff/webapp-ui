@@ -4,12 +4,12 @@ import { MaterialIcon } from '@/components/lib';
 import { computed } from '@vue/reactivity';
 
 const props = defineProps<{
-	scopes: Scope[];
+	scopes: Iterable<Scope>;
 	deleteIcon: string;
 }>();
 
 defineEmits<{
-	(e: 'delete', scope: Scope): void;
+	(e: 'delete', scopeId: number): void;
 }>();
 
 const sorted = computed(() => [...props.scopes].sort((a, b) => (a.name > b.name ? 1 : -1)));
