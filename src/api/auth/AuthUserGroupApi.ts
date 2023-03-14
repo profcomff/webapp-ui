@@ -12,20 +12,12 @@ class AuthUserGroupApi extends AuthBaseApi {
 		super('/group');
 	}
 
-	public async getUsers(groupId: number, token: string) {
-		return this.get<GetUsersResponse>(`/${groupId}/user`, undefined, {
-			Authorization: token,
-		});
+	public async getUsers(groupId: number) {
+		return this.get<GetUsersResponse>(`/${groupId}/user`, undefined);
 	}
 
-	public async addUser(groupId: number, user_id: number, token: string) {
-		return this.post<{ group_id: number; user_id: number }, { user_id: number }>(
-			`/${groupId}/user`,
-			{ user_id },
-			{
-				Authorization: token,
-			},
-		);
+	public async addUser(groupId: number, user_id: number) {
+		return this.post<{ group_id: number; user_id: number }, { user_id: number }>(`/${groupId}/user`, { user_id });
 	}
 
 	public async deleteUser(groupId: number, userId: number) {

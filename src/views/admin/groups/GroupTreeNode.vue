@@ -22,7 +22,7 @@ const createGroup = async (e: Event) => {
 		const group = authStore.groups.get(parentId);
 
 		if (group && token) {
-			const { data } = await authGroupApi.createGroup({ name, parent_id: group.id, scopes: [] }, token);
+			const { data } = await authGroupApi.createGroup({ name, parent_id: group.id, scopes: [] });
 			authStore.setGroup(data);
 		}
 	}
@@ -30,7 +30,7 @@ const createGroup = async (e: Event) => {
 
 const deleteGroup = async (groupId?: number) => {
 	if (token && groupId) {
-		await authGroupApi.deleteGroup(groupId, token);
+		await authGroupApi.deleteGroup(groupId);
 		authStore.deleteGroup(groupId);
 	}
 };

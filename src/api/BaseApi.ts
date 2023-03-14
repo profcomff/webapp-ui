@@ -1,3 +1,4 @@
+import { LocalStorage, LocalStorageItem } from './../models/LocalStorage';
 import axios, { AxiosResponse } from 'axios';
 import queryString from 'query-string';
 
@@ -15,7 +16,7 @@ export class BaseApi {
 	): Promise<AxiosResponse<Response>> {
 		return axios.get<Response>(`${this.url}${path}`, {
 			params,
-			headers,
+			headers: headers ?? { Authorization: LocalStorage.get(LocalStorageItem.Token) },
 			paramsSerializer: {
 				serialize: params => queryString.stringify(params, { arrayFormat: 'none' }),
 			},
@@ -27,7 +28,9 @@ export class BaseApi {
 		body?: Body,
 		headers?: Record<string, string>,
 	): Promise<AxiosResponse<Response>> {
-		return axios.post<Response, AxiosResponse<Response>, Body>(`${this.url}${path}`, body, { headers });
+		return axios.post<Response, AxiosResponse<Response>, Body>(`${this.url}${path}`, body, {
+			headers: headers ?? { Authorization: LocalStorage.get(LocalStorageItem.Token) },
+		});
 	}
 
 	protected async delete<Response, Params = never>(
@@ -35,7 +38,10 @@ export class BaseApi {
 		params?: Params,
 		headers?: Record<string, string>,
 	): Promise<AxiosResponse<Response>> {
-		return axios.delete<Response>(`${this.url}${path}`, { params, headers });
+		return axios.delete<Response>(`${this.url}${path}`, {
+			params,
+			headers: headers ?? { Authorization: LocalStorage.get(LocalStorageItem.Token) },
+		});
 	}
 
 	protected async patch<Response, Body>(
@@ -43,6 +49,8 @@ export class BaseApi {
 		body: Body,
 		headers?: Record<string, string>,
 	): Promise<AxiosResponse<Response>> {
-		return axios.patch<Response, AxiosResponse<Response>, Body>(`${this.url}${path}`, body, { headers });
+		return axios.patch<Response, AxiosResponse<Response>, Body>(`${this.url}${path}`, body, {
+			headers: headers ?? { Authorization: LocalStorage.get(LocalStorageItem.Token) },
+		});
 	}
 }

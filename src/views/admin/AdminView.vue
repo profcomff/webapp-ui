@@ -1,25 +1,25 @@
 <script setup lang="ts">
-import { authProfileApi } from '@/api/auth';
-import { Group } from '@/api/models';
-import { IrdomLayout } from '@/components';
+import { MeInfo, authProfileApi } from '@/api/auth';
+import { IrdomLayout, AnonymousMessage } from '@/components';
 import { useProfileStore } from '@/store';
-import { onMounted, ref } from 'vue';
+import { onMounted } from 'vue';
 
-const { token } = useProfileStore();
-
-const groups = ref<Group[]>([]);
+const profileStore = useProfileStore();
 
 onMounted(async () => {
-	if (token) {
-		groups.value = await authProfileApi.getMe(token, { info: ['groups'] }).then(res => res.data.groups);
+	if (profileStore.token && !profileStore.userScopes) {
+		const { data } = await authProfileApi.getMe<MeInfo.UserScopes>({ info: [MeInfo.UserScopes] });
 	}
 });
 </script>
 
 <template>
 	<IrdomLayout title="Админка">
-		<RouterLink to="/admin/groups" class="link">Редактироване групп пользователей</RouterLink>
-		<RouterLink to="/admin/scopes" class="link">Редактирование прав доступа</RouterLink>
+		<template v-if="profileStore.token">
+			<RouterLink to="/admin/groups" class="link">Редактироване групп пользователей</RouterLink>
+			<RouterLink to="/admin/scopes" class="link">Редактирование прав доступа</RouterLink>
+		</template>
+		<AnonymousMessage v-else />
 	</IrdomLayout>
 </template>
 

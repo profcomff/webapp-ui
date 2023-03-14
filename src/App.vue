@@ -20,12 +20,13 @@ const navbarItems: NavbarItem[] = [
 		path: '/profile',
 	},
 ];
-const { updateToken } = useProfileStore();
+const { updateToken, updateTokenScopes } = useProfileStore();
 const { updateGroup } = useTimetableStore();
 
 onMounted(() => {
 	updateToken();
 	updateGroup();
+	updateTokenScopes();
 });
 </script>
 <template>

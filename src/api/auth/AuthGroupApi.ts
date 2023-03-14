@@ -7,14 +7,15 @@ interface CreateGroupBody {
 	scopes: number[];
 }
 
-interface GetGroupParams {
-	info: Array<'child' | 'scopes' | 'indirect_scopes'>;
-}
-
 export enum GroupInfo {
-	Child = 'child',
+	Children = 'child',
 	Scopes = 'scopes',
 	IndirectScopes = 'indirect_scopes',
+	Users = 'users',
+}
+
+interface GetGroupParams {
+	info: Array<GroupInfo>;
 }
 
 class AuthGroupApi extends AuthBaseApi {
@@ -22,37 +23,32 @@ class AuthGroupApi extends AuthBaseApi {
 		super('/group');
 	}
 
-	public async getGroup<Info = never>(id: number, params?: GetGroupParams) {
+	public async getGroup<Info extends GroupInfo = never>(id: number, params?: GetGroupParams) {
 		return this.get<
 			Group & {
-				scopes: GroupInfo.Scopes extends Info ? Scope[] : never;
-				indirect_scopes: GroupInfo.IndirectScopes extends Info ? Scope[] : never;
-				child: GroupInfo.Child extends Info ? Group[] : never;
+				[GroupInfo.Scopes]: GroupInfo.Scopes extends Info ? Scope[] : never;
+				[GroupInfo.IndirectScopes]: GroupInfo.IndirectScopes extends Info ? Scope[] : never;
+				[GroupInfo.Children]: GroupInfo.Children extends Info ? Group[] : never;
+				[GroupInfo.Users]: never;
 			},
 			GetGroupParams
 		>(`/${id}`, params);
 	}
 
-	public async deleteGroup(id: number, token: string) {
-		return this.delete<string>(`/${id}`, undefined, {
-			Authorization: token,
-		});
+	public async deleteGroup(id: number) {
+		return this.delete<string>(`/${id}`, undefined);
 	}
 
-	public async patchGroup(id: number, body: Partial<CreateGroupBody>, token: string) {
-		return this.patch<Group, Partial<CreateGroupBody>>(`/${id}`, body, {
-			Authorization: token,
-		});
+	public async patchGroup(id: number, body: Partial<CreateGroupBody>) {
+		return this.patch<Group, Partial<CreateGroupBody>>(`/${id}`, body);
 	}
 
 	public async getGroups(params?: GetGroupParams) {
 		return this.get<{ items: Group[] }, GetGroupParams>('', params);
 	}
 
-	public async createGroup(body: CreateGroupBody, token: string) {
-		return this.post<Group, CreateGroupBody>('', body, {
-			Authorization: token,
-		});
+	public async createGroup(body: CreateGroupBody) {
+		return this.post<Group, CreateGroupBody>('', body);
 	}
 }
 

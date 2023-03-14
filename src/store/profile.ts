@@ -1,30 +1,40 @@
-import { Group, Scope } from '@/api/models';
 import { LocalStorage, LocalStorageItem } from '@/models';
 import { defineStore } from 'pinia';
 import { ref } from 'vue';
 
 export const useProfileStore = defineStore('profile', () => {
 	const token = ref<string | null>(null);
-	const groups = ref<Group[]>([]);
-	const indirectGroups = ref<Group[]>([]);
-	const userScopes = ref<Scope[]>([]);
-	const tokenScopes = ref<Scope[]>([]);
+	const tokenScopes = ref<string[]>([]);
+
+	const groups = ref<string[] | null>([]);
+	const indirectGroups = ref<string[] | null>([]);
+	const userScopes = ref<string[] | null>([]);
 
 	function updateToken(newToken?: string) {
 		token.value = newToken ?? LocalStorage.get(LocalStorageItem.Token);
 	}
 
-	function hasTokenAccess(scopeId: number) {
-		return Boolean(tokenScopes.value.find(({ id }) => id === scopeId));
+	function hasTokenAccess(scopeName: string) {
+		return Boolean(tokenScopes.value.includes(scopeName));
 	}
 
-	function hasUserAccess(scopeId: number) {
-		return Boolean(userScopes.value.find(({ id }) => id === scopeId));
+	function hasUserAccess(scopeName: string) {
+		return Boolean(userScopes.value?.includes(scopeName));
 	}
 
-	function updateTokenScopes(newTokenScopes?: Scope[]) {
-		tokenScopes.value = newTokenScopes ?? LocalStorage.getObject<Scope[]>(LocalStorageItem.TokenScopes) ?? [];
+	function updateTokenScopes(newTokenScopes?: string[]) {
+		tokenScopes.value = newTokenScopes ?? LocalStorage.getObject<string[]>(LocalStorageItem.TokenScopes) ?? [];
 	}
 
-	return { token, updateToken, groups, indirectGroups, userScopes, tokenScopes, hasTokenAccess, hasUserAccess };
+	return {
+		token,
+		updateToken,
+		groups,
+		indirectGroups,
+		userScopes,
+		tokenScopes,
+		hasTokenAccess,
+		hasUserAccess,
+		updateTokenScopes,
+	};
 });

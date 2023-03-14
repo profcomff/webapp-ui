@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { authGroupApi, authScopeApi } from '@/api/auth';
+import { GroupInfo, authGroupApi, authScopeApi } from '@/api/auth';
 import { useAuthStore, useProfileStore } from '@/store';
 import ScopesTable from '../ScopesTable.vue';
 import { onMounted, computed } from 'vue';
@@ -17,14 +17,14 @@ const group = computed(() => authStore.groups.get(groupId.value));
 
 onMounted(async () => {
 	if (!group.value) {
-		const { data } = await authGroupApi.getGroup<'scopes'>(+route.params.id, {
-			info: ['scopes'],
+		const { data } = await authGroupApi.getGroup<GroupInfo.Scopes>(+route.params.id, {
+			info: [GroupInfo.Scopes],
 		});
 		authStore.setGroup(data);
 	}
 
 	if (authStore.scopes.size === 0 && token) {
-		const { data } = await authScopeApi.getScopes(token);
+		const { data } = await authScopeApi.getScopes();
 		authStore.setScopes(data);
 	}
 });
@@ -33,7 +33,7 @@ const deleteScope = async (scopeId: number) => {
 	if (token && group.value) {
 		const ids = [...group.value.scopes.keys()].filter(id => id !== scopeId);
 
-		await authGroupApi.patchGroup(group.value.id, { scopes: ids }, token);
+		await authGroupApi.patchGroup(group.value.id, { scopes: ids });
 		authStore.groups.get(groupId.value)!.scopes.delete(scopeId);
 	}
 };
@@ -45,7 +45,7 @@ const addScope = async (e: Event) => {
 	const scopeId = +formData.get('id')!.toString();
 
 	if (token && group.value && scopeId) {
-		await authGroupApi.patchGroup(groupId.value, { scopes: [...group.value.scopes.keys(), scopeId] }, token);
+		await authGroupApi.patchGroup(groupId.value, { scopes: [...group.value.scopes.keys(), scopeId] });
 		authStore.setGroupScopeById(groupId.value, scopeId);
 		form.reset();
 	}

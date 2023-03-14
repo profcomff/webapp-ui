@@ -11,7 +11,7 @@ const { token } = useProfileStore();
 
 onMounted(async () => {
 	if (token && authStore.scopes.size === 0) {
-		const scopes = await authScopeApi.getScopes(token).then(res => res.data);
+		const scopes = await authScopeApi.getScopes().then(res => res.data);
 		for (const scope of scopes) {
 			authStore.scopes.set(scope.id, scope);
 		}
@@ -20,7 +20,7 @@ onMounted(async () => {
 
 const deleteScope = async (scopeId: number) => {
 	if (token) {
-		await authScopeApi.deleteScope(scopeId, token);
+		await authScopeApi.deleteScope(scopeId);
 		authStore.scopes.delete(scopeId);
 	}
 };
@@ -33,7 +33,7 @@ const createScope = async (e: Event) => {
 		const name = formData.get('name')?.toString();
 
 		if (name && token) {
-			const { data } = await authScopeApi.createScope({ comment, name }, token);
+			const { data } = await authScopeApi.createScope({ comment, name });
 
 			form.reset();
 			authStore.scopes.set(data.id, data);

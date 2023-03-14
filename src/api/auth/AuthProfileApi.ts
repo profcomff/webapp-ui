@@ -4,13 +4,17 @@ import { AuthBaseApi } from './AuthBaseApi';
 interface GetMeResponse {
 	id: number;
 	email: string;
-	scopes: Scope[];
-	indirect_groups: Group[];
-	groups: Group[];
+}
+
+export enum MeInfo {
+	Groups = 'groups',
+	IndirectGroups = 'indirect_groups',
+	TokenScopes = 'session_scopes',
+	UserScopes = 'user_scopes',
 }
 
 interface GetMeParams {
-	info: Array<'groups' | 'indirect_groups' | 'user_scopes'>;
+	info: Array<MeInfo>;
 }
 
 class AuthProfileApi extends AuthBaseApi {
@@ -18,16 +22,20 @@ class AuthProfileApi extends AuthBaseApi {
 		super();
 	}
 
-	public async getMe(token: string, params?: GetMeParams) {
-		return this.get<GetMeResponse, GetMeParams>('/me', params, {
-			Authorization: token,
-		});
+	public async getMe<Info extends MeInfo = never>(params: GetMeParams) {
+		return this.get<
+			GetMeResponse & {
+				[MeInfo.Groups]: MeInfo.Groups extends Info ? Group[] : never;
+				[MeInfo.IndirectGroups]: MeInfo.IndirectGroups extends Info ? Group[] : never;
+				[MeInfo.TokenScopes]: MeInfo.TokenScopes extends Info ? Scope[] : never;
+				[MeInfo.UserScopes]: MeInfo.UserScopes extends Info ? Scope[] : never;
+			},
+			GetMeParams
+		>('/me', params);
 	}
 
-	public async logout(token: string) {
-		return this.post('/logout', undefined, {
-			Authorization: token,
-		});
+	public async logout() {
+		return this.post('/logout', undefined);
 	}
 }
 

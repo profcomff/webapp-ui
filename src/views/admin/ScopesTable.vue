@@ -27,7 +27,7 @@ const sorted = computed(() => [...props.scopes].sort((a, b) => (a.name > b.name 
 			<td>{{ name }}</td>
 			<td>{{ comment }}</td>
 			<td>
-				<button type="button" @click="$emit('delete', { id, name, comment })">
+				<button type="button" @click="$emit('delete', id)">
 					<MaterialIcon name="delete_forever" />
 				</button>
 			</td>

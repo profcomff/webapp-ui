@@ -6,36 +6,25 @@ interface ModifyScopeBody {
 	comment?: string;
 }
 
-export const ScopeNameMap: Record<number, string> = {
-	1: 'auth.scope.create',
-	2: 'auth',
-};
-
 class AuthScopeApi extends AuthBaseApi {
 	constructor() {
 		super('/scope');
 	}
 
-	public async getScopes(token: string) {
-		return this.get<Scope[]>('', undefined, {
-			Authorization: token,
-		});
+	public async getScopes() {
+		return this.get<Scope[]>('', undefined);
 	}
 
-	public async createScope(body: ModifyScopeBody, token: string) {
-		return this.post<Scope, ModifyScopeBody>('', body, {
-			Authorization: token,
-		});
+	public async createScope(body: ModifyScopeBody) {
+		return this.post<Scope, ModifyScopeBody>('', body);
 	}
 
 	public async getScope(id: number) {
 		return this.get<Scope>(`/${id}`);
 	}
 
-	public async deleteScope(id: number, token: string) {
-		return this.delete<{ status: string; message: string }>(`/${id}`, undefined, {
-			Authorization: token,
-		});
+	public async deleteScope(id: number) {
+		return this.delete<{ status: string; message: string }>(`/${id}`, undefined);
 	}
 
 	public async patchScope({ id, comment, name }: Scope) {

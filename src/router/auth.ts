@@ -36,6 +36,7 @@ export const authHandler: NavigationGuard = async to => {
 			} = await authPhysicsApi.login({ state, code, scopes });
 
 			LocalStorage.set<string>(LocalStorageItem.Token, token);
+			LocalStorage.set<string[]>(LocalStorageItem.TokenScopes, scopes);
 
 			return { path: '/profile', state: { token } };
 		} catch (e) {
@@ -49,8 +50,9 @@ export const authHandler: NavigationGuard = async to => {
 						const token = await register({ scopes, id_token: response.data.id_token });
 						if (token) {
 							LocalStorage.set<string>(LocalStorageItem.Token, token);
+							LocalStorage.set<string[]>(LocalStorageItem.TokenScopes, scopes);
 						}
-						return { path: '/profile', state: { token } };
+						return { path: '/profile', state: { token, scopes } };
 					} else {
 						// ошибка во внешнем сервисе
 						break;
