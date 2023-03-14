@@ -1,14 +1,13 @@
 <script setup lang="ts">
 import { authScopeApi } from '@/api/auth/AuthScopeApi';
-import { LocalStorage } from '@/models';
 import ScopesTable from '../ScopesTable.vue';
 import { onMounted } from 'vue';
-import { useAuthStore } from '@/store';
+import { useAuthStore, useProfileStore } from '@/store';
 import { IrdomLayout } from '@/components';
 import { MaterialIcon } from '@/components/lib';
 
-const token = LocalStorage.getToken();
 const authStore = useAuthStore();
+const { token } = useProfileStore();
 
 onMounted(async () => {
 	if (token && authStore.scopes.size === 0) {

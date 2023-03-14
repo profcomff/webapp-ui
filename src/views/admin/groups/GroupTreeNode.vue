@@ -1,7 +1,6 @@
 <script setup lang="ts">
-import { LocalStorage } from '@/models';
 import { authGroupApi } from '@/api/auth';
-import { useAuthStore } from '@/store';
+import { useAuthStore, useProfileStore } from '@/store';
 import { MaterialIcon } from '@/components/lib';
 import { AuthGroup } from '@/store/auth';
 import { ref } from 'vue';
@@ -10,7 +9,7 @@ const props = withDefaults(defineProps<{ node: AuthGroup | null; indentSize?: nu
 	indentSize: 32,
 });
 
-const token = LocalStorage.getToken();
+const { token } = useProfileStore();
 const authStore = useAuthStore();
 
 const createGroup = async (e: Event) => {
@@ -108,9 +107,5 @@ const open = ref(false);
 
 .node .node {
 	border-left: 1px solid gray;
-}
-
-.link {
-	color: blue;
 }
 </style>

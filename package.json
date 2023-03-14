@@ -6,6 +6,8 @@
   "scripts": {
     "dev": "vite --host --port 9000",
     "build": "vue-tsc && vite build",
+    "build:development": "vue-tsc && vite build --mode development",
+    "build:testing": "vue-tsc && vite build --mode testing",
     "preview": "vite preview",
     "test": "vitest",
     "lint": "eslint --ext .ts,.vue ."

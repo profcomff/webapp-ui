@@ -1,11 +1,12 @@
 <script setup lang="ts">
 import { MaterialIcon, IrdomCalendar } from '@/components/lib';
-import { LocalStorage } from '@/models';
+import { useTimetableStore } from '@/store';
 import { onMounted, onUnmounted, ref } from 'vue';
 
 const show = ref(false);
 const expander = ref<HTMLButtonElement | null>(null);
 const calendar = ref<HTMLDivElement | null>(null);
+const { group } = useTimetableStore();
 
 defineProps<{ date: Date }>();
 
@@ -43,7 +44,7 @@ const textClickHandler = (e: MouseEvent) => {
 		</span>
 
 		<span class="group" @click="textClickHandler">
-			{{ `Группа ${LocalStorage.getGroup()?.number ?? ''}` }}
+			{{ `Группа ${group?.number ?? ''}` }}
 		</span>
 
 		<MaterialIcon name="expand_more" class="expanderIcon" />

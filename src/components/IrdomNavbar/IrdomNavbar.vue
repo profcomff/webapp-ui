@@ -15,7 +15,7 @@ defineProps<{
 				:key="name"
 			>
 				<MaterialIcon :name="icon" />
-				<RouterLink :key="name" :to="path" class="link">
+				<RouterLink :key="name" :to="path" class="navbar-link">
 					{{ name }}
 				</RouterLink>
 			</div>
@@ -51,7 +51,7 @@ defineProps<{
 	position: relative;
 }
 
-.link:after {
+.navbar-link:after {
 	content: '';
 	position: absolute;
 	inset: 0;

@@ -31,8 +31,8 @@ const categories =
 					class="icon"
 				/>
 				<MaterialIcon v-else-if="typeof icon === 'string'" :name="icon" class="icon" />
-				<a v-if="path.startsWith('http')" :href="path" class="link">{{ text }}</a>
-				<RouterLink v-else :to="path" class="link">{{ text }}</RouterLink>
+				<a v-if="path.startsWith('http')" :href="path" class="app-link">{{ text }}</a>
+				<RouterLink v-else :to="path" class="app-link">{{ text }}</RouterLink>
 			</div>
 		</div>
 	</section>
@@ -101,7 +101,7 @@ const categories =
 	margin-bottom: 0;
 }
 
-.link::after {
+.app-link::after {
 	content: '';
 	position: absolute;
 	inset: 0;

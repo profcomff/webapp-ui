@@ -28,15 +28,7 @@ export const authHandler: NavigationGuard = async to => {
 	if (to.path === '/auth/oauth-authorized/physics-msu') {
 		const state = to.query.state as string;
 		const code = to.query.code as string;
-		const scopes: string[] = [
-			'auth.scope.read',
-			'auth.group.update',
-			'auth.scope.create',
-			'auth.scope.delete',
-			'auth.group.delete',
-			'auth.group.create',
-			'auth.user_group.create',
-		];
+		const scopes: string[] = [];
 
 		try {
 			const {

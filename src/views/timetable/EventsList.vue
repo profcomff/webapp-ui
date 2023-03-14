@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { timetableEventApi } from '@/api/timetable';
-import { LocalStorage } from '@/models';
 import { getDateWithDayOffset, getNameWithInitials, formatTime, stringifyDate } from '@/utils';
 import { Lecturer, Room, Event } from '@/api/models';
 import { DataRow } from '@/components';
@@ -9,9 +8,8 @@ import { ref } from 'vue';
 
 const props = defineProps<{ date: Date }>();
 
-const group_id = LocalStorage.getGroup()?.id;
-
 const timetableStore = useTimetableStore();
+const group_id = timetableStore.group?.id;
 
 const events = ref<Event[]>([]);
 

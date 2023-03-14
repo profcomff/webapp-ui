@@ -1,3 +1,4 @@
+import { LocalStorage } from '@/models';
 import { StudyGroup } from './../api/models/index';
 import { Lecturer, Room, Event } from '@/api/models';
 import { stringifyDate } from '@/utils';
@@ -9,7 +10,7 @@ export const useTimetableStore = defineStore('timetable', () => {
 	const days = ref<Map<string, number[]>>(new Map());
 	const lecturers = ref<Map<number, Lecturer>>(new Map());
 	const rooms = ref<Map<number, Room>>(new Map());
-	const groups = ref<StudyGroup[] | null>(null);
+	const group = ref<StudyGroup | null>(null);
 
 	function eventList(date: Date) {
 		const ids = days.value.get(stringifyDate(date));
@@ -28,5 +29,9 @@ export const useTimetableStore = defineStore('timetable', () => {
 		return [];
 	}
 
-	return { events, days, lecturers, rooms, eventList, groups };
+	function updateGroup(newGroup?: StudyGroup) {
+		group.value = newGroup ?? LocalStorage.getStudyGroup();
+	}
+
+	return { events, days, lecturers, rooms, eventList, group, updateGroup };
 });

@@ -1,32 +1,23 @@
-import { stringifyDate } from './../utils/date';
 import { StudyGroup } from '../api/models';
 
 enum LocalStorageItem {
-	Group = 'group',
+	StudyGroup = 'study-group',
 	LastTwoWeeksPreloadDate = 'last-two-week-preload-date',
 	Token = 'token',
 }
 
 export class LocalStorage {
-	static setGroup(group: StudyGroup) {
-		localStorage.setItem(LocalStorageItem.Group, JSON.stringify(group));
+	static setStudyGroup(group: StudyGroup) {
+		localStorage.setItem(LocalStorageItem.StudyGroup, JSON.stringify(group));
 	}
 
-	static getGroup(): StudyGroup | null {
-		const group = localStorage.getItem(LocalStorageItem.Group);
+	static getStudyGroup(): StudyGroup | null {
+		const group = localStorage.getItem(LocalStorageItem.StudyGroup);
 		return group === null ? null : JSON.parse(group);
 	}
 
-	static removeGroup() {
-		localStorage.removeItem(LocalStorageItem.Group);
-	}
-
-	static getLastTwoWeeksPreloadDate() {
-		return localStorage.getItem(LocalStorageItem.LastTwoWeeksPreloadDate);
-	}
-
-	static setLastTwoWeeksPreloadDate(date: Date) {
-		localStorage.setItem(LocalStorageItem.LastTwoWeeksPreloadDate, stringifyDate(date));
+	static deleteStudyGroup() {
+		localStorage.removeItem(LocalStorageItem.StudyGroup);
 	}
 
 	static getToken(): string | null {
@@ -37,7 +28,7 @@ export class LocalStorage {
 		localStorage.setItem(LocalStorageItem.Token, token);
 	}
 
-	static removeToken() {
+	static deleteToken() {
 		localStorage.removeItem(LocalStorageItem.Token);
 	}
 }

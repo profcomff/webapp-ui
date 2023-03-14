@@ -1,14 +1,13 @@
 <script setup lang="ts">
 import { authGroupApi, authScopeApi } from '@/api/auth';
-import { useAuthStore } from '@/store';
+import { useAuthStore, useProfileStore } from '@/store';
 import ScopesTable from '../ScopesTable.vue';
-import { LocalStorage } from '@/models';
 import { onMounted, computed } from 'vue';
 import { useRoute } from 'vue-router';
 import { IrdomLayout } from '@/components';
 import { MaterialIcon } from '@/components/lib';
 
-const token = LocalStorage.getToken();
+const { token } = useProfileStore();
 const authStore = useAuthStore();
 const back = history.state.back?.startsWith('/admin') ? history.state.back : '/admin/groups';
 const route = useRoute();

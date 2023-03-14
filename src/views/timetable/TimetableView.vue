@@ -25,7 +25,8 @@ const toolbarMenu: ToolbarMenuItem[] = [
 	{
 		name: 'Изменить группу',
 		onClick: () => {
-			LocalStorage.removeGroup();
+			LocalStorage.deleteStudyGroup();
+			timetableStore.updateGroup();
 			timetableStore.days.clear();
 			router.push('/timetable/init');
 		},

@@ -73,3 +73,8 @@ a {
 summary {
 	cursor: pointer;
 }
+
+.link {
+	color: blue;
+	text-decoration: underline;
+}

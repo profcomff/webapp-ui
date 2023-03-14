@@ -2,10 +2,10 @@
 import { authProfileApi } from '@/api/auth';
 import { Group } from '@/api/models';
 import { IrdomLayout } from '@/components';
-import { LocalStorage } from '@/models';
+import { useProfileStore } from '@/store';
 import { onMounted, ref } from 'vue';
 
-const token = LocalStorage.getToken();
+const { token } = useProfileStore();
 
 const groups = ref<Group[]>([]);
 
@@ -18,8 +18,8 @@ onMounted(async () => {
 
 <template>
 	<IrdomLayout title="Админка">
-		<RouterLink to="/admin/groups">Редактироване групп пользователей</RouterLink>
-		<RouterLink to="/admin/scopes">Редактирование прав доступа</RouterLink>
+		<RouterLink to="/admin/groups" class="link">Редактироване групп пользователей</RouterLink>
+		<RouterLink to="/admin/scopes" class="link">Редактирование прав доступа</RouterLink>
 	</IrdomLayout>
 </template>
 
@@ -34,6 +34,13 @@ onMounted(async () => {
 }
 
 .section:last-child {
+	margin-bottom: 0;
+}
+.link {
+	margin-bottom: 8px;
+}
+
+.link:last-child {
 	margin-bottom: 0;
 }
 </style>

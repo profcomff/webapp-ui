@@ -12,21 +12,18 @@ const props = withDefaults(defineProps<{ query?: string }>(), {
 	query: '',
 });
 
-const timetableStore = useTimetableStore();
+const { updateGroup } = useTimetableStore();
 
-const data =
-	timetableStore.groups ??
-	(await timetableGroupApi.getGroups({ limit: 1000 }).then(({ data }) => {
-		timetableStore.groups = data.items;
-		return data.items;
-	}));
+const data = await timetableGroupApi.getGroups({ limit: 1000 }).then(({ data }) => data.items);
 
 const groups = computed(() =>
 	data?.filter(g => g.number.includes(props.query)).sort((a, b) => parseInt(a.number) - parseInt(b.number)),
 );
 
 const setGroup = (group: StudyGroup) => {
-	LocalStorage.setGroup(group);
+	LocalStorage.setStudyGroup(group);
+	updateGroup();
+
 	router.push('/timetable');
 };
 </script>

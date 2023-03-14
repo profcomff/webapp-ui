@@ -16,7 +16,7 @@ const toolbarMenu = computed<ToolbarMenuItem[]>(() => {
 			onClick: async () => {
 				if (profileStore.token) {
 					authProfileApi.logout(profileStore.token).then(() => {
-						LocalStorage.removeToken();
+						LocalStorage.deleteToken();
 						profileStore.updateToken();
 						delete history.state.token;
 					});

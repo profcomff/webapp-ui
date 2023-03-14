@@ -13,6 +13,7 @@ const getDays = (date: Date) => new Date(date.getFullYear(), date.getMonth() + 1
 const getItemDate = (day: number) => new Date(date.value.getFullYear(), date.value.getMonth(), day);
 const getItemStringDate = (day: number) => stringifyDate(getItemDate(day));
 const isCurrent = (day: number) => getItemStringDate(day) === stringifyDate(props.date);
+const isToday = (day: number) => getItemStringDate(day) === stringifyDate(new Date());
 const getAriaLabel = (day: number) =>
 	getItemDate(day).toLocaleDateString('ru-RU', { day: 'numeric', month: 'long', year: 'numeric' });
 
@@ -44,7 +45,7 @@ const changeMonthHandler = (offset: number) => {
 				v-for="i in getDays(date)"
 				class="day"
 				:to="`/timetable/${getItemStringDate(i)}`"
-				:class="['day', { current: isCurrent(i) }]"
+				:class="['day', { current: isCurrent(i), today: isToday(i) }]"
 				:style="{ 'grid-column': i === 1 ? getItemDate(i).getDay() : 'unset' }"
 				:aria-label="getAriaLabel(i)"
 				:key="i"
@@ -106,5 +107,9 @@ const changeMonthHandler = (offset: number) => {
 
 .right {
 	justify-content: end;
+}
+
+.today:not(:focus-visible) {
+	outline: 2px solid white;
 }
 </style>

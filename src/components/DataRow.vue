@@ -16,7 +16,7 @@ defineProps<Props>();
 		</div>
 		<div class="data">
 			<div class="title">
-				<RouterLink v-if="href" :to="href" class="link">{{ title }}</RouterLink>
+				<RouterLink v-if="href" :to="href" class="title-link">{{ title }}</RouterLink>
 				<template v-else>
 					{{ title }}
 				</template>
@@ -90,12 +90,12 @@ defineProps<Props>();
 	text-align: start;
 }
 
-.link:focus-visible {
+.title-link:focus-visible {
 	outline: none;
 	color: var(--color-accent);
 }
 
-.link::after {
+.title-link::after {
 	content: '';
 	position: absolute;
 	inset: 0;
