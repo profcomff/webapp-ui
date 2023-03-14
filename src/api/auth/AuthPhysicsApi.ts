@@ -3,12 +3,12 @@ import { AuthBaseApi } from './AuthBaseApi';
 interface LoginBody {
 	code: string;
 	state: string;
-	scopes: string[];
+	scopes?: string[];
 }
 
 interface RegisterBody {
 	id_token: string;
-	scopes: string[];
+	scopes?: string[];
 }
 
 interface AuthResponse {

@@ -7,7 +7,7 @@ const back = history.state.back?.startsWith('/timetable/event') ? history.state.
 </script>
 
 <template>
-	<IrdomLayout :back="back">
+	<IrdomLayout :back="back" share>
 		<Suspense>
 			<AsyncContent :id="+$route.params.id" />
 

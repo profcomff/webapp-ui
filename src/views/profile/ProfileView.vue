@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { AnonymousMessage, IrdomLayout, ToolbarMenuItem } from '@/components';
 import AsyncContent from './AsyncContent.vue';
-import { authProfileApi } from '@/api/auth';
+import { MeInfo, authProfileApi } from '@/api/auth';
 import { LocalStorage, LocalStorageItem } from '@/models';
 import { useProfileStore } from '@/store';
 import { onMounted, computed } from 'vue';
@@ -30,11 +30,19 @@ const toolbarMenu = computed<ToolbarMenuItem[]>(() => {
 	return arr;
 });
 
-onMounted(() => {
-	history.state.token ? profileStore.updateToken(history.state.token) : profileStore.updateToken();
-	history.state.scopes ? profileStore.updateTokenScopes(history.state.scopes) : profileStore.updateTokenScopes();
-	delete history.state.token;
-	delete history.state.scopes;
+onMounted(async () => {
+	if (history.state.token) {
+		profileStore.updateToken(history.state.token);
+		delete history.state.token;
+
+		const { data } = await authProfileApi.getMe<MeInfo.TokenScopes>({ info: [MeInfo.TokenScopes] });
+		LocalStorage.set<string[]>(
+			LocalStorageItem.TokenScopes,
+			data.session_scopes.map(s => s.name),
+		);
+	}
+	profileStore.updateToken();
+	profileStore.updateTokenScopes();
 });
 </script>
 

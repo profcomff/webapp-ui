@@ -10,7 +10,7 @@ export const authRoutes: Array<RouteRecordRaw> = [
 	},
 ];
 
-async function register({ scopes, id_token }: { scopes: string[]; id_token: string }) {
+async function register({ scopes, id_token }: { scopes?: string[]; id_token: string }) {
 	try {
 		console.log('Try to registrer');
 		const {
@@ -28,15 +28,13 @@ export const authHandler: NavigationGuard = async to => {
 	if (to.path === '/auth/oauth-authorized/physics-msu') {
 		const state = to.query.state as string;
 		const code = to.query.code as string;
-		const scopes: string[] = [];
 
 		try {
 			const {
 				data: { token },
-			} = await authPhysicsApi.login({ state, code, scopes });
+			} = await authPhysicsApi.login({ state, code });
 
 			LocalStorage.set<string>(LocalStorageItem.Token, token);
-			LocalStorage.set<string[]>(LocalStorageItem.TokenScopes, scopes);
 
 			return { path: '/profile', state: { token } };
 		} catch (e) {
@@ -47,12 +45,11 @@ export const authHandler: NavigationGuard = async to => {
 					if (response.data.id_token) {
 						console.log('User has not been registered yet');
 
-						const token = await register({ scopes, id_token: response.data.id_token });
+						const token = await register({ id_token: response.data.id_token });
 						if (token) {
 							LocalStorage.set<string>(LocalStorageItem.Token, token);
-							LocalStorage.set<string[]>(LocalStorageItem.TokenScopes, scopes);
 						}
-						return { path: '/profile', state: { token, scopes } };
+						return { path: '/profile', state: { token } };
 					} else {
 						// ошибка во внешнем сервисе
 						break;

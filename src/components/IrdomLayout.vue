@@ -7,11 +7,12 @@ defineProps<{
 	toolbarMenu?: ToolbarMenuItem[];
 	back?: string | boolean;
 	title?: string;
+	share?: boolean;
 }>();
 </script>
 
 <template>
-	<IrdomToolbar :actions="toolbarActions" :menu-items="toolbarMenu" :back="back" :title="title">
+	<IrdomToolbar :actions="toolbarActions" :menu-items="toolbarMenu" :back="back" :title="title" :share="share">
 		<slot name="toolbar" />
 	</IrdomToolbar>
 

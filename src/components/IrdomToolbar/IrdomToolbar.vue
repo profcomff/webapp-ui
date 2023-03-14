@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { useRoute } from 'vue-router';
 import { IrdomPopover, MaterialIcon } from '../lib';
 import { ToolbarAction, ToolbarActionButton, ToolbarActionLink, ToolbarMenuItem } from './types';
 
@@ -7,13 +8,27 @@ interface Props {
 	title?: string;
 	back?: string | boolean;
 	actions?: ToolbarAction[];
+	share?: boolean;
 }
+
+const route = useRoute();
 
 withDefaults(defineProps<Props>(), {
 	menuItems: () => [],
 	title: 'Твой ФФ!',
 	actions: () => [],
+	back: false,
+	share: false,
 });
+
+const shareHandler = () => {
+	const data = {
+		url: route.fullPath,
+	};
+	if (navigator.canShare(data)) {
+		navigator.share(data);
+	}
+};
 
 const defaultBack = history.state.back;
 </script>
@@ -33,7 +48,7 @@ const defaultBack = history.state.back;
 			</div>
 
 			<div class="flex">
-				<div class="actions" v-if="actions.length > 0">
+				<div class="actions">
 					<template v-for="action of actions">
 						<RouterLink
 							:to="(action as ToolbarActionLink).href"
@@ -55,11 +70,14 @@ const defaultBack = history.state.back;
 							<MaterialIcon :name="action.icon" />
 						</button>
 					</template>
+					<button type="button" @click="shareHandler" class="button" aria-label="Поделиться" v-if="share">
+						<MaterialIcon name="share" />
+					</button>
 				</div>
 				<IrdomPopover v-if="menuItems.length > 0" style="min-width: 48px; height: 100%">
 					<ul>
 						<li v-for="{ name, onClick } of menuItems" :key="name">
-							<button @click="onClick" class="menuItem">{{ name }}</button>
+							<button @click="onClick" class="menu-item">{{ name }}</button>
 						</li>
 					</ul>
 				</IrdomPopover>
@@ -86,7 +104,7 @@ const defaultBack = history.state.back;
 	height: 100%;
 }
 
-.menuItem {
+.menu-item {
 	font-size: 16px;
 	padding: 8px 16px;
 }
