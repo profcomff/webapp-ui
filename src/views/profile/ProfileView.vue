@@ -16,8 +16,7 @@ const logout = async () => {
 		await authProfileApi.logout();
 		LocalStorage.delete(LocalStorageItem.Token);
 		LocalStorage.delete(LocalStorageItem.TokenScopes);
-		updateToken();
-		updateTokenScopes();
+		location.reload();
 	}
 };
 
@@ -45,7 +44,7 @@ onMounted(async () => {
 		updateToken(history.state.token);
 		delete history.state.token;
 	}
-	if (!profileStore.tokenScopes || !profileStore.indirectGroups || !profileStore.groups) {
+	if (isUserLogged() && (!profileStore.tokenScopes || !profileStore.indirectGroups || !profileStore.groups)) {
 		const { data } = await authProfileApi.getMe<
 			MeInfo.TokenScopes | MeInfo.IndirectGroups | MeInfo.Groups | MeInfo.UserScopes
 		>({

@@ -46,7 +46,7 @@ const createScope = async (e: Event) => {
 </script>
 
 <template>
-	<IrdomLayout title="Редактирование прав доступа" back="/admin">
+	<IrdomLayout title="Редактирование прав доступа" backable back="/admin">
 		<template v-if="hasAccess">
 			<ScopesTable
 				:scopes="authStore.scopes.values()"
@@ -71,8 +71,7 @@ const createScope = async (e: Event) => {
 				</button>
 			</form>
 		</template>
-
-		<ForbiddenMessage v-else />
+		<h1 v-else>403 Forbidden</h1>
 	</IrdomLayout>
 </template>
 

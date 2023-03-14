@@ -11,7 +11,7 @@ const clickHandler = async () => {
 </script>
 
 <template>
-	<IrdomLayout title="Вход" back="/profile">
+	<IrdomLayout title="Вход" backabble back="/profile">
 		<button type="button" @click="clickHandler">Войти с почтой @physics.msu.ru</button>
 	</IrdomLayout>
 </template>

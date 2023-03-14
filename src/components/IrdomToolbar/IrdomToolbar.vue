@@ -6,9 +6,10 @@ import { ToolbarAction, ToolbarActionButton, ToolbarActionLink, ToolbarMenuItem 
 interface Props {
 	menuItems?: ToolbarMenuItem[];
 	title?: string;
-	back?: string | boolean;
+	back?: string;
 	actions?: ToolbarAction[];
 	share?: boolean;
+	backable?: boolean;
 }
 
 const route = useRoute();
@@ -17,8 +18,8 @@ withDefaults(defineProps<Props>(), {
 	menuItems: () => [],
 	title: 'Твой ФФ!',
 	actions: () => [],
-	back: false,
 	share: false,
+	backable: false,
 });
 
 const shareHandler = () => {
@@ -29,17 +30,20 @@ const shareHandler = () => {
 		navigator.share(data);
 	}
 };
-
-const defaultBack = history.state.back;
 </script>
 
 <template>
 	<header class="toolbar">
 		<div class="container wrapper">
 			<div class="meta" v-if="title || back">
-				<RouterLink :to="back === true ? defaultBack : back" v-if="back" aria-label="Назад">
+				<RouterLink v-if="backable && back" :to="back" aria-label="Назад">
 					<MaterialIcon name="arrow_back" />
 				</RouterLink>
+
+				<button type="button" v-else-if="backable" @click="$router.back()" aria-label="Назад">
+					<MaterialIcon name="arrow_back" />
+				</button>
+
 				<h1 class="noselect title">{{ title }}</h1>
 			</div>
 

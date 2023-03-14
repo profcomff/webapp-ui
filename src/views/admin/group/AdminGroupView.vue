@@ -6,8 +6,9 @@ import { onMounted, computed } from 'vue';
 import { useRoute } from 'vue-router';
 import { IrdomLayout } from '@/components';
 import { MaterialIcon } from '@/components/lib';
+import { scopename } from '@/models';
 
-const { isUserLogged } = useProfileStore();
+const { isUserLogged, hasTokenAccess } = useProfileStore();
 const authStore = useAuthStore();
 const back = history.state.back?.startsWith('/admin') ? history.state.back : '/admin/groups';
 const route = useRoute();
@@ -23,14 +24,14 @@ onMounted(async () => {
 		authStore.setGroup(data);
 	}
 
-	if (isUserLogged() && authStore.scopes.size === 0) {
+	if (hasTokenAccess(scopename.auth.scope.read) && authStore.scopes.size === 0) {
 		const { data } = await authScopeApi.getScopes();
 		authStore.setScopes(data);
 	}
 });
 
 const deleteScope = async (scopeId: number) => {
-	if (isUserLogged() && group.value) {
+	if (hasTokenAccess(scopename.auth.group.update) && group.value) {
 		const ids = [...group.value.scopes.keys()].filter(id => id !== scopeId);
 
 		await authGroupApi.patchGroup(group.value.id, { scopes: ids });
@@ -39,44 +40,51 @@ const deleteScope = async (scopeId: number) => {
 };
 
 const addScope = async (e: Event) => {
-	const form = e.target as HTMLFormElement;
-	const formData = new FormData(form);
+	if (hasTokenAccess(scopename.auth.group.update)) {
+		const form = e.target as HTMLFormElement;
+		const formData = new FormData(form);
 
-	const scopeId = +formData.get('id')!.toString();
+		const scopeId = +formData.get('id')!.toString();
 
-	if (isUserLogged() && group.value && scopeId) {
-		await authGroupApi.patchGroup(groupId.value, { scopes: [...group.value.scopes.keys(), scopeId] });
-		authStore.setGroupScopeById(groupId.value, scopeId);
-		form.reset();
+		if (isUserLogged() && group.value && scopeId) {
+			await authGroupApi.patchGroup(groupId.value, { scopes: [...group.value.scopes.keys(), scopeId] });
+			authStore.setGroupScopeById(groupId.value, scopeId);
+			form.reset();
+		}
 	}
 };
 </script>
 
 <template>
-	<IrdomLayout :back="back">
-		<ScopesTable
-			:scopes="group?.scopes.values() ?? []"
-			style="margin-left: 16px; width: calc(100% - 16px)"
-			delete-icon="delete"
-			@delete="deleteScope"
-		/>
+	<IrdomLayout backable :back="back">
+		<template v-if="hasTokenAccess(scopename.auth.scope.read)">
+			<ScopesTable
+				:scopes="group?.scopes.values() ?? []"
+				style="margin-left: 16px; width: calc(100% - 16px)"
+				delete-icon="delete"
+				@delete="deleteScope"
+			/>
 
-		<form @submit.prevent="addScope" class="form">
-			<MaterialIcon name="add" />
+			<form @submit.prevent="addScope" class="form" v-if="hasTokenAccess(scopename.auth.group.update)">
+				<MaterialIcon name="add" />
 
-			<label for="id">
-				id
-				<input type="text" id="id" name="id" autocomplete="off" required list="scope-names" />
+				<label for="id">
+					id
+					<input type="text" id="id" name="id" autocomplete="off" required list="scope-names" />
 
-				<datalist id="scope-names">
-					<option v-for="{ id, name } of authStore.scopes.values()" :value="id" :key="id">{{ name }}</option>
-				</datalist>
-			</label>
+					<datalist id="scope-names">
+						<option v-for="{ id, name } of authStore.scopes.values()" :value="id" :key="id">
+							{{ name }}
+						</option>
+					</datalist>
+				</label>
 
-			<button type="submit">
-				<MaterialIcon name="done" />
-			</button>
-		</form>
+				<button type="submit">
+					<MaterialIcon name="done" />
+				</button>
+			</form>
+		</template>
+		<h1 v-else>403 Forbidden</h1>
 	</IrdomLayout>
 </template>
 <style>

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { IrdomLayout, AnonymousMessage } from '@/components';
+import { IrdomLayout } from '@/components';
 import { scopename } from '@/models';
 import { useProfileStore } from '@/store';
 
@@ -14,7 +14,6 @@ const { isUserLogged, hasTokenAccess } = useProfileStore();
 				Редактирование прав доступа
 			</RouterLink>
 		</template>
-		<AnonymousMessage v-else />
 	</IrdomLayout>
 </template>
 

@@ -1,4 +1,5 @@
-import { RouteRecordRaw } from 'vue-router';
+import { LocalStorage, LocalStorageItem } from './../models/LocalStorage';
+import { NavigationGuard, RouteRecordRaw } from 'vue-router';
 
 export const adminRoutes: Array<RouteRecordRaw> = [
 	{
@@ -18,3 +19,11 @@ export const adminRoutes: Array<RouteRecordRaw> = [
 		component: () => import('../views/admin/group/AdminGroupView.vue'),
 	},
 ];
+
+export const adminHandler: NavigationGuard = to => {
+	if (to.path.startsWith('/admin')) {
+		if (!LocalStorage.get(LocalStorageItem.Token)) {
+			return { path: '/auth' };
+		}
+	}
+};

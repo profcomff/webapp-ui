@@ -4,16 +4,17 @@ import { useAuthStore, useProfileStore } from '@/store';
 import { IrdomPopover, MaterialIcon } from '@/components/lib';
 import { AuthGroup } from '@/store/auth';
 import { ref, nextTick } from 'vue';
+import { scopename } from '@/models';
 
 const props = withDefaults(defineProps<{ node: AuthGroup | null; indentSize?: number }>(), {
 	indentSize: 32,
 });
 
-const { isUserLogged } = useProfileStore();
+const { isUserLogged, hasTokenAccess } = useProfileStore();
 const authStore = useAuthStore();
 
 const createGroup = async (e: Event) => {
-	if (props.node) {
+	if (props.node && hasTokenAccess(scopename.auth.group.create)) {
 		const form = e.target as HTMLFormElement;
 		const formData = new FormData(form);
 
@@ -34,7 +35,7 @@ const createGroup = async (e: Event) => {
 };
 
 const deleteGroup = async (groupId?: number) => {
-	if (isUserLogged() && groupId) {
+	if (hasTokenAccess(scopename.auth.group.delete) && groupId) {
 		await authGroupApi.deleteGroup(groupId);
 		authStore.deleteGroup(groupId);
 	}
@@ -80,17 +81,27 @@ const toggleHandler = () => {
 				{{ node.name }}
 			</RouterLink>
 
-			<IrdomPopover style="font-size: 12px">
+			<IrdomPopover
+				style="font-size: 12px"
+				v-id="hasTokenAccess(scopename.auth.group.create) || hasTokenAccess(scopename.auth.group.delete)"
+			>
 				<template #expander>
 					<MaterialIcon name="more_horiz" />
 				</template>
 
 				<ul>
-					<li v-if="node.parent_id">
-						<button type="button" @click="deleteGroup(node?.id)" class="menu-button">Удалить</button>
-					</li>
 					<li>
-						<button type="button" @click="showFormHandler" class="menu-button">Добавить группу</button>
+						<button
+							type="button"
+							v-if="hasTokenAccess(scopename.auth.group.create)"
+							@click="showFormHandler"
+							class="menu-button"
+						>
+							Добавить группу
+						</button>
+					</li>
+					<li v-if="node.parent_id && hasTokenAccess(scopename.auth.group.delete)">
+						<button type="button" @click="deleteGroup(node?.id)" class="menu-button delete">Удалить</button>
 					</li>
 				</ul>
 			</IrdomPopover>
@@ -153,6 +164,10 @@ const toggleHandler = () => {
 	width: 100%;
 	font-size: 16px;
 	text-align: start;
+}
+
+.delete {
+	color: red;
 }
 
 .nomarker::marker {

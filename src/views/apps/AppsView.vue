@@ -4,7 +4,7 @@ import AsyncContent from './AsyncContent.vue';
 </script>
 
 <template>
-	<IrdomLayout>
+	<IrdomLayout title="Сервисы">
 		<Suspense>
 			<AsyncContent />
 

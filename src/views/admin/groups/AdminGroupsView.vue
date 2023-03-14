@@ -33,7 +33,7 @@ const root = computed(() => {
 </script>
 
 <template>
-	<IrdomLayout title="Редактирование групп пользователей" back="/admin">
+	<IrdomLayout title="Редактирование групп пользователей" backable back="/admin">
 		<GroupTreeNode :node="root" />
 	</IrdomLayout>
 </template>

@@ -1,4 +1,5 @@
-import { adminRoutes } from './admin';
+import { LocalStorage, LocalStorageItem } from './../models/LocalStorage';
+import { adminRoutes, adminHandler } from './admin';
 import { authRoutes, authHandler } from './auth';
 import { AppsView } from '@/views';
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router';
@@ -34,6 +35,10 @@ const routes: Array<RouteRecordRaw> = [
 		component: () => import('../views/profile/ProfileView.vue'),
 	},
 	{
+		path: '/forbidden',
+		component: () => import('../views/ViewError403.vue'),
+	},
+	{
 		path: '/:pathMatch(.*)',
 		component: () => import('../views/ViewError404.vue'),
 	},
@@ -44,7 +49,13 @@ const router = createRouter({
 	routes,
 });
 
+router.beforeEach(to => {
+	if (to.path === '/profile' && !LocalStorage.get(LocalStorageItem.Token)) {
+		return { path: '/auth' };
+	}
+});
 router.beforeEach(timetableHandler);
 router.beforeEach(authHandler);
+router.beforeEach(adminHandler);
 
 export default router;
