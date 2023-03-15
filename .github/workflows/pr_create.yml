@@ -94,7 +94,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: build-and-push-image
     environment:
-      name: development-pr-$${{ github.event.pull_request.number }}
+      name: development-pr-${{ github.event.pull_request.number }}
       url: https://${{ github.event.repository.name }}__pr-${{ github.event.pull_request.number }}.dev.profcomff.com/
     steps:
       - name: Deploy
