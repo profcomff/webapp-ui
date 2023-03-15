@@ -30,6 +30,7 @@ defineProps<{
 	height: var(--navbar-height);
 	background: var(--color-primary-dark);
 	color: white;
+	z-index: 998;
 }
 
 .wrapper {
@@ -56,7 +57,7 @@ defineProps<{
 	content: '';
 	position: absolute;
 	inset: 0;
-	z-index: 1;
+	z-index: 999;
 }
 
 .active {

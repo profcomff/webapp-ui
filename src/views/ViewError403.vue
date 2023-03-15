@@ -1,8 +1,6 @@
 <script setup lang="ts">
 import { IrdomLayout } from '@/components';
 import { RouterLink } from 'vue-router';
-
-console.log(history.state.back);
 </script>
 
 <template>

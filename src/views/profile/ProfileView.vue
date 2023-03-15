@@ -48,7 +48,7 @@ onMounted(async () => {
 		const { data } = await authProfileApi.getMe<
 			MeInfo.TokenScopes | MeInfo.IndirectGroups | MeInfo.Groups | MeInfo.UserScopes
 		>([MeInfo.TokenScopes, MeInfo.IndirectGroups, MeInfo.Groups, MeInfo.UserScopes]);
-		console.log('groups', data.groups);
+
 		profileStore.indirectGroups = data.indirect_groups.map(g => g.name);
 		profileStore.groups = data.groups.map(g => g.name);
 		profileStore.userScopes = data.user_scopes.map(s => s.name);

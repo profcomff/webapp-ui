@@ -26,9 +26,11 @@ defineProps<{
 
 	<slot name="body" />
 
-	<main class="container main" v-bind="$attrs">
-		<slot />
-	</main>
+	<div class="scroll">
+		<main class="container main" v-bind="$attrs">
+			<slot />
+		</main>
+	</div>
 </template>
 
 <style scoped>
@@ -36,7 +38,10 @@ defineProps<{
 	padding: 16px;
 	display: flex;
 	flex-direction: column;
-	flex: 1;
+}
+
+.scroll {
 	overflow-y: auto;
+	flex: 1;
 }
 </style>
