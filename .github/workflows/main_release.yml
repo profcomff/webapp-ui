@@ -28,9 +28,6 @@ jobs:
   test-format:
     name: Выполняем тесты
     runs-on: ubuntu-latest
-    needs:
-      - test
-      - test-format
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
@@ -53,6 +50,9 @@ jobs:
   build-and-push-image:
     name: Собираем тестовый Docker
     runs-on: ubuntu-latest
+    needs:
+      - test
+      - test-format
     permissions:
       contents: read
       packages: write
@@ -95,6 +95,8 @@ jobs:
     environment:
       name: Testing
       url: https://app.test.profcomff.com/
+    env:
+      CONTAITER_NAME: com_profcomff_app
     permissions:
       packages: read
     steps:
@@ -120,5 +122,3 @@ jobs:
       #         "repo_url": "${{ github.repository }}",
       #         "git_ref": "${{ github.ref }}"
       #       }'
-
-
