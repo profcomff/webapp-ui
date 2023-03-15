@@ -38,7 +38,7 @@ class AuthGroupApi extends AuthBaseApi {
 		return this.patch<Group, Partial<CreateGroupBody>>(`/${id}`, body);
 	}
 
-	public async getGroups<Info extends GroupInfo>(...info: Info[]) {
+	public async getGroups<Info extends GroupInfo>(info: Info[]) {
 		return this.get<{ items: GetGroupResponse<Info>[] }, { info: Info[] }>('', { info });
 	}
 

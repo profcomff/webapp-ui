@@ -18,6 +18,10 @@ export const adminRoutes: Array<RouteRecordRaw> = [
 		path: 'group/:id(\\d+)',
 		component: () => import('../views/admin/group/AdminGroupView.vue'),
 	},
+	{
+		path: 'users',
+		component: () => import('../views/admin/users/AdminUsersView.vue'),
+	},
 ];
 
 export const adminHandler: NavigationGuard = to => {

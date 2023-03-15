@@ -6,6 +6,7 @@ import { useAuthStore, useProfileStore } from '@/store';
 import { IrdomLayout, AccessAllowed } from '@/components';
 import { MaterialIcon } from '@/components/lib';
 import { scopename } from '@/models';
+import { AuthApi } from '@/api';
 
 const authStore = useAuthStore();
 const { hasTokenAccess, isUserLogged } = useProfileStore();
@@ -14,15 +15,12 @@ const hasAccess = computed(() => hasTokenAccess(scopename.auth.scope.read));
 
 onMounted(async () => {
 	if (hasAccess.value) {
-		const scopes = await authScopeApi.getScopes().then(res => res.data);
-		for (const scope of scopes) {
-			authStore.scopes.set(scope.id, scope);
-		}
+		AuthApi.getScopes();
 	}
 });
 
 const deleteScope = async (scopeId: number) => {
-	if (isUserLogged()) {
+	if (isUserLogged) {
 		await authScopeApi.deleteScope(scopeId);
 		authStore.scopes.delete(scopeId);
 	}
@@ -35,11 +33,11 @@ const createScope = async (e: Event) => {
 		const comment = formData.get('comment')?.toString();
 		const name = formData.get('name')?.toString();
 
-		if (name && isUserLogged()) {
+		if (name && isUserLogged) {
 			const { data } = await authScopeApi.createScope({ comment, name });
 
 			form.reset();
-			authStore.scopes.set(data.id, data);
+			authStore.setScopes([data]);
 		}
 	}
 };

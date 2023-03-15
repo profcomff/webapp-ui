@@ -2,7 +2,7 @@
 import { useProfileStore } from '@/store';
 
 const { hasTokenAccess } = useProfileStore();
-withDefaults(defineProps<{ scope: string; noFallback: boolean }>(), {
+withDefaults(defineProps<{ scope: string; noFallback?: boolean }>(), {
 	noFallback: false,
 });
 </script>

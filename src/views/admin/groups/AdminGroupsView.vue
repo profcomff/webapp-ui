@@ -11,7 +11,7 @@ onMounted(async () => {
 	if (authStore.groups.size === 0) {
 		const {
 			data: { items: groups },
-		} = await authGroupApi.getGroups<GroupInfo.Children | GroupInfo.Scopes>(GroupInfo.Children, GroupInfo.Scopes);
+		} = await authGroupApi.getGroups<GroupInfo.Children | GroupInfo.Scopes>([GroupInfo.Children, GroupInfo.Scopes]);
 
 		for (const group of groups) {
 			authStore.setScopes(group.scopes);

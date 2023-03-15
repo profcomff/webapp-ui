@@ -18,7 +18,7 @@ class AuthProfileApi extends AuthBaseApi {
 		super();
 	}
 
-	public async getMe<Info extends MeInfo = never>(...info: Info[]) {
+	public async getMe<Info extends MeInfo = never>(info: Info[]) {
 		return this.get<
 			GetMeResponse & {
 				[MeInfo.Groups]: MeInfo.Groups extends Info ? Group[] : never;

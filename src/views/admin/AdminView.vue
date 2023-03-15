@@ -5,10 +5,14 @@ import { scopename } from '@/models';
 
 <template>
 	<IrdomLayout title="Админка">
-		<RouterLink to="/admin/groups" class="link">Редактироване групп пользователей</RouterLink>
+		<RouterLink to="/admin/groups" class="link">Группы пользователей</RouterLink>
 
 		<AccessAllowed :scope="scopename.auth.scope.read" no-fallback>
-			<RouterLink to="/admin/scopes" class="link"> Редактирование прав доступа </RouterLink>
+			<RouterLink to="/admin/scopes" class="link"> Права доступа </RouterLink>
+		</AccessAllowed>
+
+		<AccessAllowed :scope="scopename.auth.user.read" no-fallback>
+			<RouterLink to="/admin/users" class="link">Пользователи</RouterLink>
 		</AccessAllowed>
 	</IrdomLayout>
 </template>

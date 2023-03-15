@@ -1,6 +1,6 @@
 import { LocalStorage, LocalStorageItem } from '@/models';
 import { defineStore } from 'pinia';
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 
 export const useProfileStore = defineStore('profile', () => {
 	const token = ref<string | null>(null);
@@ -26,9 +26,7 @@ export const useProfileStore = defineStore('profile', () => {
 		tokenScopes.value = newTokenScopes ?? LocalStorage.getObject<string[]>(LocalStorageItem.TokenScopes) ?? [];
 	}
 
-	function isUserLogged() {
-		return token.value !== null;
-	}
+	const isUserLogged = computed(() => token.value !== null);
 
 	function isAdmin() {
 		return indirectGroups.value?.includes('admin') || groups.value?.includes('root');

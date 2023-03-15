@@ -12,7 +12,7 @@ const { isUserLogged, updateToken, updateTokenScopes, isAdmin } = profileStore;
 const router = useRouter();
 
 const logout = async () => {
-	if (isUserLogged()) {
+	if (isUserLogged) {
 		await authProfileApi.logout();
 		LocalStorage.delete(LocalStorageItem.Token);
 		LocalStorage.delete(LocalStorageItem.TokenScopes);
@@ -22,7 +22,7 @@ const logout = async () => {
 
 const toolbarMenu = computed<ToolbarMenuItem[]>(() => {
 	const arr: ToolbarMenuItem[] = [];
-	if (isUserLogged()) {
+	if (isUserLogged) {
 		arr.push({
 			name: 'Выход',
 			onClick: logout,
@@ -44,10 +44,10 @@ onMounted(async () => {
 		updateToken(history.state.token);
 		delete history.state.token;
 	}
-	if (isUserLogged() && (!profileStore.tokenScopes || !profileStore.indirectGroups || !profileStore.groups)) {
+	if (!profileStore.tokenScopes || !profileStore.indirectGroups || !profileStore.groups) {
 		const { data } = await authProfileApi.getMe<
 			MeInfo.TokenScopes | MeInfo.IndirectGroups | MeInfo.Groups | MeInfo.UserScopes
-		>(MeInfo.TokenScopes, MeInfo.IndirectGroups, MeInfo.Groups, MeInfo.UserScopes);
+		>([MeInfo.TokenScopes, MeInfo.IndirectGroups, MeInfo.Groups, MeInfo.UserScopes]);
 		console.log('groups', data.groups);
 		profileStore.indirectGroups = data.indirect_groups.map(g => g.name);
 		profileStore.groups = data.groups.map(g => g.name);

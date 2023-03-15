@@ -2,11 +2,11 @@
 import { authGroupApi } from '@/api/auth';
 import { useAuthStore, useProfileStore } from '@/store';
 import { IrdomPopover, MaterialIcon } from '@/components/lib';
-import { AuthGroup } from '@/store/auth';
+import { StoreGroup } from '@/store/auth';
 import { ref, nextTick } from 'vue';
 import { scopename } from '@/models';
 
-const props = withDefaults(defineProps<{ node: AuthGroup | null; indentSize?: number }>(), {
+const props = withDefaults(defineProps<{ node: StoreGroup | null; indentSize?: number }>(), {
 	indentSize: 32,
 });
 
@@ -22,7 +22,7 @@ const createGroup = async (e: Event) => {
 		const parentId = props.node.id;
 		const group = authStore.groups.get(parentId);
 
-		if (isUserLogged() && group) {
+		if (isUserLogged && group) {
 			const { data } = await authGroupApi.createGroup({ name, parent_id: group.id, scopes: [] });
 			authStore.setGroup(data);
 
@@ -77,34 +77,38 @@ const toggleHandler = () => {
 		ref="details"
 	>
 		<summary :class="['summary', { nomarker: node.children.size === 0 }]">
-			<RouterLink :to="`/admin/group/${node.id}`" class="link">
-				{{ node.name }}
-			</RouterLink>
+			<div class="summary-wrapper">
+				<RouterLink :to="`/admin/group/${node.id}`" class="link">
+					{{ node.name }}
+				</RouterLink>
 
-			<IrdomPopover
-				style="font-size: 12px"
-				v-id="hasTokenAccess(scopename.auth.group.create) || hasTokenAccess(scopename.auth.group.delete)"
-			>
-				<template #expander>
-					<MaterialIcon name="more_horiz" />
-				</template>
+				<IrdomPopover
+					style="font-size: 12px"
+					v-id="hasTokenAccess(scopename.auth.group.create) || hasTokenAccess(scopename.auth.group.delete)"
+				>
+					<template #expander>
+						<MaterialIcon name="more_horiz" />
+					</template>
 
-				<ul>
-					<li>
-						<button
-							type="button"
-							v-if="hasTokenAccess(scopename.auth.group.create)"
-							@click="showFormHandler"
-							class="menu-button"
-						>
-							Добавить группу
-						</button>
-					</li>
-					<li v-if="node.parent_id && hasTokenAccess(scopename.auth.group.delete)">
-						<button type="button" @click="deleteGroup(node?.id)" class="menu-button delete">Удалить</button>
-					</li>
-				</ul>
-			</IrdomPopover>
+					<ul>
+						<li>
+							<button
+								type="button"
+								v-if="hasTokenAccess(scopename.auth.group.create)"
+								@click="showFormHandler"
+								class="menu-button"
+							>
+								Добавить группу
+							</button>
+						</li>
+						<li v-if="node.parent_id && hasTokenAccess(scopename.auth.group.delete)">
+							<button type="button" @click="deleteGroup(node?.id)" class="menu-button delete">
+								Удалить
+							</button>
+						</li>
+					</ul>
+				</IrdomPopover>
+			</div>
 		</summary>
 
 		<template v-if="open">
@@ -150,7 +154,11 @@ const toggleHandler = () => {
 
 .summary {
 	padding: 8px 16px;
-	display: flex;
+	gap: 16px;
+}
+
+.summary-wrapper {
+	display: inline-flex;
 	align-items: center;
 	gap: 16px;
 }
