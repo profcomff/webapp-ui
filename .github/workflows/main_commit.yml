@@ -1,6 +1,12 @@
 name: Тесты и раскатка в тестовую среду
 
-on: pull_request
+on:
+  push:
+    branches: ["main"]
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
 
 jobs:
   test:
@@ -10,10 +16,14 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      - name: Set Node.js
-        uses: actions/setup-node@v3
+      - uses: pnpm/action-setup@v2
         with:
-          node-version: 18.x
+          version: 7.26.3
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: "18"
+          cache: "pnpm"
 
       - name: Install
         run: pnpm install
@@ -24,17 +34,18 @@ jobs:
   test-format:
     name: Выполняем тесты
     runs-on: ubuntu-latest
-    needs:
-      - test
-      - test-format
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      - name: Set Node.js
-        uses: actions/setup-node@v3
+      - uses: pnpm/action-setup@v2
         with:
-          node-version: 18.x
+          version: 7.26.3
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: "18"
+          cache: "pnpm"
 
       - name: Install
         run: pnpm install
@@ -45,6 +56,9 @@ jobs:
   build-and-push-image:
     name: Собираем тестовый Docker
     runs-on: ubuntu-latest
+    needs:
+      - test
+      - test-format
     permissions:
       contents: read
       packages: write
@@ -87,6 +101,8 @@ jobs:
     environment:
       name: Testing
       url: https://app.test.profcomff.com/
+    env:
+      CONTAITER_NAME: com_profcomff_app
     permissions:
       packages: read
     steps:
