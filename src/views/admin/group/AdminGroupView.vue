@@ -18,9 +18,7 @@ const group = computed(() => authStore.groups.get(groupId.value));
 
 onMounted(async () => {
 	if (!group.value) {
-		const { data } = await authGroupApi.getGroup<GroupInfo.Scopes>(+route.params.id, {
-			info: [GroupInfo.Scopes],
-		});
+		const { data } = await authGroupApi.getGroup<GroupInfo.Scopes>(+route.params.id, [GroupInfo.Scopes]);
 		authStore.setGroup(data);
 	}
 

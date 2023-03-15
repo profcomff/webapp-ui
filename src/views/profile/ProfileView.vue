@@ -47,9 +47,7 @@ onMounted(async () => {
 	if (isUserLogged() && (!profileStore.tokenScopes || !profileStore.indirectGroups || !profileStore.groups)) {
 		const { data } = await authProfileApi.getMe<
 			MeInfo.TokenScopes | MeInfo.IndirectGroups | MeInfo.Groups | MeInfo.UserScopes
-		>({
-			info: [MeInfo.TokenScopes, MeInfo.IndirectGroups, MeInfo.Groups, MeInfo.UserScopes],
-		});
+		>(MeInfo.TokenScopes, MeInfo.IndirectGroups, MeInfo.Groups, MeInfo.UserScopes);
 		console.log('groups', data.groups);
 		profileStore.indirectGroups = data.indirect_groups.map(g => g.name);
 		profileStore.groups = data.groups.map(g => g.name);

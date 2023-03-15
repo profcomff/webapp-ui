@@ -14,10 +14,6 @@ export enum GroupInfo {
 	Users = 'users',
 }
 
-interface GetGroupParams {
-	info: Array<GroupInfo>;
-}
-
 type GetGroupResponse<Info extends GroupInfo> = Group & {
 	[GroupInfo.Scopes]: GroupInfo.Scopes extends Info ? Scope[] : never;
 	[GroupInfo.IndirectScopes]: GroupInfo.IndirectScopes extends Info ? Scope[] : never;
@@ -30,8 +26,8 @@ class AuthGroupApi extends AuthBaseApi {
 		super('/group');
 	}
 
-	public async getGroup<Info extends GroupInfo = never>(id: number, params?: GetGroupParams) {
-		return this.get<GetGroupResponse<Info>, GetGroupParams>(`/${id}`, params);
+	public async getGroup<Info extends GroupInfo = never>(id: number, info?: Info[]) {
+		return this.get<GetGroupResponse<Info>, { info?: Info[] }>(`/${id}`, { info });
 	}
 
 	public async deleteGroup(id: number) {
@@ -42,8 +38,8 @@ class AuthGroupApi extends AuthBaseApi {
 		return this.patch<Group, Partial<CreateGroupBody>>(`/${id}`, body);
 	}
 
-	public async getGroups<Info extends GroupInfo>(params?: GetGroupParams) {
-		return this.get<{ items: GetGroupResponse<Info>[] }, GetGroupParams>('', params);
+	public async getGroups<Info extends GroupInfo>(...info: Info[]) {
+		return this.get<{ items: GetGroupResponse<Info>[] }, { info: Info[] }>('', { info });
 	}
 
 	public async createGroup(body: CreateGroupBody) {

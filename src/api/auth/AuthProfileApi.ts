@@ -13,16 +13,12 @@ export enum MeInfo {
 	UserScopes = 'user_scopes',
 }
 
-interface GetMeParams {
-	info: Array<MeInfo>;
-}
-
 class AuthProfileApi extends AuthBaseApi {
 	constructor() {
 		super();
 	}
 
-	public async getMe<Info extends MeInfo = never>(params: GetMeParams) {
+	public async getMe<Info extends MeInfo = never>(...info: Info[]) {
 		return this.get<
 			GetMeResponse & {
 				[MeInfo.Groups]: MeInfo.Groups extends Info ? Group[] : never;
@@ -30,8 +26,8 @@ class AuthProfileApi extends AuthBaseApi {
 				[MeInfo.TokenScopes]: MeInfo.TokenScopes extends Info ? Scope[] : never;
 				[MeInfo.UserScopes]: MeInfo.UserScopes extends Info ? Scope[] : never;
 			},
-			GetMeParams
-		>('/me', params);
+			{ info: Info[] }
+		>('/me', { info });
 	}
 
 	public async logout() {

@@ -87,3 +87,8 @@ export interface Scope {
 	name: string;
 	comment: string;
 }
+
+export interface User {
+	id: number;
+	email: string;
+}

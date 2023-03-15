@@ -13,7 +13,7 @@ const { hasTokenAccess, isUserLogged } = useProfileStore();
 const hasAccess = computed(() => hasTokenAccess(scopename.auth.scope.read));
 
 onMounted(async () => {
-	if (hasAccess.value && authStore.scopes.size === 0) {
+	if (hasAccess.value) {
 		const scopes = await authScopeApi.getScopes().then(res => res.data);
 		for (const scope of scopes) {
 			authStore.scopes.set(scope.id, scope);
