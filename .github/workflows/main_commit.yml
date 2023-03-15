@@ -101,7 +101,7 @@ jobs:
       name: Testing
       url: https://app.test.profcomff.com/
     env:
-      CONTAITER_NAME: com_profcomff_app
+      CONTAITER_NAME: com_profcomff_app_test
     permissions:
       packages: read
     steps:
