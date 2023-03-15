@@ -8,5 +8,3 @@ import { IrdomLayout } from '@/components';
 		<RouterLink to="/timetable" class="link">Вернуться на главную</RouterLink>
 	</IrdomLayout>
 </template>
-
-<style scoped></style>

@@ -42,6 +42,7 @@ const tomorrow = computed(() => getDateWithDayOffset(props.date, 1));
 	top: 0;
 	background: white;
 }
+
 .wrapper {
 	display: flex;
 	align-items: center;

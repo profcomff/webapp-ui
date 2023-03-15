@@ -58,7 +58,7 @@ const back = history.state.back?.startsWith('/timetable/event') ? history.state.
 	content: '';
 	position: absolute;
 	inset: 0;
-	opacity: 40%;
+	opacity: 0.4;
 	background: var(--color-primary-dark);
 	z-index: 1;
 }

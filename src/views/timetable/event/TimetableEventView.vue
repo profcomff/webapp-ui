@@ -15,5 +15,3 @@ const back =
 		</Suspense>
 	</IrdomLayout>
 </template>
-
-<style scoped></style>

@@ -1,12 +1,19 @@
 import { defineConfig } from 'vite';
 import { fileURLToPath, URL } from 'url';
 import { VitePWA } from 'vite-plugin-pwa';
-import vue from '@vitejs/plugin-vue';
+import Stylelint from 'vite-plugin-stylelint';
+import Eslint from 'vite-plugin-eslint';
+import Vue from '@vitejs/plugin-vue';
+import path from 'path';
 
 // https://vitejs.dev/config/
 export default defineConfig({
 	plugins: [
-		vue(),
+		Vue(),
+		Eslint(),
+		Stylelint({
+			files: [path.resolve(__dirname, 'src/**/*.{vue,css}')],
+		}),
 		VitePWA({
 			workbox: {
 				runtimeCaching: [

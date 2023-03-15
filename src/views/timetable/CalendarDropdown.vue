@@ -47,7 +47,7 @@ const textClickHandler = (e: MouseEvent) => {
 			{{ `Группа ${group?.number ?? ''}` }}
 		</span>
 
-		<MaterialIcon name="expand_more" class="expanderIcon" />
+		<MaterialIcon name="expand_more" class="expander-icon" />
 	</button>
 	<div v-show="show" class="dropdown" id="calendar" ref="calendar" @click="$event.stopImmediatePropagation()">
 		<IrdomCalendar :date="date" />
@@ -67,7 +67,7 @@ const textClickHandler = (e: MouseEvent) => {
 	justify-items: start;
 }
 
-.expanderIcon {
+.expander-icon {
 	grid-area: icon;
 	font-size: 24px;
 	display: flex;
@@ -93,8 +93,7 @@ const textClickHandler = (e: MouseEvent) => {
 	right: 0;
 	background: var(--color-primary-dark);
 	z-index: 10;
-	box-shadow: 0 2px 4px rgba(0, 0, 0, 50%);
-
+	box-shadow: 0 2px 4px rgb(0 0 0 / 50%);
 	display: flex;
 	justify-content: center;
 	padding-bottom: 24px;

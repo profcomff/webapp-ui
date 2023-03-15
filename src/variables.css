@@ -1,7 +1,6 @@
 :root {
 	--color-primary-dark: #00004b;
 	--color-accent: #ff8b00;
-
 	--toolbar-height: 56px;
-	--navbar-height:var(--toolbar-height);
+	--navbar-height: var(--toolbar-height);
 }

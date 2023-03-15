@@ -73,12 +73,11 @@ const changeMonthHandler = (offset: number) => {
 	display: grid;
 	grid-template-columns: repeat(7, 1fr);
 	justify-items: center;
-
 	gap: 8px;
 }
 
 .weekday {
-	opacity: 70%;
+	opacity: 0.7;
 }
 
 .day {

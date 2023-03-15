@@ -51,7 +51,7 @@ defineProps<{
 	position: relative;
 }
 
-.navbar-link:after {
+.navbar-link::after {
 	content: '';
 	position: absolute;
 	inset: 0;

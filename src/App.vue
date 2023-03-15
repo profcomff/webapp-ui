@@ -33,4 +33,3 @@ onMounted(() => {
 	<RouterView />
 	<IrdomNavbar :items="navbarItems" />
 </template>
-<style scoped></style>

@@ -4,7 +4,7 @@ import { useAuthStore, useProfileStore } from '@/store';
 import ScopesTable from '../ScopesTable.vue';
 import { onMounted, computed } from 'vue';
 import { useRoute } from 'vue-router';
-import { IrdomLayout } from '@/components';
+import { AccessAllowed, IrdomLayout } from '@/components';
 import { MaterialIcon } from '@/components/lib';
 import { scopename } from '@/models';
 
@@ -57,7 +57,7 @@ const addScope = async (e: Event) => {
 
 <template>
 	<IrdomLayout backable :back="back">
-		<template v-if="hasTokenAccess(scopename.auth.scope.read)">
+		<AccessAllowed :scope="scopename.auth.scope.read">
 			<ScopesTable
 				:scopes="group?.scopes.values() ?? []"
 				style="margin-left: 16px; width: calc(100% - 16px)"
@@ -83,11 +83,11 @@ const addScope = async (e: Event) => {
 					<MaterialIcon name="done" />
 				</button>
 			</form>
-		</template>
-		<h1 v-else>403 Forbidden</h1>
+		</AccessAllowed>
 	</IrdomLayout>
 </template>
-<style>
+
+<style scoped>
 .form {
 	display: flex;
 	gap: 16px;

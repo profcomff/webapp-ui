@@ -46,6 +46,7 @@ button:not(:disabled) {
 	width: min(900px, 100%);
 	margin: 0 auto;
 }
+
 .noselect,
 summary {
 	-webkit-touch-callout: none; /* iOS Safari */

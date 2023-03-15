@@ -11,5 +11,3 @@ console.log(history.state.back);
 		<RouterLink to="/timetable" class="link">Вернуться на главную</RouterLink>
 	</IrdomLayout>
 </template>
-
-<style scoped></style>

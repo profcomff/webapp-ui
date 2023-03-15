@@ -42,12 +42,15 @@ const sorted = computed(() => [...props.scopes].sort((a, b) => (a.name > b.name 
 	grid-template-columns: 20px 1fr 1fr auto;
 	gap: 16px;
 }
+
 .row:nth-child(even) {
-	background: rgba(0, 0, 0, 8%);
+	background: rgb(0 0 0 / 8%);
 }
+
 .row th {
 	text-align: start;
 }
+
 .table {
 	margin-bottom: 8px;
 }

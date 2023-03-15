@@ -59,4 +59,3 @@ watch(date, () => {
 		</Suspense>
 	</IrdomLayout>
 </template>
-<style scoped></style>

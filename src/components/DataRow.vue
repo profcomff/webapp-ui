@@ -36,7 +36,6 @@ defineProps<Props>();
 	gap: 16px;
 	align-items: center;
 	position: relative;
-
 	transition: background 0.3s;
 }
 
@@ -78,16 +77,16 @@ defineProps<Props>();
 	font-weight: normal;
 }
 
-.info:empty {
-	display: none;
-}
-
 .title,
 .info {
 	white-space: nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis;
 	text-align: start;
+}
+
+.info:empty {
+	display: none;
 }
 
 .title-link:focus-visible {

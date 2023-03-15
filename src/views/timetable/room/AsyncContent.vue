@@ -35,5 +35,3 @@ const title = computed(() => {
 		<MaterialIcon name="explore" />
 	</DataRow>
 </template>
-
-<style scoped></style>

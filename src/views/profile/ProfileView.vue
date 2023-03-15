@@ -106,6 +106,7 @@ onMounted(async () => {
 .li {
 	list-style-position: inside;
 }
+
 .li::marker {
 	content: '- ';
 }

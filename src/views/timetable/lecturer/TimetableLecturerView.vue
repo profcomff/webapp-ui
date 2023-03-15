@@ -12,5 +12,3 @@ const back = history.state.back?.startsWith('/timetable/event') ? history.state.
 		</Suspense>
 	</IrdomLayout>
 </template>
-
-<style scoped></style>

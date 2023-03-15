@@ -12,8 +12,12 @@ const clickHandler = async () => {
 
 <template>
 	<IrdomLayout title="Вход" backabble back="/profile">
-		<button type="button" @click="clickHandler">Войти с почтой @physics.msu.ru</button>
+		<button type="button" @click="clickHandler" class="link">Войти с почтой @physics.msu.ru</button>
 	</IrdomLayout>
 </template>
 
-<style scoped></style>
+<style scoped>
+.link {
+	align-self: start;
+}
+</style>

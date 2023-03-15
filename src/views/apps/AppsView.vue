@@ -12,5 +12,3 @@ import AsyncContent from './AsyncContent.vue';
 		</Suspense>
 	</IrdomLayout>
 </template>
-
-<style scoped></style>
