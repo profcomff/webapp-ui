@@ -1,6 +1,8 @@
 name: Тесты и раскатка в тестовую среду
 
-on: pull_request
+on:
+  push:
+    branches: ["main"]
 
 env:
   REGISTRY: ghcr.io
@@ -20,8 +22,8 @@ jobs:
 
       - uses: actions/setup-node@v3
         with:
-          node-version: '18'
-          cache: 'pnpm'
+          node-version: "18"
+          cache: "pnpm"
 
       - name: Install
         run: pnpm install
@@ -42,8 +44,8 @@ jobs:
 
       - uses: actions/setup-node@v3
         with:
-          node-version: '18'
-          cache: 'pnpm'
+          node-version: "18"
+          cache: "pnpm"
 
       - name: Install
         run: pnpm install
