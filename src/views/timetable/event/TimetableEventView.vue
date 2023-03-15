@@ -7,7 +7,7 @@ const back =
 </script>
 
 <template>
-	<IrdomLayout backable :back="back" share>
+	<IrdomLayout backable :back="back" share title="Событие">
 		<Suspense>
 			<AsyncContent :id="+$route.params.id" />
 

@@ -81,11 +81,11 @@ const changeMonthHandler = (offset: number) => {
 }
 
 .day {
-	padding: 8px;
+	width: 32px;
+	height: 32px;
 	text-decoration: none;
 	color: inherit;
 	border-radius: 999px;
-	aspect-ratio: 1;
 	font-size: 14px;
 	display: flex;
 	justify-content: center;

@@ -187,6 +187,7 @@ export default defineConfig({
 				background_color: '#00004b',
 				lang: 'ru',
 			},
+			registerType: 'autoUpdate',
 		}),
 	],
 	resolve: {

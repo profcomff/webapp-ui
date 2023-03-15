@@ -48,10 +48,6 @@ defineProps<Props>();
 	cursor: pointer;
 }
 
-.clickable:is(:hover, :active) {
-	background: lightgray;
-}
-
 .slot {
 	display: flex;
 	flex-direction: column;

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import { IrdomPopover, MaterialIcon } from '../lib';
 import { ToolbarAction, ToolbarActionButton, ToolbarActionLink, ToolbarMenuItem } from './types';
 
@@ -13,8 +13,9 @@ interface Props {
 }
 
 const route = useRoute();
+const router = useRouter();
 
-withDefaults(defineProps<Props>(), {
+const props = withDefaults(defineProps<Props>(), {
 	menuItems: () => [],
 	title: 'Твой ФФ!',
 	actions: () => [],
@@ -22,12 +23,19 @@ withDefaults(defineProps<Props>(), {
 	backable: false,
 });
 
+const data = {
+	url: route.fullPath,
+};
+const canShare = navigator.canShare && navigator.canShare(data);
 const shareHandler = () => {
-	const data = {
-		url: route.fullPath,
-	};
-	if (navigator.canShare(data)) {
-		navigator.share(data);
+	navigator.share(data);
+};
+
+const onBack = () => {
+	if (props.back) {
+		router.push(props.back);
+	} else {
+		router.back();
 	}
 };
 </script>
@@ -36,15 +44,10 @@ const shareHandler = () => {
 	<header class="toolbar">
 		<div class="container wrapper">
 			<div class="meta" v-if="title || back">
-				<RouterLink v-if="backable && back" :to="back" aria-label="Назад">
-					<MaterialIcon name="arrow_back" />
-				</RouterLink>
-
-				<button type="button" v-else-if="backable" @click="$router.back()" aria-label="Назад">
-					<MaterialIcon name="arrow_back" />
+				<button type="button" @click="onBack" aria-label="Назад" :disabled="!backable" class="title-button">
+					<MaterialIcon name="arrow_back" v-if="backable" />
+					<h1 class="noselect title">{{ title }}</h1>
 				</button>
-
-				<h1 class="noselect title">{{ title }}</h1>
 			</div>
 
 			<div>
@@ -74,7 +77,13 @@ const shareHandler = () => {
 							<MaterialIcon :name="action.icon" />
 						</button>
 					</template>
-					<button type="button" @click="shareHandler" class="button" aria-label="Поделиться" v-if="share">
+					<button
+						type="button"
+						@click="shareHandler"
+						class="button"
+						aria-label="Поделиться"
+						v-if="share && canShare"
+					>
 						<MaterialIcon name="share" />
 					</button>
 				</div>
@@ -120,6 +129,13 @@ const shareHandler = () => {
 	max-width: 100%;
 	overflow: hidden;
 	text-overflow: ellipsis;
+	line-height: 24px;
+}
+
+.title-button {
+	display: flex;
+	align-content: center;
+	gap: 8px;
 }
 
 .button {
