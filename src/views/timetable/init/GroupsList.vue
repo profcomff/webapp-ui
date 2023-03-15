@@ -57,7 +57,11 @@ const sorted = computed(() =>
 	<section v-for="course in Object.keys(sorted)" :key="course" class="section" v-show="sorted[course].length">
 		<h3 class="h3">{{ `${course} курс` }}</h3>
 		<ul class="ul">
-			<li class="li" v-for="group of sorted[course]" :key="group.id">
+			<li
+				class="li"
+				v-for="group of sorted[course].sort((a, b) => parseInt(a.number) - parseInt(b.number))"
+				:key="group.id"
+			>
 				<button type="button" class="label" @click="setGroup(group)">{{ group.number }}</button>
 			</li>
 		</ul>

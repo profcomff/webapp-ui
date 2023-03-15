@@ -109,6 +109,6 @@ const changeMonthHandler = (offset: number) => {
 }
 
 .today:not(:focus-visible) {
-	outline: 2px solid white;
+	border: 2px solid white;
 }
 </style>
