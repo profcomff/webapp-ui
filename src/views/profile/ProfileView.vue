@@ -8,7 +8,7 @@ import { useRouter } from 'vue-router';
 import Placeholder from '@/assets/profile_image_placeholder.webp';
 
 const profileStore = useProfileStore();
-const { isUserLogged, updateToken, updateTokenScopes, isAdmin } = profileStore;
+const { isUserLogged, updateToken, updateTokenScopes } = profileStore;
 const router = useRouter();
 
 const logout = async () => {
@@ -29,7 +29,7 @@ const toolbarMenu = computed<ToolbarMenuItem[]>(() => {
 		});
 	}
 
-	if (isAdmin()) {
+	if (profileStore.isAdmin) {
 		arr.push({
 			name: 'Админка',
 			onClick: () => router.push('/admin'),

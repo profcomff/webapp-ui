@@ -35,6 +35,10 @@ const routes: Array<RouteRecordRaw> = [
 		component: () => import('../views/profile/ProfileView.vue'),
 	},
 	{
+		path: '/user/:id(\\d+)',
+		component: () => import('../views/user/UserView.vue'),
+	},
+	{
 		path: '/forbidden',
 		component: () => import('../views/ViewError403.vue'),
 	},

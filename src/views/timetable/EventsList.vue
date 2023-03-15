@@ -22,8 +22,10 @@ const fetchEvents = async () => {
 	const key = stringifyDate(props.date);
 
 	if (timetableStore.days.has(key)) {
+		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 		for (const id of timetableStore.days.get(key)!) {
 			if (timetableStore.events.has(id)) {
+				// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 				events.value.push(timetableStore.events.get(id)!);
 			}
 		}

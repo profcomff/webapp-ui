@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useProfileStore } from '@/store';
 
 export const scoped = (scopeName: string, method: (...args: any[]) => any) => {

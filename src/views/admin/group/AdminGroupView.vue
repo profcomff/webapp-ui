@@ -32,6 +32,7 @@ const deleteScope = async (scopeId: number) => {
 		const ids = [...group.value.scopes.keys()].filter(id => id !== scopeId);
 
 		await authGroupApi.patchGroup(group.value.id, { scopes: ids });
+		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 		authStore.groups.get(groupId.value)!.scopes.delete(scopeId);
 	}
 };
@@ -41,6 +42,7 @@ const addScope = async (e: Event) => {
 		const form = e.target as HTMLFormElement;
 		const formData = new FormData(form);
 
+		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 		const scopeId = +formData.get('id')!.toString();
 
 		if (isUserLogged && group.value && scopeId) {

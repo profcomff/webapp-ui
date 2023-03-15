@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { navbarApi } from '@/api/navbar';
+import { servicesApi } from '@/api/services';
 import { MaterialIcon } from '@/components/lib';
 import { useAppsStore } from '@/store';
 import { RouterLink } from 'vue-router';
@@ -8,31 +8,32 @@ const appsStore = useAppsStore();
 
 const categories =
 	appsStore.categories ??
-	(await navbarApi.getApps().then(({ data }) => {
+	(await servicesApi.getCategories().then(({ data }) => {
 		appsStore.categories = data;
 		return data;
 	}));
 </script>
 
 <template>
-	<section v-for="{ name, type, items } of categories" class="section" :key="name">
+	<section v-for="{ name, type, buttons } of categories" class="section" :key="name">
 		<h2 class="h2">
 			{{ name }}
 		</h2>
 
 		<div :class="{ grid3: type === 'grid3', list: type === 'list' }">
-			<div v-for="{ icon, path, text } of items" class="app" :key="text">
-				<img
+			<div v-for="{ icon, link, name, type } of buttons" class="app" :key="name">
+				<!-- <img
 					v-if="typeof icon === 'object'"
 					:src="icon.src"
 					:alt="text"
 					width="400"
 					height="400"
 					class="icon"
-				/>
-				<MaterialIcon v-else-if="typeof icon === 'string'" :name="icon" class="icon" />
-				<a v-if="path.startsWith('http')" :href="path" class="app-link">{{ text }}</a>
-				<RouterLink v-else :to="path" class="app-link">{{ text }}</RouterLink>
+				/> -->
+				<!-- <MaterialIcon v-else-if="typeof icon === 'string'" :name="icon" class="icon" /> -->
+				<MaterialIcon :name="icon" />
+				<a v-if="type === 'external'" :href="link" class="app-link">{{ name }}</a>
+				<RouterLink v-else :to="link" class="app-link">{{ name }}</RouterLink>
 			</div>
 		</div>
 	</section>

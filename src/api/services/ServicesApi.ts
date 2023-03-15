@@ -7,11 +7,11 @@ type GetButtonsResponse = Category & {
 
 class ServicesApi extends BaseApi {
 	constructor() {
-		super(import.meta.env.VITE_APP_API_SERVICES);
+		super('/services');
 	}
 
 	public async getCategories(params?: { offset?: number; limit?: number }) {
-		return this.get<Category[], { offset?: number; limit?: number }>('', params);
+		return this.get<Category[], { offset?: number; limit?: number }>('/category', params);
 	}
 
 	public getButtons(categoryId: number) {

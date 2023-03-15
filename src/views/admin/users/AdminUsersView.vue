@@ -22,5 +22,3 @@ const back = history.state.back?.startsWith('/admin') ? history.state.back : '/a
 		</AccessAllowed>
 	</IrdomLayout>
 </template>
-
-<style scoped></style>

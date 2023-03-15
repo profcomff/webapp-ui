@@ -38,6 +38,7 @@ export const authHandler: NavigationGuard = async to => {
 
 			return { path: '/profile', state: { token } };
 		} catch (e) {
+			// eslint-disable-next-line @typescript-eslint/no-explicit-any
 			const { response } = e as AxiosError<any>;
 
 			switch (response?.status) {

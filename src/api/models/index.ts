@@ -48,13 +48,6 @@ export interface Room {
 	direction: string;
 }
 
-export interface Category {
-	id: number;
-	order: number;
-	type: 'grid3' | 'list';
-	name: string;
-}
-
 export interface Button {
 	id: number;
 	order: number;
@@ -62,6 +55,14 @@ export interface Button {
 	name: string;
 	link: string;
 	type: 'internal' | 'external';
+}
+
+export interface Category {
+	id: number;
+	order: number;
+	type: 'grid3' | 'list';
+	name: string;
+	buttons: Button[];
 }
 
 export interface AppButton {

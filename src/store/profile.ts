@@ -28,9 +28,7 @@ export const useProfileStore = defineStore('profile', () => {
 
 	const isUserLogged = computed(() => token.value !== null);
 
-	function isAdmin() {
-		return indirectGroups.value?.includes('admin') || groups.value?.includes('root');
-	}
+	const isAdmin = computed(() => indirectGroups.value?.includes('admin') || groups.value?.includes('root'));
 
 	return {
 		token,
