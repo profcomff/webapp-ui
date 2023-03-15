@@ -46,7 +46,7 @@ export default defineConfig({
 						},
 					},
 					{
-						urlPattern: /^https:\/\/api\.(test\.)?profcomff.com\/.*/i,
+						urlPattern: /^https:\/\/api\.(test\.)?profcomff.com\/(?!auth).*/i,
 						handler: 'StaleWhileRevalidate',
 						options: {
 							cacheName: 'timetable-api-cache',

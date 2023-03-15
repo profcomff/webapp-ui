@@ -29,21 +29,6 @@
 			crossorigin="anonymous"
 		/>
 		<!-- Google fonts and icons -->
-
-		<script>
-			// фикс неправльных 100vh на мобилках из-за строки с url
-			const setHeight = event => {
-				document.querySelector('body').style.height = `${event.target.innerHeight}px`;
-			};
-
-			window.addEventListener('load', () => {
-				document.querySelector('body').style.height = `${window.innerHeight}px`;
-				window.addEventListener('resize', setHeight);
-			});
-			window.addEventListener('unload', () => {
-				window.removeEventListener('resize', setHeight);
-			});
-		</script>
 	</head>
 	<body>
 		<div id="app" style="display: contents"></div>

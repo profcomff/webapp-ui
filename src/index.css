@@ -15,6 +15,7 @@ body {
 	flex-direction: column;
 	overflow: hidden;
 	padding-bottom: var(--navbar-height);
+	padding-top: var(--toolbar-height);
 	height: 100vh;
 }
 

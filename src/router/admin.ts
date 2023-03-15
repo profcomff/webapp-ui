@@ -27,7 +27,7 @@ export const adminRoutes: Array<RouteRecordRaw> = [
 export const adminHandler: NavigationGuard = to => {
 	if (to.path.startsWith('/admin')) {
 		if (!LocalStorage.get(LocalStorageItem.Token)) {
-			return { path: '/auth' };
+			return { path: '/profile/auth' };
 		}
 	}
 };

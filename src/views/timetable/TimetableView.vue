@@ -13,13 +13,17 @@ const router = useRouter();
 const route = useRoute();
 const timetableStore = useTimetableStore();
 
-const toolbarActions: ToolbarActionLink[] = [
-	{
-		icon: 'today',
-		href: `/timetable/${stringifyDate(new Date())}`,
-		ariaLabel: 'Вернуться к сегодняшнему дню',
-	},
-];
+const toolbarActions = computed(() =>
+	(route.params.date as string) === stringifyDate(new Date())
+		? []
+		: [
+				{
+					icon: 'today',
+					href: `/timetable/${stringifyDate(new Date())}`,
+					ariaLabel: 'Вернуться к сегодняшнему дню',
+				},
+		  ],
+);
 
 const toolbarMenu: ToolbarMenuItem[] = [
 	{

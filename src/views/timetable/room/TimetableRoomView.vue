@@ -14,7 +14,7 @@ const back = history.state.back?.startsWith('/timetable/event') ? history.state.
 			<template #fallback> Загрузка... </template>
 		</Suspense>
 
-		<h3 class="h3">Карта Этажа</h3>
+		<h3 class="h3">Карта этажа</h3>
 
 		<RouterLink to="/apps/browser#https://cdn.profcomff.com/app/map/" class="map">
 			<span class="text">

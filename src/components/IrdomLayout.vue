@@ -33,7 +33,7 @@ defineProps<{
 
 <style scoped>
 .main {
-	padding: 10px 8px;
+	padding: 16px;
 	display: flex;
 	flex-direction: column;
 	flex: 1;

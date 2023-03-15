@@ -23,7 +23,7 @@ const routes: Array<RouteRecordRaw> = [
 		children: timetableRoutes,
 	},
 	{
-		path: '/auth',
+		path: '/profile/auth',
 		children: authRoutes,
 	},
 	{
@@ -55,7 +55,7 @@ const router = createRouter({
 
 router.beforeEach(to => {
 	if (to.path === '/profile' && !LocalStorage.get(LocalStorageItem.Token)) {
-		return { path: '/auth' };
+		return { path: '/profile/auth' };
 	}
 });
 router.beforeEach(timetableHandler);
