@@ -55,8 +55,9 @@ const addScope = async (e: Event) => {
 </script>
 
 <template>
-	<IrdomLayout backable :back="back">
+	<IrdomLayout title="Группа" backable :back="back">
 		<AccessAllowed :scope="scopename.auth.scope.read" no-fallback>
+			<h2>{{ group?.name }}</h2>
 			<ScopesTable
 				:scopes="group?.scopes.values() ?? []"
 				style="margin-left: 16px; width: calc(100% - 16px)"

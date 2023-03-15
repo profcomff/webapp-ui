@@ -48,7 +48,7 @@ watch(date, () => {
 });
 </script>
 <template>
-	<IrdomLayout title="" :toolbar-actions="toolbarActions" :toolbar-menu="toolbarMenu">
+	<IrdomLayout title="" :toolbar-actions="toolbarActions" :toolbar-menu="toolbarMenu" style="padding-top: 0">
 		<template #toolbar>
 			<CalendarDropdown :date="date" />
 		</template>

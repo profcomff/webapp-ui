@@ -42,13 +42,14 @@ defineProps<{
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	justify-content: center;
+	justify-content: start;
 	text-decoration: none;
 	color: inherit;
-	border-bottom: 2px solid transparent;
+	border-bottom: 3px solid transparent;
 	font-size: 14px;
 	font-weight: normal;
 	position: relative;
+	padding-top: 8px;
 }
 
 .navbar-link::after {
@@ -60,6 +61,6 @@ defineProps<{
 
 .active {
 	color: var(--color-accent);
-	border-bottom: 2px solid var(--color-accent);
+	border-bottom: 3px solid var(--color-accent);
 }
 </style>

@@ -31,12 +31,13 @@ defineProps<Props>();
 	display: flex;
 	width: 100%;
 	border-radius: 16px;
-	padding: 12px 16px;
-	margin-bottom: 8px;
-	gap: 16px;
+	padding: 12px 20px;
+	margin-bottom: 16px;
+	gap: 20px;
 	align-items: center;
 	position: relative;
 	transition: background 0.3s;
+	height: 70px;
 }
 
 .row:last-child {

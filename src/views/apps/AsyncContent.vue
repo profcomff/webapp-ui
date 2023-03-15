@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { servicesApi } from '@/api/services';
 import { MaterialIcon } from '@/components/lib';
 import { useAppsStore } from '@/store';
 import { RouterLink } from 'vue-router';
@@ -8,10 +7,93 @@ const appsStore = useAppsStore();
 
 const categories =
 	appsStore.categories ??
-	(await servicesApi.getCategories().then(({ data }) => {
-		appsStore.categories = data;
-		return data;
-	}));
+	JSON.parse(`
+			[ 
+				{
+                    "name": "Полезное",
+                    "type": "grid3",
+                    "buttons": [
+                        {
+                            "icon": "https://cdn.profcomff.com/app/menu_icons/printer.svg",
+                            "name": "Бесплатный принтер",
+                            "link": "/apps/browser#https://printer.ui.profcomff.com"
+                        },
+                        {
+                            "icon": "https://cdn.profcomff.com/app/menu_icons/fifth_floor.svg",
+                            "name": "Схема этажей",
+                            "link": "/apps/browser#https://cdn.profcomff.com/app/map/"
+                        }
+                    ]
+                },
+                {
+                    "name": "Сервисы",
+                    "type": "grid3",
+                    "buttons": [
+                        {
+                            "icon": "https://cdn.profcomff.com/app/menu_icons/write_us.svg",
+                            "name": "Написать в профком",
+                            "link": "https://vk.me/profcomff"
+                        },
+                        {
+                            "icon": "https://cdn.profcomff.com/app/menu_icons/study_office.svg",
+                            "name": "Учебная часть",
+                            "link": "https://phys.msu.ru/rus/students/obshaja_infa.php#:~:name=%D0%98%D0%BD%D1%84%D0%BE%D1%80%D0%BC%D0%B0%D1%86%D0%B8%D1%8F%20%D1%83%D1%87%D0%B5%D0%B1%D0%BD%D0%BE%D0%B3%D0%BE%20%D0%BE%D1%82%D0%B4%D0%B5%D0%BB%D0%B0"
+                        },
+                        {
+                            "icon": "https://cdn.profcomff.com/app/menu_icons/courses.svg",
+                            "name": "МФК",
+                            "link": "https://lk.msu.ru/course"
+                        },
+                        {
+                            "icon": "https://cdn.profcomff.com/app/menu_icons/report.svg",
+                            "name": "Жалоба",
+                            "link": "/apps/browser#https://forms.yandex.ru/u/635d013b068ff0587320bfc9/"
+                        },
+                        {
+                            "icon": "https://cdn.profcomff.com/app/menu_icons/money_help.svg",
+                            "name": "Материальная помощь",
+                            "link": "https://vk.com/profcomff?w=page-24234717_51953473"
+                        },
+                        {
+                            "icon": "https://cdn.profcomff.com/app/menu_icons/join.svg",
+                            "name": "Вступить в профсоюз",
+                            "link": "https://lk.msuprof.com/"
+                        }
+                    ]
+                },
+                {
+                    "name": "Информация",
+                    "type": "list",
+                    "buttons": [
+                        {
+                            "icon": "install_mobile",
+                            "name": "Установить приложение",
+                            "link": "/apps/browser#https://pages.profcomff.com/installation"
+                        },
+                        {
+                            "icon": "feedback",
+                            "name": "Обратная связь",
+                            "link": "/apps/browser#https://forms.yandex.ru/u/630f979143537dde00621b0b"
+                        },
+                        {
+                            "icon": "info",
+                            "name": "О приложении",
+                            "link": "/apps/browser#https://pages.profcomff.com/about"
+                        }
+                    ]
+                }
+			]
+		`);
+// (await servicesApi.getCategories().then(async ({ data: categories }) => {
+// 	for (const category of categories) {
+// 		const {
+// 			data: { buttons },
+// 		} = await servicesApi.getButtons(category.id);
+// 		category.buttons = buttons;
+// 	}
+// 	appsStore.categories = categories;
+// 	return categories;
+// }));
 </script>
 
 <template>
@@ -21,18 +103,11 @@ const categories =
 		</h2>
 
 		<div :class="{ grid3: type === 'grid3', list: type === 'list' }">
-			<div v-for="{ icon, link, name, type } of buttons" class="app" :key="name">
-				<!-- <img
-					v-if="typeof icon === 'object'"
-					:src="icon.src"
-					:alt="text"
-					width="400"
-					height="400"
-					class="icon"
-				/> -->
-				<!-- <MaterialIcon v-else-if="typeof icon === 'string'" :name="icon" class="icon" /> -->
-				<MaterialIcon :name="icon" />
-				<a v-if="type === 'external'" :href="link" class="app-link">{{ name }}</a>
+			<div v-for="{ icon, link, name } of buttons" class="app" :key="name">
+				<img v-if="icon.startsWith('http')" :src="icon" :alt="name" width="400" height="400" class="icon" />
+				<MaterialIcon v-else :name="icon" class="icon" />
+
+				<a v-if="link.startsWith('http')" :href="link" class="app-link">{{ name }}</a>
 				<RouterLink v-else :to="link" class="app-link">{{ name }}</RouterLink>
 			</div>
 		</div>

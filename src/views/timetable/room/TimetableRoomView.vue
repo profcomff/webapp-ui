@@ -31,7 +31,7 @@ const back = history.state.back?.startsWith('/timetable/event') ? history.state.
 }
 
 .h3 {
-	margin-bottom: 10px;
+	margin-bottom: 16px;
 }
 
 .map {

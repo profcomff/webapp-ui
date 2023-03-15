@@ -10,7 +10,7 @@ const navbarItems: NavbarItem[] = [
 		path: '/timetable',
 	},
 	{
-		icon: 'apps',
+		icon: 'dashboard',
 		name: 'Сервисы',
 		path: '/apps',
 	},

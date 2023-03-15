@@ -1,5 +1,5 @@
 export enum LocalStorageItem {
-	StudyGroup = 'study-group',
+	StudyGroup = 'timetable-group',
 	LastTwoWeeksPreloadDate = 'last-two-week-preload-date',
 	Token = 'token',
 	TokenScopes = 'token-scopes',

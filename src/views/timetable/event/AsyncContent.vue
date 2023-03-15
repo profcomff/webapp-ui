@@ -33,10 +33,29 @@ const scheduleTitle = computed(() =>
 const scheduleInfo = computed(() =>
 	event ? `${formatTime(event.start_ts)} – ${formatTime(event.end_ts)}` : undefined,
 );
+
+interface TitleArgs {
+	first_name: string;
+	middle_name: string;
+	last_name: string;
+}
+const title = ({ first_name, middle_name, last_name }: TitleArgs) => {
+	if (first_name[1] === '.') {
+		return `${first_name} ${middle_name} ${last_name}`;
+	}
+	return `${first_name} ${middle_name}`;
+};
+
+const info = ({ first_name, last_name }: TitleArgs) => {
+	if (first_name[1] === '.') {
+		return '';
+	}
+	return last_name;
+};
 </script>
 
 <template>
-	<h2>{{ event?.name }}</h2>
+	<h2 class="h2">{{ event?.name }}</h2>
 
 	<DataRow title="Группа" :info="event?.group.number" class="row">
 		<MaterialIcon name="group" class="icon" />
@@ -59,9 +78,9 @@ const scheduleInfo = computed(() =>
 
 	<DataRow
 		v-for="{ id, first_name, middle_name, last_name } of event?.lecturer"
-		:title="`${first_name} ${middle_name}`"
+		:title="title({ first_name, last_name, middle_name })"
 		:href="`/timetable/lecturer/${id}`"
-		:info="last_name"
+		:info="info({ last_name, first_name, middle_name })"
 		class="row"
 		clickable
 		:key="id"
@@ -77,12 +96,15 @@ const scheduleInfo = computed(() =>
 
 .row {
 	font-size: 18px;
-	margin-bottom: 8px;
 	text-decoration: none;
 	color: inherit;
 }
 
 .row:last-child {
 	margin-bottom: 0;
+}
+
+.h2 {
+	margin-bottom: 16px;
 }
 </style>

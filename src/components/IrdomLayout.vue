@@ -26,7 +26,7 @@ defineProps<{
 
 	<slot name="body" />
 
-	<main class="container main" v-bind="$props">
+	<main class="container main" v-bind="$attrs">
 		<slot />
 	</main>
 </template>

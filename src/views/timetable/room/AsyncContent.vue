@@ -29,9 +29,28 @@ const title = computed(() => {
 </script>
 
 <template>
-	<h2>{{ room?.name }}</h2>
+	<h2 class="h2">{{ room?.name }}</h2>
 
-	<DataRow v-if="room?.direction" :title="title">
+	<DataRow v-if="room?.building" :title="room.building" class="row">
+		<MaterialIcon name="location_on" />
+	</DataRow>
+
+	<DataRow v-if="room?.direction" :title="title" class="row">
 		<MaterialIcon name="explore" />
 	</DataRow>
 </template>
+
+<style scoped>
+.h2 {
+	margin-bottom: 16px;
+}
+
+.row {
+	height: auto;
+	padding: 0;
+}
+
+.row:last-of-type {
+	margin-bottom: 32px;
+}
+</style>

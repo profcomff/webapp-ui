@@ -86,7 +86,6 @@ const formatEventInfo = ({ lecturer, room }: FormatEventInfoArgs) => {
 		:title="name"
 		:info="formatEventInfo({ lecturer, room })"
 		v-for="{ id, start_ts, end_ts, lecturer, name, room } of events"
-		class="row"
 		:href="`/timetable/event/${id}`"
 		clickable
 		:key="id"
@@ -108,9 +107,5 @@ const formatEventInfo = ({ lecturer, room }: FormatEventInfoArgs) => {
 	align-items: center;
 	justify-content: center;
 	flex: 1;
-}
-
-.row {
-	margin-bottom: 8px;
 }
 </style>

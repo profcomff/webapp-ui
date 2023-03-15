@@ -114,7 +114,7 @@ const onBack = () => {
 .wrapper {
 	display: flex;
 	justify-content: space-between;
-	padding: 0 8px;
+	padding: 0 16px;
 	height: 100%;
 }
 
