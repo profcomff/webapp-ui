@@ -103,7 +103,12 @@ const categories =
 		</h2>
 
 		<div :class="{ grid3: type === 'grid3', list: type === 'list' }">
-			<div v-for="{ icon, link, name } of buttons" class="app" :key="name">
+			<div
+				v-for="({ icon, link, name }, i) of buttons"
+				class="app"
+				:key="name"
+				:style="{ animationDelay: `${i * 0.2}s` }"
+			>
 				<img v-if="icon.startsWith('http')" :src="icon" :alt="name" width="400" height="400" class="icon" />
 				<MaterialIcon v-else :name="icon" class="icon" />
 
@@ -118,19 +123,15 @@ const categories =
 .grid3 {
 	display: grid;
 	grid-template-columns: repeat(3, 1fr);
-	gap: 16px;
+	gap: 32px;
 	justify-items: center;
+	align-self: center;
 }
 
 .grid3 .icon {
-	padding: 12px;
 	width: 100%;
-	max-width: 128px;
 	height: auto;
 	aspect-ratio: 1;
-	border: 1px solid gray;
-	border-radius: 25%;
-	box-shadow: 1px 1px #d3d3d3;
 	margin-bottom: 8px;
 	display: block;
 }
@@ -138,16 +139,30 @@ const categories =
 .app {
 	text-decoration: none;
 	position: relative;
-	font-weight: bold;
+	border-radius: 24px;
 }
 
 .grid3 .app {
-	max-width: 128px;
+	max-width: 144px;
+	background: white;
+	padding: 12px 16px;
 	display: block;
 	font-size: 14px;
-	line-height: 90%;
 	text-align: center;
 	overflow-wrap: anywhere;
+	box-shadow: 0 0 20px rgb(0 0 0 / 10%);
+	transition: all 0.3s ease;
+	animation: pulse;
+	animation-duration: 0.5s;
+}
+
+.app:nth-of-type(1) {
+	animation-duration: 1s;
+}
+
+:is(.grid3 .app):hover {
+	transform: translateY(-4px);
+	box-shadow: 0 0 24px rgb(0 0 / 12%);
 }
 
 .list .app {
@@ -160,7 +175,7 @@ const categories =
 	margin-bottom: 10px;
 }
 
-.app:last-child() {
+.app:last-child {
 	margin-bottom: 0;
 }
 

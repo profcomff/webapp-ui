@@ -49,7 +49,13 @@ const textClickHandler = (e: MouseEvent) => {
 
 		<MaterialIcon name="expand_more" class="expander-icon" />
 	</button>
-	<div v-show="show" class="dropdown" id="calendar" ref="calendar" @click="$event.stopImmediatePropagation()">
+	<div
+		:style="{ transform: `scaleY(${+show})` }"
+		class="dropdown"
+		id="calendar"
+		ref="calendar"
+		@click="$event.stopImmediatePropagation()"
+	>
 		<IrdomCalendar :date="date" />
 	</div>
 </template>
@@ -97,5 +103,8 @@ const textClickHandler = (e: MouseEvent) => {
 	display: flex;
 	justify-content: center;
 	padding-bottom: 24px;
+	transform: translateY(0);
+	transition: transform 0.3s ease;
+	transform-origin: top;
 }
 </style>
