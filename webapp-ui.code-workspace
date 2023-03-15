@@ -1,0 +1,69 @@
+{
+    "folders": [
+        {
+            "path": ".",
+        }
+    ],
+    "extensions": {
+        "recommendations": [
+            "Vue.volar",
+            "Vue.vscode-typescript-vue-plugin"
+        ]
+    },
+    "tasks": {
+        "version": "2.0.0",
+        "tasks": [
+            {
+                "label": "Configure",
+                "type": "shell",
+                "command": "pnpm init"
+            },
+            {
+                "label": "Run local",
+                "type": "shell",
+                "command": "pnpm dev",
+            },
+            {
+                "label": "Build",
+                "type": "shell",
+                "command": "pnpm build",
+                "group": {
+                    "kind": "build",
+                    "isDefault": true
+                }
+            },
+            {
+                "label": "Test",
+                "type": "shell",
+                "command": "pnpm test",
+                "group": {
+                    "kind": "test",
+                    "isDefault": true
+                }
+            },
+        ]
+    },
+    "launch": {
+        "version": "0.2.0",
+        "configurations": [
+            {
+                "name": "Launch dev",
+                "request": "launch",
+                "runtimeArgs": [
+                    "dev"
+                ],
+                "runtimeExecutable": "pnpm",
+                "skipFiles": [
+                    "<node_internals>/**"
+                ],
+                "type": "node",
+
+                "serverReadyAction": {
+                    "pattern": "Local:   http://localhost:([0-9]+)/",
+                    "uriFormat": "http://localhost:%s",
+                    "action": "openExternally"
+                  }
+            }
+        ]
+    }
+}
