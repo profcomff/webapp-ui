@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { timetableEventApi } from '@/api/timetable';
+import { TimetableApi } from '@/api';
 import { DataRow } from '@/components';
 import { MaterialIcon } from '@/components/lib';
 import { useTimetableStore } from '@/store';
@@ -10,28 +10,18 @@ const props = defineProps<{ id: number }>();
 
 const timetableStore = useTimetableStore();
 
-const event =
-	timetableStore.events.get(props.id) ??
-	(await timetableEventApi.getEvent(props.id).then(({ data }) => {
-		timetableStore.events.set(props.id, data);
+if (!timetableStore.events.has(props.id)) {
+	await TimetableApi.getEvent(props.id);
+}
 
-		for (const room of data.room) {
-			timetableStore.rooms.set(room.id, room);
-		}
-
-		for (const lecturer of data.lecturer) {
-			timetableStore.lecturers.set(lecturer.id, lecturer);
-		}
-
-		return data;
-	}));
+const event = computed(() => timetableStore.events.get(props.id));
 
 const scheduleTitle = computed(() =>
-	event ? new Date(event.start_ts).toLocaleString('ru-RU', { day: 'numeric', month: 'long' }) : '',
+	event.value ? new Date(event.value.start_ts).toLocaleString('ru-RU', { day: 'numeric', month: 'long' }) : '',
 );
 
 const scheduleInfo = computed(() =>
-	event ? `${formatTime(event.start_ts)} – ${formatTime(event.end_ts)}` : undefined,
+	event.value ? `${formatTime(event.value.start_ts)} – ${formatTime(event.value.end_ts)}` : '',
 );
 
 interface TitleArgs {
@@ -39,19 +29,42 @@ interface TitleArgs {
 	middle_name: string;
 	last_name: string;
 }
-const title = ({ first_name, middle_name, last_name }: TitleArgs) => {
+
+const lecturerTitle = ({ first_name, middle_name, last_name }: TitleArgs) => {
 	if (first_name[1] === '.') {
 		return `${first_name} ${middle_name} ${last_name}`;
 	}
 	return `${first_name} ${middle_name}`;
 };
 
-const info = ({ first_name, last_name }: TitleArgs) => {
+const lecturerInfo = ({ first_name, last_name }: TitleArgs) => {
 	if (first_name[1] === '.') {
 		return '';
 	}
 	return last_name;
 };
+
+interface Lecturer {
+	id: number;
+	title: string;
+	info: string;
+}
+
+const lecturers = computed(() => {
+	const arr: Lecturer[] = [];
+
+	if (event.value?.lecturer) {
+		for (const { id, first_name, middle_name, last_name } of event.value.lecturer) {
+			arr.push({
+				id,
+				title: lecturerTitle({ first_name, middle_name, last_name }),
+				info: lecturerInfo({ first_name, last_name, middle_name }),
+			});
+		}
+	}
+
+	return arr;
+});
 </script>
 
 <template>
@@ -77,10 +90,10 @@ const info = ({ first_name, last_name }: TitleArgs) => {
 	</DataRow>
 
 	<DataRow
-		v-for="{ id, first_name, middle_name, last_name } of event?.lecturer"
-		:title="title({ first_name, last_name, middle_name })"
+		v-for="{ id, info, title } of lecturers"
+		:title="title"
 		:href="`/timetable/lecturer/${id}`"
-		:info="info({ last_name, first_name, middle_name })"
+		:info="info"
 		class="row"
 		clickable
 		:key="id"

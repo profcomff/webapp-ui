@@ -9,7 +9,7 @@ type ModifyEventBody = Pick<Event, 'name' | 'start_ts' | 'end_ts'> & {
 	lecturer_id: number[];
 };
 
-interface GetEventsParams {
+export interface GetEventsParams {
 	start?: Date | string; // format: 2023-12-30
 	end?: Date | string; // format: 2023-12-31
 	group_id?: number;

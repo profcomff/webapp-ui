@@ -17,4 +17,9 @@ export const scopename = Object.freeze({
 			update: 'auth.user.update',
 		},
 	},
+	webapp: {
+		admin: {
+			show: 'webapp.admin.show',
+		},
+	},
 });

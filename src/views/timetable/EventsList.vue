@@ -1,64 +1,20 @@
 <script setup lang="ts">
-import { timetableEventApi } from '@/api/timetable';
-import { getDateWithDayOffset, getNameWithInitials, formatTime, stringifyDate } from '@/utils';
-import { Lecturer, Room, Event } from '@/api/models';
+import { getNameWithInitials, formatTime, stringifyDate } from '@/utils';
+import { Lecturer, Room } from '@/api/models';
 import { DataRow } from '@/components';
 import { useTimetableStore } from '@/store';
-import { ref } from 'vue';
+import { computed } from 'vue';
+import { TimetableApi } from '@/api';
 
 const props = defineProps<{ date: Date }>();
 
 const timetableStore = useTimetableStore();
-const group_id = timetableStore.group?.id;
 
-const events = ref<Event[]>([]);
+if (!timetableStore.days.has(stringifyDate(props.date))) {
+	await TimetableApi.getDayEvents(props.date);
+}
 
-const fetchEvents = async () => {
-	if (!group_id) {
-		events.value = [];
-		return;
-	}
-
-	const key = stringifyDate(props.date);
-
-	if (timetableStore.days.has(key)) {
-		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-		for (const id of timetableStore.days.get(key)!) {
-			if (timetableStore.events.has(id)) {
-				// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-				events.value.push(timetableStore.events.get(id)!);
-			}
-		}
-		return;
-	}
-
-	const { data } = await timetableEventApi.getEvents({
-		group_id,
-		start: props.date,
-		end: getDateWithDayOffset(props.date, 1),
-	});
-
-	for (const event of data.items) {
-		timetableStore.events.set(event.id, event);
-
-		for (const room of event.room) {
-			timetableStore.rooms.set(room.id, room);
-		}
-
-		for (const lecturer of event.lecturer) {
-			timetableStore.lecturers.set(lecturer.id, lecturer);
-		}
-	}
-
-	timetableStore.days.set(
-		key,
-		data.items.map(e => e.id),
-	);
-
-	events.value = data.items;
-};
-
-await fetchEvents();
+const events = computed(() => timetableStore.days.get(stringifyDate(props.date)));
 
 interface FormatEventInfoArgs {
 	lecturer?: Lecturer[];
@@ -94,7 +50,7 @@ const formatEventInfo = ({ lecturer, room }: FormatEventInfoArgs) => {
 		<span>{{ formatTime(end_ts) }}</span>
 	</DataRow>
 
-	<span v-if="events.length === 0" class="empty"> Свободный день! </span>
+	<span v-if="events?.length === 0" class="empty"> Свободный день! </span>
 </template>
 
 <style scoped>

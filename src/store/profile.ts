@@ -1,3 +1,4 @@
+import { scopename } from './../models/ScopeName';
 import { marketingApi } from '@/api/marketing';
 import { LocalStorage, LocalStorageItem } from '@/models';
 import { defineStore } from 'pinia';
@@ -8,8 +9,8 @@ export const useProfileStore = defineStore('profile', () => {
 	const tokenScopes = ref<string[]>([]);
 	const marketingId = ref<number | null>(null);
 
-	const groups = ref<string[] | null>(null);
-	const indirectGroups = ref<string[] | null>(null);
+	const groups = ref<number[] | null>(null);
+	const indirectGroups = ref<number[] | null>(null);
 	const userScopes = ref<string[] | null>(null);
 
 	function updateToken(newToken?: string) {
@@ -48,7 +49,7 @@ export const useProfileStore = defineStore('profile', () => {
 
 	const isUserLogged = computed(() => token.value !== null);
 
-	const isAdmin = computed(() => indirectGroups.value?.includes('admin') || groups.value?.includes('root'));
+	const isAdmin = computed(() => userScopes.value?.includes(scopename.webapp.admin.show));
 
 	return {
 		token,

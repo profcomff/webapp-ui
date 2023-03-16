@@ -40,8 +40,8 @@ onMounted(async () => {
 			MeInfo.TokenScopes | MeInfo.IndirectGroups | MeInfo.Groups | MeInfo.UserScopes
 		>([MeInfo.TokenScopes, MeInfo.IndirectGroups, MeInfo.Groups, MeInfo.UserScopes]);
 
-		profileStore.indirectGroups = data.indirect_groups.map(g => g.name);
-		profileStore.groups = data.groups.map(g => g.name);
+		profileStore.indirectGroups = data.indirect_groups;
+		profileStore.groups = data.groups;
 		profileStore.userScopes = data.user_scopes.map(s => s.name);
 
 		LocalStorage.set<string[]>(

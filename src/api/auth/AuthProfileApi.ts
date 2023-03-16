@@ -1,4 +1,4 @@
-import { Group, Scope } from '../models';
+import { Scope } from '../models';
 import { AuthBaseApi } from './AuthBaseApi';
 
 interface GetMeResponse {
@@ -21,8 +21,8 @@ class AuthProfileApi extends AuthBaseApi {
 	public async getMe<Info extends MeInfo = never>(info: Info[]) {
 		return this.get<
 			GetMeResponse & {
-				[MeInfo.Groups]: MeInfo.Groups extends Info ? Group[] : never;
-				[MeInfo.IndirectGroups]: MeInfo.IndirectGroups extends Info ? Group[] : never;
+				[MeInfo.Groups]: MeInfo.Groups extends Info ? number[] : never;
+				[MeInfo.IndirectGroups]: MeInfo.IndirectGroups extends Info ? number[] : never;
 				[MeInfo.TokenScopes]: MeInfo.TokenScopes extends Info ? Scope[] : never;
 				[MeInfo.UserScopes]: MeInfo.UserScopes extends Info ? Scope[] : never;
 			},

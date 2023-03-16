@@ -1,23 +1,22 @@
 <script setup lang="ts">
-import { timetableLecturerApi } from '@/api/timetable';
 import { useTimetableStore } from '@/store';
 import Placeholder from '@/assets/profile_image_placeholder.webp';
 import { computed } from 'vue';
+import { TimetableApi } from '@/api';
 
 const timetableStore = useTimetableStore();
 
 const props = defineProps<{ id: number }>();
 
-const lecturer =
-	timetableStore.lecturers.get(props.id) ??
-	(await timetableLecturerApi.getLecturer(props.id).then(({ data }) => {
-		timetableStore.lecturers.set(data.id, data);
-		return data;
-	}));
+if (!timetableStore.lecturers.has(props.id)) {
+	await TimetableApi.getLecturer(props.id);
+}
+
+const lecturer = computed(() => timetableStore.lecturers.get(props.id));
 
 const fullName = computed(() => {
-	if (lecturer) {
-		const { first_name, middle_name, last_name } = lecturer;
+	if (lecturer.value) {
+		const { first_name, middle_name, last_name } = lecturer.value;
 		return `${first_name} ${middle_name} ${last_name}`;
 	}
 	return undefined;

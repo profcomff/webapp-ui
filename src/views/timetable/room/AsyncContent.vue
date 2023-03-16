@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { timetableRoomApi } from '@/api/timetable';
+import { TimetableApi } from '@/api/controllers/TimetableApi';
 import { DataRow } from '@/components';
 import { MaterialIcon } from '@/components/lib';
 import { useTimetableStore } from '@/store';
@@ -9,15 +9,14 @@ const props = defineProps<{ id: number }>();
 
 const timetableStore = useTimetableStore();
 
-const room =
-	timetableStore.rooms.get(props.id) ??
-	(await timetableRoomApi.getRoom(props.id).then(({ data }) => {
-		timetableStore.rooms.set(props.id, data);
-		return data;
-	}));
+if (!timetableStore.rooms.has(props.id)) {
+	await TimetableApi.getRoom(props.id);
+}
+
+const room = computed(() => timetableStore.rooms.get(props.id));
 
 const title = computed(() => {
-	switch (room?.direction) {
+	switch (room.value?.direction) {
 		case 'North':
 			return 'Север (от входа налево)';
 		case 'South':
