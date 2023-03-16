@@ -8,11 +8,11 @@ import { useRouter } from 'vue-router';
 import Placeholder from '@/assets/profile_image_placeholder.webp';
 
 const profileStore = useProfileStore();
-const { isUserLogged, updateToken, updateTokenScopes } = profileStore;
+const { updateToken, updateTokenScopes } = profileStore;
 const router = useRouter();
 
 const logout = async () => {
-	if (isUserLogged) {
+	if (profileStore.isUserLogged) {
 		await authProfileApi.logout();
 		LocalStorage.delete(LocalStorageItem.Token);
 		LocalStorage.delete(LocalStorageItem.TokenScopes);
@@ -22,7 +22,7 @@ const logout = async () => {
 
 const toolbarMenu = computed<ToolbarMenuItem[]>(() => {
 	const arr: ToolbarMenuItem[] = [];
-	if (isUserLogged) {
+	if (profileStore.isUserLogged) {
 		arr.push({
 			name: 'Выход',
 			onClick: logout,

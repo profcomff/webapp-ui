@@ -10,7 +10,8 @@ const props = withDefaults(defineProps<{ node: StoreGroup | null; indentSize?: n
 	indentSize: 32,
 });
 
-const { isUserLogged, hasTokenAccess } = useProfileStore();
+const profileStore = useProfileStore();
+const { hasTokenAccess } = profileStore;
 const authStore = useAuthStore();
 
 const createGroup = async (e: Event) => {
@@ -23,7 +24,7 @@ const createGroup = async (e: Event) => {
 		const parentId = props.node.id;
 		const group = authStore.groups.get(parentId);
 
-		if (isUserLogged && group) {
+		if (profileStore.isUserLogged && group) {
 			const { data } = await authGroupApi.createGroup({ name, parent_id: group.id, scopes: [] });
 			authStore.setGroup(data);
 

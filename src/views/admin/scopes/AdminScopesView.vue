@@ -9,7 +9,8 @@ import { scopename } from '@/models';
 import { AuthApi } from '@/api';
 
 const authStore = useAuthStore();
-const { hasTokenAccess, isUserLogged } = useProfileStore();
+const profileStore = useProfileStore();
+const { hasTokenAccess } = profileStore;
 
 const hasAccess = computed(() => hasTokenAccess(scopename.auth.scope.read));
 
@@ -20,7 +21,7 @@ onMounted(async () => {
 });
 
 const deleteScope = async (scopeId: number) => {
-	if (isUserLogged) {
+	if (profileStore.isUserLogged) {
 		await authScopeApi.deleteScope(scopeId);
 		authStore.scopes.delete(scopeId);
 	}
@@ -33,7 +34,7 @@ const createScope = async (e: Event) => {
 		const comment = formData.get('comment')?.toString();
 		const name = formData.get('name')?.toString();
 
-		if (name && isUserLogged) {
+		if (name && profileStore.isUserLogged) {
 			const { data } = await authScopeApi.createScope({ comment, name });
 
 			form.reset();

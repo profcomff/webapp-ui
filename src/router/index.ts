@@ -56,6 +56,8 @@ const router = createRouter({
 router.beforeEach(to => {
 	if (to.path === '/profile' && !LocalStorage.get(LocalStorageItem.Token)) {
 		return { path: '/profile/auth' };
+	} else if (to.path === '/profile/auth' && LocalStorage.get(LocalStorageItem.Token)) {
+		return { path: '/profile' };
 	}
 });
 router.beforeEach(timetableHandler);

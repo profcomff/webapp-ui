@@ -20,7 +20,7 @@ const categories =
                         },
                         {
                             "icon": "https://cdn.profcomff.com/app/menu_icons/fifth_floor.svg",
-                            "name": "Схе&shy;ма эта&shy;жей",
+                            "name": "Схе&shy;ма<br>эта&shy;жей",
                             "link": "/apps/browser#https://cdn.profcomff.com/app/map/"
                         }
                     ]
@@ -112,7 +112,7 @@ const categories =
 				<img v-if="icon.startsWith('http')" :src="icon" :alt="name" width="400" height="400" class="icon" />
 				<MaterialIcon v-else :name="icon" class="icon" />
 
-				<a v-if="link.startsWith('http')" :href="link" class="app-link" v-html="name"></a>
+				<a v-if="link.startsWith('http')" :href="link" class="app-link" v-html="name" target="_blank"></a>
 				<RouterLink v-else :to="link" class="app-link"><span v-html="name"></span></RouterLink>
 			</div>
 		</div>
@@ -133,21 +133,21 @@ const categories =
 	width: 100%;
 	height: auto;
 	aspect-ratio: 1;
-	margin-bottom: 8px;
 	display: block;
+	padding: 0 8px;
 }
 
 .app {
 	text-decoration: none;
 	position: relative;
-	border-radius: 24px;
+	border-radius: 16px;
 	width: 100%;
 }
 
 .grid3 .app {
 	max-width: 144px;
 	background: white;
-	padding: 12px 16px;
+	padding: 8px min(8%, 8px);
 	display: block;
 	font-size: 14px;
 	text-align: center;

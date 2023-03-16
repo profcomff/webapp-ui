@@ -9,7 +9,8 @@ import { MaterialIcon } from '@/components/lib';
 import { scopename } from '@/models';
 import { AuthApi } from '@/api';
 
-const { hasTokenAccess, isUserLogged } = useProfileStore();
+const profileStore = useProfileStore();
+const { hasTokenAccess } = profileStore;
 
 const authStore = useAuthStore();
 const back = history.state.back?.startsWith('/admin') ? history.state.back : '/admin/groups';
@@ -45,7 +46,7 @@ const addScope = async (e: Event) => {
 		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 		const scopeId = +formData.get('id')!.toString();
 
-		if (isUserLogged && group.value && scopeId) {
+		if (profileStore.isUserLogged && group.value && scopeId) {
 			await authGroupApi.patchGroup(groupId.value, { scopes: [...group.value.scopes.keys(), scopeId] });
 			authStore.setGroupScopeById(groupId.value, scopeId);
 			form.reset();

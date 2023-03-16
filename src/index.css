@@ -22,6 +22,7 @@ body {
 }
 
 body {
+	padding-top: var(--toolbar-height);
 	padding-bottom: var(--navbar-height);
 	flex: 1;
 }

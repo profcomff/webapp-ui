@@ -101,7 +101,7 @@ const onBack = () => {
 
 <style scoped>
 .toolbar {
-	position: sticky;
+	position: absolute;
 	top: 0;
 	z-index: 999;
 	height: var(--toolbar-height);
