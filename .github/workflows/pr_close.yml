@@ -24,9 +24,3 @@ jobs:
               "repo_url": "${{ github.repository }}",
               "git_ref": "${{ github.ref }}"
             }'
-
-      - uses: avakar/set-deployment-status@v1
-        with:
-          state: inactive
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
