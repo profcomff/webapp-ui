@@ -73,7 +73,7 @@ jobs:
   undeploy-preprod:
     name: Раскатываем продовый Docker в pre-prod (остановка)
     runs-on: [self-hosted, Linux]
-    needs: build-and-push-image
+    needs: deploy-preprod
     environment:
       name: Preprod
     env:
