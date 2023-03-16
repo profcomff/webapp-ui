@@ -66,37 +66,45 @@ onMounted(async () => {
 	<IrdomLayout :toolbar-menu="toolbarMenu" title="Профиль">
 		<img :src="Placeholder" alt="Аватар" width="400 " height="400" class="avatar" />
 
-		<ul v-if="profileStore.indirectGroups?.length" class="ul">
+		<ul class="ul">
 			<b>Indirect groups</b>
-			<li v-for="g of profileStore.indirectGroups" :key="g" class="li">
-				{{ g }}
-			</li>
+			<template v-if="profileStore.indirectGroups?.length">
+				<li v-for="g of profileStore.indirectGroups" :key="g" class="li">
+					{{ g }}
+				</li>
+			</template>
+			<template v-else><p>No indirect groups</p></template>
 		</ul>
-		<template v-else>No indirect groups</template>
 
-		<ul v-if="profileStore.groups?.length" class="ul">
+		<ul class="ul">
 			<b>Groups</b>
-			<li v-for="g of profileStore.groups" :key="g" class="li">
-				{{ g }}
-			</li>
+			<template v-if="profileStore.groups?.length">
+				<li v-for="g of profileStore.groups" :key="g" class="li">
+					{{ g }}
+				</li>
+			</template>
+			<template v-else><p>No groups</p></template>
 		</ul>
-		<template v-else>No groups</template>
 
-		<ul v-if="profileStore.userScopes?.length" class="ul">
+		<ul class="ul">
 			<b>User scopes</b>
-			<li v-for="s of profileStore.userScopes" :key="s" class="li">
-				{{ s }}
-			</li>
+			<template v-if="profileStore.userScopes?.length">
+				<li v-for="s of profileStore.userScopes" :key="s" class="li">
+					{{ s }}
+				</li>
+			</template>
+			<template v-else><p>No user scopes</p></template>
 		</ul>
-		<template v-else>No user scopes</template>
 
-		<ul v-if="profileStore.tokenScopes?.length" class="ul">
+		<ul class="ul">
 			<b>Token scopes</b>
-			<li v-for="s of profileStore.tokenScopes" :key="s" class="li">
-				{{ s }}
-			</li>
+			<template v-if="profileStore.tokenScopes?.length">
+				<li v-for="s of profileStore.tokenScopes" :key="s" class="li">
+					{{ s }}
+				</li>
+			</template>
+			<template v-else><p>No session scopes</p></template>
 		</ul>
-		<template v-else>No indirect groups</template>
 	</IrdomLayout>
 </template>
 
@@ -119,10 +127,13 @@ onMounted(async () => {
 
 .avatar {
 	align-self: center;
-	border-radius: 999px;
-	max-width: 256px;
-	height: auto;
+	margin-bottom: 16px;
 	aspect-ratio: 1;
+	height: auto;
+	width: 100%;
+	max-width: 256px;
+	border-radius: 999px;
+	box-shadow: 0 0 20px rgb(0 0 0 / 10%);
 	object-fit: cover;
 }
 </style>

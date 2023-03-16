@@ -49,11 +49,21 @@ export default defineConfig({
 						urlPattern: /^https:\/\/api\.(test\.)?profcomff.com\/(?!auth).*/i,
 						handler: 'StaleWhileRevalidate',
 						options: {
-							cacheName: 'timetable-api-cache',
+							cacheName: 'api-cache',
 							expiration: {
 								maxEntries: 30,
 								maxAgeSeconds: 60 * 60 * 24 * 30, // <== ~ month
 							},
+							cacheableResponse: {
+								statuses: [0, 200],
+							},
+						},
+					},
+					{
+						urlPattern: /^https:\/\/cdn\.profcomff\.com/i,
+						handler: 'CacheFirst',
+						options: {
+							cacheName: 'cdn-cache',
 							cacheableResponse: {
 								statuses: [0, 200],
 							},

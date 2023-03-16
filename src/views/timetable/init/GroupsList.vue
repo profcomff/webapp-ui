@@ -1,29 +1,16 @@
 <script setup lang="ts">
 import { StudyGroup } from '@/api/models';
 import { timetableGroupApi } from '@/api/timetable';
-import { LocalStorage, LocalStorageItem } from '@/models';
-import { useTimetableStore } from '@/store';
 import { computed } from 'vue';
-import { useRouter } from 'vue-router';
-
-const router = useRouter();
+import GroupsListItem from './GroupsListItem.vue';
 
 const props = withDefaults(defineProps<{ query?: string }>(), {
 	query: '',
 });
 
-const { updateGroup } = useTimetableStore();
-
 const data = await timetableGroupApi.getGroups({ limit: 1000 }).then(({ data }) => data.items);
 
-const groups = computed(() => data?.filter(g => g.number.includes(props.query)));
-
-const setGroup = (group: StudyGroup) => {
-	LocalStorage.set<StudyGroup>(LocalStorageItem.StudyGroup, group);
-	updateGroup();
-
-	router.push('/timetable');
-};
+const groups = computed(() => data?.filter(g => g.number.includes(props.query.trim())));
 
 const sorted = computed(() =>
 	groups.value.reduce(
@@ -54,42 +41,18 @@ const sorted = computed(() =>
 </script>
 
 <template>
-	<section v-for="course in Object.keys(sorted)" :key="course" class="section" v-show="sorted[course].length">
-		<h3 class="h3">{{ `${course} курс` }}</h3>
-		<ul class="ul">
-			<li
-				class="li"
-				v-for="group of sorted[course].sort((a, b) => parseInt(a.number) - parseInt(b.number))"
-				:key="group.id"
-			>
-				<button type="button" class="label" @click="setGroup(group)">{{ group.number }}</button>
-			</li>
-		</ul>
-	</section>
+	<div class="grid">
+		<template v-for="course in Object.keys(sorted)" :key="course">
+			<GroupsListItem v-show="sorted[course].length" :course="course" :groups="sorted[course]" />
+		</template>
+	</div>
 </template>
 
 <style scoped>
-.label {
-	padding: 4px 8px;
-	background: rgb(173 216 230 / 50%);
-	border-radius: 999px;
-}
-
-.ul {
-	display: flex;
-	flex-wrap: wrap;
-	gap: 8px;
-}
-
-.h3 {
-	margin-bottom: 16px;
-}
-
-.section {
-	margin-bottom: 16px;
-}
-
-.section:last-child {
-	margin-bottom: 0;
+.grid {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	column-gap: 2.5%;
+	row-gap: 16px;
 }
 </style>

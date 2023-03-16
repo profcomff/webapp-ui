@@ -15,12 +15,12 @@ const categories =
                     "buttons": [
                         {
                             "icon": "https://cdn.profcomff.com/app/menu_icons/printer.svg",
-                            "name": "Бесплатный принтер",
+                            "name": "Бес&shy;плат&shy;ный прин&shy;тер",
                             "link": "/apps/browser#https://printer.ui.profcomff.com"
                         },
                         {
                             "icon": "https://cdn.profcomff.com/app/menu_icons/fifth_floor.svg",
-                            "name": "Схема этажей",
+                            "name": "Схе&shy;ма эта&shy;жей",
                             "link": "/apps/browser#https://cdn.profcomff.com/app/map/"
                         }
                     ]
@@ -31,12 +31,12 @@ const categories =
                     "buttons": [
                         {
                             "icon": "https://cdn.profcomff.com/app/menu_icons/write_us.svg",
-                            "name": "Написать в профком",
+                            "name": "На&shy;пи&shy;сать в проф&shy;ком",
                             "link": "https://vk.me/profcomff"
                         },
                         {
                             "icon": "https://cdn.profcomff.com/app/menu_icons/study_office.svg",
-                            "name": "Учебная часть",
+                            "name": "Учеб&shy;ная часть",
                             "link": "https://phys.msu.ru/rus/students/obshaja_infa.php#:~:name=%D0%98%D0%BD%D1%84%D0%BE%D1%80%D0%BC%D0%B0%D1%86%D0%B8%D1%8F%20%D1%83%D1%87%D0%B5%D0%B1%D0%BD%D0%BE%D0%B3%D0%BE%20%D0%BE%D1%82%D0%B4%D0%B5%D0%BB%D0%B0"
                         },
                         {
@@ -46,17 +46,17 @@ const categories =
                         },
                         {
                             "icon": "https://cdn.profcomff.com/app/menu_icons/report.svg",
-                            "name": "Жалоба",
+                            "name": "Жа&shy;ло&shy;ба",
                             "link": "/apps/browser#https://forms.yandex.ru/u/635d013b068ff0587320bfc9/"
                         },
                         {
                             "icon": "https://cdn.profcomff.com/app/menu_icons/money_help.svg",
-                            "name": "Материальная помощь",
+                            "name": "Ма&shy;те&shy;ри&shy;аль&shy;ная по&shy;мощь",
                             "link": "https://vk.com/profcomff?w=page-24234717_51953473"
                         },
                         {
                             "icon": "https://cdn.profcomff.com/app/menu_icons/join.svg",
-                            "name": "Вступить в профсоюз",
+                            "name": "Всту&shy;пить в проф&shy;со&shy;юз",
                             "link": "https://lk.msuprof.com/"
                         }
                     ]
@@ -112,8 +112,8 @@ const categories =
 				<img v-if="icon.startsWith('http')" :src="icon" :alt="name" width="400" height="400" class="icon" />
 				<MaterialIcon v-else :name="icon" class="icon" />
 
-				<a v-if="link.startsWith('http')" :href="link" class="app-link">{{ name }}</a>
-				<RouterLink v-else :to="link" class="app-link">{{ name }}</RouterLink>
+				<a v-if="link.startsWith('http')" :href="link" class="app-link" v-html="name"></a>
+				<RouterLink v-else :to="link" class="app-link"><span v-html="name"></span></RouterLink>
 			</div>
 		</div>
 	</section>
@@ -123,7 +123,8 @@ const categories =
 .grid3 {
 	display: grid;
 	grid-template-columns: repeat(3, 1fr);
-	gap: 32px;
+	column-gap: 2.5%;
+	row-gap: 32px;
 	justify-items: center;
 	align-self: center;
 }
@@ -140,6 +141,7 @@ const categories =
 	text-decoration: none;
 	position: relative;
 	border-radius: 24px;
+	width: 100%;
 }
 
 .grid3 .app {
@@ -149,7 +151,8 @@ const categories =
 	display: block;
 	font-size: 14px;
 	text-align: center;
-	overflow-wrap: anywhere;
+	overflow-wrap: break-word;
+	word-break: keep-all;
 	box-shadow: 0 0 20px rgb(0 0 0 / 10%);
 	transition: all 0.3s ease;
 	animation: pulse;

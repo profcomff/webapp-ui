@@ -11,11 +11,19 @@
 	-webkit-tap-highlight-color: transparent;
 }
 
+html,
 body {
+	min-height: 100vh;
+	min-height: -moz-available;
+	min-height: -webkit-fill-available;
+	min-height: fill-available;
 	display: flex;
 	flex-direction: column;
+}
+
+body {
 	padding-bottom: var(--navbar-height);
-	padding-top: var(--toolbar-height);
+	flex: 1;
 }
 
 :is(*, *::after, *::before):focus-visible {

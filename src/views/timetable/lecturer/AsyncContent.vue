@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { timetableLecturerApi } from '@/api/timetable';
 import { useTimetableStore } from '@/store';
-import Placeholder from '@/assets/lecturer_placeholder.webp';
+import Placeholder from '@/assets/profile_image_placeholder.webp';
 import { computed } from 'vue';
 
 const timetableStore = useTimetableStore();
@@ -28,7 +28,7 @@ const fullName = computed(() => {
 	<img
 		:src="lecturer?.avatar_link ?? Placeholder"
 		alt="Фотография преподавателя"
-		class="image"
+		class="avatar"
 		width="256"
 		height="256"
 	/>
@@ -36,13 +36,16 @@ const fullName = computed(() => {
 </template>
 
 <style scoped>
-.image {
+.avatar {
 	align-self: center;
 	margin-bottom: 16px;
 	aspect-ratio: 1;
 	height: auto;
 	width: 100%;
 	max-width: 256px;
+	border-radius: 999px;
+	box-shadow: 0 0 20px rgb(0 0 0 / 10%);
+	object-fit: cover;
 }
 
 .full-name {

@@ -8,12 +8,25 @@ const expander = ref<HTMLButtonElement | null>(null);
 const calendar = ref<HTMLDivElement | null>(null);
 const { group } = useTimetableStore();
 
-defineProps<{ date: Date }>();
+const props = defineProps<{ date: Date }>();
+
+const innerDate = ref(props.date);
+const expanderClickHandler = () => {
+	show.value = !show.value;
+	innerDate.value = props.date;
+};
 
 const clickOutsideHandler = (e: MouseEvent) => {
 	if (e.target !== expander.value && e.target !== calendar.value) {
 		show.value = false;
+		innerDate.value = props.date;
 	}
+};
+
+const textClickHandler = (e: MouseEvent) => {
+	e.stopImmediatePropagation();
+	show.value = !show.value;
+	innerDate.value = props.date;
 };
 
 onMounted(() => {
@@ -23,11 +36,6 @@ onMounted(() => {
 onUnmounted(() => {
 	document.removeEventListener('click', clickOutsideHandler);
 });
-
-const textClickHandler = (e: MouseEvent) => {
-	e.stopImmediatePropagation();
-	show.value = !show.value;
-};
 </script>
 
 <template>
@@ -36,7 +44,7 @@ const textClickHandler = (e: MouseEvent) => {
 		class="expander"
 		:aria-expanded="show"
 		aria-controls="calendar"
-		@click="show = !show"
+		@click="expanderClickHandler"
 		ref="expander"
 	>
 		<span class="date" @click="textClickHandler">
@@ -56,7 +64,7 @@ const textClickHandler = (e: MouseEvent) => {
 		ref="calendar"
 		@click="$event.stopImmediatePropagation()"
 	>
-		<IrdomCalendar :date="date" />
+		<IrdomCalendar :selected="date" v-model="innerDate" />
 	</div>
 </template>
 

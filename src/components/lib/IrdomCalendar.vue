@@ -1,26 +1,24 @@
 <script setup lang="ts">
 import { stringifyDate } from '@/utils';
-import { ref } from 'vue';
 import MaterialIcon from './MaterialIcon.vue';
 
 const weekdays = ['пн', 'вт', 'ср', 'чт', 'пт', 'сб', 'вс'];
 
-const props = defineProps<{ date: Date }>();
-
-const date = ref(props.date);
+const props = defineProps<{ selected: Date; modelValue: Date }>();
+const emits = defineEmits<{ (e: 'update:modelValue', value: Date): void }>();
 
 const getDays = (date: Date) => new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate();
-const getItemDate = (day: number) => new Date(date.value.getFullYear(), date.value.getMonth(), day);
+const getItemDate = (day: number) => new Date(props.modelValue.getFullYear(), props.modelValue.getMonth(), day);
 const getItemStringDate = (day: number) => stringifyDate(getItemDate(day));
-const isCurrent = (day: number) => getItemStringDate(day) === stringifyDate(props.date);
+const isCurrent = (day: number) => getItemStringDate(day) === stringifyDate(props.selected);
 const isToday = (day: number) => getItemStringDate(day) === stringifyDate(new Date());
 const getAriaLabel = (day: number) =>
 	getItemDate(day).toLocaleDateString('ru-RU', { day: 'numeric', month: 'long', year: 'numeric' });
 
 const changeMonthHandler = (offset: number) => {
-	const d = new Date(date.value);
+	const d = new Date(props.modelValue);
 	d.setMonth(d.getMonth() + offset);
-	date.value = d;
+	emits('update:modelValue', d);
 };
 </script>
 
@@ -32,7 +30,7 @@ const changeMonthHandler = (offset: number) => {
 			</button>
 
 			<span class="noselect">
-				{{ date.toLocaleDateString('ru-RU', { month: 'long', year: 'numeric' }) }}
+				{{ modelValue.toLocaleDateString('ru-RU', { month: 'long', year: 'numeric' }) }}
 			</span>
 
 			<button type="button" class="right" @click="changeMonthHandler(1)" aria-label="Следующий месяц">
@@ -42,7 +40,7 @@ const changeMonthHandler = (offset: number) => {
 		<div class="grid">
 			<span v-for="weekday of weekdays" class="noselect weekday" :key="weekday">{{ weekday }}</span>
 			<RouterLink
-				v-for="i in getDays(date)"
+				v-for="i in getDays(modelValue)"
 				class="day"
 				:to="`/timetable/${getItemStringDate(i)}`"
 				:class="['day', { current: isCurrent(i), today: isToday(i) && !isCurrent(i) }]"

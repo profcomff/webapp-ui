@@ -4,6 +4,7 @@
 		"stylelint-config-recommended-vue"
 	],
 	"rules": {
-		"property-no-vendor-prefix": null
+		"property-no-vendor-prefix": null,
+		"value-no-vendor-prefix": null
 	}
 }
