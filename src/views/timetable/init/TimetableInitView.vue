@@ -5,15 +5,6 @@ import { ref } from 'vue';
 import GroupsList from './GroupsList.vue';
 
 const query = ref('');
-
-const focusHandler = (e: Event) => {
-	const input = e.target as HTMLInputElement;
-	window.scrollTo({ top: input.offsetTop - 8, behavior: 'smooth' });
-};
-
-const blurHandler = () => {
-	window.scrollTo({ top: 0, behavior: 'smooth' });
-};
 </script>
 <template>
 	<IrdomLayout>
@@ -23,14 +14,7 @@ const blurHandler = () => {
 		<p class="message">Наше приложение позволит получить доступ к сервисам для студентов ФФ МГУ!</p>
 		<p class="message">Для просмотра расписания выберите свою группу:</p>
 
-		<input
-			type="text"
-			v-model="query"
-			class="input"
-			placeholder="Введите номер группы"
-			@focus="focusHandler"
-			@blur="blurHandler"
-		/>
+		<input type="text" v-model="query" class="input" placeholder="Введите номер группы" />
 
 		<Suspense>
 			<GroupsList :query="query" />

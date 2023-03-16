@@ -62,7 +62,6 @@ export interface Category {
 	order: number;
 	type: 'grid3' | 'list';
 	name: string;
-	buttons: Button[];
 }
 
 export interface AppButton {

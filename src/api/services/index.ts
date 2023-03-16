@@ -1,1 +1,1 @@
-export { servicesApi } from './ServicesApi';
+export { servicesApi, CategoryInfo } from './ServicesApi';

@@ -1,119 +1,37 @@
 <script setup lang="ts">
+import { ServicesApi } from '@/api';
+import { CategoryInfo } from '@/api/services';
 import { MaterialIcon } from '@/components/lib';
 import { useAppsStore } from '@/store';
 import { RouterLink } from 'vue-router';
 
 const appsStore = useAppsStore();
 
-const categories =
-	appsStore.categories ??
-	JSON.parse(`
-			[ 
-				{
-                    "name": "Полезное",
-                    "type": "grid3",
-                    "buttons": [
-                        {
-                            "icon": "https://cdn.profcomff.com/app/menu_icons/printer.svg",
-                            "name": "Бес&shy;плат&shy;ный прин&shy;тер",
-                            "link": "/apps/browser#https://printer.ui.profcomff.com"
-                        },
-                        {
-                            "icon": "https://cdn.profcomff.com/app/menu_icons/fifth_floor.svg",
-                            "name": "Схе&shy;ма<br>эта&shy;жей",
-                            "link": "/apps/browser#https://cdn.profcomff.com/app/map/"
-                        }
-                    ]
-                },
-                {
-                    "name": "Сервисы",
-                    "type": "grid3",
-                    "buttons": [
-                        {
-                            "icon": "https://cdn.profcomff.com/app/menu_icons/write_us.svg",
-                            "name": "На&shy;пи&shy;сать в проф&shy;ком",
-                            "link": "https://vk.me/profcomff"
-                        },
-                        {
-                            "icon": "https://cdn.profcomff.com/app/menu_icons/study_office.svg",
-                            "name": "Учеб&shy;ная часть",
-                            "link": "https://phys.msu.ru/rus/students/obshaja_infa.php#:~:name=%D0%98%D0%BD%D1%84%D0%BE%D1%80%D0%BC%D0%B0%D1%86%D0%B8%D1%8F%20%D1%83%D1%87%D0%B5%D0%B1%D0%BD%D0%BE%D0%B3%D0%BE%20%D0%BE%D1%82%D0%B4%D0%B5%D0%BB%D0%B0"
-                        },
-                        {
-                            "icon": "https://cdn.profcomff.com/app/menu_icons/courses.svg",
-                            "name": "МФК",
-                            "link": "https://lk.msu.ru/course"
-                        },
-                        {
-                            "icon": "https://cdn.profcomff.com/app/menu_icons/report.svg",
-                            "name": "Жа&shy;ло&shy;ба",
-                            "link": "/apps/browser#https://forms.yandex.ru/u/635d013b068ff0587320bfc9/"
-                        },
-                        {
-                            "icon": "https://cdn.profcomff.com/app/menu_icons/money_help.svg",
-                            "name": "Ма&shy;те&shy;ри&shy;аль&shy;ная по&shy;мощь",
-                            "link": "https://vk.com/profcomff?w=page-24234717_51953473"
-                        },
-                        {
-                            "icon": "https://cdn.profcomff.com/app/menu_icons/join.svg",
-                            "name": "Всту&shy;пить в проф&shy;со&shy;юз",
-                            "link": "https://lk.msuprof.com/"
-                        }
-                    ]
-                },
-                {
-                    "name": "Информация",
-                    "type": "list",
-                    "buttons": [
-                        {
-                            "icon": "install_mobile",
-                            "name": "Установить приложение",
-                            "link": "/apps/browser#https://pages.profcomff.com/installation"
-                        },
-                        {
-                            "icon": "feedback",
-                            "name": "Обратная связь",
-                            "link": "/apps/browser#https://forms.yandex.ru/u/630f979143537dde00621b0b"
-                        },
-                        {
-                            "icon": "info",
-                            "name": "О приложении",
-                            "link": "/apps/browser#https://pages.profcomff.com/about"
-                        }
-                    ]
-                }
-			]
-		`);
-// (await servicesApi.getCategories().then(async ({ data: categories }) => {
-// 	for (const category of categories) {
-// 		const {
-// 			data: { buttons },
-// 		} = await servicesApi.getButtons(category.id);
-// 		category.buttons = buttons;
-// 	}
-// 	appsStore.categories = categories;
-// 	return categories;
-// }));
+if (!appsStore.categories) {
+	await ServicesApi.getCategories([CategoryInfo.Buttons]);
+}
 </script>
 
 <template>
-	<section v-for="{ name, type, buttons } of categories" class="section" :key="name">
+	<section v-for="{ name, type, buttons, id } of appsStore.categories" class="section" :key="id">
 		<h2 class="h2">
 			{{ name }}
 		</h2>
 
 		<div :class="{ grid3: type === 'grid3', list: type === 'list' }">
 			<div
-				v-for="({ icon, link, name }, i) of buttons"
+				v-for="({ icon, link, name, type, id }, i) of buttons"
 				class="app"
-				:key="name"
+				:key="id"
 				:style="{ animationDelay: `${i * 0.2}s` }"
 			>
 				<img v-if="icon.startsWith('http')" :src="icon" :alt="name" width="400" height="400" class="icon" />
 				<MaterialIcon v-else :name="icon" class="icon" />
 
-				<a v-if="link.startsWith('http')" :href="link" class="app-link" v-html="name" target="_blank"></a>
-				<RouterLink v-else :to="link" class="app-link"><span v-html="name"></span></RouterLink>
+				<a v-if="type === 'external'" :href="link" class="app-link" target="_blank">{{ name }}</a>
+				<RouterLink v-else-if="type === 'internal'" :to="`/apps/browser#${link}`" class="app-link">
+					{{ name }}
+				</RouterLink>
 			</div>
 		</div>
 	</section>
@@ -151,7 +69,7 @@ const categories =
 	display: block;
 	font-size: 14px;
 	text-align: center;
-	overflow-wrap: break-word;
+	overflow-wrap: anywhere;
 	word-break: keep-all;
 	box-shadow: 0 0 20px rgb(0 0 0 / 10%);
 	transition: all 0.3s ease;
