@@ -4,12 +4,10 @@ import { MeInfo, authProfileApi } from '@/api/auth';
 import { LocalStorage, LocalStorageItem } from '@/models';
 import { useProfileStore } from '@/store';
 import { onMounted, computed } from 'vue';
-import { useRouter } from 'vue-router';
 import Placeholder from '@/assets/profile_image_placeholder.webp';
 
 const profileStore = useProfileStore();
 const { updateToken, updateTokenScopes } = profileStore;
-const router = useRouter();
 
 const logout = async () => {
 	if (profileStore.isUserLogged) {
@@ -26,13 +24,6 @@ const toolbarMenu = computed<ToolbarMenuItem[]>(() => {
 		arr.push({
 			name: 'Выход',
 			onClick: logout,
-		});
-	}
-
-	if (profileStore.isAdmin) {
-		arr.push({
-			name: 'Админка',
-			onClick: () => router.push('/admin'),
 		});
 	}
 

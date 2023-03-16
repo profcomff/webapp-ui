@@ -2,7 +2,6 @@
 import { StudyGroup } from '@/api/models';
 import { LocalStorage, LocalStorageItem } from '@/models';
 import { useTimetableStore } from '@/store';
-import { computed, ref } from 'vue';
 import { useRouter } from 'vue-router';
 
 defineProps<{
@@ -19,21 +18,16 @@ const setGroup = (group: StudyGroup) => {
 
 	router.push('/timetable');
 };
-
-const expand = ref(false);
-const list = ref<HTMLDivElement | null>(null);
-const overflow = computed(() => list.value && list.value.offsetHeight > 105);
 </script>
 
 <template>
-	<div class="section" :style="{ maxHeight: expand ? 'unset' : '144px' }">
+	<div class="section">
 		<h3 class="h3">{{ `${course} курс` }}</h3>
 		<ul class="ul" ref="list">
 			<li class="li" v-for="group of groups" :key="group.id">
 				<button type="button" class="label" @click="setGroup(group)">{{ group.number }}</button>
 			</li>
 		</ul>
-		<button type="button" v-if="!expand && overflow" class="more" @click="expand = true">Больше</button>
 	</div>
 </template>
 

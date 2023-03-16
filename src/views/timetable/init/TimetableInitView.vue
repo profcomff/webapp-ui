@@ -1,17 +1,19 @@
 <script setup lang="ts">
 import Logo from '/icon.svg';
 import { IrdomLayout } from '@/components';
-import { onMounted, ref } from 'vue';
+import { ref } from 'vue';
 import GroupsList from './GroupsList.vue';
 
 const query = ref('');
-const input = ref<HTMLInputElement | null>(null);
 
-onMounted(() => {
-	if (input.value) {
-		input.value.focus();
-	}
-});
+const focusHandler = (e: Event) => {
+	const input = e.target as HTMLInputElement;
+	window.scrollTo({ top: input.offsetTop - 8, behavior: 'smooth' });
+};
+
+const blurHandler = () => {
+	window.scrollTo({ top: 0, behavior: 'smooth' });
+};
 </script>
 <template>
 	<IrdomLayout>
@@ -21,7 +23,14 @@ onMounted(() => {
 		<p class="message">Наше приложение позволит получить доступ к сервисам для студентов ФФ МГУ!</p>
 		<p class="message">Для просмотра расписания выберите свою группу:</p>
 
-		<input type="text" v-model="query" class="input" placeholder="Введите номер группы" ref="input" />
+		<input
+			type="text"
+			v-model="query"
+			class="input"
+			placeholder="Введите номер группы"
+			@focus="focusHandler"
+			@blur="blurHandler"
+		/>
 
 		<Suspense>
 			<GroupsList :query="query" />
