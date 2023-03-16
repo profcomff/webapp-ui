@@ -54,6 +54,5 @@ const sorted = computed(() =>
 	grid-template-columns: 1fr 1fr;
 	column-gap: 2.5%;
 	row-gap: 16px;
-	min-height: 100vh;
 }
 </style>

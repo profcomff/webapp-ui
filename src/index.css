@@ -85,6 +85,11 @@ a {
 	display: flex;
 }
 
+.column {
+	display: flex;
+	flex-direction: column;
+}
+
 summary {
 	cursor: pointer;
 }
@@ -92,4 +97,8 @@ summary {
 .link {
 	color: blue;
 	text-decoration: underline;
+}
+
+*::-webkit-scrollbar {
+	display: none;
 }
