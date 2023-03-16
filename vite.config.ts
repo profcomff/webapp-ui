@@ -16,6 +16,7 @@ export default defineConfig({
 		}),
 		VitePWA({
 			workbox: {
+				importScripts: ['installHandler.js'],
 				runtimeCaching: [
 					{
 						urlPattern: /^https:\/\/fonts\.googleapis\.com\/.*/i,

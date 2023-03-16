@@ -1,3 +1,4 @@
+import { marketingApi } from '@/api/marketing';
 import { LocalStorage, LocalStorageItem } from '@/models';
 import { defineStore } from 'pinia';
 import { computed, ref } from 'vue';
@@ -5,6 +6,7 @@ import { computed, ref } from 'vue';
 export const useProfileStore = defineStore('profile', () => {
 	const token = ref<string | null>(null);
 	const tokenScopes = ref<string[]>([]);
+	const marketingId = ref<number | null>(null);
 
 	const groups = ref<string[] | null>(null);
 	const indirectGroups = ref<string[] | null>(null);
@@ -26,6 +28,24 @@ export const useProfileStore = defineStore('profile', () => {
 		tokenScopes.value = newTokenScopes ?? LocalStorage.getObject<string[]>(LocalStorageItem.TokenScopes) ?? [];
 	}
 
+	async function updateMarketingId(newMarketingId?: number) {
+		const item = LocalStorage.get(LocalStorageItem.MarketingId);
+		if (newMarketingId) {
+			marketingId.value = newMarketingId;
+		} else if (item === null) {
+			const { data } = await marketingApi.createUser();
+			LocalStorage.set(LocalStorageItem.MarketingId, data.id);
+			marketingId.value = data.id;
+			marketingApi.writeAction({
+				user_id: data.id,
+				action: 'user registration',
+				additional_data: JSON.stringify(data),
+			});
+		} else {
+			marketingId.value = +item;
+		}
+	}
+
 	const isUserLogged = computed(() => token.value !== null);
 
 	const isAdmin = computed(() => indirectGroups.value?.includes('admin') || groups.value?.includes('root'));
@@ -42,5 +62,7 @@ export const useProfileStore = defineStore('profile', () => {
 		updateTokenScopes,
 		isUserLogged,
 		isAdmin,
+		updateMarketingId,
+		marketingId,
 	};
 });

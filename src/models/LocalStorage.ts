@@ -1,8 +1,8 @@
 export enum LocalStorageItem {
 	StudyGroup = 'timetable-group',
-	LastTwoWeeksPreloadDate = 'last-two-week-preload-date',
 	Token = 'token',
 	TokenScopes = 'token-scopes',
+	MarketingId = 'marketing-id',
 }
 
 export class LocalStorage {

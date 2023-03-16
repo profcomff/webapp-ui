@@ -2,9 +2,10 @@
 import { computed, onMounted } from 'vue';
 import { IrdomNavbar, NavbarItem } from './components';
 import { useProfileStore, useTimetableStore } from './store';
+import { marketingApi } from './api/marketing';
 
 const profileStore = useProfileStore();
-const { updateToken, updateTokenScopes } = profileStore;
+const { updateToken, updateTokenScopes, updateMarketingId } = profileStore;
 const { updateGroup } = useTimetableStore();
 
 const navbarItems = computed<NavbarItem[]>(() => {
@@ -35,10 +36,17 @@ const navbarItems = computed<NavbarItem[]>(() => {
 	return common;
 });
 
-onMounted(() => {
+onMounted(async () => {
 	updateToken();
 	updateGroup();
 	updateTokenScopes();
+	await updateMarketingId();
+	if (profileStore.marketingId) {
+		marketingApi.writeAction({
+			action: 'app loaded',
+			user_id: profileStore.marketingId,
+		});
+	}
 });
 </script>
 <template>
