@@ -6,12 +6,10 @@ on:
 
 jobs:
   stop-deployment-dev:
-    name: Deploy Development (stop)
+    name: Останавливаем dev среду
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      packages: write
-
+    environment:
+      name: development-pr-${{ github.event.pull_request.number }}
     steps:
       - name: Stop deployment
         run: |

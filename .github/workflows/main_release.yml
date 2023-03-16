@@ -1,4 +1,4 @@
-name: Тесты и раскатка в тестовую среду
+name: Тесты и раскатка в продакшн
 
 on:
   push:
@@ -11,7 +11,7 @@ env:
 
 jobs:
   build-and-push-image:
-    name: Собираем тестовый Docker
+    name: Собираем pre-prod Docker
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -48,7 +48,7 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
 
   deploy-preprod:
-    name: Раскатываем продовый Docker в pre-prod
+    name: Раскатываем pre-prod среду
     runs-on: [self-hosted, Linux]
     needs: build-and-push-image
     environment:
@@ -71,7 +71,7 @@ jobs:
             ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:preprod
 
   undeploy-preprod:
-    name: Раскатываем продовый Docker в pre-prod (остановка)
+    name: Останавливаем pre-prod среду
     runs-on: [self-hosted, Linux]
     needs: deploy-preprod
     environment:
