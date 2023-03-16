@@ -1,0 +1,86 @@
+name: Тесты и раскатка в тестовую среду
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
+
+jobs:
+  build-and-push-image:
+    name: Собираем тестовый Docker
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Log in to the Container registry
+        uses: docker/login-action@v2
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Extract metadata (tags, labels) for Docker
+        id: meta
+        uses: docker/metadata-action@v4
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          tags: |
+            type=raw,value=preprod,enable=true
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v4
+        with:
+          file: ./deployment/Dockerfile
+          context: .
+          push: true
+          build-args: |
+            BUILD_MODE=production
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+
+  deploy-preprod:
+    name: Раскатываем продовый Docker в pre-prod
+    runs-on: [self-hosted, Linux]
+    needs: build-and-push-image
+    environment:
+      name: Preprod
+      url: https://app.preprod.profcomff.com/
+    env:
+      CONTAITER_NAME: com_profcomff_app_preprod
+    permissions:
+      packages: read
+    steps:
+      - name: Run docker container
+        run: |
+          docker pull ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:test
+          docker stop ${{ env.CONTAITER_NAME }} || true && docker rm ${{ env.CONTAITER_NAME }} || true
+          docker run \
+            --detach \
+            --restart on-failure:3 \
+            --network=web \
+            --name ${{ env.CONTAITER_NAME }} \
+            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:preprod
+
+  undeploy-preprod:
+    name: Раскатываем продовый Docker в pre-prod (остановка)
+    runs-on: [self-hosted, Linux]
+    needs: build-and-push-image
+    environment:
+      name: Preprod
+    env:
+      CONTAITER_NAME: com_profcomff_app_preprod
+    permissions:
+      packages: read
+    steps:
+      - name: Run docker container
+        run: |
+          docker stop ${{ env.CONTAITER_NAME }} || true && docker rm ${{ env.CONTAITER_NAME }} || true
