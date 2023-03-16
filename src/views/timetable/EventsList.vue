@@ -9,9 +9,10 @@ import { TimetableApi } from '@/api';
 const props = defineProps<{ date: Date }>();
 
 const timetableStore = useTimetableStore();
+const groupId = computed(() => timetableStore.group?.id);
 
-if (!timetableStore.days.has(stringifyDate(props.date))) {
-	await TimetableApi.getDayEvents(props.date);
+if (!timetableStore.days.has(stringifyDate(props.date)) && groupId.value) {
+	await TimetableApi.getDayEvents(props.date, groupId.value);
 }
 
 const events = computed(() => timetableStore.days.get(stringifyDate(props.date)));

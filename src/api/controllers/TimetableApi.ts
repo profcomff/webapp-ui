@@ -41,11 +41,12 @@ export class TimetableApi {
 		setEvents(data.items);
 	}
 
-	public static async getDayEvents(date: Date) {
+	public static async getDayEvents(date: Date, groupId: number) {
 		const { setDay } = useTimetableStore();
 		const { data } = await timetableEventApi.getEvents({
 			start: stringifyDateIso(date),
 			end: stringifyDateIso(getDateWithDayOffset(date, 1)),
+			group_id: groupId,
 		});
 		setDay(date, data.items);
 	}
