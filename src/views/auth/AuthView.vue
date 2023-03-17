@@ -4,7 +4,7 @@ import { IrdomLayout } from '@/components';
 
 const clickHandler = async () => {
 	const url = await authPhysicsApi.getAuthUrl(
-		`${import.meta.env.VITE_APP_AUTH_REDIRECT_URL}/auth/oauth-authorized/physics-msu`,
+		`${import.meta.env.VITE_AUTH_REDIRECT_URL}/auth/oauth-authorized/physics-msu`,
 	);
 	location.href = url;
 };

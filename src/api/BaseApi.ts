@@ -5,7 +5,7 @@ export class BaseApi {
 	url: string;
 
 	constructor(path: string) {
-		this.url = import.meta.env.VITE_APP_API + path;
+		this.url = import.meta.env.VITE_API_URL + path;
 	}
 
 	protected async get<Response, Params = never>(

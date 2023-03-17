@@ -27,6 +27,13 @@ const toolbarMenu = computed<ToolbarMenuItem[]>(() => {
 		});
 	}
 
+	if (import.meta.env.VITE_APP_VERSION) {
+		arr.push({
+			name: 'О приложении',
+			onClick: () => alert(`Версия приложения: ${import.meta.env.VITE_APP_VERSION}`),
+		});
+	}
+
 	return arr;
 });
 
