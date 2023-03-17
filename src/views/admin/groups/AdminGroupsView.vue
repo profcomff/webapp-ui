@@ -4,6 +4,7 @@ import { useAuthStore } from '@/store';
 import { onMounted, computed } from 'vue';
 import GroupTreeNode from './GroupTreeNode.vue';
 import { IrdomLayout } from '@/components';
+import { StoreGroup } from '@/store/auth';
 
 const authStore = useAuthStore();
 
@@ -20,19 +21,20 @@ onMounted(async () => {
 	}
 });
 
-const root = computed(() => {
+const roots = computed(() => {
+	const arr: StoreGroup[] = [];
 	for (const group of authStore.groups.values()) {
 		if (group.parent_id === null) {
-			return group;
+			arr.push(group);
 		}
 	}
-	return null;
+	return arr;
 });
 </script>
 
 <template>
 	<IrdomLayout title="Редактирование групп пользователей" backable back="/admin">
-		<GroupTreeNode :node="root" />
+		<GroupTreeNode v-for="root of roots" :node="root" :key="root.id" />
 	</IrdomLayout>
 </template>
 
