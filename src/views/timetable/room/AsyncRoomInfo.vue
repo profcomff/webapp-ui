@@ -48,8 +48,4 @@ const title = computed(() => {
 	height: auto;
 	padding: 0;
 }
-
-.row:last-of-type {
-	margin-bottom: 32px;
-}
 </style>

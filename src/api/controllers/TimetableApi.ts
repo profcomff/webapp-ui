@@ -50,4 +50,24 @@ export class TimetableApi {
 		});
 		setDay(date, data.items);
 	}
+
+	public static async getLecturerEvents(lecturerId: number) {
+		const { setLecturerEvents } = useTimetableStore();
+		const { data } = await timetableEventApi.getEvents({
+			start: stringifyDateIso(new Date()),
+			end: stringifyDateIso(getDateWithDayOffset(new Date(), 1)),
+			lecturer_id: lecturerId,
+		});
+		setLecturerEvents(lecturerId, data.items);
+	}
+
+	public static async getRoomEvents(roomId: number) {
+		const { setRoomEvents } = useTimetableStore();
+		const { data } = await timetableEventApi.getEvents({
+			start: stringifyDateIso(new Date()),
+			end: stringifyDateIso(getDateWithDayOffset(new Date(), 1)),
+			room_id: roomId,
+		});
+		setRoomEvents(roomId, data.items);
+	}
 }

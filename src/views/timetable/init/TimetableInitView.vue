@@ -2,7 +2,7 @@
 import Logo from '/icon.svg';
 import { IrdomLayout } from '@/components';
 import { ref } from 'vue';
-import GroupsList from './GroupsList.vue';
+import AsyncGroupsList from './AsyncGroupsList.vue';
 
 const query = ref('');
 </script>
@@ -17,7 +17,7 @@ const query = ref('');
 		<input type="text" v-model="query" class="input" placeholder="Введите номер группы" />
 
 		<Suspense>
-			<GroupsList :query="query" />
+			<AsyncGroupsList :query="query" />
 
 			<template #fallback> Загрузка... </template>
 		</Suspense>

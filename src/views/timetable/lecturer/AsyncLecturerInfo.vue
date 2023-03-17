@@ -50,5 +50,6 @@ const fullName = computed(() => {
 .full-name {
 	align-self: center;
 	text-align: center;
+	margin-bottom: 64px;
 }
 </style>

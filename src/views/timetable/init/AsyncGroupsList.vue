@@ -43,7 +43,11 @@ const sorted = computed(() =>
 <template>
 	<div class="grid">
 		<template v-for="course in Object.keys(sorted)" :key="course">
-			<GroupsListItem v-show="sorted[course].length" :course="course" :groups="sorted[course]" />
+			<GroupsListItem
+				v-show="sorted[course].length"
+				:course="course"
+				:groups="sorted[course].sort((a, b) => parseInt(a.number) - parseInt(b.number))"
+			/>
 		</template>
 	</div>
 </template>

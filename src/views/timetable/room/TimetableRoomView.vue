@@ -1,27 +1,40 @@
 <script setup lang="ts">
 import { MaterialIcon } from '@/components/lib';
-import AsyncContent from './AsyncContent.vue';
+import AsyncRoomInfo from './AsyncRoomInfo.vue';
 import { IrdomLayout } from '@/components';
+import AsyncRoomSchedule from './AsyncRoomSchedule.vue';
 
 const back = history.state.back?.startsWith('/timetable/event') ? history.state.back : '/timetable';
 </script>
 
 <template>
 	<IrdomLayout backable :back="back" share title="Аудитория">
-		<Suspense>
-			<AsyncContent :id="+$route.params.id" />
+		<section class="section">
+			<Suspense>
+				<AsyncRoomInfo :id="+$route.params.id" />
 
-			<template #fallback> Загрузка... </template>
-		</Suspense>
+				<template #fallback> Загрузка... </template>
+			</Suspense>
+		</section>
 
-		<h3 class="h3">Карта этажа</h3>
+		<section class="section">
+			<h3 class="h3">Карта этажа</h3>
 
-		<RouterLink to="/apps/browser#https://cdn.profcomff.com/app/map/" class="map">
-			<span class="text">
-				Посмотреть на карте
-				<MaterialIcon name="open_in_new" />
-			</span>
-		</RouterLink>
+			<RouterLink to="/apps/browser#https://cdn.profcomff.com/app/map/" class="map">
+				<span class="text">
+					Посмотреть на карте
+					<MaterialIcon name="open_in_new" />
+				</span>
+			</RouterLink>
+		</section>
+
+		<section class="section">
+			<p class="date">Сегодня, {{ new Date().toLocaleDateString('ru-RU', { day: '2-digit', month: 'long' }) }}</p>
+			<Suspense>
+				<AsyncRoomSchedule :id="+$route.params.id" />
+				<template #fallback>Загрузка...</template>
+			</Suspense>
+		</section>
 	</IrdomLayout>
 </template>
 
@@ -31,6 +44,7 @@ const back = history.state.back?.startsWith('/timetable/event') ? history.state.
 }
 
 .h3 {
+	font-size: 20px;
 	margin-bottom: 16px;
 }
 
@@ -61,5 +75,19 @@ const back = history.state.back?.startsWith('/timetable/event') ? history.state.
 	opacity: 0.4;
 	background: var(--color-primary-dark);
 	z-index: 1;
+}
+
+.date {
+	font-size: 20px;
+	margin-bottom: 16px;
+	font-weight: bold;
+}
+
+.section {
+	margin-bottom: 32px;
+}
+
+.section:last-child {
+	margin-bottom: 0;
 }
 </style>

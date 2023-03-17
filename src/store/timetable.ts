@@ -5,11 +5,19 @@ import { Lecturer, Room, Event } from '@/api/models';
 import { defineStore } from 'pinia';
 import { ref } from 'vue';
 
+interface StoreLecturer extends Lecturer {
+	schedule: Event[] | null;
+}
+
+interface StoreRoom extends Room {
+	schedule: Event[] | null;
+}
+
 export const useTimetableStore = defineStore('timetable', () => {
 	const events = ref<Map<number, Event>>(new Map());
 	const days = ref<Map<string, Event[]>>(new Map());
-	const lecturers = ref<Map<number, Lecturer>>(new Map());
-	const rooms = ref<Map<number, Room>>(new Map());
+	const lecturers = ref<Map<number, StoreLecturer>>(new Map());
+	const rooms = ref<Map<number, StoreRoom>>(new Map());
 	const group = ref<StudyGroup | null>(null);
 
 	function updateGroup(newGroup?: StudyGroup) {
@@ -18,20 +26,20 @@ export const useTimetableStore = defineStore('timetable', () => {
 
 	function setLecturers(lecturerList: Lecturer[]) {
 		for (const l of lecturerList) {
-			lecturers.value.set(l.id, l);
+			(l as StoreLecturer).schedule = null;
+			lecturers.value.set(l.id, l as StoreLecturer);
 		}
 	}
 
 	function setRooms(roomList: Room[]) {
 		for (const r of roomList) {
-			rooms.value.set(r.id, r);
+			(r as StoreRoom).schedule = null;
+			rooms.value.set(r.id, r as StoreRoom);
 		}
 	}
 
 	function setEvents(eventList: Event[]) {
 		for (const e of eventList) {
-			setRooms(e.room);
-			setLecturers(e.lecturer);
 			events.value.set(e.id, e);
 		}
 	}
@@ -49,5 +57,48 @@ export const useTimetableStore = defineStore('timetable', () => {
 		}
 	}
 
-	return { events, days, lecturers, rooms, group, updateGroup, setLecturers, setRooms, setEvents, setDay };
+	function setLecturerEvents(lecturerId: number, eventList: Event[]) {
+		setEvents(eventList);
+		const lecturer = lecturers.value.get(lecturerId);
+
+		if (!lecturer) return;
+
+		if (lecturer.schedule) {
+			for (const e of eventList) {
+				lecturer.schedule.push(e);
+			}
+		} else {
+			lecturer.schedule = eventList;
+		}
+	}
+
+	function setRoomEvents(roomId: number, eventList: Event[]) {
+		setEvents(eventList);
+		const room = rooms.value.get(roomId);
+
+		if (!room) return;
+
+		if (room.schedule) {
+			for (const e of eventList) {
+				room.schedule.push(e);
+			}
+		} else {
+			room.schedule = eventList;
+		}
+	}
+
+	return {
+		events,
+		days,
+		lecturers,
+		rooms,
+		group,
+		updateGroup,
+		setLecturers,
+		setRooms,
+		setEvents,
+		setDay,
+		setLecturerEvents,
+		setRoomEvents,
+	};
 });

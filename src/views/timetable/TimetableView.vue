@@ -5,7 +5,7 @@ import { parseDate, stringifyDate } from '@/utils';
 import DateNavigation from './DateNavigation.vue';
 import { useRoute, useRouter } from 'vue-router';
 import { computed, ref, watch } from 'vue';
-import EventsList from './EventsList.vue';
+import AsyncEventsList from './AsyncEventsList.vue';
 import CalendarDropdown from './CalendarDropdown.vue';
 import { useTimetableStore } from '@/store';
 
@@ -57,7 +57,7 @@ watch(date, () => {
 		</template>
 
 		<Suspense :key="key">
-			<EventsList :date="date" />
+			<AsyncEventsList :date="date" />
 
 			<template #fallback> Загрузка... </template>
 		</Suspense>
