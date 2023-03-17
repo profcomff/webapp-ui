@@ -196,6 +196,7 @@ export default defineConfig({
 				theme_color: '#00004b',
 				background_color: '#00004b',
 				lang: 'ru',
+				scope: process.env.VITE_APP_MAIN,
 			},
 			registerType: 'autoUpdate',
 		}),

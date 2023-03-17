@@ -7,6 +7,14 @@ const button = ref<HTMLButtonElement | null>(null);
 const menu = ref<HTMLMenuElement | null>(null);
 const id = `popover-${Math.trunc(Math.random() * Number.MAX_SAFE_INTEGER).toString(16)}`;
 
+const expanderClickHandler = () => {
+	if (button.value && menu.value) {
+		menu.value.style.right = `${window.innerWidth - button.value.offsetLeft - button.value.offsetWidth}px`;
+		menu.value.style.top = `${button.value.offsetTop + button.value.offsetHeight}px`;
+	}
+	show.value = !show.value;
+};
+
 const clickOutsideHandler = (event: MouseEvent) => {
 	if (show.value && event.target !== button.value) {
 		event.preventDefault();
@@ -14,17 +22,24 @@ const clickOutsideHandler = (event: MouseEvent) => {
 	}
 };
 
-onMounted(() => {
+const windowResizeHandler = (e: Event) => {
+	const w = e.target as Window;
+	console.log(w.innerWidth);
+
 	if (button.value && menu.value) {
-		menu.value.style.right = `${window.innerWidth - button.value.offsetLeft - button.value.offsetWidth}px`;
+		menu.value.style.right = `${w.innerWidth - button.value.offsetLeft - button.value.offsetWidth}px`;
 		menu.value.style.top = `${button.value.offsetTop + button.value.offsetHeight}px`;
 	}
+};
 
-	document.addEventListener('click', clickOutsideHandler);
+onMounted(() => {
+	window.addEventListener('click', clickOutsideHandler);
+	window.addEventListener('resize', windowResizeHandler);
 });
 
 onUnmounted(() => {
-	document.removeEventListener('click', clickOutsideHandler);
+	window.removeEventListener('click', clickOutsideHandler);
+	window.removeEventListener('resize', windowResizeHandler);
 });
 </script>
 
@@ -33,7 +48,7 @@ onUnmounted(() => {
 		type="button"
 		class="expander"
 		v-bind="$attrs"
-		@click="show = !show"
+		@click="expanderClickHandler"
 		:aria-expanded="show"
 		:aria-controls="id"
 		aria-label="Выпадающее меню"

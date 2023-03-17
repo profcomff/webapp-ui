@@ -11,9 +11,10 @@ if (!timetableStore.lecturers.get(props.id)?.schedule) {
 	await TimetableApi.getLecturerEvents(props.id);
 }
 
-const events = computed(() => timetableStore.lecturers.get(props.id)?.schedule?.values());
+const events = computed(() => timetableStore.lecturers.get(props.id)?.schedule);
 </script>
 
 <template>
-	<EventRow v-for="event of events" :event="event" :key="event.id" />
+	<EventRow v-for="event of events?.values()" :event="event" :key="event.id" />
+	<span v-if="!events?.size">У преподавателя выходной</span>
 </template>

@@ -3,8 +3,23 @@ import Logo from '/icon.svg';
 import { IrdomLayout } from '@/components';
 import { ref } from 'vue';
 import AsyncGroupsList from './AsyncGroupsList.vue';
+import { marketingApi } from '@/api/marketing';
+import { useProfileStore } from '@/store';
 
 const query = ref('');
+const profileStore = useProfileStore();
+
+const sendMarketing = (e: Event) => {
+	const input = e.target as HTMLInputElement;
+
+	if (profileStore.marketingId) {
+		marketingApi.writeAction({
+			action: 'timetable search group',
+			user_id: profileStore.marketingId,
+			additional_data: JSON.stringify({ query: input.value }),
+		});
+	}
+};
 </script>
 <template>
 	<IrdomLayout>
@@ -14,7 +29,13 @@ const query = ref('');
 		<p class="message">Наше приложение позволит получить доступ к сервисам для студентов ФФ МГУ!</p>
 		<p class="message">Для просмотра расписания выберите свою группу:</p>
 
-		<input type="text" v-model="query" class="input" placeholder="Введите номер группы" />
+		<input
+			type="text"
+			v-model="query"
+			class="input"
+			placeholder="Введите номер группы"
+			@change.once="sendMarketing"
+		/>
 
 		<Suspense>
 			<AsyncGroupsList :query="query" />

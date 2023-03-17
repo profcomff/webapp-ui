@@ -49,7 +49,7 @@ export const useProfileStore = defineStore('profile', () => {
 
 	const isUserLogged = computed(() => token.value !== null);
 
-	const isAdmin = computed(() => userScopes.value?.includes(scopename.webapp.admin.show));
+	const isAdmin = computed(() => tokenScopes.value?.includes(scopename.webapp.admin.show));
 
 	return {
 		token,

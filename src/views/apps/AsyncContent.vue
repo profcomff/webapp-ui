@@ -1,15 +1,28 @@
 <script setup lang="ts">
 import { ServicesApi } from '@/api';
+import { marketingApi } from '@/api/marketing';
 import { CategoryInfo } from '@/api/services';
 import { MaterialIcon } from '@/components/lib';
-import { useAppsStore } from '@/store';
+import { useAppsStore, useProfileStore } from '@/store';
 import { RouterLink } from 'vue-router';
 
 const appsStore = useAppsStore();
+const profileStore = useProfileStore();
 
 if (!appsStore.categories) {
 	await ServicesApi.getCategories([CategoryInfo.Buttons]);
 }
+
+const sendMarketing = (url: string) => {
+	if (profileStore.marketingId) {
+		marketingApi.writeAction({
+			action: 'route to',
+			user_id: profileStore.marketingId,
+			path_from: '/apps',
+			path_to: url,
+		});
+	}
+};
 </script>
 
 <template>
@@ -28,8 +41,19 @@ if (!appsStore.categories) {
 				<img v-if="icon.startsWith('http')" :src="icon" :alt="name" width="400" height="400" class="icon" />
 				<MaterialIcon v-else :name="icon" class="icon" />
 
-				<a v-if="type === 'external'" :href="link" class="app-link" target="_blank">{{ name }}</a>
-				<RouterLink v-else-if="type === 'internal'" :to="`/apps/browser#${link}`" class="app-link">
+				<a
+					v-if="type === 'external'"
+					:href="link"
+					class="app-link"
+					target="_blank"
+					@click="sendMarketing(link)"
+					>{{ name }}</a
+				>
+				<RouterLink
+					v-else-if="type === 'internal'"
+					:to="`/apps/browser/?title=${name}#${link}`"
+					class="app-link"
+				>
 					{{ name }}
 				</RouterLink>
 			</div>
