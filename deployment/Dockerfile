@@ -1,5 +1,7 @@
 FROM node:18 AS build
 ARG BUILD_MODE=production
+ARG APP_VERSION=dev
+ENV VITE_APP_APP_VERSION=${APP_VERSION}
 WORKDIR /app
 ADD ./package.json ./pnpm-lock.yaml /app/
 RUN npm i -g pnpm && pnpm install

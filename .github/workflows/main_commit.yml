@@ -90,6 +90,7 @@ jobs:
           push: true
           build-args: |
             BUILD_MODE=testing
+            APP_VERSION=${{ github.ref_name }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
 
