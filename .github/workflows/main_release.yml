@@ -61,7 +61,7 @@ jobs:
     steps:
       - name: Run docker container
         run: |
-          docker pull ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:test
+          docker pull ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:preprod
           docker stop ${{ env.CONTAITER_NAME }} || true && docker rm ${{ env.CONTAITER_NAME }} || true
           docker run \
             --detach \
