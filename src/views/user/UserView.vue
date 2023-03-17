@@ -16,7 +16,7 @@ onMounted(() => {
 </script>
 
 <template>
-	<IrdomLayout title="Пользователь">
+	<IrdomLayout title="Пользователь" backable>
 		{{ JSON.stringify(authStore.users.get(userId)) }}
 	</IrdomLayout>
 </template>

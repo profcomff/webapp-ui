@@ -4,7 +4,7 @@ import { scopename } from '@/models';
 </script>
 
 <template>
-	<IrdomLayout title="Админка" backable>
+	<IrdomLayout title="Админка">
 		<RouterLink to="/admin/groups" class="link">Группы пользователей</RouterLink>
 
 		<AccessAllowed :scope="scopename.auth.scope.read" no-fallback>

@@ -198,7 +198,6 @@ export default defineConfig({
 				lang: 'ru',
 				scope: process.env.VITE_APP_MAIN,
 			},
-			registerType: 'autoUpdate',
 		}),
 	],
 	resolve: {
