@@ -11,7 +11,7 @@ if (!timetableStore.lecturers.get(props.id)?.schedule) {
 	await TimetableApi.getLecturerEvents(props.id);
 }
 
-const events = computed(() => timetableStore.lecturers.get(props.id)?.schedule);
+const events = computed(() => timetableStore.lecturers.get(props.id)?.schedule?.values());
 </script>
 
 <template>

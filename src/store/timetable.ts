@@ -6,11 +6,11 @@ import { defineStore } from 'pinia';
 import { ref } from 'vue';
 
 interface StoreLecturer extends Lecturer {
-	schedule: Event[] | null;
+	schedule: Map<number, Event> | null;
 }
 
 interface StoreRoom extends Room {
-	schedule: Event[] | null;
+	schedule: Map<number, Event> | null;
 }
 
 export const useTimetableStore = defineStore('timetable', () => {
@@ -65,10 +65,10 @@ export const useTimetableStore = defineStore('timetable', () => {
 
 		if (lecturer.schedule) {
 			for (const e of eventList) {
-				lecturer.schedule.push(e);
+				lecturer.schedule.set(e.id, e);
 			}
 		} else {
-			lecturer.schedule = eventList;
+			lecturer.schedule = new Map(eventList.map(e => [e.id, e]));
 		}
 	}
 
@@ -80,10 +80,10 @@ export const useTimetableStore = defineStore('timetable', () => {
 
 		if (room.schedule) {
 			for (const e of eventList) {
-				room.schedule.push(e);
+				room.schedule.set(e.id, e);
 			}
 		} else {
-			room.schedule = eventList;
+			room.schedule = new Map(eventList.map(e => [e.id, e]));
 		}
 	}
 

@@ -12,7 +12,7 @@ if (!timetableStore.rooms.get(props.id)?.schedule) {
 	await TimetableApi.getRoomEvents(props.id);
 }
 
-const events = computed(() => timetableStore.rooms.get(props.id)?.schedule);
+const events = computed(() => timetableStore.rooms.get(props.id)?.schedule?.values());
 </script>
 
 <template>
