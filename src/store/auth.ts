@@ -165,9 +165,7 @@ export const useAuthStore = defineStore('auth', () => {
 	}
 
 	function setUsers(userList: User[]) {
-		console.log(userList);
 		for (const user of userList) {
-			console.log(user);
 			(user as StoreUser).deleted = false;
 			users.value.set(user.id, user as StoreUser);
 		}

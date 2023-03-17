@@ -24,7 +24,6 @@ const clickOutsideHandler = (event: MouseEvent) => {
 
 const windowResizeHandler = (e: Event) => {
 	const w = e.target as Window;
-	console.log(w.innerWidth);
 
 	if (button.value && menu.value) {
 		menu.value.style.right = `${w.innerWidth - button.value.offsetLeft - button.value.offsetWidth}px`;

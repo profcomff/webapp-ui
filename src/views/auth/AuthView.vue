@@ -6,7 +6,7 @@ const clickHandler = async () => {
 	const url = await authPhysicsApi.getAuthUrl(
 		`${import.meta.env.VITE_AUTH_REDIRECT_URL}/auth/oauth-authorized/physics-msu`,
 	);
-	location.href = url;
+	window.open(url, '_blank');
 };
 </script>
 

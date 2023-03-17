@@ -4,22 +4,34 @@ import { getNameWithInitials, formatTime } from '@/utils';
 import { computed } from 'vue';
 import DataRow from './DataRow.vue';
 
-const props = defineProps<{ event: Event }>();
+const props = defineProps<{ event: Event; info: Array<'lecturer' | 'group' | 'room'> }>();
 
 const info = computed(() => {
-	const lecturers = props.event.lecturer
-		?.map(({ first_name, last_name, middle_name }) =>
-			getNameWithInitials({
-				firstName: first_name,
-				lastName: last_name,
-				middleName: middle_name,
-			}),
-		)
-		.join(', ');
+	const arr: string[] = [];
 
-	const rooms = props.event.room?.map(r => r.name).join(', ');
+	if (props.info.includes('room')) {
+		arr.push(props.event.room?.map(r => r.name).join(', '));
+	}
 
-	return [rooms, lecturers].filter(e => Boolean(e)).join(' • ');
+	if (props.info.includes('lecturer')) {
+		arr.push(
+			props.event.lecturer
+				?.map(({ first_name, last_name, middle_name }) =>
+					getNameWithInitials({
+						firstName: first_name,
+						lastName: last_name,
+						middleName: middle_name,
+					}),
+				)
+				.join(', '),
+		);
+	}
+
+	if (props.info.includes('group')) {
+		arr.push(props.event.group.number);
+	}
+
+	return arr.filter(c => Boolean(c)).join(' • ');
 });
 </script>
 

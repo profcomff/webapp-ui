@@ -18,7 +18,7 @@ const events = computed(() => timetableStore.days.get(stringifyDate(props.date))
 </script>
 
 <template>
-	<EventRow v-for="event of events" :event="event" :key="event.id" />
+	<EventRow v-for="event of events" :event="event" :key="event.id" :info="['room', 'lecturer']" />
 
 	<span v-if="events?.length === 0" class="empty"> Свободный день! </span>
 </template>
