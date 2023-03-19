@@ -1,18 +1,14 @@
 <script setup lang="ts">
-import { authPhysicsApi } from '@/api/auth';
+import { authPhysicsApi, authLkmsuApi, authMymsuApi } from '@/api/auth';
 import { IrdomLayout } from '@/components';
-
-const clickHandler = async () => {
-	const url = await authPhysicsApi.getAuthUrl(
-		`${import.meta.env.VITE_AUTH_REDIRECT_URL}/auth/oauth-authorized/physics-msu`,
-	);
-	window.open(url, '_blank');
-};
 </script>
 
 <template>
-	<IrdomLayout title="Вход" backabble back="/profile">
-		<button type="button" @click="clickHandler" class="link">Войти с почтой @physics.msu.ru</button>
+	<IrdomLayout title="Вход" backable back="/profile">
+		<button type="button" @click="authPhysicsApi.openAuthUrl()" class="link">Войти с почтой @physics.msu.ru</button>
+		<button type="button" @click="authMymsuApi.openAuthUrl()" class="link">Войти с почтой @my.msu.ru</button>
+		<button type="button" @click="authLkmsuApi.openAuthUrl()" class="link">Войти через ЛК МГУ</button>
+		<RouterLink to="/profile/auth/all">Другие способы входа</RouterLink>
 	</IrdomLayout>
 </template>
 
