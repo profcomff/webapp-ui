@@ -7,7 +7,13 @@
     "extensions": {
         "recommendations": [
             "Vue.volar",
-            "Vue.vscode-typescript-vue-plugin"
+            "Vue.vscode-typescript-vue-plugin",
+            "dbaeumer.vscode-eslint",
+            "esbenp.prettier-vscode",
+            "formulahendry.auto-close-tag",
+            "formulahendry.auto-rename-tag",
+            "steoates.autoimport",
+            "vunguyentuan.vscode-css-variables"
         ]
     },
     "tasks": {
@@ -16,7 +22,7 @@
             {
                 "label": "Configure",
                 "type": "shell",
-                "command": "pnpm init"
+                "command": "pnpm install"
             },
             {
                 "label": "Run local",
@@ -57,12 +63,11 @@
                     "<node_internals>/**"
                 ],
                 "type": "node",
-
                 "serverReadyAction": {
                     "pattern": "Local:   http://localhost:([0-9]+)/",
                     "uriFormat": "http://localhost:%s",
                     "action": "openExternally"
-                  }
+                }
             }
         ]
     }
