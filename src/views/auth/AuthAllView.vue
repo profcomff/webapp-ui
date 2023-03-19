@@ -7,8 +7,14 @@ import {
 	authGoogleApi,
 	authVkApi,
 	authGithubApi,
+	AuthOauth2BaseApi,
 } from '@/api/auth';
 import { IrdomLayout } from '@/components';
+
+async function openAuthUrl(api: AuthOauth2BaseApi) {
+	const url = await api.getAuthUrl();
+	window.open(url, '_blank');
+}
 </script>
 
 <template>
@@ -19,14 +25,13 @@ import { IrdomLayout } from '@/components';
 			<button type="button">Вход</button>
 			<RouterLink to="/profile/auth/register-email">Регистрация по электронной почте</RouterLink>
 		</form>
-		<button type="button" @click="authPhysicsApi.openAuthUrl()" class="link">Войти с почтой @physics.msu.ru</button>
-		<button type="button" @click="authMymsuApi.openAuthUrl()" class="link">Войти с почтой @my.msu.ru</button>
-		<button type="button" @click="authLkmsuApi.openAuthUrl()" class="link">Войти через ЛК МГУ</button>
-		<button type="button" @click="authGoogleApi.openAuthUrl()" class="link">Войти через аккаунт Google</button>
-		<button type="button" @click="authYandexApi.openAuthUrl()" class="link">Войти через аккаунт Yandex</button>
-		<!-- <button type="button" @click="clickHandler()" class="link">Войти через аккаунт Telegram</button> -->
-		<button type="button" @click="authVkApi.openAuthUrl()" class="link">Войти через аккаунт ВК</button>
-		<button type="button" @click="authGithubApi.openAuthUrl()" class="link">Войти через аккаунт Github</button>
+		<button type="button" @click="openAuthUrl(authPhysicsApi)" class="link">Войти с почтой @physics.msu.ru</button>
+		<button type="button" @click="openAuthUrl(authMymsuApi)" class="link">Войти с почтой @my.msu.ru</button>
+		<button type="button" @click="openAuthUrl(authLkmsuApi)" class="link">Войти через ЛК МГУ</button>
+		<button type="button" @click="openAuthUrl(authGoogleApi)" class="link">Войти через аккаунт Google</button>
+		<button type="button" @click="openAuthUrl(authYandexApi)" class="link">Войти через аккаунт Yandex</button>
+		<button type="button" @click="openAuthUrl(authVkApi)" class="link">Войти через аккаунт ВК</button>
+		<button type="button" @click="openAuthUrl(authGithubApi)" class="link">Войти через аккаунт Github</button>
 	</IrdomLayout>
 </template>
 

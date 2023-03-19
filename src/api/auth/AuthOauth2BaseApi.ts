@@ -28,16 +28,15 @@ export class AuthOauth2BaseApi<LoginBody = unknown> extends AuthBaseApi {
 		return data.url;
 	}
 
-	public async openAuthUrl() {
-		const url = await this.getAuthUrl();
-		window.open(url, '_blank');
-	}
-
 	public async login(body: LoginBody) {
 		return this.post<AuthResponse, LoginBody>('/login', body);
 	}
 
 	public async register(body: RegisterBody) {
 		return this.post<AuthResponse, RegisterBody>('/registration', body);
+	}
+
+	public async addMethod(body: LoginBody) {
+		return this.post<AuthResponse, LoginBody>('/registration', body);
 	}
 }

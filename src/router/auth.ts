@@ -1,6 +1,7 @@
 import { AxiosResponse, isAxiosError } from 'axios';
 import { AuthOauth2BaseApi, oauth2Methods } from '@/api/auth';
 import { NavigationGuard, RouteRecordRaw } from 'vue-router';
+import { useProfileStore } from '@/store';
 
 export const authRoutes: Array<RouteRecordRaw> = [
 	{
@@ -29,10 +30,14 @@ export const authHandler: NavigationGuard = async to => {
 	if (!to.path.startsWith('/auth/oauth-authorized/')) return;
 
 	const authMethod: AuthOauth2BaseApi | undefined = oauth2Methods[to.path];
+	const profileStore = useProfileStore();
 	if (authMethod === undefined) return;
 
 	try {
-		const resp: AxiosResponse = await authMethod.login(to.query);
+		let resp: AxiosResponse;
+		if (!profileStore.isUserLogged) resp = await authMethod.login(to.query);
+		else resp = await authMethod.addMethod(to.query);
+
 		if (resp.status === 200 && resp.data.token) {
 			localStorage.setItem('token', resp.data.token);
 			return { path: '/profile' };

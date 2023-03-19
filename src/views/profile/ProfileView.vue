@@ -1,10 +1,21 @@
 <script setup lang="ts">
 import { IrdomLayout, ToolbarMenuItem } from '@/components';
-import { MeInfo, authProfileApi } from '@/api/auth';
 import { LocalStorage, LocalStorageItem } from '@/models';
 import { useProfileStore } from '@/store';
 import { onMounted, computed } from 'vue';
 import Placeholder from '@/assets/profile_image_placeholder.webp';
+import {
+	authPhysicsApi,
+	authLkmsuApi,
+	authMymsuApi,
+	authYandexApi,
+	authGoogleApi,
+	authVkApi,
+	authGithubApi,
+	AuthOauth2BaseApi,
+	authProfileApi,
+	MeInfo,
+} from '@/api/auth';
 
 const profileStore = useProfileStore();
 const { updateToken, updateTokenScopes } = profileStore;
@@ -36,6 +47,11 @@ const toolbarMenu = computed<ToolbarMenuItem[]>(() => {
 
 	return arr;
 });
+
+async function openAddMethodUrl(api: AuthOauth2BaseApi) {
+	const url = await api.getAuthUrl();
+	window.open(url, '_blank');
+}
 
 onMounted(async () => {
 	if (history.state.token) {
@@ -103,6 +119,30 @@ onMounted(async () => {
 			</template>
 			<template v-else><p>No session scopes</p></template>
 		</ul>
+
+		<div>
+			<button type="button" @click="openAddMethodUrl(authPhysicsApi)" class="link">
+				Добавить вход с почтой @physics.msu.ru
+			</button>
+			<button type="button" @click="openAddMethodUrl(authMymsuApi)" class="link">
+				Добавить вход с почтой @my.msu.ru
+			</button>
+			<button type="button" @click="openAddMethodUrl(authLkmsuApi)" class="link">
+				Добавить вход через ЛК МГУ
+			</button>
+			<button type="button" @click="openAddMethodUrl(authGoogleApi)" class="link">
+				Добавить вход через аккаунт Google
+			</button>
+			<button type="button" @click="openAddMethodUrl(authYandexApi)" class="link">
+				Добавить вход через аккаунт Yandex
+			</button>
+			<button type="button" @click="openAddMethodUrl(authVkApi)" class="link">
+				Добавить вход через аккаунт ВК
+			</button>
+			<button type="button" @click="openAddMethodUrl(authGithubApi)" class="link">
+				Добавить вход через аккаунт Github
+			</button>
+		</div>
 	</IrdomLayout>
 </template>
 
