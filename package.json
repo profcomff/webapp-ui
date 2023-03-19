@@ -11,7 +11,7 @@
     "preview": "vite preview",
     "test": "vitest",
     "lint": "eslint --ext .ts,.vue .",
-    "stylelint": "stylelint \"**/*.{vue, css}\""
+    "stylelint": "stylelint \"**/*.{vue,css}\""
   },
   "dependencies": {
     "animate.css": "^4.1.1",
@@ -23,20 +23,24 @@
     "workbox-window": "^6.5.4"
   },
   "devDependencies": {
-    "stylelint-config-standard": "^31.0.0",
-    "postcss-html": "^1.5.0",
     "@types/node": "^18.15.3",
     "@typescript-eslint/eslint-plugin": "^5.55.0",
     "@typescript-eslint/parser": "^5.55.0",
     "@vitejs/plugin-vue": "^4.1.0",
     "@vue/eslint-config-typescript": "^11.0.2",
+    "autoprefixer": "^10.4.14",
     "eslint": "^8.36.0",
     "eslint-config-prettier": "^8.7.0",
     "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-vue": "^9.9.0",
+    "postcss": "^8.4.21",
+    "postcss-html": "^1.5.0",
+    "postcss-nesting": "^11.2.1",
+    "postcss-preset-env": "^8.0.1",
     "prettier": "^2.8.4",
     "stylelint": "^15.3.0",
     "stylelint-config-recommended-vue": "^1.4.0",
+    "stylelint-config-standard": "^31.0.0",
     "typescript": "5.0.2",
     "vite": "^4.2.0",
     "vite-plugin-eslint": "^1.8.1",

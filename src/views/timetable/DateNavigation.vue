@@ -58,10 +58,10 @@ const tomorrow = computed(() => getDateWithDayOffset(props.date, 1));
 	text-decoration: none;
 	font-weight: 500;
 	color: inherit;
-}
 
-.button:active {
-	color: inherit;
+	&:active {
+		color: inherit;
+	}
 }
 
 .right-icon {

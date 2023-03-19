@@ -41,23 +41,21 @@ const sorted = computed(() => [...props.scopes].sort((a, b) => (a.name > b.name 
 	display: grid;
 	grid-template-columns: 20px 1fr 1fr auto;
 	gap: 16px;
-}
 
-.row:nth-child(even) {
-	background: rgb(0 0 0 / 8%);
-}
+	&:nth-child(even) {
+		background: oklch(0 0 0 / 8%);
+	}
 
-.row th {
-	text-align: start;
+	& th {
+		text-align: start;
+	}
+
+	@media screen and (max-width: 575px) {
+		font-size: 12px;
+	}
 }
 
 .table {
 	margin-bottom: 8px;
-}
-
-@media screen and (max-width: 575px) {
-	.row {
-		font-size: 12px;
-	}
 }
 </style>

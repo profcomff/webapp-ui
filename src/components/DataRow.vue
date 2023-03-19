@@ -38,10 +38,10 @@ defineProps<Props>();
 	position: relative;
 	transition: background 0.3s;
 	height: 70px;
-}
 
-.row:last-child {
-	margin-bottom: 0;
+	&:last-child {
+		margin-bottom: 0;
+	}
 }
 
 .clickable {

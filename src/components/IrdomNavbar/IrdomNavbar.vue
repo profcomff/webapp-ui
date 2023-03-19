@@ -43,7 +43,7 @@ defineProps<{
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	justify-content: start;
+	justify-content: flex-start;
 	text-decoration: none;
 	color: inherit;
 	border-bottom: 3px solid transparent;

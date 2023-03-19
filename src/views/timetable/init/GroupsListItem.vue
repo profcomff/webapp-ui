@@ -34,7 +34,7 @@ const setGroup = (group: StudyGroup) => {
 <style scoped>
 .label {
 	padding: 4px 8px;
-	background: rgb(173 216 230 / 50%);
+	background: oklch(86% 0.05 220 / 50%);
 	border-radius: 999px;
 }
 
@@ -52,6 +52,10 @@ const setGroup = (group: StudyGroup) => {
 	margin-bottom: 16px;
 	overflow: hidden;
 	position: relative;
+
+	&:last-child {
+		margin-bottom: 0;
+	}
 }
 
 .more {
@@ -61,9 +65,5 @@ const setGroup = (group: StudyGroup) => {
 	background: peachpuff;
 	border-radius: 999px;
 	padding: 2px 4px;
-}
-
-.section:last-child {
-	margin-bottom: 0;
 }
 </style>

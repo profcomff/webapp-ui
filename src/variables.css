@@ -1,6 +1,6 @@
 :root {
-	--color-primary-dark: #00004b;
-	--color-accent: #ff8b00;
+	--color-primary-dark: oklch(19% 0.13 264);
+	--color-accent: oklch(75% 0.18 57.8);
 	--toolbar-height: 56px;
 	--navbar-height: 64px;
 }

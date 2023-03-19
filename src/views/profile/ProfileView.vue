@@ -109,18 +109,18 @@ onMounted(async () => {
 <style scoped>
 .li {
 	list-style-position: inside;
-}
 
-.li::marker {
-	content: '- ';
+	&::marker {
+		content: '- ';
+	}
 }
 
 .ul {
 	margin-bottom: 20px;
-}
 
-.ul:last-child {
-	margin-bottom: 0;
+	&:last-child {
+		margin-bottom: 0;
+	}
 }
 
 .avatar {
@@ -131,7 +131,7 @@ onMounted(async () => {
 	width: 100%;
 	max-width: 256px;
 	border-radius: 999px;
-	box-shadow: 0 0 20px rgb(0 0 0 / 10%);
+	box-shadow: 0 0 20px oklch(0 0 0 / 10%);
 	object-fit: cover;
 }
 </style>

@@ -58,10 +58,8 @@ const sorted = computed(() =>
 	grid-template-columns: 1fr 1fr;
 	column-gap: 2.5%;
 	row-gap: 16px;
-}
 
-@media screen and (max-width: 575px) {
-	.grid {
+	@media screen and (max-width: 575px) {
 		grid-template-columns: 1fr;
 	}
 }

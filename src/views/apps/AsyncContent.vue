@@ -62,6 +62,17 @@ const sendMarketing = (url: string) => {
 </template>
 
 <style scoped>
+.app {
+	text-decoration: none;
+	position: relative;
+	border-radius: 16px;
+	width: 100%;
+
+	&:last-child {
+		margin-bottom: 0;
+	}
+}
+
 .grid3 {
 	display: grid;
 	grid-template-columns: repeat(3, 1fr);
@@ -69,45 +80,34 @@ const sendMarketing = (url: string) => {
 	row-gap: 32px;
 	justify-items: center;
 	align-self: center;
-}
 
-.grid3 .icon {
-	width: 100%;
-	height: auto;
-	aspect-ratio: 1;
-	display: block;
-	padding: 0 8px;
-}
+	& .icon {
+		width: 100%;
+		height: auto;
+		aspect-ratio: 1;
+		display: block;
+		padding: 0 8px;
+	}
 
-.app {
-	text-decoration: none;
-	position: relative;
-	border-radius: 16px;
-	width: 100%;
-}
+	& .app {
+		max-width: 144px;
+		background: white;
+		padding: 8px min(8%, 8px);
+		display: block;
+		font-size: 14px;
+		text-align: center;
+		overflow-wrap: anywhere;
+		word-break: keep-all;
+		box-shadow: 0 0 20px oklch(0 0 0 / 10%);
+		transition: all 0.3s ease;
+		animation: pulse;
+		animation-duration: 0.5s;
 
-.grid3 .app {
-	max-width: 144px;
-	background: white;
-	padding: 8px min(8%, 8px);
-	display: block;
-	font-size: 14px;
-	text-align: center;
-	overflow-wrap: anywhere;
-	word-break: keep-all;
-	box-shadow: 0 0 20px rgb(0 0 0 / 10%);
-	transition: all 0.3s ease;
-	animation: pulse;
-	animation-duration: 0.5s;
-}
-
-.app:nth-of-type(1) {
-	animation-duration: 1s;
-}
-
-:is(.grid3 .app):hover {
-	transform: translateY(-4px);
-	box-shadow: 0 0 24px rgb(0 0 / 12%);
+		&:hover {
+			transform: translateY(-4px);
+			box-shadow: 0 0 24px oklch(0 0 0 / 12%);
+		}
+	}
 }
 
 .list .app {
@@ -115,13 +115,9 @@ const sendMarketing = (url: string) => {
 	align-items: center;
 	padding: 12px 24px;
 	gap: 0.8em;
-	background-color: #f2f2f2;
+	background: oklch(97% 0 0);
 	border-radius: 5px;
 	margin-bottom: 10px;
-}
-
-.app:last-child {
-	margin-bottom: 0;
 }
 
 .h2 {
@@ -131,10 +127,10 @@ const sendMarketing = (url: string) => {
 
 .section {
 	margin-bottom: 24px;
-}
 
-.section:last-child {
-	margin-bottom: 0;
+	&:last-child {
+		margin-bottom: 0;
+	}
 }
 
 .app-link::after {

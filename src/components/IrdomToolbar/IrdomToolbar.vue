@@ -108,7 +108,7 @@ const onBack = () => {
 	width: 100%;
 	background: var(--color-primary-dark);
 	color: white;
-	box-shadow: 0 2px 4px rgb(0 0 0 / 50%);
+	box-shadow: 0 2px 4px oklch(0 0 0 / 50%);
 }
 
 .wrapper {

@@ -44,7 +44,7 @@ const sorted = computed(() => [...props.users].sort((a, b) => a.id - b.id));
 }
 
 .row:nth-child(even) {
-	background: rgb(0 0 0 / 8%);
+	background: oklch(0 0 0 / 8%);
 }
 
 .row th {

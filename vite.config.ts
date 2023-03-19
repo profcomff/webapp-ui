@@ -5,9 +5,17 @@ import Stylelint from 'vite-plugin-stylelint';
 import Eslint from 'vite-plugin-eslint';
 import Vue from '@vitejs/plugin-vue';
 import path from 'path';
+import postcssPresetEnv from 'postcss-preset-env';
+import autoprefixer from 'autoprefixer';
+import postcssNesting from 'postcss-nesting';
 
 // https://vitejs.dev/config/
 export default defineConfig({
+	css: {
+		postcss: {
+			plugins: [postcssPresetEnv, autoprefixer, postcssNesting],
+		},
+	},
 	plugins: [
 		Vue(),
 		Eslint(),
