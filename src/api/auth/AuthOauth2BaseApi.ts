@@ -1,7 +1,6 @@
-import { RouteLocationNormalized } from 'vue-router';
 import { AuthBaseApi } from './AuthBaseApi';
 
-export const oauth2Methods: { [url: string]: AuthOauth2BaseApi } = [];
+export const oauth2Methods: { [url: string]: AuthOauth2BaseApi } = {};
 
 interface AuthResponse {
 	token: string;
@@ -15,7 +14,7 @@ interface RegisterBody {
 	scopes?: string[];
 }
 
-export class AuthOauth2BaseApi<LoginBody> extends AuthBaseApi {
+export class AuthOauth2BaseApi<LoginBody = unknown> extends AuthBaseApi {
 	private _redirect_path: string | null = null;
 
 	constructor(path = '') {

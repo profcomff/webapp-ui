@@ -1,4 +1,3 @@
-import { marketingApi } from './../api/marketing';
 import { AxiosResponse, isAxiosError } from 'axios';
 import { AuthOauth2BaseApi, oauth2Methods } from '@/api/auth';
 import { NavigationGuard, RouteRecordRaw } from 'vue-router';
@@ -34,16 +33,16 @@ export const authHandler: NavigationGuard = async to => {
 
 	try {
 		const resp: AxiosResponse = await authMethod.login(to.query);
-		if (resp.status == 200 && resp.data.token) {
+		if (resp.status === 200 && resp.data.token) {
 			localStorage.setItem('token', resp.data.token);
 			return { path: '/profile' };
 		}
 		return { path: '/profile/auth/error', query: { text: 'Непредвиденная ошибка' } };
 	} catch (e) {
 		if (isAxiosError(e)) {
-			if (e.response && e.response.status == 401) {
+			if (e.response && e.response.status === 401) {
 				const id_token = e.response.data.id_token;
-				if (typeof id_token == 'string') {
+				if (typeof id_token === 'string') {
 					sessionStorage.setItem('id-token', id_token);
 					sessionStorage.setItem('id-token-issuer', to.path);
 					return { path: '/profile/auth/register-oauth' };
