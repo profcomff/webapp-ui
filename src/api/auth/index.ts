@@ -1,4 +1,9 @@
-export { authPhysicsApi } from './AuthPhysicsApi';
+export { oauth2Methods, AuthOauth2BaseApi } from '@/api/auth/AuthOauth2BaseApi';
+export { authGithubApi } from './AuthGithubApi';
+export { authVkApi } from './AuthVkApi';
+export { authGoogleApi, authPhysicsApi } from './AuthPhysicsApi';
+export { authLkmsuApi } from './AuthLkmsuApi';
+export { authYandexApi, authMymsuApi } from './AuthMymsuApi';
 export { authProfileApi, MeInfo } from './AuthProfileApi';
 export { authGroupApi, GroupInfo } from './AuthGroupApi';
 export { authScopeApi } from './AuthScopeApi';

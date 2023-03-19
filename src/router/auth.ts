@@ -1,66 +1,61 @@
-import { LocalStorage, LocalStorageItem } from '@/models';
-import { authPhysicsApi } from '@/api/auth';
-import { AxiosError } from 'axios';
+import { marketingApi } from './../api/marketing';
+import { AxiosResponse, isAxiosError } from 'axios';
+import { AuthOauth2BaseApi, oauth2Methods } from '@/api/auth';
 import { NavigationGuard, RouteRecordRaw } from 'vue-router';
 
 export const authRoutes: Array<RouteRecordRaw> = [
 	{
 		path: '',
-		component: () => import('../views/auth/AuthView.vue'),
+		component: () => import('@/views/auth/AuthView.vue'),
+	},
+	{
+		path: 'all',
+		component: () => import('@/views/auth/AuthAllView.vue'),
+	},
+	{
+		path: 'register-email',
+		component: () => import('@/views/auth/RegisterEmailView.vue'),
+	},
+	{
+		path: 'register-oauth',
+		component: () => import('@/views/auth/RegisterOauthView.vue'),
+	},
+	{
+		path: 'error',
+		component: () => import('@/views/auth/LoginErrorView.vue'),
 	},
 ];
 
-async function register({ scopes, id_token }: { scopes?: string[]; id_token: string }) {
-	try {
-		console.log('Try to registrer');
-		const {
-			data: { token },
-		} = await authPhysicsApi.register({ scopes, id_token: id_token });
-
-		return token;
-	} catch (e) {
-		console.error('Unknown error');
-		return null;
-	}
-}
-
 export const authHandler: NavigationGuard = async to => {
-	if (to.path === '/auth/oauth-authorized/physics-msu') {
-		const state = to.query.state as string;
-		const code = to.query.code as string;
+	if (!to.path.startsWith('/auth/oauth-authorized/')) return;
 
-		try {
-			const {
-				data: { token },
-			} = await authPhysicsApi.login({ state, code });
+	const authMethod: AuthOauth2BaseApi | undefined = oauth2Methods[to.path];
+	if (authMethod === undefined) return;
 
-			LocalStorage.set<string>(LocalStorageItem.Token, token);
-
-			return { path: '/profile', state: { token } };
-		} catch (e) {
-			// eslint-disable-next-line @typescript-eslint/no-explicit-any
-			const { response } = e as AxiosError<any>;
-
-			switch (response?.status) {
-				case 401:
-					if (response.data.id_token) {
-						console.log('User has not been registered yet');
-
-						const token = await register({ id_token: response.data.id_token });
-						if (token) {
-							LocalStorage.set<string>(LocalStorageItem.Token, token);
-						}
-						return { path: '/profile', state: { token } };
-					} else {
-						// ошибка во внешнем сервисе
-						break;
-					}
-				case 409:
-					// пользователь уже существует
-					break;
+	try {
+		const resp: AxiosResponse = await authMethod.login(to.query);
+		if (resp.status == 200 && resp.data.token) {
+			localStorage.setItem('token', resp.data.token);
+			return { path: '/profile' };
+		}
+		return { path: '/profile/auth/error', query: { text: 'Непредвиденная ошибка' } };
+	} catch (e) {
+		if (isAxiosError(e)) {
+			if (e.response && e.response.status == 401) {
+				const id_token = e.response.data.id_token;
+				if (typeof id_token == 'string') {
+					sessionStorage.setItem('id-token', id_token);
+					sessionStorage.setItem('id-token-issuer', to.path);
+					return { path: '/profile/auth/register-oauth' };
+				} else {
+					// TODO: Писать в маркетинг об ошибке
+					return {
+						path: '/profile/auth/error',
+						query: { text: 'Переданы неверные данные для входа' },
+					};
+				}
 			}
 		}
-
-		return { path: '/profile' };
+		return { path: '/profile/auth/error', query: { text: 'Непредвиденная ошибка' } };
 	}
 };
