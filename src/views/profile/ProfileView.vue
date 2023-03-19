@@ -120,29 +120,23 @@ onMounted(async () => {
 			<template v-else><p>No session scopes</p></template>
 		</ul>
 
-		<div>
-			<button type="button" @click="openAddMethodUrl(authPhysicsApi)" class="link">
-				Добавить вход с почтой @physics.msu.ru
-			</button>
-			<button type="button" @click="openAddMethodUrl(authMymsuApi)" class="link">
-				Добавить вход с почтой @my.msu.ru
-			</button>
-			<button type="button" @click="openAddMethodUrl(authLkmsuApi)" class="link">
-				Добавить вход через ЛК МГУ
-			</button>
-			<button type="button" @click="openAddMethodUrl(authGoogleApi)" class="link">
-				Добавить вход через аккаунт Google
-			</button>
-			<button type="button" @click="openAddMethodUrl(authYandexApi)" class="link">
-				Добавить вход через аккаунт Yandex
-			</button>
-			<button type="button" @click="openAddMethodUrl(authVkApi)" class="link">
-				Добавить вход через аккаунт ВК
-			</button>
-			<button type="button" @click="openAddMethodUrl(authGithubApi)" class="link">
-				Добавить вход через аккаунт Github
-			</button>
-		</div>
+		<button type="button" @click="openAddMethodUrl(authPhysicsApi)" class="link">
+			Добавить вход с почтой @physics.msu.ru
+		</button>
+		<button type="button" @click="openAddMethodUrl(authMymsuApi)" class="link">
+			Добавить вход с почтой @my.msu.ru
+		</button>
+		<button type="button" @click="openAddMethodUrl(authLkmsuApi)" class="link">Добавить вход через ЛК МГУ</button>
+		<button type="button" @click="openAddMethodUrl(authGoogleApi)" class="link">
+			Добавить вход через аккаунт Google
+		</button>
+		<button type="button" @click="openAddMethodUrl(authYandexApi)" class="link">
+			Добавить вход через аккаунт Yandex
+		</button>
+		<button type="button" @click="openAddMethodUrl(authVkApi)" class="link">Добавить вход через аккаунт ВК</button>
+		<button type="button" @click="openAddMethodUrl(authGithubApi)" class="link">
+			Добавить вход через аккаунт Github
+		</button>
 	</IrdomLayout>
 </template>
 
@@ -173,5 +167,9 @@ onMounted(async () => {
 	border-radius: 999px;
 	box-shadow: 0 0 20px oklch(0 0 0 / 10%);
 	object-fit: cover;
+}
+
+.link {
+	align-self: flex-start;
 }
 </style>
