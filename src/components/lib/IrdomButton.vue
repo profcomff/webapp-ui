@@ -1,5 +1,5 @@
 <script setup lang="ts">
-withDefaults(defineProps<{ icon: boolean }>(), { icon: false });
+withDefaults(defineProps<{ icon?: boolean }>(), { icon: false });
 </script>
 
 <template>

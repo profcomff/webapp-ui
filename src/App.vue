@@ -20,19 +20,19 @@ const navbarItems = computed<NavbarItem[]>(() => {
 			name: 'Сервисы',
 			path: '/apps',
 		},
-		{
-			icon: 'account_circle',
-			name: 'Профиль',
-			path: '/profile',
-		},
+		// {
+		// 	icon: 'account_circle',
+		// 	name: 'Профиль',
+		// 	path: '/profile',
+		// },
 	];
-	if (profileStore.isAdmin) {
-		common.push({
-			icon: 'manage_accounts',
-			name: 'Админка',
-			path: '/admin',
-		});
-	}
+	// if (profileStore.isAdmin) {
+	// 	common.push({
+	// 		icon: 'manage_accounts',
+	// 		name: 'Админка',
+	// 		path: '/admin',
+	// 	});
+	// }
 	return common;
 });
 
