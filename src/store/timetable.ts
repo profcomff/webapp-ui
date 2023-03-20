@@ -26,15 +26,22 @@ export const useTimetableStore = defineStore('timetable', () => {
 
 	function setLecturers(lecturerList: Lecturer[]) {
 		for (const l of lecturerList) {
-			(l as StoreLecturer).schedule = null;
-			lecturers.value.set(l.id, l as StoreLecturer);
+			if (!lecturers.value.has(l.id)) {
+				(l as StoreLecturer).schedule = null;
+				lecturers.value.set(l.id, l as StoreLecturer);
+			} else if (l.avatar_link) {
+				// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+				lecturers.value.get(l.id)!.avatar_link = l.avatar_link;
+			}
 		}
 	}
 
 	function setRooms(roomList: Room[]) {
 		for (const r of roomList) {
-			(r as StoreRoom).schedule = null;
-			rooms.value.set(r.id, r as StoreRoom);
+			if (!rooms.value.has(r.id)) {
+				(r as StoreRoom).schedule = null;
+				rooms.value.set(r.id, r as StoreRoom);
+			}
 		}
 	}
 

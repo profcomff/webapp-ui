@@ -52,22 +52,24 @@ export class TimetableApi {
 	}
 
 	public static async getLecturerEvents(lecturerId: number) {
-		const { setLecturerEvents } = useTimetableStore();
+		const { setLecturerEvents, setLecturers } = useTimetableStore();
 		const { data } = await timetableEventApi.getEvents({
 			start: stringifyDateIso(new Date()),
 			end: stringifyDateIso(getDateWithDayOffset(new Date(), 1)),
 			lecturer_id: lecturerId,
 		});
+		setLecturers(data.items[0].lecturer);
 		setLecturerEvents(lecturerId, data.items);
 	}
 
 	public static async getRoomEvents(roomId: number) {
-		const { setRoomEvents } = useTimetableStore();
+		const { setRoomEvents, setRooms } = useTimetableStore();
 		const { data } = await timetableEventApi.getEvents({
 			start: stringifyDateIso(new Date()),
 			end: stringifyDateIso(getDateWithDayOffset(new Date(), 1)),
 			room_id: roomId,
 		});
+		setRooms(data.items[0].room);
 		setRoomEvents(roomId, data.items);
 	}
 }
