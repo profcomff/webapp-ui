@@ -32,8 +32,8 @@ const sendMarketing = (e: Event) => {
 
 		<IrdomInput
 			type="text"
-			v-model="query"
 			class="input"
+			v-model="query"
 			placeholder="Введите номер группы"
 			@change.once="sendMarketing"
 		/>

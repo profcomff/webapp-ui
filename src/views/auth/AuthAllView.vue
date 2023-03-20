@@ -1,60 +1,7 @@
 <script setup lang="ts">
-import {
-	authPhysicsApi,
-	authLkmsuApi,
-	authMymsuApi,
-	authYandexApi,
-	authGoogleApi,
-	authVkApi,
-	authGithubApi,
-} from '@/api/auth';
-import { AuthButton, IrdomAuthButton, IrdomLayout } from '@/components';
-import logos from '@/assets/logos.svg';
+import { IrdomAuthButton, IrdomLayout } from '@/components';
 import { IrdomInput, IrdomButton } from '@/components/lib';
-
-const buttons: AuthButton[] = [
-	{
-		name: 'Войти через ЛК МГУ',
-		api: authLkmsuApi,
-		icon: `${logos}#msu`,
-		color: '#58b4470d',
-	},
-	{
-		name: 'Войти с почтой @physics.msu.ru',
-		api: authPhysicsApi,
-		icon: `${logos}#ff`,
-		color: '#00014c0d',
-	},
-	{
-		name: 'Войти с почтой @my.msu.ru',
-		api: authMymsuApi,
-		icon: `${logos}#msu`,
-		color: '#2f39500d',
-	},
-	{
-		name: 'Войти через аккаунт Yandex',
-		api: authYandexApi,
-		icon: `${logos}#yandex`,
-		color: '#e94c000d',
-	},
-	{
-		name: 'Войти через аккаунт ВК',
-		api: authVkApi,
-		icon: `${logos}#vk`,
-		color: '#0077ff0d',
-	},
-	{
-		name: 'Войти через аккаунт Github',
-		api: authGithubApi,
-		icon: `${logos}#github`,
-		color: '#24292f0d',
-	},
-	{
-		name: 'Войти через аккаунт Google',
-		api: authGoogleApi,
-		icon: `${logos}#google`,
-	},
-];
+import { authButtons } from '@/constants';
 </script>
 
 <template>
@@ -80,7 +27,7 @@ const buttons: AuthButton[] = [
 		</form>
 
 		<div class="buttons">
-			<IrdomAuthButton v-for="button of buttons" :key="button.name" :button="button" />
+			<IrdomAuthButton v-for="button of authButtons" :key="button.name" :button="button" />
 		</div>
 	</IrdomLayout>
 </template>

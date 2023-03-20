@@ -34,7 +34,7 @@ const setGroup = (group: StudyGroup) => {
 <style scoped>
 .label {
 	padding: 4px 8px;
-	background: oklch(86% 0.05 220 / 50%);
+	background: var(--color-primary-light);
 	border-radius: 999px;
 }
 

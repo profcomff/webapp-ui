@@ -1,7 +1,10 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+defineProps<{ modelValue?: string }>();
+defineEmits<{ e: 'update:modelValue'; value: string }>();
+</script>
 
 <template>
-	<input class="input" />
+	<input class="input" @input="$emit('update:modelValue', ($event.target as HTMLInputElement).value)" />
 </template>
 
 <style scoped>
@@ -10,7 +13,7 @@
 	box-shadow: 0 1px 0 var(--color-primary-dark);
 	padding: 16px;
 	border-radius: 4px 4px 0 0;
-	background: oklch(19% 0.13 264 / 10%);
+	background: var(--color-primary-light);
 	outline: none;
 	font-size: 16px;
 	display: block;

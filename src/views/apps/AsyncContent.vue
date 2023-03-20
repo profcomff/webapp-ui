@@ -32,12 +32,7 @@ const sendMarketing = (url: string) => {
 		</h2>
 
 		<div :class="{ grid3: type === 'grid3', list: type === 'list' }">
-			<div
-				v-for="({ icon, link, name, type, id }, i) of buttons"
-				class="app"
-				:key="id"
-				:style="{ animationDelay: `${i * 0.2}s` }"
-			>
+			<div v-for="{ icon, link, name, type, id } of buttons" class="app" :key="id">
 				<img v-if="icon.startsWith('http')" :src="icon" :alt="name" width="400" height="400" class="icon" />
 				<MaterialIcon v-else :name="icon" class="icon" />
 
@@ -100,8 +95,6 @@ const sendMarketing = (url: string) => {
 		word-break: keep-all;
 		box-shadow: 0 0 20px oklch(0 0 0 / 10%);
 		transition: all 0.3s ease;
-		animation: pulse;
-		animation-duration: 0.5s;
 
 		&:hover {
 			transform: translateY(-4px);
