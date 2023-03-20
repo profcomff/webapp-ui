@@ -21,16 +21,14 @@ const fullName = computed(() => {
 	}
 	return undefined;
 });
+
+const imgUrl = computed(() =>
+	lecturer.value?.avatar_link ? `${import.meta.env.VITE_API_URL}${lecturer.value?.avatar_link}` : Placeholder,
+);
 </script>
 
 <template>
-	<img
-		:src="lecturer?.avatar_link ?? Placeholder"
-		alt="Фотография преподавателя"
-		class="avatar"
-		width="256"
-		height="256"
-	/>
+	<img :src="imgUrl" alt="Фотография преподавателя" class="avatar" width="256" height="256" />
 	<h2 class="full-name">{{ fullName }}</h2>
 </template>
 

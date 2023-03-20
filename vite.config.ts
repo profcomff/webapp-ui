@@ -77,6 +77,16 @@ export default defineConfig({
 							},
 						},
 					},
+					{
+						urlPattern: /^https:\/\/api\.(test\.)?profcomff.com\/[a-zA-Z]+\/static.*/,
+						handler: 'CacheFirst',
+						options: {
+							cacheName: 'static-cache',
+							cacheableResponse: {
+								statuses: [0, 200],
+							},
+						},
+					},
 				],
 			},
 			manifest: {
