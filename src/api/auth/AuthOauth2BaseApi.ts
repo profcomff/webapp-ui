@@ -1,6 +1,6 @@
 import { AuthBaseApi } from './AuthBaseApi';
 
-export const oauth2Methods: { [url: string]: AuthOauth2BaseApi } = {};
+export const oauth2Methods: Record<string, AuthOauth2BaseApi> = {};
 
 interface AuthResponse {
 	token: string;
@@ -15,12 +15,9 @@ interface RegisterBody {
 }
 
 export class AuthOauth2BaseApi<LoginBody = unknown> extends AuthBaseApi {
-	private _redirect_path: string | null = null;
-
 	constructor(path = '') {
 		super(path);
-		this._redirect_path = `/auth/oauth-authorized${path}`;
-		oauth2Methods[this._redirect_path] = this;
+		oauth2Methods[`/auth/oauth-authorized${path}`] = this;
 	}
 
 	public async getAuthUrl() {
@@ -36,7 +33,7 @@ export class AuthOauth2BaseApi<LoginBody = unknown> extends AuthBaseApi {
 		return this.post<AuthResponse, RegisterBody>('/registration', body);
 	}
 
-	public async addMethod(body: LoginBody) {
+	public async linkNewAccount(body: LoginBody) {
 		return this.post<AuthResponse, LoginBody>('/registration', body);
 	}
 }

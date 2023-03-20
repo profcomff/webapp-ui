@@ -1,7 +1,7 @@
 import { LocalStorage, LocalStorageItem } from './../models/LocalStorage';
 import { NavigationGuard, RouteRecordRaw } from 'vue-router';
 
-export const adminRoutes: Array<RouteRecordRaw> = [
+export const adminRoutes: RouteRecordRaw[] = [
 	{
 		path: '',
 		component: () => import('../views/admin/AdminView.vue'),

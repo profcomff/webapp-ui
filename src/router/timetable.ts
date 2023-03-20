@@ -4,7 +4,7 @@ import { stringifyDate } from '@/utils';
 import { TimetableView } from '@/views';
 import { NavigationGuard, RouteRecordRaw } from 'vue-router';
 
-export const timetableRoutes: Array<RouteRecordRaw> = [
+export const timetableRoutes: RouteRecordRaw[] = [
 	{
 		path: '',
 		redirect: `/timetable/${stringifyDate(new Date())}`,

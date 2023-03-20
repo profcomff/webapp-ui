@@ -7,7 +7,7 @@ import { AppsView } from '@/views';
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router';
 import { timetableRoutes, timetableHandler } from './timetable';
 
-const routes: Array<RouteRecordRaw> = [
+const routes: RouteRecordRaw[] = [
 	{
 		path: '/',
 		redirect: '/timetable',

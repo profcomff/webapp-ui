@@ -1,9 +1,10 @@
-import { AxiosResponse, isAxiosError } from 'axios';
+import { LocalStorage, LocalStorageItem } from './../models/LocalStorage';
+import { isAxiosError } from 'axios';
 import { AuthOauth2BaseApi, oauth2Methods } from '@/api/auth';
 import { NavigationGuard, RouteRecordRaw } from 'vue-router';
 import { useProfileStore } from '@/store';
 
-export const authRoutes: Array<RouteRecordRaw> = [
+export const authRoutes: RouteRecordRaw[] = [
 	{
 		path: '',
 		component: () => import('@/views/auth/AuthView.vue'),
@@ -34,32 +35,36 @@ export const authHandler: NavigationGuard = async to => {
 	if (authMethod === undefined) return;
 
 	try {
-		let resp: AxiosResponse;
-		if (!profileStore.isUserLogged) resp = await authMethod.login(to.query);
-		else resp = await authMethod.addMethod(to.query);
+		const resp = await (profileStore.isUserLogged
+			? authMethod.linkNewAccount(to.query)
+			: authMethod.login(to.query));
 
 		if (resp.status === 200 && resp.data.token) {
-			localStorage.setItem('token', resp.data.token);
+			LocalStorage.set(LocalStorageItem.Token, resp.data.token);
+			profileStore.updateToken();
 			return { path: '/profile' };
 		}
+
 		return { path: '/profile/auth/error', query: { text: 'Непредвиденная ошибка' } };
 	} catch (e) {
-		if (isAxiosError(e)) {
-			if (e.response && e.response.status === 401) {
-				const id_token = e.response.data.id_token;
-				if (typeof id_token === 'string') {
-					sessionStorage.setItem('id-token', id_token);
-					sessionStorage.setItem('id-token-issuer', to.path);
-					return { path: '/profile/auth/register-oauth' };
-				} else {
-					// TODO: Писать в маркетинг об ошибке
-					return {
-						path: '/profile/auth/error',
-						query: { text: 'Переданы неверные данные для входа' },
-					};
-				}
-			}
+		if (!isAxiosError(e)) {
+			return { path: '/profile/auth/error', query: { text: 'Непредвиденная ошибка' } };
 		}
-		return { path: '/profile/auth/error', query: { text: 'Непредвиденная ошибка' } };
+
+		if (e.response && e.response.status === 401) {
+			const id_token = e.response.data.id_token;
+
+			if (typeof id_token !== 'string') {
+				// TODO: Писать в маркетинг об ошибке
+				return {
+					path: '/profile/auth/error',
+					query: { text: 'Переданы неверные данные для входа' },
+				};
+			}
+
+			sessionStorage.setItem('id-token', id_token);
+			sessionStorage.setItem('id-token-issuer', to.path);
+			return { path: '/profile/auth/register-oauth' };
+		}
 	}
 };

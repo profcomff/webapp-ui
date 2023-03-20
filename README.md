@@ -5,16 +5,16 @@
 1. [Установите](https://git-scm.com/book/ru/v2/Введение-Установка-Git) систему контроля версий `git`;
 2. Проверьте успешность установки с помощью команды
 
-```bash
-git --version
-```
+    ```bash
+    git --version
+    ```
 
-2. **Склонируйте репозиторий:**
+3. **Склонируйте репозиторий:**
    В необходимой директории выполните в консоли команду
 
-```bash
-git clone https://github.com/profcomff/webapp-ui
-```
+    ```bash
+    git clone https://github.com/profcomff/webapp-ui
+    ```
 
 Появится папка `webapp-ui` с исходным кодом проекта.
 
@@ -22,30 +22,30 @@ git clone https://github.com/profcomff/webapp-ui
 
 4. Проверьте успешность установки с помощью команды
 
-```bash
-node --version
-```
+    ```bash
+    node --version
+    ```
 
 5. Вместе с `Node.js` у вас установится пакетный менеджер по умолчанию — `npm`. Рекомендуем использовать более совеременный вариант — `pnpm`. Для его установки выполните
 
-```bash
-npm install --global pnpm
-```
+    ```bash
+    npm install --global pnpm
+    ```
 
 6. Для установки зависимостей проекта выполните команду
 
-```bash
-pnpm install
-```
+    ```bash
+    pnpm install
+    ```
 
 7. Для запуска проекта локально выполните команду
 
-```bash
-pnpm run dev
-```
+    ```bash
+    pnpm run dev
+    ```
 
 8. Введите в адресной строке браузера `http://localhost:9000`. Откроется главная страница приложения "Твой ФФ!".
-   <img src="timetable-init.jpg" alt="Скриншот главной страницы приложения" style="max-width: 700px">
+   <img src="timetable_init.jpg" alt="Скриншот главной страницы приложения" style="max-width: 700px">
 
 \* при возникновении проблем пишите в наш телеграм-чат или [@physphile](t.me/physphile).
 
@@ -54,15 +54,15 @@ pnpm run dev
 1. **Среда разработки**.
    В последние годы самым популярным редактором кода стал `Visual Studio Code` (не путать с `Visual Studio`!). Необходимо [установить](https://code.visualstudio.com/download) именно его и несколько полезных плагинов, таких как
 
--   [Vue Language Features (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.volar)
--   [TypeScript Vue Plugin (Volar)
-    ](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin)
--   [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint)
--   [Prettier - Code formatter](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode)
--   [Auto Close Tag](https://marketplace.visualstudio.com/items?itemName=formulahendry.auto-close-tag)
--   [Auto Rename Tag](https://marketplace.visualstudio.com/items?itemName=formulahendry.auto-rename-tag)
--   [Auto Import](https://marketplace.visualstudio.com/items?itemName=steoates.autoimport)
--   [CSS Variable Autocomplete](https://marketplace.visualstudio.com/items?itemName=vunguyentuan.vscode-css-variables)
+    - [Vue Language Features (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.volar)
+    - [TypeScript Vue Plugin (Volar)
+      ](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin)
+    - [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint)
+    - [Prettier - Code formatter](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode)
+    - [Auto Close Tag](https://marketplace.visualstudio.com/items?itemName=formulahendry.auto-close-tag)
+    - [Auto Rename Tag](https://marketplace.visualstudio.com/items?itemName=formulahendry.auto-rename-tag)
+    - [Auto Import](https://marketplace.visualstudio.com/items?itemName=steoates.autoimport)
+    - [CSS Variable Autocomplete](https://marketplace.visualstudio.com/items?itemName=vunguyentuan.vscode-css-variables)
 
 2. **Самое главное** для веб-разработки у вас, безусловно, было установлено всегда и вы этим активно пользуетесь. Конечно, я говорю о браузере. В целом можно использовать любой браузер последней версии, но я советую `Google Chrome`. Нововведения первыми появляются в нем, удобная панель разработчика. Опыт в других браузерах на движке `chromium`, например, в `Яндекс Браузере`, будет аналогичным. Непременно стоит установить расширение [Vue.js devtools](https://chrome.google.com/webstore/detail/vuejs-devtools/ljjemllljcmogpfapbkkighbhhppjdbg) для просмотра дерева компонентов, отслеживания их состояния и общего состояния приложения.
 

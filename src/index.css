@@ -29,17 +29,6 @@ body {
 	outline: 2px solid coral;
 }
 
-input {
-	padding: 8px 12px;
-	border: 2px solid var(--color-primary-dark);
-	border-radius: 999px;
-}
-
-input:focus-visible {
-	outline: none;
-	border-color: var(--color-accent);
-}
-
 button {
 	font-weight: 500;
 	font-size: inherit;

@@ -5,6 +5,7 @@ import { ref } from 'vue';
 import AsyncGroupsList from './AsyncGroupsList.vue';
 import { marketingApi } from '@/api/marketing';
 import { useProfileStore } from '@/store';
+import { IrdomInput } from '@/components/lib';
 
 const query = ref('');
 const profileStore = useProfileStore();
@@ -29,7 +30,7 @@ const sendMarketing = (e: Event) => {
 		<p class="message">Наше приложение позволит получить доступ к сервисам для студентов ФФ МГУ!</p>
 		<p class="message">Для просмотра расписания выберите свою группу:</p>
 
-		<input
+		<IrdomInput
 			type="text"
 			v-model="query"
 			class="input"
