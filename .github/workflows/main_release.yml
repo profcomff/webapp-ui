@@ -107,7 +107,7 @@ jobs:
           docker stop ${{ env.CONTAITER_NAME }} || true && docker rm ${{ env.CONTAITER_NAME }} || true
           docker run \
             --detach \
-            --restart on-failure:3 \
+            --restart always \
             --network=web \
             --name ${{ env.CONTAITER_NAME }} \
             ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:prod
