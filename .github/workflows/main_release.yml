@@ -34,7 +34,10 @@ jobs:
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
           tags: |
+            type=ref,event=tag,enable=true
             type=raw,value=preprod,enable=true
+            type=raw,value=prod,enable=true
+            type=raw,value=latest,enable=true
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v4
@@ -85,3 +88,26 @@ jobs:
       - name: Run docker container
         run: |
           docker stop ${{ env.CONTAITER_NAME }} || true && docker rm ${{ env.CONTAITER_NAME }} || true
+
+  deploy-production:
+    name: Раскатываем production среду
+    runs-on: [self-hosted, Linux]
+    needs: deploy-preprod
+    environment:
+      name: Production
+      url: https://app.profcomff.com/
+    env:
+      CONTAITER_NAME: com_profcomff_app
+    permissions:
+      packages: read
+    steps:
+      - name: Run docker container
+        run: |
+          docker pull ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:prod
+          docker stop ${{ env.CONTAITER_NAME }} || true && docker rm ${{ env.CONTAITER_NAME }} || true
+          docker run \
+            --detach \
+            --restart on-failure:3 \
+            --network=web \
+            --name ${{ env.CONTAITER_NAME }} \
+            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:prod
