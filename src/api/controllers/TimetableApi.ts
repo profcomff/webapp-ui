@@ -58,8 +58,10 @@ export class TimetableApi {
 			end: stringifyDateIso(getDateWithDayOffset(new Date(), 1)),
 			lecturer_id: lecturerId,
 		});
-		setLecturers(data.items[0].lecturer);
-		setLecturerEvents(lecturerId, data.items);
+		if (data.items.length) {
+			setLecturers(data.items[0].lecturer);
+			setLecturerEvents(lecturerId, data.items);
+		}
 	}
 
 	public static async getRoomEvents(roomId: number) {
@@ -69,7 +71,9 @@ export class TimetableApi {
 			end: stringifyDateIso(getDateWithDayOffset(new Date(), 1)),
 			room_id: roomId,
 		});
-		setRooms(data.items[0].room);
-		setRoomEvents(roomId, data.items);
+		if (data.items.length) {
+			setRooms(data.items[0].room);
+			setRoomEvents(roomId, data.items);
+		}
 	}
 }
