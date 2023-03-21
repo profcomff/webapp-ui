@@ -5,7 +5,7 @@ import { authButtons } from '@/constants';
 </script>
 
 <template>
-	<IrdomLayout title="Все способы входа" backable back="/profile/auth">
+	<IrdomLayout title="Все способы входа" backable back="/auth">
 		<form>
 			<IrdomInput
 				type="email"
@@ -23,7 +23,7 @@ import { authButtons } from '@/constants';
 			/>
 			<IrdomButton type="submit" class="animate__animated animate__headShake submit">Вход</IrdomButton>
 
-			<RouterLink to="/profile/auth/register-email" class="link">Регистрация по электронной почте</RouterLink>
+			<RouterLink to="/auth/register-email" class="link">Регистрация по электронной почте</RouterLink>
 		</form>
 
 		<div class="buttons">

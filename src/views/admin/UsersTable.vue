@@ -23,7 +23,7 @@ const sorted = computed(() => [...props.users].sort((a, b) => a.id - b.id));
 		</thead>
 		<tr v-for="{ id, email } of sorted" class="row" :key="id">
 			<td>
-				<RouterLink :to="`/user/${id}`" class="link">{{ id }}</RouterLink>
+				<RouterLink :to="`/profile/${id}`" class="link">{{ id }}</RouterLink>
 			</td>
 			<td>{{ email }}</td>
 			<td>
