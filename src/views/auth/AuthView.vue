@@ -1,4 +1,4 @@
-<!-- Страница с списком основных методов входа -->
+<!-- Страница со списком основных методов входа -->
 <script setup lang="ts">
 import { IrdomLayout, IrdomAuthButton } from '@/components';
 import { authButtons } from '@/constants';

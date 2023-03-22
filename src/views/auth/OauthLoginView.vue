@@ -1,4 +1,4 @@
-<!-- Страница, которую видит пользователь, когда происходить обработка OAuth редиректа ответа -->
+<!-- Страница, которую видит пользователь, когда происходит обработка OAuth редиректа ответа -->
 <script setup lang="ts">
 import { IrdomLayout } from '@/components';
 import { LocalStorage, LocalStorageItem } from '@/models/LocalStorage';
@@ -9,18 +9,18 @@ import { computed, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 
 const router = useRouter();
-const current_path = window.location.origin + router.currentRoute.value.fullPath;
-const telegram_bot_name = computed(() => import.meta.env.VITE_AUTH_TELEGRAM_BOT);
+const currentPath = window.location.origin + router.currentRoute.value.fullPath;
+const telegramBotName = computed(() => import.meta.env.VITE_AUTH_TELEGRAM_BOT);
 
 onMounted(async () => {
-	console.log(router.currentRoute.value.hash);
-
 	const authMethod: AuthOauth2BaseApi | undefined = oauth2Methods[router.currentRoute.value.path];
 	const profileStore = useProfileStore();
-	if (authMethod === undefined)
+	if (authMethod === undefined) {
 		return router.replace({ path: '/auth/error', query: { text: 'Метод авторизации не существует' } });
-	if (router.currentRoute.value.hash === '' && Object.keys(router.currentRoute.value.query).length === 0)
+	}
+	if (router.currentRoute.value.hash === '' && Object.keys(router.currentRoute.value.query).length === 0) {
 		return router.replace({ path: '/auth/error', query: { text: 'Отсутствуют параметры входа' } });
+	}
 
 	try {
 		const resp = await (profileStore.isUserLogged
@@ -71,9 +71,9 @@ onMounted(async () => {
 			v-if="router.currentRoute.value.params.name === 'telegram'"
 			async
 			src="https://telegram.org/js/telegram-widget.js?21"
-			:data-telegram-login="telegram_bot_name"
+			:data-telegram-login="telegramBotName"
 			data-size="small"
-			:data-auth-url="current_path"
+			:data-auth-url="currentPath"
 		></component>
 	</IrdomLayout>
 </template>
