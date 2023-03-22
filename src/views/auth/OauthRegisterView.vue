@@ -13,7 +13,7 @@ async function handleAccept() {
 	sessionStorage.removeItem('id-token');
 
 	if (authMethod === undefined || idToken === null) {
-		router.push({ path: '/profile/auth/error', query: { text: 'Непредвиденная ошибка' } });
+		router.push({ path: '/auth/error', query: { text: 'Непредвиденная ошибка' } });
 		return;
 	}
 	try {
@@ -26,7 +26,7 @@ async function handleAccept() {
 		if (isAxiosError(e)) {
 			if (e.response && e.response.status == 401) {
 				return {
-					path: '/profile/auth/error',
+					path: '/auth/error',
 					query: { text: 'Переданы неверные данные для входа' },
 				};
 			}
@@ -36,10 +36,10 @@ async function handleAccept() {
 </script>
 
 <template>
-	<IrdomLayout title="Вход" backable back="/profile/auth">
+	<IrdomLayout title="Вход" backable back="/auth">
 		<p>Вы еще не совершали вход в приложение с этим аккаунтом. Создать новый профиль?</p>
 		<button @click="handleAccept()">Да</button>
-		<RouterLink to="/profile/auth" class="link">Нет</RouterLink>
+		<RouterLink to="/auth" class="link">Нет</RouterLink>
 	</IrdomLayout>
 </template>
 

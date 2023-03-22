@@ -1,12 +1,13 @@
+<!-- Страница, которую видит пользователь, если что-то пошло не так при аутентификации -->
 <script setup lang="ts">
 import { IrdomLayout } from '@/components';
 </script>
 
 <template>
-	<IrdomLayout title="Вход" backable back="/profile/auth">
+	<IrdomLayout title="Вход" backable back="/auth">
 		<p>Произошла ошибка при входе в аккаунт</p>
 		<p>{{ ($route.query.text as string) ?? undefined }}</p>
-		<RouterLink to="/profile/auth" class="link">Вернуться к методам входа</RouterLink>
+		<RouterLink to="/auth" class="link">Вернуться к методам входа</RouterLink>
 	</IrdomLayout>
 </template>
 
