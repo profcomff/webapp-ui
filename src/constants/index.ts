@@ -6,6 +6,7 @@ import {
 	authVkApi,
 	authGithubApi,
 	authGoogleApi,
+	authTelegramApi,
 } from '@/api/auth';
 import logos from '@/assets/logos.svg';
 import { AuthButton } from '@/components';
@@ -43,7 +44,7 @@ export const authButtons: AuthButton[] = [
 	},
 	{
 		name: 'Войти через Telegram',
-		api: authVkApi,
+		api: authTelegramApi,
 		icon: `${logos}#telegram`,
 		color: '#0077ff0d',
 	},
