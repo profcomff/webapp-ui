@@ -82,6 +82,7 @@ const sendMarketing = (url: string) => {
 		aspect-ratio: 1;
 		display: block;
 		padding: 0 8px;
+		pointer-events: none;
 	}
 
 	& .app {

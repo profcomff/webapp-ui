@@ -35,6 +35,7 @@ const sendMarketing = (e: Event) => {
 			class="input"
 			v-model="query"
 			placeholder="Введите номер группы"
+			inputmode="numeric"
 			@change.once="sendMarketing"
 		/>
 
