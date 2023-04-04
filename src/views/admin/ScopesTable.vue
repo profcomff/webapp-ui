@@ -50,7 +50,7 @@ const sorted = computed(() => [...props.scopes].sort((a, b) => (a.name > b.name 
 		text-align: start;
 	}
 
-	@media screen and (max-width: 575px) {
+	@media screen and (width <= 575px) {
 		font-size: 12px;
 	}
 }

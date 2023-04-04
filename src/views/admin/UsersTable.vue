@@ -51,7 +51,7 @@ const sorted = computed(() => [...props.users].sort((a, b) => a.id - b.id));
 	text-align: start;
 }
 
-@media screen and (max-width: 575px) {
+@media screen and (width <= 575px) {
 	.row {
 		font-size: 12px;
 	}
