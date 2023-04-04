@@ -1,5 +1,5 @@
-import { ArrayResponse, Lecturer } from '../models';
-import { TimetableBaseApi } from './TimetaleBaseApi';
+import { ArrayResponse, Lecturer } from '../../models';
+import { LecturerBaseApi } from './LecturerBaseApi';
 
 type PatchLecturerBody = Omit<Lecturer, 'id' | 'avatar_link'>;
 
@@ -11,9 +11,9 @@ export interface GetLecturersParams {
 	offset?: number;
 }
 
-class TimetableLecturerApi extends TimetableBaseApi {
+class LecturerApi extends LecturerBaseApi {
 	constructor() {
-		super('/lecturer');
+		super();
 	}
 
 	public getLecturer(id: number) {
@@ -37,4 +37,4 @@ class TimetableLecturerApi extends TimetableBaseApi {
 	}
 }
 
-export const timetableLecturerApi = new TimetableLecturerApi();
+export const timetableLecturerApi = new LecturerApi();

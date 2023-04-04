@@ -2,7 +2,7 @@ import { stringifyDateIso, getDateWithDayOffset } from './../../utils/date';
 import { timetableEventApi, GetEventsParams } from './../timetable/TimetableEventApi';
 import { timetableRoomApi } from './../timetable/TimetableRoomApi';
 import { useTimetableStore } from './../../store/timetable';
-import { timetableLecturerApi } from './../timetable/TimetableLecturerApi';
+import { timetableLecturerApi } from '../timetable';
 
 export class TimetableApi {
 	public static async getLecturer(id: number) {
