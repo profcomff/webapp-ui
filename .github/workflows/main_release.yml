@@ -59,19 +59,19 @@ jobs:
       name: Preprod
       url: https://app.preprod.profcomff.com/
     env:
-      CONTAITER_NAME: com_profcomff_app_preprod
+      CONTAINER_NAME: com_profcomff_app_preprod
     permissions:
       packages: read
     steps:
       - name: Run docker container
         run: |
           docker pull ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:preprod
-          docker stop ${{ env.CONTAITER_NAME }} || true && docker rm ${{ env.CONTAITER_NAME }} || true
+          docker stop ${{ env.CONTAINER_NAME }} || true && docker rm ${{ env.CONTAINER_NAME }} || true
           docker run \
             --detach \
             --restart on-failure:3 \
             --network=web \
-            --name ${{ env.CONTAITER_NAME }} \
+            --name ${{ env.CONTAINER_NAME }} \
             ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:preprod
 
   undeploy-preprod:
@@ -81,13 +81,13 @@ jobs:
     environment:
       name: Preprod
     env:
-      CONTAITER_NAME: com_profcomff_app_preprod
+      CONTAINER_NAME: com_profcomff_app_preprod
     permissions:
       packages: read
     steps:
       - name: Run docker container
         run: |
-          docker stop ${{ env.CONTAITER_NAME }} || true && docker rm ${{ env.CONTAITER_NAME }} || true
+          docker stop ${{ env.CONTAINER_NAME }} || true && docker rm ${{ env.CONTAINER_NAME }} || true
 
   deploy-production:
     name: Раскатываем production среду
@@ -97,17 +97,17 @@ jobs:
       name: Production
       url: https://app.profcomff.com/
     env:
-      CONTAITER_NAME: com_profcomff_app
+      CONTAINER_NAME: com_profcomff_app
     permissions:
       packages: read
     steps:
       - name: Run docker container
         run: |
           docker pull ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:prod
-          docker stop ${{ env.CONTAITER_NAME }} || true && docker rm ${{ env.CONTAITER_NAME }} || true
+          docker stop ${{ env.CONTAINER_NAME }} || true && docker rm ${{ env.CONTAINER_NAME }} || true
           docker run \
             --detach \
             --restart always \
             --network=web \
-            --name ${{ env.CONTAITER_NAME }} \
+            --name ${{ env.CONTAINER_NAME }} \
             ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:prod
