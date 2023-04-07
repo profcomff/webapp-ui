@@ -102,19 +102,19 @@ jobs:
       name: Testing
       url: https://app.test.profcomff.com/
     env:
-      CONTAITER_NAME: com_profcomff_app_test
+      CONTAINER_NAME: com_profcomff_app_test
     permissions:
       packages: read
     steps:
       - name: Run docker container
         run: |
           docker pull ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:test
-          docker stop ${{ env.CONTAITER_NAME }} || true && docker rm ${{ env.CONTAITER_NAME }} || true
+          docker stop ${{ env.CONTAINER_NAME }} || true && docker rm ${{ env.CONTAINER_NAME }} || true
           docker run \
             --detach \
             --restart on-failure:3 \
             --network=web \
-            --name ${{ env.CONTAITER_NAME }} \
+            --name ${{ env.CONTAINER_NAME }} \
             ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:test
       # TODO: Переехать на CI/CD API
       # - name: Deploy
