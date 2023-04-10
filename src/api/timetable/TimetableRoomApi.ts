@@ -1,37 +1,14 @@
-import { ArrayResponse, Room } from './../models';
-import { TimetableBaseApi } from './TimetaleBaseApi';
+import { GetAllParams } from '../EntityBaseApi';
+import { Room } from './../models';
+import { TimetableEntityBaseApi } from './TimetaableEntityBaseApi';
 
-type RoomWithoutId = Omit<Room, 'id'>;
-
-export interface GetRoomsParams {
+export interface GetRoomsParams extends GetAllParams {
 	query?: string;
-	limit?: number;
-	offset?: number;
 }
 
-class TimetableRoomApi extends TimetableBaseApi {
+class TimetableRoomApi extends TimetableEntityBaseApi<Room, GetRoomsParams> {
 	constructor() {
 		super('/room');
-	}
-
-	public async getRoom(id: number) {
-		return this.get<Room>(`/${id}`);
-	}
-
-	public async deleteRoom(id: number) {
-		return this.delete<string>(`/${id}`);
-	}
-
-	public async patchRoom(id: number, body: RoomWithoutId) {
-		return this.patch<Room, RoomWithoutId>(`/${id}`, body);
-	}
-
-	public async getRooms(params?: GetRoomsParams) {
-		return this.get<ArrayResponse<Room>, GetRoomsParams>('', params);
-	}
-
-	public async createRoom(room: RoomWithoutId) {
-		return this.post<Room, RoomWithoutId>('', room);
 	}
 }
 

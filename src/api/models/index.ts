@@ -8,21 +8,23 @@ export interface ErrorResponse {
 	detail: Error[];
 }
 
-export type ArrayResponse<I> = {
+export interface Entity {
+	id: number;
+}
+
+export type ArrayResponse<I extends Entity> = {
 	items: I[];
 	limit: number;
 	offset: number;
 	total: number;
 };
 
-export interface StudyGroup {
-	id: number;
+export interface StudyGroup extends Entity {
 	name: string;
 	number: string;
 }
 
-export interface Event {
-	id: number;
+export interface Event extends Entity {
 	name: string;
 	room: Room[];
 	group: StudyGroup;
@@ -31,8 +33,7 @@ export interface Event {
 	end_ts: string;
 }
 
-export interface Lecturer {
-	id: number;
+export interface Lecturer extends Entity {
 	first_name: string;
 	middle_name: string;
 	last_name: string;
@@ -41,8 +42,7 @@ export interface Lecturer {
 	description: string;
 }
 
-export interface Room {
-	id: number;
+export interface Room extends Entity {
 	name: string;
 	building: string;
 	direction: string;
