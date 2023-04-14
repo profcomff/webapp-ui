@@ -34,7 +34,7 @@ const sendMarketing = (url: string) => {
 		<div :class="{ grid3: type === 'grid3', list: type === 'list' }">
 			<div v-for="{ icon, link, name, type, id } of buttons" class="app" :key="id">
 				<img v-if="icon.startsWith('http')" :src="icon" :alt="name" width="400" height="400" class="icon" />
-				<MaterialIcon v-else :name="icon" class="font-icon" size="" />
+				<MaterialIcon v-else :name="icon" class="font-icon" :size="null" />
 
 				<a
 					v-if="type === 'external'"

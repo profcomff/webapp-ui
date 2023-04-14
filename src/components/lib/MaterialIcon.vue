@@ -2,7 +2,7 @@
 interface Props {
 	name: string;
 	outlined?: boolean;
-	size?: number;
+	size?: number | null;
 }
 
 withDefaults(defineProps<Props>(), {
