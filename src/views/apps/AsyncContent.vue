@@ -51,6 +51,9 @@ const sendMarketing = (url: string) => {
 				>
 					{{ name }}
 				</RouterLink>
+				<RouterLink v-else-if="type === 'inapp'" :to="`${link}`" class="app-link">
+					{{ name }}
+				</RouterLink>
 			</div>
 		</div>
 	</section>
