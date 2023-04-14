@@ -34,7 +34,7 @@ const sendMarketing = (url: string) => {
 		<div :class="{ grid3: type === 'grid3', list: type === 'list' }">
 			<div v-for="{ icon, link, name, type, id } of buttons" class="app" :key="id">
 				<img v-if="icon.startsWith('http')" :src="icon" :alt="name" width="400" height="400" class="icon" />
-				<MaterialIcon v-else :name="icon" class="icon" />
+				<MaterialIcon v-else :name="icon" class="font-icon" size="" />
 
 				<a
 					v-if="type === 'external'"
@@ -85,11 +85,21 @@ const sendMarketing = (url: string) => {
 		pointer-events: none;
 	}
 
+	& .font-icon {
+		margin: 16px auto;
+		padding: 0;
+		color: var(--color-primary-dark);
+		font-size: 72px;
+	}
+
 	& .app {
 		max-width: 144px;
+		height: 177px;
 		background: white;
 		padding: 8px min(8%, 8px);
-		display: block;
+		display: flex;
+		flex-flow: column nowrap;
+		justify-content: space-between;
 		font-size: 14px;
 		text-align: center;
 		overflow-wrap: anywhere;
@@ -104,14 +114,20 @@ const sendMarketing = (url: string) => {
 	}
 }
 
-.list .app {
-	display: flex;
-	align-items: center;
-	padding: 12px 24px;
-	gap: 0.8em;
-	background: oklch(97% 0 0);
-	border-radius: 5px;
-	margin-bottom: 10px;
+.list {
+	& .app {
+		display: flex;
+		align-items: center;
+		padding: 12px 24px;
+		gap: 0.8em;
+		background: oklch(97% 0 0);
+		border-radius: 5px;
+		margin-bottom: 10px;
+	}
+
+	& .font-icon {
+		font-size: 24px;
+	}
 }
 
 .h2 {
