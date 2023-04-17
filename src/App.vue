@@ -1,55 +1,41 @@
-<script setup lang="ts">
-import { computed, onMounted } from 'vue';
-import { IrdomNavbar, NavbarItem } from './components';
-import { useProfileStore, useTimetableStore } from './store';
-import { marketingApi } from './api/marketing';
+<script setup>
+import Updates from './components/Updates.vue'
 
-const profileStore = useProfileStore();
-const { updateToken, updateTokenScopes, updateMarketingId } = profileStore;
-const { updateGroup } = useTimetableStore();
 
-const navbarItems = computed<NavbarItem[]>(() => {
-	const common = [
-		{
-			icon: 'calendar_month',
-			name: 'Расписание',
-			path: '/timetable',
-		},
-		{
-			icon: 'dashboard',
-			name: 'Сервисы',
-			path: '/apps',
-		},
-		// {
-		// 	icon: 'account_circle',
-		// 	name: 'Профиль',
-		// 	path: '/profile',
-		// },
-	];
-	// if (profileStore.isAdmin) {
-	// 	common.push({
-	// 		icon: 'manage_accounts',
-	// 		name: 'Админка',
-	// 		path: '/admin',
-	// 	});
-	// }
-	return common;
-});
-
-onMounted(async () => {
-	updateToken();
-	updateGroup();
-	updateTokenScopes();
-	await updateMarketingId();
-	if (profileStore.marketingId) {
-		marketingApi.writeAction({
-			action: 'app loaded',
-			user_id: profileStore.marketingId,
-		});
-	}
-});
 </script>
+
+<script>
+export default {
+  components: {
+    Updates
+  },
+  data() {
+    return {
+      open: false,
+    }
+  },
+  methods: {
+    openModal() {
+      this.open = !this.open
+    },
+  },
+  mounted() {
+    setTimeout(() => {
+      this.open = true;
+    }, 1000);
+  }
+}
+</script>
+
 <template>
-	<RouterView />
-	<IrdomNavbar :items="navbarItems" />
+  <Updates @closeModal="openModal"
+    :open="this.open" />
+  <div class="btn"
+    @click="openModal">Update</div>
 </template>
+
+<style scoped>
+.btn {
+  cursor: pointer;
+}
+</style>
