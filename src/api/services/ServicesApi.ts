@@ -22,7 +22,7 @@ class ServicesApi extends BaseApi {
 				}
 			>,
 			{ info?: Info[] }
-		>('/category/', { info });
+		>('/category', { info });
 	}
 
 	public getButtons(categoryId: number) {
