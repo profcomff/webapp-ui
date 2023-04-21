@@ -8,7 +8,7 @@ const props = withDefaults(defineProps<{ query?: string }>(), {
 	query: '',
 });
 
-const data = await timetableGroupApi.getGroups({ limit: 1000 }).then(({ data }) => data.items);
+const data = await timetableGroupApi.getAll({ limit: 1000 }).then(({ data }) => data.items);
 
 const groups = computed(() => data?.filter(g => g.number.includes(props.query.trim())));
 

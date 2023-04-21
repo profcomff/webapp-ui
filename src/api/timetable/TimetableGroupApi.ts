@@ -1,37 +1,14 @@
-import { ArrayResponse, StudyGroup } from './../models';
-import { TimetableBaseApi } from './TimetaleBaseApi';
+import { GetAllParams } from './../EntityBaseApi';
+import { StudyGroup } from './../models';
+import { TimetableEntityBaseApi } from './TimetaableEntityBaseApi';
 
-type StudyGroupNoId = Omit<StudyGroup, 'id'>;
-
-export interface GetGroupsParams {
+export interface GetGroupsParams extends GetAllParams {
 	query?: string;
-	limit?: number;
-	offset?: number;
 }
 
-class TimetableGroupApi extends TimetableBaseApi {
+class TimetableGroupApi extends TimetableEntityBaseApi<StudyGroup, GetGroupsParams> {
 	constructor() {
 		super('/group');
-	}
-
-	public async getGroup(id: number) {
-		return this.get<StudyGroup>(`/${id}`);
-	}
-
-	public async deleteGroup(id: number) {
-		return this.delete<string>(`/${id}`);
-	}
-
-	public async patchGroup(id: number, body: StudyGroupNoId) {
-		return this.patch<StudyGroup, StudyGroupNoId>(`/${id}`, body);
-	}
-
-	public async getGroups(params?: GetGroupsParams) {
-		return this.get<ArrayResponse<StudyGroup>, GetGroupsParams>('/', params);
-	}
-
-	public async createGroup(group: StudyGroupNoId) {
-		return this.post<StudyGroup, StudyGroupNoId>('', group);
 	}
 }
 
