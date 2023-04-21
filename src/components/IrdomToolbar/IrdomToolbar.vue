@@ -2,6 +2,8 @@
 import { useRoute, useRouter } from 'vue-router';
 import { IrdomPopover, MaterialIcon } from '../lib';
 import { ToolbarAction, ToolbarActionButton, ToolbarActionLink, ToolbarMenuItem } from './types';
+import { marketingApi } from '@/api/marketing';
+import { useProfileStore } from '@/store';
 
 interface Props {
 	menuItems?: ToolbarMenuItem[];
@@ -14,6 +16,7 @@ interface Props {
 
 const route = useRoute();
 const router = useRouter();
+const profileStore = useProfileStore();
 
 const props = withDefaults(defineProps<Props>(), {
 	menuItems: () => [],
@@ -27,8 +30,15 @@ const data = {
 	url: route.fullPath,
 };
 const canShare = navigator.canShare && navigator.canShare(data);
-const shareHandler = () => {
-	navigator.share(data);
+const shareHandler = async () => {
+	await navigator.share(data);
+	if (profileStore.marketingId) {
+		marketingApi.writeAction({
+			action: 'share',
+			user_id: profileStore.marketingId,
+			additional_data: JSON.stringify(data),
+		});
+	}
 };
 
 const onBack = () => {
