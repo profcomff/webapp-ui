@@ -18,18 +18,7 @@ export interface GetEventsParams extends GetAllParams {
 	format?: 'json' | 'ics';
 }
 
-interface DeleteBulkParams {
-	start: string;
-	end: string;
-}
-
-class TimetableEventApi extends TimetableEntityBaseApi<
-	Event,
-	GetEventsParams,
-	ModifyEventBody,
-	never,
-	DeleteBulkParams
-> {
+class TimetableEventApi extends TimetableEntityBaseApi<Event, GetEventsParams, ModifyEventBody, never> {
 	constructor() {
 		super('/event');
 	}

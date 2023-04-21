@@ -11,7 +11,6 @@ export class EntityBaseApi<
 	GetAllP extends GetAllParams = never,
 	ModifyB = Omit<E, 'id'>,
 	GetP = never,
-	DeleteBulkP = never,
 > extends BaseApi {
 	constructor(path: string) {
 		super(path);
@@ -29,19 +28,11 @@ export class EntityBaseApi<
 		return this.delete<string>(`/${id}`);
 	}
 
-	public async deleteBulk(params?: DeleteBulkP) {
-		this.delete<string, DeleteBulkP>('/bulk', params);
-	}
-
 	public async patchById(id: number, body: ModifyB) {
 		return this.patch<E, ModifyB>(`/${id}`, body);
 	}
 
 	public async create(body: ModifyB) {
 		return this.post<E, ModifyB>('', body);
-	}
-
-	public async createBulk(body: ModifyB[]) {
-		this.post<E[], ModifyB[]>('/bulk', body);
 	}
 }

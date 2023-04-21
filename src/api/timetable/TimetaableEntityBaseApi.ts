@@ -6,8 +6,7 @@ export class TimetableEntityBaseApi<
 	GetAllP extends GetAllParams = never,
 	ModifyB = Omit<E, 'id'>,
 	GetP = never,
-	DeleteBulkP = never,
-> extends EntityBaseApi<E, GetAllP, ModifyB, GetP, DeleteBulkP> {
+> extends EntityBaseApi<E, GetAllP, ModifyB, GetP> {
 	constructor(path = '') {
 		super(`/timetable${path}`);
 	}
