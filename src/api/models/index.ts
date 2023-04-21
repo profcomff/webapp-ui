@@ -48,13 +48,20 @@ export interface Room {
 	direction: string;
 }
 
+export enum ButtonType {
+	Internal = 'internal',
+	External = 'external',
+	Inapp = 'inapp',
+	Disabled = 'disabled',
+}
+
 export interface Button {
 	id: number;
 	order: number;
 	icon: string;
 	name: string;
 	link: string;
-	type: 'internal' | 'external';
+	type: ButtonType;
 }
 
 export interface Category {

@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ServicesApi } from '@/api';
 import { marketingApi } from '@/api/marketing';
+import { ButtonType } from '@/api/models';
 import { CategoryInfo } from '@/api/services';
 import { MaterialIcon } from '@/components/lib';
 import { useAppsStore, useProfileStore } from '@/store';
@@ -32,23 +33,34 @@ const sendMarketing = (url: string) => {
 		</h2>
 
 		<div :class="{ grid3: type === 'grid3', list: type === 'list' }">
-			<div v-for="{ icon, link, name, type, id } of buttons" class="app" :key="id">
+			<div
+				v-for="{ icon, link, name, type, id } of buttons"
+				class="app"
+				:key="id"
+				:aria-disabled="type === ButtonType.Disabled"
+			>
 				<img v-if="icon.startsWith('http')" :src="icon" :alt="name" width="400" height="400" class="icon" />
 				<MaterialIcon v-else :name="icon" class="icon" />
 
 				<a
-					v-if="type === 'external'"
+					v-if="type === ButtonType.External"
 					:href="link"
 					class="app-link"
 					target="_blank"
 					@click="sendMarketing(link)"
-					>{{ name }}</a
 				>
+					{{ name }}
+				</a>
+
 				<RouterLink
-					v-else-if="type === 'internal'"
+					v-else-if="type === ButtonType.Internal"
 					:to="`/apps/browser/?title=${name}#${link}`"
 					class="app-link"
 				>
+					{{ name }}
+				</RouterLink>
+
+				<RouterLink v-else-if="type === ButtonType.Inapp" :to="link" class="app-link">
 					{{ name }}
 				</RouterLink>
 			</div>
@@ -65,6 +77,12 @@ const sendMarketing = (url: string) => {
 
 	&:last-child {
 		margin-bottom: 0;
+	}
+
+	&[aria-disabled='true'] {
+		filter: grayscale(1);
+		pointer-events: none;
+		opacity: 0.6;
 	}
 }
 
