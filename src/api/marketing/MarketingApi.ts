@@ -19,6 +19,10 @@ class MarketingApi extends BaseApi {
 	}
 
 	public async writeAction(body: WriteActionBody) {
+		const data = body.additional_data ? JSON.parse(body.additional_data) : {};
+		data.user_agent = navigator.userAgent;
+		body.additional_data = JSON.stringify(data);
+
 		return this.post<string, WriteActionBody>('/action', body);
 	}
 
