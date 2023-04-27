@@ -66,14 +66,14 @@ onMounted(async () => {
 <template>
 	<IrdomLayout title="Вход">
 		<p>Производим вход в аккаунт...</p>
-		<component
+		<!-- <component
 			:is="'script'"
 			v-if="router.currentRoute.value.params.name === 'telegram'"
-			async
+			async="true"
 			src="https://telegram.org/js/telegram-widget.js?21"
 			:data-telegram-login="telegramBotName"
 			data-size="small"
 			:data-auth-url="currentPath"
-		></component>
+		></component> -->
 	</IrdomLayout>
 </template>
