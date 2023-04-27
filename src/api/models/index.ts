@@ -99,3 +99,17 @@ export interface User {
 	id: number;
 	email: string;
 }
+
+// export interface AuthMethods {
+
+// }
+
+export interface SessionScopes {
+	id: number;
+	name: string;
+}
+
+export interface UserScopes {
+	id: number;
+	name: string;
+}
