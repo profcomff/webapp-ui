@@ -100,16 +100,30 @@ export interface User {
 	email: string;
 }
 
-// export interface AuthMethods {
-
-// }
-
-export interface SessionScopes {
+export interface SessionScope {
 	id: number;
 	name: string;
 }
 
-export interface UserScopes {
+export interface UserScope {
 	id: number;
 	name: string;
+}
+
+export interface Session {
+	id: number;
+	email: string;
+}
+
+export interface StatusResponse {
+	status: string;
+	message: string;
+}
+
+export interface SessionResponse {
+	token: string;
+	expires: string;
+	id: number;
+	user_id: number;
+	session_scopes: string[];
 }

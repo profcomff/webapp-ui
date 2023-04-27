@@ -9,3 +9,4 @@ export { authProfileApi, MeInfo } from './AuthProfileApi';
 export { authGroupApi, GroupInfo } from './AuthGroupApi';
 export { authScopeApi } from './AuthScopeApi';
 export { authUserApi, UserInfo } from './AuthUserApi';
+export { userSessionApi, SessionInfo, DeleteInfo } from './UserSessionApi';
