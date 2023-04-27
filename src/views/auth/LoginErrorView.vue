@@ -6,7 +6,7 @@ import { IrdomLayout } from '@/components';
 <template>
 	<IrdomLayout title="Вход" backable back="/auth">
 		<p>Произошла ошибка при входе в аккаунт</p>
-		<p>{{ ($route.query.text as string) ?? undefined }}</p>
+		<p>{{ $route.query.text }}</p>
 		<RouterLink to="/auth" class="link">Вернуться к методам входа</RouterLink>
 	</IrdomLayout>
 </template>

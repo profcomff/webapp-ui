@@ -5,6 +5,7 @@ import { defineStore } from 'pinia';
 import { computed, ref } from 'vue';
 
 export const useProfileStore = defineStore('profile', () => {
+	const id = ref<number | null>(null);
 	const token = ref<string | null>(null);
 	const tokenScopes = ref<string[]>([]);
 	const marketingId = ref<number | null>(null);
@@ -65,5 +66,6 @@ export const useProfileStore = defineStore('profile', () => {
 		isAdmin,
 		updateMarketingId,
 		marketingId,
+		id,
 	};
 });
