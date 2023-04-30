@@ -35,22 +35,20 @@ class UserSessionApi extends AuthBaseApi {
 	public async logout() {
 		return this.post<StatusResponse>('/logout');
 	}
-	public async getSessionInfo<Info extends SessionInfo = never>(info?: Info[]) {
+	public async getMe<Info extends SessionInfo = never>(info?: Info[]) {
 		return this.get<
-			Array<
-				Session & {
-					groups: SessionInfo.Groups extends Info ? number[] : never;
-					indirectGroup: SessionInfo.IndirectGroups extends Info ? number[] : never;
-					sessionScopes: SessionInfo.SessionScopes extends Info ? SessionScope[] : never;
-					userScopes: SessionInfo.UserScopes extends Info ? UserScope[] : never;
-					authMethods: SessionInfo.AuthMethods extends Info ? string[] : never;
-				}
-			>,
+			Session & {
+				groups: SessionInfo.Groups extends Info ? number[] : never;
+				indirectGroup: SessionInfo.IndirectGroups extends Info ? number[] : never;
+				sessionScopes: SessionInfo.SessionScopes extends Info ? SessionScope[] : never;
+				userScopes: SessionInfo.UserScopes extends Info ? UserScope[] : never;
+				authMethods: SessionInfo.AuthMethods extends Info ? string[] : never;
+			},
 			{ info?: Info[] }
 		>('/me', { info });
 	}
-	public async getSession() {
-		return this.get<SessionResponse>('/session');
+	public async getSessions() {
+		return this.get<SessionResponse[]>('/session');
 	}
 	public async createSession(body: CreateBody) {
 		return this.post<SessionResponse, CreateBody>('/session', body);
