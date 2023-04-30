@@ -1,5 +1,5 @@
 import { BaseApi } from '../BaseApi';
-import { User, SessionScope, UserScope, Session, StatusResponse, SessionResponse } from './../models/index';
+import { User, SessionScope, UserScope, Session } from './../models/index';
 import { AuthBaseApi } from './AuthBaseApi';
 
 interface CreateBody {
@@ -9,14 +9,23 @@ interface CreateBody {
 
 export enum SessionInfo {
 	Groups = 'groups',
-	IndirectGroups = 'indirect-groups',
-	SessionScopes = 'session-scopes',
-	UserScopes = 'user-scopes',
-	AuthMethods = 'auth-methods',
+	IndirectGroups = 'indirect_groups',
+	SessionScopes = 'session_scopes',
+	UserScopes = 'user_scopes',
+	AuthMethods = 'auth_methods',
 }
 
-export enum DeleteInfo {
-	delete_current = 'delete-current',
+interface StatusResponse {
+	status: string;
+	message: string;
+}
+
+interface SessionResponse {
+	token: string;
+	expires: string;
+	id: number;
+	user_id: number;
+	session_scopes: string[];
 }
 
 class UserSessionApi extends AuthBaseApi {
@@ -44,13 +53,13 @@ class UserSessionApi extends AuthBaseApi {
 		return this.get<SessionResponse>('/session');
 	}
 	public async createSession(body: CreateBody) {
-		return this.post<SessionInfo, CreateBody>('/session', body);
+		return this.post<SessionResponse, CreateBody>('/session', body);
 	}
-	public async deleteSessions<Info extends DeleteInfo = never>(info?: Info[]) {
-		return this.delete<StatusResponse, { info?: Info[] }>('/session', { info });
+	public async deleteSessions(delete_current?: boolean) {
+		return this.delete<string, { delete_current?: boolean }>('/session', { delete_current });
 	}
 	public async deleteSession(token: string) {
-		return this.delete<StatusResponse>(`/session/${token}`);
+		return this.delete<string>(`/session/${token}`);
 	}
 }
 

@@ -95,35 +95,18 @@ export interface Scope {
 	comment: string;
 }
 
-export interface User {
-	id: number;
+export interface User extends Entity {
 	email: string;
 }
 
-export interface SessionScope {
-	id: number;
+export interface SessionScope extends Entity {
 	name: string;
 }
 
-export interface UserScope {
-	id: number;
+export interface UserScope extends Entity {
 	name: string;
 }
 
-export interface Session {
-	id: number;
+export interface Session extends Entity {
 	email: string;
-}
-
-export interface StatusResponse {
-	status: string;
-	message: string;
-}
-
-export interface SessionResponse {
-	token: string;
-	expires: string;
-	id: number;
-	user_id: number;
-	session_scopes: string[];
 }
