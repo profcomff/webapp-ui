@@ -95,7 +95,18 @@ export interface Scope {
 	comment: string;
 }
 
-export interface User {
-	id: number;
+export interface User extends Entity {
+	email: string;
+}
+
+export interface SessionScope extends Entity {
+	name: string;
+}
+
+export interface UserScope extends Entity {
+	name: string;
+}
+
+export interface Session extends Entity {
 	email: string;
 }
