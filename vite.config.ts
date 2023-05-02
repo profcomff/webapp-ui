@@ -8,6 +8,7 @@ import path from 'path';
 import postcssPresetEnv from 'postcss-preset-env';
 import autoprefixer from 'autoprefixer';
 import postcssNesting from 'postcss-nesting';
+import basicSsl from '@vitejs/plugin-basic-ssl';
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -17,6 +18,7 @@ export default defineConfig({
 		},
 	},
 	plugins: [
+		basicSsl(),
 		Vue(),
 		Eslint(),
 		Stylelint({
