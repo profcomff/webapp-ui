@@ -9,10 +9,12 @@ export const useProfileStore = defineStore('profile', () => {
 	const token = ref<string | null>(null);
 	const tokenScopes = ref<string[]>([]);
 	const marketingId = ref<number | null>(null);
+	const authMethods = ref<string[] | null>(null);
 
 	const groups = ref<number[] | null>(null);
 	const indirectGroups = ref<number[] | null>(null);
 	const userScopes = ref<string[] | null>(null);
+	const sessionScopes = ref<string[] | null>(null);
 
 	function updateToken(newToken?: string) {
 		token.value = newToken ?? LocalStorage.get(LocalStorageItem.Token);
@@ -67,5 +69,7 @@ export const useProfileStore = defineStore('profile', () => {
 		updateMarketingId,
 		marketingId,
 		id,
+		authMethods,
+		sessionScopes,
 	};
 });

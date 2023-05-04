@@ -5,7 +5,6 @@ export { authTelegramApi } from './AuthTelegramApi';
 export { authGoogleApi, authPhysicsApi } from './AuthPhysicsApi';
 export { authLkmsuApi } from './AuthLkmsuApi';
 export { authYandexApi, authMymsuApi } from './AuthMymsuApi';
-export { authProfileApi, MeInfo } from './AuthProfileApi';
 export { authGroupApi, GroupInfo } from './AuthGroupApi';
 export { authScopeApi } from './AuthScopeApi';
 export { authUserApi, UserInfo } from './AuthUserApi';

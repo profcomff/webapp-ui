@@ -1,5 +1,4 @@
-import { BaseApi } from '../BaseApi';
-import { User, SessionScope, UserScope, Session } from './../models/index';
+import { SessionScope, UserScope, Session } from './../models/index';
 import { AuthBaseApi } from './AuthBaseApi';
 
 interface CreateBody {
@@ -38,11 +37,11 @@ class UserSessionApi extends AuthBaseApi {
 	public async getMe<Info extends SessionInfo = never>(info?: Info[]) {
 		return this.get<
 			Session & {
-				groups: SessionInfo.Groups extends Info ? number[] : never;
-				indirectGroup: SessionInfo.IndirectGroups extends Info ? number[] : never;
-				sessionScopes: SessionInfo.SessionScopes extends Info ? SessionScope[] : never;
-				userScopes: SessionInfo.UserScopes extends Info ? UserScope[] : never;
-				authMethods: SessionInfo.AuthMethods extends Info ? string[] : never;
+				[SessionInfo.Groups]: SessionInfo.Groups extends Info ? number[] : never;
+				[SessionInfo.IndirectGroups]: SessionInfo.IndirectGroups extends Info ? number[] : never;
+				[SessionInfo.SessionScopes]: SessionInfo.SessionScopes extends Info ? SessionScope[] : never;
+				[SessionInfo.UserScopes]: SessionInfo.UserScopes extends Info ? UserScope[] : never;
+				[SessionInfo.AuthMethods]: SessionInfo.AuthMethods extends Info ? string[] : never;
 			},
 			{ info?: Info[] }
 		>('/me', { info });

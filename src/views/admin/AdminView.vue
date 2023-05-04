@@ -17,8 +17,12 @@ const copyToken = () => {
 
 <template>
 	<IrdomLayout title="Админка">
-		<p class="id">Ваш id: {{ profileStore.id }}</p>
-		<button type="button" @click="copyToken">Скопировать токен <MaterialIcon name="content_copy" /></button>
+		<div class="info">
+			<p>Ваш id: {{ profileStore.id }}</p>
+			<button type="button" @click="copyToken">
+				Скопировать токен <MaterialIcon name="content_copy" :size="14" />
+			</button>
+		</div>
 		<RouterLink to="/admin/groups" class="link">Группы пользователей</RouterLink>
 
 		<AccessAllowed :scope="scopename.auth.scope.read" no-fallback>
@@ -32,7 +36,20 @@ const copyToken = () => {
 </template>
 
 <style>
-.id {
+.info {
 	opacity: 0.7;
+	display: flex;
+	column-gap: 8px;
+	align-items: center;
+
+	& > button {
+		transition: 0.3s ease;
+		padding: 2px 4px;
+		border-radius: 999px;
+
+		&:hover {
+			background: oklch(0% 0 0 / 20%);
+		}
+	}
 }
 </style>

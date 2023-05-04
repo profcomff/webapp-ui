@@ -1,30 +1,19 @@
 <script setup lang="ts">
-import { IrdomLayout, ToolbarMenuItem, IrdomAuthButton } from '@/components';
-import { LocalStorage, LocalStorageItem } from '@/models';
+import { IrdomLayout, ToolbarMenuItem } from '@/components';
 import { useProfileStore } from '@/store';
 import { onMounted, computed } from 'vue';
 import Placeholder from '@/assets/profile_image_placeholder.webp';
-import { authButtons } from '@/constants';
-import { authProfileApi, MeInfo } from '@/api/auth';
+import { AuthApi } from '@/api';
+import { SessionInfo } from '@/api/auth';
 
 const profileStore = useProfileStore();
-const { updateToken, updateTokenScopes } = profileStore;
-
-const logout = async () => {
-	if (profileStore.isUserLogged) {
-		await authProfileApi.logout();
-		LocalStorage.delete(LocalStorageItem.Token);
-		LocalStorage.delete(LocalStorageItem.TokenScopes);
-		location.reload();
-	}
-};
 
 const toolbarMenu = computed<ToolbarMenuItem[]>(() => {
 	const arr: ToolbarMenuItem[] = [];
 	if (profileStore.isUserLogged) {
 		arr.push({
 			name: 'Выход',
-			onClick: logout,
+			onClick: AuthApi.logout,
 		});
 	}
 
@@ -33,25 +22,16 @@ const toolbarMenu = computed<ToolbarMenuItem[]>(() => {
 
 onMounted(async () => {
 	if (history.state.token) {
-		updateToken(history.state.token);
+		profileStore.updateToken(history.state.token);
 		delete history.state.token;
 	}
-	if (!profileStore.tokenScopes || !profileStore.indirectGroups || !profileStore.groups) {
-		const { data } = await authProfileApi.getMe<
-			MeInfo.TokenScopes | MeInfo.IndirectGroups | MeInfo.Groups | MeInfo.UserScopes
-		>([MeInfo.TokenScopes, MeInfo.IndirectGroups, MeInfo.Groups, MeInfo.UserScopes]);
-
-		profileStore.id = data.id;
-		profileStore.indirectGroups = data.indirect_groups;
-		profileStore.groups = data.groups;
-		profileStore.userScopes = data.user_scopes.map(s => s.name);
-
-		LocalStorage.set<string[]>(
-			LocalStorageItem.TokenScopes,
-			data.session_scopes.map(s => s.name),
-		);
-		updateTokenScopes();
-	}
+	AuthApi.getMe([
+		SessionInfo.AuthMethods,
+		SessionInfo.Groups,
+		SessionInfo.IndirectGroups,
+		SessionInfo.SessionScopes,
+		SessionInfo.UserScopes,
+	]);
 });
 </script>
 
@@ -99,9 +79,9 @@ onMounted(async () => {
 			<template v-else><p>No session scopes</p></template>
 		</ul>
 
-		<div class="buttons">
+		<!-- <div class="buttons">
 			<IrdomAuthButton v-for="button of authButtons" :key="button.name" :button="button" />
-		</div>
+		</div> -->
 	</IrdomLayout>
 </template>
 

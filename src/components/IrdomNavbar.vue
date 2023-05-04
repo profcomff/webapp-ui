@@ -4,7 +4,7 @@ import { MaterialIcon } from './lib';
 export interface NavbarItem {
 	name: string;
 	icon: string;
-	path: string;
+	path: string[];
 }
 
 defineProps<{
@@ -15,13 +15,13 @@ defineProps<{
 	<nav class="nav">
 		<div class="container wrapper">
 			<div v-for="{ icon, name, path } in items" class="nav-item" :key="name">
-				<span :class="['icon', { active: $route.path.startsWith(path) }]">
+				<span :class="['icon', { active: path.some(p => $route.path.startsWith(p)) }]">
 					<MaterialIcon :name="icon" :size="18" />
 				</span>
 				<RouterLink
 					:key="name"
-					:to="path"
-					:class="['navbar-link', { 'active-link': $route.path.startsWith(path) }]"
+					:to="path[0]"
+					:class="['navbar-link', { 'active-link': path.some(p => $route.path.startsWith(p)) }]"
 				>
 					{{ name }}
 				</RouterLink>

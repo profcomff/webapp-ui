@@ -13,26 +13,26 @@ const navbarItems = computed<NavbarItem[]>(() => {
 		{
 			icon: 'calendar_month',
 			name: 'Расписание',
-			path: '/timetable',
+			path: ['/timetable'],
 		},
 		{
 			icon: 'dashboard',
 			name: 'Сервисы',
-			path: '/apps',
+			path: ['/apps'],
 		},
-		// {
-		// 	icon: 'account_circle',
-		// 	name: 'Профиль',
-		// 	path: '/profile',
-		// },
+		{
+			icon: 'account_circle',
+			name: 'Профиль',
+			path: ['/profile', '/auth'],
+		},
 	];
-	// if (profileStore.isAdmin) {
-	// 	common.push({
-	// 		icon: 'manage_accounts',
-	// 		name: 'Админка',
-	// 		path: '/admin',
-	// 	});
-	// }
+	if (profileStore.isAdmin) {
+		common.push({
+			icon: 'manage_accounts',
+			name: 'Админка',
+			path: ['/admin'],
+		});
+	}
 	return common;
 });
 
