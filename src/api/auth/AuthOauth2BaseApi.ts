@@ -33,6 +33,10 @@ export class AuthOauth2BaseApi<LoginBody = unknown> extends AuthBaseApi {
 		return this.post<AuthResponse, RegisterBody>('/registration', body);
 	}
 
+	public async unregister() {
+		return this.delete<string>('');
+	}
+
 	public async linkNewAccount(body: LoginBody) {
 		return this.post<AuthResponse, LoginBody>('/registration', body);
 	}

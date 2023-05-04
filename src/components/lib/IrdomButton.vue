@@ -3,7 +3,7 @@ withDefaults(defineProps<{ icon?: boolean }>(), { icon: false });
 </script>
 
 <template>
-	<button class="button" :style="{ paddingLeft: icon ? '19px' : '24px' }">
+	<button class="noselect button" :style="{ paddingLeft: icon ? '19px' : '24px' }">
 		<slot />
 	</button>
 </template>

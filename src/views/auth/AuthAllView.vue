@@ -1,5 +1,7 @@
 <script setup lang="ts">
+import { AuthMethod } from '@/api/auth';
 import { IrdomAuthButton, IrdomLayout } from '@/components';
+import TelegramButon from '@/components/TelegramButon.vue';
 import { IrdomInput, IrdomButton } from '@/components/lib';
 import { authButtons } from '@/constants';
 </script>
@@ -27,7 +29,13 @@ import { authButtons } from '@/constants';
 		</form>
 
 		<div class="buttons">
-			<IrdomAuthButton v-for="button of authButtons" :key="button.name" :button="button" />
+			<IrdomAuthButton
+				v-for="button of authButtons.filter(({ method }) => method !== AuthMethod.Telegram)"
+				:key="button.name"
+				:button="button"
+			/>
+			<TelegramButon />
+			<div ref="telegram"></div>
 		</div>
 	</IrdomLayout>
 </template>

@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { AuthMethod, AuthOauth2BaseApi } from '@/api/auth';
 import { IrdomButton } from '@/components/lib';
+import { onMounted, ref } from 'vue';
 
 export interface AuthButton {
 	name: string;
@@ -10,18 +11,32 @@ export interface AuthButton {
 	color?: string;
 }
 
-defineProps<{
-	button: AuthButton;
-}>();
+const props = withDefaults(
+	defineProps<{
+		button: AuthButton;
+		unlink?: boolean;
+	}>(),
+	{ unlink: false },
+);
 
-async function openAuthUrl(api: AuthOauth2BaseApi) {
-	const url = await api.getAuthUrl();
-	window.open(url, '_blank');
-}
+const authUrl = ref<string | null>(null);
+
+onMounted(async () => {
+	authUrl.value = await props.button.api.getAuthUrl();
+});
+
+const clickHandler = async () => {
+	if (props.unlink) {
+		await props.button.api.unregister();
+		location.reload();
+	} else if (authUrl.value) {
+		window.open(authUrl.value, '_blank');
+	}
+};
 </script>
 
 <template>
-	<IrdomButton type="button" @click="openAuthUrl(button.api)" :style="{ background: button.color }" icon>
+	<IrdomButton type="button" @click="clickHandler" :style="{ background: button.color }" icon>
 		<svg width="24" height="24" class="icon">
 			<use :xlink:href="button.icon"></use>
 		</svg>

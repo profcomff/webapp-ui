@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import { IrdomLayout, ToolbarMenuItem, IrdomAuthButton } from '@/components';
+import { IrdomLayout, ToolbarMenuItem, IrdomAuthButton, TelegramButton } from '@/components';
 import { useProfileStore } from '@/store';
 import { onMounted, computed } from 'vue';
 import Placeholder from '@/assets/profile_image_placeholder.webp';
 import { AuthApi } from '@/api';
-import { SessionInfo } from '@/api/auth';
+import { AuthMethod, SessionInfo } from '@/api/auth';
 import { authButtons } from '@/constants';
 
 const profileStore = useProfileStore();
@@ -26,7 +26,7 @@ onMounted(async () => {
 		profileStore.updateToken(history.state.token);
 		delete history.state.token;
 	}
-	AuthApi.getMe([
+	await AuthApi.getMe([
 		SessionInfo.AuthMethods,
 		SessionInfo.Groups,
 		SessionInfo.IndirectGroups,
@@ -35,57 +35,30 @@ onMounted(async () => {
 	]);
 });
 
-const canLinked = computed(() => authButtons.filter(({ method }) => !profileStore.authMethods?.includes(method)));
+const canLinked = computed(() =>
+	authButtons.filter(({ method }) => !profileStore.authMethods?.includes(method) && method !== AuthMethod.Telegram),
+);
+const canUnlinked = computed(() => authButtons.filter(({ method }) => profileStore.authMethods?.includes(method)));
 </script>
 
 <template>
 	<IrdomLayout :toolbar-menu="toolbarMenu" title="Профиль">
 		<img :src="Placeholder" alt="Аватар" width="400 " height="400" class="avatar" />
 
-		<ul class="ul">
-			<b>Indirect groups</b>
-			<template v-if="profileStore.indirectGroups?.length">
-				<li v-for="g of profileStore.indirectGroups" :key="g" class="li">
-					{{ g }}
-				</li>
-			</template>
-			<template v-else><p>No indirect groups</p></template>
-		</ul>
+		<section>
+			<h2 class="link-acc">Привязать аккаунт</h2>
+			<div class="buttons">
+				<IrdomAuthButton v-for="button of canLinked" :key="button.method" :button="button" />
+				<TelegramButton />
+			</div>
+		</section>
 
-		<ul class="ul">
-			<b>Groups</b>
-			<template v-if="profileStore.groups?.length">
-				<li v-for="g of profileStore.groups" :key="g" class="li">
-					{{ g }}
-				</li>
-			</template>
-			<template v-else><p>No groups</p></template>
-		</ul>
-
-		<ul class="ul">
-			<b>User scopes</b>
-			<template v-if="profileStore.userScopes?.length">
-				<li v-for="s of profileStore.userScopes" :key="s" class="li">
-					{{ s }}
-				</li>
-			</template>
-			<template v-else><p>No user scopes</p></template>
-		</ul>
-
-		<ul class="ul">
-			<b>Token scopes</b>
-			<template v-if="profileStore.tokenScopes?.length">
-				<li v-for="s of profileStore.tokenScopes" :key="s" class="li">
-					{{ s }}
-				</li>
-			</template>
-			<template v-else><p>No session scopes</p></template>
-		</ul>
-
-		<h2 class="link-acc">Привязать аккаунт</h2>
-		<div class="buttons">
-			<IrdomAuthButton v-for="button of canLinked" :key="button.name" :button="button" />
-		</div>
+		<section v-if="profileStore.authMethods && profileStore.authMethods.length > 1">
+			<h2 class="link-acc">Отвязать аккаунт</h2>
+			<div class="buttons">
+				<IrdomAuthButton v-for="button of canUnlinked" :key="button.method" :button="button" unlink />
+			</div>
+		</section>
 	</IrdomLayout>
 </template>
 
