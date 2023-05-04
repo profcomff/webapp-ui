@@ -7,56 +7,65 @@ import {
 	authGithubApi,
 	authGoogleApi,
 	authTelegramApi,
+	AuthMethod,
 } from '@/api/auth';
 import logos from '@/assets/logos.svg';
 import { AuthButton } from '@/components';
 
 export const authButtons: AuthButton[] = [
 	{
-		name: 'Войти через ЛК МГУ',
+		name: 'ЛК МГУ',
 		api: authLkmsuApi,
+		method: AuthMethod.LkMsu,
 		icon: `${logos}#msu`,
 		color: '#58b4470d',
 	},
 	{
-		name: 'Войти через @physics.msu.ru',
+		name: '@physics.msu.ru',
 		api: authPhysicsApi,
+		method: AuthMethod.Physics,
 		icon: `${logos}#ff`,
 		color: '#00014c0d',
 	},
 	{
-		name: 'Войти через @my.msu.ru',
+		name: '@my.msu.ru',
 		api: authMymsuApi,
+		method: AuthMethod.MyMsu,
 		icon: `${logos}#msu`,
 		color: '#2f39500d',
 	},
 	{
-		name: 'Войти через Yandex',
+		name: 'Yandex',
 		api: authYandexApi,
+		method: AuthMethod.Yandex,
 		icon: `${logos}#yandex`,
 		color: '#e94c000d',
 	},
 	{
-		name: 'Войти через ВК',
+		name: 'ВК',
 		api: authVkApi,
+		method: AuthMethod.VK,
 		icon: `${logos}#vk`,
 		color: '#0077ff0d',
 	},
 	{
-		name: 'Войти через Telegram',
+		name: 'Telegram',
 		api: authTelegramApi,
+		method: AuthMethod.Telegram,
 		icon: `${logos}#telegram`,
 		color: '#0077ff0d',
 	},
 	{
-		name: 'Войти через Github',
+		name: 'Github',
 		api: authGithubApi,
+		method: AuthMethod.Github,
 		icon: `${logos}#github`,
 		color: '#24292f0d',
 	},
 	{
-		name: 'Войти через Google',
+		name: 'Google',
 		api: authGoogleApi,
+		method: AuthMethod.Google,
 		icon: `${logos}#google`,
 	},
 ];

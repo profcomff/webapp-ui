@@ -6,6 +6,7 @@ import { authButtons } from '@/constants';
 
 <template>
 	<IrdomLayout title="Вход">
+		<h2 class="title">Войти через</h2>
 		<IrdomAuthButton
 			type="button"
 			v-for="i in 3"
@@ -20,6 +21,11 @@ import { authButtons } from '@/constants';
 <style scoped>
 .button {
 	margin-bottom: 16px;
+	width: min(512px, 100%);
+}
+
+.title {
+	margin-bottom: 20px;
 }
 
 .link {

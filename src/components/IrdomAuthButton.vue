@@ -1,10 +1,11 @@
 <script setup lang="ts">
-import { AuthOauth2BaseApi } from '@/api/auth';
+import { AuthMethod, AuthOauth2BaseApi } from '@/api/auth';
 import { IrdomButton } from '@/components/lib';
 
 export interface AuthButton {
 	name: string;
 	api: AuthOauth2BaseApi;
+	method: AuthMethod;
 	icon?: string;
 	color?: string;
 }

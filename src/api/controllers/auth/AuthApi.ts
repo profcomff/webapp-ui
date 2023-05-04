@@ -41,6 +41,7 @@ export class AuthApi {
 		profileStore.indirectGroups = data.indirect_groups ?? null;
 		profileStore.sessionScopes = data.session_scopes?.map(s => s.name) ?? null;
 		profileStore.userScopes = data.user_scopes?.map(s => s.name) ?? null;
+		profileStore.authMethods = data.auth_methods ?? null;
 
 		LocalStorage.set<string[]>(
 			LocalStorageItem.TokenScopes,

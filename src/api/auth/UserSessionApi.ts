@@ -14,6 +14,18 @@ export enum SessionInfo {
 	AuthMethods = 'auth_methods',
 }
 
+export enum AuthMethod {
+	Email = 'email',
+	Yandex = 'yandex_auth',
+	Github = 'github_auth',
+	Google = 'google_auth',
+	LkMsu = 'lkmsu_auth',
+	MyMsu = 'my_msu_auth',
+	Physics = 'physics_auth',
+	Telegram = 'telegram_auth',
+	VK = 'vk_auth',
+}
+
 interface StatusResponse {
 	status: string;
 	message: string;
@@ -41,7 +53,7 @@ class UserSessionApi extends AuthBaseApi {
 				[SessionInfo.IndirectGroups]: SessionInfo.IndirectGroups extends Info ? number[] : never;
 				[SessionInfo.SessionScopes]: SessionInfo.SessionScopes extends Info ? SessionScope[] : never;
 				[SessionInfo.UserScopes]: SessionInfo.UserScopes extends Info ? UserScope[] : never;
-				[SessionInfo.AuthMethods]: SessionInfo.AuthMethods extends Info ? string[] : never;
+				[SessionInfo.AuthMethods]: SessionInfo.AuthMethods extends Info ? AuthMethod[] : never;
 			},
 			{ info?: Info[] }
 		>('/me', { info });

@@ -1,10 +1,11 @@
 <script setup lang="ts">
-import { IrdomLayout, ToolbarMenuItem } from '@/components';
+import { IrdomLayout, ToolbarMenuItem, IrdomAuthButton } from '@/components';
 import { useProfileStore } from '@/store';
 import { onMounted, computed } from 'vue';
 import Placeholder from '@/assets/profile_image_placeholder.webp';
 import { AuthApi } from '@/api';
 import { SessionInfo } from '@/api/auth';
+import { authButtons } from '@/constants';
 
 const profileStore = useProfileStore();
 
@@ -33,6 +34,8 @@ onMounted(async () => {
 		SessionInfo.UserScopes,
 	]);
 });
+
+const canLinked = computed(() => authButtons.filter(({ method }) => !profileStore.authMethods?.includes(method)));
 </script>
 
 <template>
@@ -79,9 +82,10 @@ onMounted(async () => {
 			<template v-else><p>No session scopes</p></template>
 		</ul>
 
-		<!-- <div class="buttons">
-			<IrdomAuthButton v-for="button of authButtons" :key="button.name" :button="button" />
-		</div> -->
+		<h2 class="link-acc">Привязать аккаунт</h2>
+		<div class="buttons">
+			<IrdomAuthButton v-for="button of canLinked" :key="button.name" :button="button" />
+		</div>
 	</IrdomLayout>
 </template>
 
@@ -118,5 +122,9 @@ onMounted(async () => {
 	display: flex;
 	flex-wrap: wrap;
 	gap: 16px;
+}
+
+.link-acc {
+	margin-bottom: 20px;
 }
 </style>

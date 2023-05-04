@@ -3,6 +3,7 @@ import { oauth2Methods } from '@/api/auth';
 import { useRouter } from 'vue-router';
 import { IrdomLayout } from '@/components';
 import { AxiosResponse, isAxiosError } from 'axios';
+import { IrdomButton } from '@/components/lib';
 
 const router = useRouter();
 
@@ -38,13 +39,31 @@ async function handleAccept() {
 <template>
 	<IrdomLayout title="Вход" backable back="/auth">
 		<p>Вы еще не совершали вход в приложение с этим аккаунтом. Создать новый профиль?</p>
-		<button @click="handleAccept()">Да</button>
-		<RouterLink to="/auth" class="link">Нет</RouterLink>
+		<div class="btns">
+			<IrdomButton type="button" @click="$router.push('/auth')" class="no">Нет</IrdomButton>
+			<IrdomButton type="button" @click="handleAccept" class="yes">Да</IrdomButton>
+		</div>
 	</IrdomLayout>
 </template>
 
 <style scoped>
-.link {
-	align-self: start;
+.btns {
+	display: flex;
+	justify-content: center;
+	flex-wrap: wrap;
+	margin-top: 20px;
+	gap: 8px;
+
+	& button {
+		width: min(128px, 100%);
+	}
+}
+
+.no {
+	--background: oklch(62.8% 0.26 29.23 / 8%);
+}
+
+.yes {
+	--background: oklch(86.64% 0.29 142.5 / 8%);
 }
 </style>

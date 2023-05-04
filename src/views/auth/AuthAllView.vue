@@ -6,7 +6,7 @@ import { authButtons } from '@/constants';
 
 <template>
 	<IrdomLayout title="Все способы входа" backable back="/auth">
-		<form>
+		<form class="form">
 			<IrdomInput
 				type="email"
 				name="email"
@@ -51,7 +51,11 @@ import { authButtons } from '@/constants';
 	animation-delay: 0.1s;
 }
 
-form {
+.form {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+
 	@media screen and (width <= 575px) {
 		margin-top: 50%;
 	}

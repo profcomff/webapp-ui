@@ -16,7 +16,7 @@ defineProps<{
 		<div class="container wrapper">
 			<div v-for="{ icon, name, path } in items" class="nav-item" :key="name">
 				<span :class="['icon', { active: path.some(p => $route.path.startsWith(p)) }]">
-					<MaterialIcon :name="icon" :size="18" />
+					<MaterialIcon :name="icon" :size="20" />
 				</span>
 				<RouterLink
 					:key="name"
