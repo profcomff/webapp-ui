@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { useRoute } from 'vue-router';
 import { MaterialIcon } from './lib';
 
 export interface NavbarItem {
@@ -6,6 +7,8 @@ export interface NavbarItem {
 	icon: string;
 	path: string[];
 }
+
+const route = useRoute();
 
 defineProps<{
 	items: NavbarItem[];
@@ -15,13 +18,13 @@ defineProps<{
 	<nav class="nav">
 		<div class="container wrapper">
 			<div v-for="{ icon, name, path } in items" class="nav-item" :key="name">
-				<span :class="['icon', { active: path.some(p => $route.path.startsWith(p)) }]">
+				<span :class="['icon', { active: path.some(p => route.path.startsWith(p)) }]">
 					<MaterialIcon :name="icon" :size="20" />
 				</span>
 				<RouterLink
 					:key="name"
 					:to="path[0]"
-					:class="['navbar-link', { 'active-link': path.some(p => $route.path.startsWith(p)) }]"
+					:class="['navbar-link', { 'active-link': path.some(p => route.path.startsWith(p)) }]"
 				>
 					{{ name }}
 				</RouterLink>

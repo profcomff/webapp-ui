@@ -3,7 +3,9 @@ import { MaterialIcon } from '@/components/lib';
 import AsyncRoomInfo from './AsyncRoomInfo.vue';
 import { IrdomLayout } from '@/components';
 import AsyncRoomSchedule from './AsyncRoomSchedule.vue';
+import { useRoute } from 'vue-router';
 
+const route = useRoute();
 const back = history.state.back?.startsWith('/timetable/event') ? history.state.back : '/timetable';
 </script>
 
@@ -11,7 +13,7 @@ const back = history.state.back?.startsWith('/timetable/event') ? history.state.
 	<IrdomLayout backable :back="back" share title="Аудитория">
 		<section class="section">
 			<Suspense>
-				<AsyncRoomInfo :id="+$route.params.id" />
+				<AsyncRoomInfo :id="+route.params.id" />
 
 				<template #fallback> Загрузка... </template>
 			</Suspense>
@@ -31,7 +33,7 @@ const back = history.state.back?.startsWith('/timetable/event') ? history.state.
 		<section class="section">
 			<p class="date">Сегодня, {{ new Date().toLocaleDateString('ru-RU', { day: '2-digit', month: 'long' }) }}</p>
 			<Suspense>
-				<AsyncRoomSchedule :id="+$route.params.id" />
+				<AsyncRoomSchedule :id="+route.params.id" />
 				<template #fallback>Загрузка...</template>
 			</Suspense>
 		</section>

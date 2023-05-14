@@ -1,6 +1,6 @@
 <script setup lang="ts">
 defineProps<{ modelValue?: string }>();
-defineEmits<{ e: 'update:modelValue'; value: string }>();
+defineEmits<{ 'update:modelValue': [string] }>();
 </script>
 
 <template>
