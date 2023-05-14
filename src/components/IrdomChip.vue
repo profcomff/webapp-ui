@@ -1,7 +1,7 @@
 <script setup lang="ts">
 withDefaults(
 	defineProps<{
-		elevated: boolean;
+		elevated?: boolean;
 	}>(),
 	{ elevated: false },
 );
