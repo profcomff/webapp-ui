@@ -32,11 +32,13 @@ interface StatusResponse {
 }
 
 interface SessionResponse {
-	token: string;
-	expires: string;
+	token?: string;
+	expires?: string;
 	id: number;
 	user_id: number;
-	session_scopes: string[];
+	session_scopes?: string[];
+	session_name: string;
+	last_activity: string;
 }
 
 class UserSessionApi extends AuthBaseApi {

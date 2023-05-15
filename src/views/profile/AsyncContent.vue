@@ -6,9 +6,18 @@ const { data } = await userSessionApi.getSessions();
 
 <template>
 	<table v-for="session of data" :key="session.id" style="margin-bottom: 80px; overflow-wrap: break-word">
-		<tr v-for="key of Object.keys(session)" :key="key">
-			<td>{{ key }}</td>
-			<td>{{ session[key as keyof typeof session] }}</td>
+		<tr>
+			<td>Последняя активность</td>
+			<td>
+				{{
+					new Date(session.last_activity).toLocaleDateString('ru-RU', {
+						day: 'numeric',
+						month: 'long',
+						hour: 'numeric',
+						minute: 'numeric',
+					})
+				}}
+			</td>
 		</tr>
 	</table>
 </template>

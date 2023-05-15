@@ -47,15 +47,15 @@ const canUnlinked = computed(() => authButtons.filter(({ method }) => profileSto
 		<img :src="Placeholder" alt="Аватар" width="400 " height="400" class="avatar" />
 
 		<section class="section" v-if="profileStore.authMethods?.length !== 8">
-			<h2 class="link-acc">Привязать аккаунт</h2>
+			<h2>Привязать аккаунт</h2>
 			<div class="buttons">
 				<IrdomAuthButton v-for="button of canLinked" :key="button.method" :button="button" />
 				<TelegramButton v-if="!profileStore.authMethods?.includes(AuthMethod.Telegram)" />
 			</div>
 		</section>
 
-		<section v-if="profileStore.authMethods && profileStore.authMethods.length > 1">
-			<h2 class="link-acc">Отвязать аккаунт</h2>
+		<section v-if="profileStore.authMethods && profileStore.authMethods.length > 1" class="section">
+			<h2>Отвязать аккаунт</h2>
 			<div class="buttons">
 				<IrdomAuthButton v-for="button of canUnlinked" :key="button.method" :button="button" unlink />
 			</div>
@@ -98,11 +98,11 @@ const canUnlinked = computed(() => authButtons.filter(({ method }) => profileSto
 	gap: 16px;
 }
 
-.link-acc {
-	margin-bottom: 20px;
-}
-
 .section {
 	margin-bottom: 40px;
+
+	& h2 {
+		margin-bottom: 20px;
+	}
 }
 </style>
