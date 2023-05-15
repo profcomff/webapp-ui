@@ -17,7 +17,10 @@ body {
 	display: flex;
 	flex-direction: column;
 	background: oklch(95.28% 0.007 277.16);
-	background: color-mix(in oklab, transparent 63%, var(--color-primary-light));
+
+	@supports (color: color-mix(in oklab, black, white)) {
+		background: color-mix(in oklab, transparent 63%, var(--color-primary-light));
+	}
 }
 
 body {
