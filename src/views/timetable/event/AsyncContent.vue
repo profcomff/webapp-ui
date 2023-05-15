@@ -104,6 +104,7 @@ const lecturers = computed(() => {
 
 <style scoped>
 .icon {
+	background: white;
 	font-size: 30px;
 }
 
