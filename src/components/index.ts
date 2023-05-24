@@ -7,3 +7,4 @@ export { default as EventRow } from './EventRow.vue';
 export { default as AccessAllowed } from './AccessAllowed.vue';
 export { default as IrdomAuthButton, type AuthButton } from './IrdomAuthButton.vue';
 export { default as TelegramButton } from './TelegramButon.vue';
+export { default as IrdomChip } from './IrdomChip.vue';

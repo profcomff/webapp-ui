@@ -40,7 +40,6 @@ const tomorrow = computed(() => getDateWithDayOffset(props.date, 1));
 	width: 100%;
 	position: sticky;
 	top: 0;
-	background: white;
 }
 
 .wrapper {
@@ -48,6 +47,7 @@ const tomorrow = computed(() => getDateWithDayOffset(props.date, 1));
 	align-items: center;
 	justify-content: space-between;
 	text-transform: uppercase;
+	background: oklch(95.28% 0.007 277.16);
 }
 
 .button {

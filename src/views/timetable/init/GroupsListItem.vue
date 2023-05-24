@@ -3,7 +3,7 @@ import { StudyGroup } from '@/api/models';
 import { LocalStorage, LocalStorageItem } from '@/models';
 import { useTimetableStore } from '@/store';
 import { useRouter } from 'vue-router';
-
+import { IrdomChip } from '@/components';
 defineProps<{
 	course: string;
 	groups: StudyGroup[];
@@ -19,33 +19,23 @@ const setGroup = (group: StudyGroup) => {
 	router.push('/timetable');
 };
 </script>
-
 <template>
 	<div class="section">
-		<h3 class="h3">{{ `${course} курс` }}</h3>
+		<h3>{{ `${course} курс` }}</h3>
 		<ul class="ul" ref="list">
 			<li class="li" v-for="group of groups" :key="group.id">
-				<button type="button" class="label" @click="setGroup(group)">{{ group.number }}</button>
+				<IrdomChip @click="setGroup(group)">{{ group.number }}</IrdomChip>
 			</li>
 		</ul>
 	</div>
 </template>
 
 <style scoped>
-.label {
-	padding: 4px 8px;
-	background: var(--color-primary-light);
-	border-radius: 999px;
-}
-
 .ul {
+	padding: 12px 0;
 	display: flex;
 	flex-wrap: wrap;
 	gap: 8px;
-}
-
-.h3 {
-	margin-bottom: 16px;
 }
 
 .section {

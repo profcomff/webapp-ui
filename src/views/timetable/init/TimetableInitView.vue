@@ -6,7 +6,6 @@ import AsyncGroupsList from './AsyncGroupsList.vue';
 import { marketingApi } from '@/api/marketing';
 import { useProfileStore } from '@/store';
 import { IrdomInput } from '@/components/lib';
-
 const query = ref('');
 const profileStore = useProfileStore();
 
@@ -22,6 +21,7 @@ const sendMarketing = (e: Event) => {
 	}
 };
 </script>
+
 <template>
 	<IrdomLayout>
 		<img :src="Logo" alt="Логотип физфака" class="logo" />
