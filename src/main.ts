@@ -3,7 +3,6 @@ import App from './App.vue';
 import router from './router';
 import './index.css';
 import './variables.css';
-import 'animate.css';
 import { createPinia } from 'pinia';
 import { registerSW } from 'virtual:pwa-register';
 

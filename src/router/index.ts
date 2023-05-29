@@ -39,11 +39,11 @@ const routes: RouteRecordRaw[] = [
 	},
 	{
 		path: '/forbidden',
-		component: () => import('@/views/ViewError403.vue'),
+		component: () => import('@/views/error/Error403View.vue'),
 	},
 	{
 		path: '/:pathMatch(.*)',
-		component: () => import('@/views/ViewError404.vue'),
+		component: () => import('@/views/error/Error404View.vue'),
 	},
 ];
 
