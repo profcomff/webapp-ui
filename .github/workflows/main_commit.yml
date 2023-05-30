@@ -53,7 +53,7 @@ jobs:
       - name: Check
         run: pnpm test
 
-  build-and-push-image:
+  build-and-push-test-image:
     name: Собираем тестовый Docker
     runs-on: ubuntu-latest
     needs:
@@ -90,11 +90,12 @@ jobs:
           push: true
           build-args: |
             BUILD_MODE=testing
+            LAUNCH_MODE=testing
             APP_VERSION=${{ github.ref_name }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
 
-  deploy-dev:
+  deploy-test:
     name: Раскатываем тестовый Docker
     runs-on: [self-hosted, Linux]
     needs: build-and-push-image
@@ -116,15 +117,3 @@ jobs:
             --network=web \
             --name ${{ env.CONTAINER_NAME }} \
             ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:test
-      # TODO: Переехать на CI/CD API
-      # - name: Deploy
-      #   run: |
-      #     curl -X 'POST' \
-      #       'https://api.profcomff.com/cicd/test/pr_run' \
-      #       -H 'accept: application/json' \
-      #       -H 'Content-Type: application/json' \
-      #       -H 'Authorization: ${{ secrets.CI_DYAKOVSPACE_MSK_TOKEN }}' \
-      #       -d '{
-      #         "repo_url": "${{ github.repository }}",
-      #         "git_ref": "${{ github.ref }}"
-      #       }'
