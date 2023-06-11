@@ -9,12 +9,16 @@ interface AuthResponse {
 	user_id: number;
 }
 
-interface RegisterBody {
+export interface AuthBody {
+	session_name?: string;
+}
+
+interface RegisterBody extends AuthBody {
 	id_token: string;
 	scopes?: string[];
 }
 
-export class AuthOauth2BaseApi<LoginBody = unknown> extends AuthBaseApi {
+export class AuthOauth2BaseApi<LoginBody extends AuthBody = object> extends AuthBaseApi {
 	constructor(path = '') {
 		super(path);
 		oauth2Methods[`/auth/oauth-authorized${path}`] = this;
@@ -26,10 +30,16 @@ export class AuthOauth2BaseApi<LoginBody = unknown> extends AuthBaseApi {
 	}
 
 	public async login(body: LoginBody) {
+		if (!body.session_name) {
+			body.session_name = navigator.userAgent ?? 'unknown device';
+		}
 		return this.post<AuthResponse, LoginBody>('/login', body);
 	}
 
 	public async register(body: RegisterBody) {
+		if (!body.session_name) {
+			body.session_name = navigator.userAgent ?? 'unknown device';
+		}
 		return this.post<AuthResponse, RegisterBody>('/registration', body);
 	}
 

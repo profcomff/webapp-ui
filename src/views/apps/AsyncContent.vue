@@ -127,7 +127,7 @@ const sendMarketing = (url: string) => {
 	align-items: center;
 	padding: 12px 24px;
 	gap: 0.8em;
-	background: oklch(97% 0 0);
+	background: oklch(100% 0 0);
 	border-radius: 5px;
 	margin-bottom: 10px;
 }

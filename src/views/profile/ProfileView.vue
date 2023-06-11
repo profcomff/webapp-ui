@@ -4,7 +4,7 @@ import { useProfileStore } from '@/store';
 import { onMounted, computed } from 'vue';
 import Placeholder from '@/assets/profile_image_placeholder.webp';
 import { AuthApi } from '@/api';
-import { AuthMethod, SessionInfo } from '@/api/auth';
+import { AuthMethod, MySessionInfo } from '@/api/auth';
 import { authButtons } from '@/constants';
 import { useRouter } from 'vue-router';
 
@@ -28,11 +28,11 @@ onMounted(async () => {
 		delete history.state.token;
 	}
 	await AuthApi.getMe([
-		SessionInfo.AuthMethods,
-		SessionInfo.Groups,
-		SessionInfo.IndirectGroups,
-		SessionInfo.SessionScopes,
-		SessionInfo.UserScopes,
+		MySessionInfo.AuthMethods,
+		MySessionInfo.Groups,
+		MySessionInfo.IndirectGroups,
+		MySessionInfo.SessionScopes,
+		MySessionInfo.UserScopes,
 	]);
 });
 

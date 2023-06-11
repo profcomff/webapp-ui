@@ -6,7 +6,7 @@ interface CreateBody {
 	expires: string;
 }
 
-export enum SessionInfo {
+export enum MySessionInfo {
 	Groups = 'groups',
 	IndirectGroups = 'indirect_groups',
 	SessionScopes = 'session_scopes',
@@ -32,13 +32,16 @@ interface StatusResponse {
 }
 
 interface SessionResponse {
-	token?: string;
-	expires?: string;
 	id: number;
 	user_id: number;
-	session_scopes?: string[];
 	session_name: string;
 	last_activity: string;
+}
+
+export enum SessionInfo {
+	SessionScopes = 'session_scopes',
+	Token = 'token',
+	Expires = 'expires',
 }
 
 class UserSessionApi extends AuthBaseApi {
@@ -48,20 +51,29 @@ class UserSessionApi extends AuthBaseApi {
 	public async logout() {
 		return this.post<StatusResponse>('/logout');
 	}
-	public async getMe<Info extends SessionInfo = never>(info?: Info[]) {
+	public async getMe<Info extends MySessionInfo = never>(info?: Info[]) {
 		return this.get<
 			Session & {
-				[SessionInfo.Groups]: SessionInfo.Groups extends Info ? number[] : never;
-				[SessionInfo.IndirectGroups]: SessionInfo.IndirectGroups extends Info ? number[] : never;
-				[SessionInfo.SessionScopes]: SessionInfo.SessionScopes extends Info ? SessionScope[] : never;
-				[SessionInfo.UserScopes]: SessionInfo.UserScopes extends Info ? UserScope[] : never;
-				[SessionInfo.AuthMethods]: SessionInfo.AuthMethods extends Info ? AuthMethod[] : never;
+				[MySessionInfo.Groups]: MySessionInfo.Groups extends Info ? number[] : never;
+				[MySessionInfo.IndirectGroups]: MySessionInfo.IndirectGroups extends Info ? number[] : never;
+				[MySessionInfo.SessionScopes]: MySessionInfo.SessionScopes extends Info ? SessionScope[] : never;
+				[MySessionInfo.UserScopes]: MySessionInfo.UserScopes extends Info ? UserScope[] : never;
+				[MySessionInfo.AuthMethods]: MySessionInfo.AuthMethods extends Info ? AuthMethod[] : never;
 			},
 			{ info?: Info[] }
 		>('/me', { info });
 	}
-	public async getSessions() {
-		return this.get<SessionResponse[]>('/session');
+	public async getSessions<Info extends SessionInfo = never>(info?: Info[]) {
+		return this.get<
+			Array<
+				SessionResponse & {
+					[SessionInfo.Expires]: SessionInfo.Expires extends Info ? string : never;
+					[SessionInfo.SessionScopes]: SessionInfo.SessionScopes extends Info ? string[] : never;
+					[SessionInfo.Token]: SessionInfo.Token extends Info ? string : never;
+				}
+			>,
+			{ info?: Info[] }
+		>('/session', { info });
 	}
 	public async createSession(body: CreateBody) {
 		return this.post<SessionResponse, CreateBody>('/session', body);

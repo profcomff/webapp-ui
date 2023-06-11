@@ -8,4 +8,4 @@ export { authYandexApi, authMymsuApi } from './AuthMymsuApi';
 export { authGroupApi, GroupInfo } from './AuthGroupApi';
 export { authScopeApi } from './AuthScopeApi';
 export { authUserApi, UserInfo } from './AuthUserApi';
-export { userSessionApi, SessionInfo, AuthMethod } from './UserSessionApi';
+export { userSessionApi, MySessionInfo, AuthMethod, SessionInfo } from './UserSessionApi';
