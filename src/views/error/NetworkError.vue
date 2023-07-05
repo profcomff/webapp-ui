@@ -5,7 +5,7 @@ import NetworkError from '@/assets/network_error.svg';
 
 <template>
 	<ErrorLayout title="Network Error" :image="NetworkError">
-		<template #heading> Срочно найдите интернет! </template>
+		<template #heading> Эта страница недоступна без Интернета </template>
 		<template #subheading> Пропало подключение к сети </template>
 	</ErrorLayout>
 </template>
