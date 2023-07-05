@@ -11,7 +11,8 @@
     "preview": "vite preview",
     "test": "vitest",
     "lint": "eslint --ext .ts,.vue .",
-    "stylelint": "stylelint \"**/*.{vue,css}\""
+    "stylelint": "stylelint \"**/*.{vue,css}\"",
+    "stylelint:fix": "stylelint \"**/*.{vue,css}\" --fix"
   },
   "dependencies": {
     "@types/ua-parser-js": "^0.7.36",

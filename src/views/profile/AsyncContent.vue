@@ -89,12 +89,12 @@ const getIcon = (name: string) => {
 .card {
 	border-radius: 20px;
 	padding: 20px;
-	box-shadow: 0 0 20px oklch(0 0 0 / 10%);
+	box-shadow: 0 0 20px oklch(0 0 0deg / 10%);
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
 	margin-bottom: 20px;
-	background: oklch(100% 0 0);
+	background: oklch(100% 0 0deg);
 }
 
 .card b {

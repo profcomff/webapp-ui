@@ -60,10 +60,10 @@ async function handleAccept() {
 }
 
 .no {
-	--background: oklch(62.8% 0.26 29.23 / 8%);
+	--background: oklch(62.8% 0.26 29.23deg / 8%);
 }
 
 .yes {
-	--background: oklch(86.64% 0.29 142.5 / 8%);
+	--background: oklch(86.64% 0.29 142.5deg / 8%);
 }
 </style>

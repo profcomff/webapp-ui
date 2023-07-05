@@ -36,7 +36,7 @@ defineProps<{ title: string; image: string }>();
 }
 
 .page p {
-	color: oklch(62.34% 0 0);
+	color: oklch(62.34% 0 0deg);
 	font-size: 24px;
 }
 </style>

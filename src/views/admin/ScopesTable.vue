@@ -43,7 +43,7 @@ const sorted = computed(() => [...props.scopes].sort((a, b) => (a.name > b.name 
 	gap: 16px;
 
 	&:nth-child(even) {
-		background: oklch(0 0 0 / 8%);
+		background: oklch(0 0 0deg / 8%);
 	}
 
 	& th {

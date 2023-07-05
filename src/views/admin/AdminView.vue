@@ -48,7 +48,7 @@ const copyToken = () => {
 		border-radius: 999px;
 
 		&:hover {
-			background: oklch(0% 0 0 / 20%);
+			background: oklch(0% 0 0deg / 20%);
 		}
 	}
 }
