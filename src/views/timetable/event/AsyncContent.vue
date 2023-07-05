@@ -70,7 +70,7 @@ const lecturers = computed(() => {
 <template>
 	<h2 class="h2">{{ event?.name }}</h2>
 
-	<DataRow title="Группа" :info="event?.group.number" class="row">
+	<DataRow title="Группа" :info="event?.group.map(g => g.number).join(', ')" class="row">
 		<MaterialIcon name="group" class="icon" />
 	</DataRow>
 

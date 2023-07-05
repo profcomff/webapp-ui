@@ -4,7 +4,7 @@ import { TimetableEntityBaseApi } from './TimetaableEntityBaseApi';
 
 type ModifyEventBody = Pick<Event, 'name' | 'start_ts' | 'end_ts'> & {
 	room_id: number[];
-	group_id: number;
+	group_id: number[];
 	lecturer_id: number[];
 };
 
