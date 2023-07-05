@@ -1,5 +1,5 @@
 import { Scope } from '../models';
-import { AuthBaseApi } from './AuthBaseApi';
+import { AuthBaseApi, DefaultResponse } from './AuthBaseApi';
 
 interface ModifyScopeBody {
 	name: string;
@@ -24,7 +24,7 @@ class AuthScopeApi extends AuthBaseApi {
 	}
 
 	public async deleteScope(id: number) {
-		return this.delete<{ status: string; message: string }>(`/${id}`, undefined);
+		return this.delete<DefaultResponse>(`/${id}`, undefined);
 	}
 
 	public async patchScope({ id, comment, name }: Scope) {

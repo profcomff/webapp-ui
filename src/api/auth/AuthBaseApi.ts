@@ -7,16 +7,16 @@ export class AuthBaseApi extends BaseApi {
 	}
 }
 
-interface ErrorResponse {
+export interface DefaultResponse {
 	status: string;
 	message: string;
 }
 
-interface NoLinkedAccoutErrorResponse extends ErrorResponse {
+interface NoLinkedAccoutErrorResponse extends DefaultResponse {
 	id_token: string;
 }
 export type NoLinkedAccountError = AxiosError<NoLinkedAccoutErrorResponse>;
 
-export type ExternalAuthorizationError = AxiosError<ErrorResponse>;
+export type ExternalAuthorizationError = AxiosError<DefaultResponse>;
 
-export type UserExistsError = AxiosError<ErrorResponse>;
+export type UserExistsError = AxiosError<DefaultResponse>;

@@ -1,32 +1,25 @@
 <script setup lang="ts">
-import { AuthMethod } from '@/api/auth';
-import { IrdomAuthButton, IrdomLayout } from '@/components';
+import { AuthMethod, authEmailApi } from '@/api/auth';
+import { EmailPasswordForm, IrdomAuthButton, IrdomLayout, SubmitData } from '@/components';
 import TelegramButon from '@/components/TelegramButon.vue';
-import { IrdomInput, IrdomButton } from '@/components/lib';
 import { authButtons } from '@/constants';
+import axios from 'axios';
+
+const submitHandler = async (data: SubmitData) => {
+	try {
+		await authEmailApi.login(data);
+	} catch (err) {
+		if (axios.isAxiosError(err)) {
+			console.log(err.response?.data.message);
+		}
+	}
+};
 </script>
 
 <template>
 	<IrdomLayout title="Все способы входа" backable back="/auth">
-		<form class="form" v-if="false">
-			<IrdomInput
-				type="email"
-				name="email"
-				autocomplete="email"
-				placeholder="Введите почту"
-				class="animate__animated animate__fadeInLeft input"
-			/>
-			<IrdomInput
-				type="password"
-				name="password"
-				autocomplete="current-password"
-				placeholder="Введите пароль"
-				class="animate__animated animate__fadeInLeft input"
-			/>
-			<IrdomButton type="submit" class="animate__animated animate__headShake submit">Вход</IrdomButton>
-
-			<RouterLink to="/auth/register-email" class="link">Регистрация по электронной почте</RouterLink>
-		</form>
+		<EmailPasswordForm mode="login" @submit="submitHandler" />
+		<RouterLink to="/auth/register-email" class="link">Регистрация по электронной почте</RouterLink>
 
 		<div class="buttons">
 			<IrdomAuthButton
@@ -47,40 +40,9 @@ import { authButtons } from '@/constants';
 	margin: 0 auto 64px;
 }
 
-.input {
-	align-self: center;
-	width: 100%;
-	max-width: 400px;
-	margin: 0 auto 24px;
-	animation-duration: 0.3s;
-}
-
-.input:nth-child(2) {
-	animation-delay: 0.1s;
-}
-
-.form {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-
-	@media screen and (width <= 575px) {
-		margin-top: 50%;
-	}
-}
-
 .buttons {
 	display: flex;
 	flex-wrap: wrap;
 	gap: 16px;
-}
-
-.submit {
-	width: 100%;
-	max-width: 400px;
-	align-self: center;
-	background: var(--color-primary);
-	color: white;
-	margin: 0 auto 16px;
 }
 </style>
