@@ -16,8 +16,7 @@ const expanderClickHandler = () => {
 };
 
 const clickOutsideHandler = (event: MouseEvent) => {
-	if (show.value && event.target !== button.value) {
-		event.preventDefault();
+	if (show.value && button.value && event.target && !button.value.contains(event.target as Node)) {
 		show.value = false;
 	}
 };

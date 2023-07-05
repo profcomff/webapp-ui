@@ -25,6 +25,7 @@ withDefaults(defineProps<Props>(), {
 	max-width: calc(1em + 4px);
 	overflow: hidden;
 	text-overflow: ellipsis;
+	min-width: 1em;
 }
 
 .outlined {
