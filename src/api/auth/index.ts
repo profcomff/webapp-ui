@@ -1,3 +1,4 @@
+export { authEmailApi } from './AuthEmailApi';
 export { oauth2Methods, AuthOauth2BaseApi } from '@/api/auth/AuthOauth2BaseApi';
 export { authGithubApi } from './AuthGithubApi';
 export { authVkApi } from './AuthVkApi';
