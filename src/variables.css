@@ -1,8 +1,8 @@
 :root {
-	--color-primary-dark: oklch(19% 0.13 264);
-	--color-primary: oklch(66.98% 0.064 281.42);
-	--color-primary-light: oklch(92.3% 0.012 276.09);
-	--color-accent: oklch(75% 0.18 57.8);
+	--color-primary-dark: oklch(19% 0.13 264deg);
+	--color-primary: oklch(66.98% 0.064 281.42deg);
+	--color-primary-light: oklch(92.3% 0.012 276.09deg);
+	--color-accent: oklch(75% 0.18 57.8deg);
 	--toolbar-height: 56px;
 	--navbar-height: 80px;
 }

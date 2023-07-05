@@ -8,7 +8,7 @@ import { authButtons } from '@/constants';
 
 <template>
 	<IrdomLayout title="Все способы входа" backable back="/auth">
-		<form class="form">
+		<form class="form" v-if="false">
 			<IrdomInput
 				type="email"
 				name="email"

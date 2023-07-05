@@ -88,6 +88,6 @@ defineProps<{
 }
 
 .active {
-	background: oklch(66.98% 0.064 281.42 / 50%);
+	background: oklch(66.98% 0.064 281.42deg / 50%);
 }
 </style>

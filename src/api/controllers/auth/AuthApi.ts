@@ -1,7 +1,7 @@
 import { scoped } from './decorators';
 import { useAuthStore, useProfileStore } from '@/store';
 import { LocalStorage, LocalStorageItem, scopename } from '@/models';
-import { SessionInfo, UserInfo, authScopeApi, authUserApi, userSessionApi } from '@/api/auth';
+import { MySessionInfo, UserInfo, authScopeApi, authUserApi, userSessionApi } from '@/api/auth';
 
 export class AuthApi {
 	static getScopes = scoped(scopename.auth.scope.read, async function getScopes() {
@@ -32,7 +32,7 @@ export class AuthApi {
 		}
 	}
 
-	static async getMe(info?: SessionInfo[]) {
+	static async getMe(info?: MySessionInfo[]) {
 		const profileStore = useProfileStore();
 		const { data } = await userSessionApi.getMe(info);
 

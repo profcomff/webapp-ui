@@ -112,12 +112,12 @@ const sendMarketing = (url: string) => {
 		text-align: center;
 		overflow-wrap: anywhere;
 		word-break: keep-all;
-		box-shadow: 0 0 20px oklch(0 0 0 / 10%);
+		box-shadow: 0 0 20px oklch(0 0 0deg / 10%);
 		transition: all 0.3s ease;
 
 		&:hover {
 			transform: translateY(-4px);
-			box-shadow: 0 0 24px oklch(0 0 0 / 12%);
+			box-shadow: 0 0 24px oklch(0 0 0deg / 12%);
 		}
 	}
 }
@@ -127,7 +127,7 @@ const sendMarketing = (url: string) => {
 	align-items: center;
 	padding: 12px 24px;
 	gap: 0.8em;
-	background: oklch(97% 0 0);
+	background: oklch(100% 0 0deg);
 	border-radius: 5px;
 	margin-bottom: 10px;
 }

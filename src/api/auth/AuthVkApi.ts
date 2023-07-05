@@ -1,6 +1,6 @@
-import { AuthOauth2BaseApi } from './AuthOauth2BaseApi';
+import { AuthBody, AuthOauth2BaseApi } from './AuthOauth2BaseApi';
 
-interface LoginBody {
+interface LoginBody extends AuthBody {
 	code: string;
 	scopes?: string[];
 }

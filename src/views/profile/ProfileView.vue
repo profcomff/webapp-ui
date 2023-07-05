@@ -4,22 +4,23 @@ import { useProfileStore } from '@/store';
 import { onMounted, computed } from 'vue';
 import Placeholder from '@/assets/profile_image_placeholder.webp';
 import { AuthApi } from '@/api';
-import { AuthMethod, SessionInfo } from '@/api/auth';
+import { AuthMethod, MySessionInfo } from '@/api/auth';
 import { authButtons } from '@/constants';
+import { useRouter } from 'vue-router';
 
 const profileStore = useProfileStore();
+const router = useRouter();
 
-const toolbarMenu = computed<ToolbarMenuItem[]>(() => {
-	const arr: ToolbarMenuItem[] = [];
-	if (profileStore.isUserLogged) {
-		arr.push({
-			name: 'Выход',
-			onClick: AuthApi.logout,
-		});
-	}
-
-	return arr;
-});
+const toolbarMenu: ToolbarMenuItem[] = [
+	{
+		name: 'Выход',
+		onClick: AuthApi.logout,
+	},
+	{
+		name: 'Сессии',
+		onClick: () => router.push('/profile/sessions'),
+	},
+];
 
 onMounted(async () => {
 	if (history.state.token) {
@@ -27,11 +28,11 @@ onMounted(async () => {
 		delete history.state.token;
 	}
 	await AuthApi.getMe([
-		SessionInfo.AuthMethods,
-		SessionInfo.Groups,
-		SessionInfo.IndirectGroups,
-		SessionInfo.SessionScopes,
-		SessionInfo.UserScopes,
+		MySessionInfo.AuthMethods,
+		MySessionInfo.Groups,
+		MySessionInfo.IndirectGroups,
+		MySessionInfo.SessionScopes,
+		MySessionInfo.UserScopes,
 	]);
 });
 
@@ -45,16 +46,16 @@ const canUnlinked = computed(() => authButtons.filter(({ method }) => profileSto
 	<IrdomLayout :toolbar-menu="toolbarMenu" title="Профиль">
 		<img :src="Placeholder" alt="Аватар" width="400 " height="400" class="avatar" />
 
-		<section>
-			<h2 class="link-acc">Привязать аккаунт</h2>
+		<section class="section" v-if="profileStore.authMethods?.length !== 8">
+			<h2>Привязать аккаунт</h2>
 			<div class="buttons">
 				<IrdomAuthButton v-for="button of canLinked" :key="button.method" :button="button" />
-				<TelegramButton />
+				<TelegramButton v-if="!profileStore.authMethods?.includes(AuthMethod.Telegram)" />
 			</div>
 		</section>
 
-		<section v-if="profileStore.authMethods && profileStore.authMethods.length > 1">
-			<h2 class="link-acc">Отвязать аккаунт</h2>
+		<section v-if="profileStore.authMethods && profileStore.authMethods.length > 1" class="section">
+			<h2>Отвязать аккаунт</h2>
 			<div class="buttons">
 				<IrdomAuthButton v-for="button of canUnlinked" :key="button.method" :button="button" unlink />
 			</div>
@@ -87,7 +88,7 @@ const canUnlinked = computed(() => authButtons.filter(({ method }) => profileSto
 	width: 100%;
 	max-width: 256px;
 	border-radius: 999px;
-	box-shadow: 0 0 20px oklch(0 0 0 / 10%);
+	box-shadow: 0 0 20px oklch(0 0 0deg / 10%);
 	object-fit: cover;
 }
 
@@ -97,7 +98,11 @@ const canUnlinked = computed(() => authButtons.filter(({ method }) => profileSto
 	gap: 16px;
 }
 
-.link-acc {
-	margin-bottom: 20px;
+.section {
+	margin-bottom: 40px;
+
+	& h2 {
+		margin-bottom: 20px;
+	}
 }
 </style>
