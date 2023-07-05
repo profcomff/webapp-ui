@@ -28,7 +28,7 @@ const info = computed(() => {
 	}
 
 	if (props.info.includes('group')) {
-		arr.push(props.event.group.number);
+		arr.push(props.event.group.map(g => g.number).join(', '));
 	}
 
 	return arr.filter(c => Boolean(c)).join(' • ');
