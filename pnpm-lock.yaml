@@ -31,9 +31,6 @@ dependencies:
     version: 7.0.0
 
 devDependencies:
-  '@mapbox/stylelint-processor-arbitrary-tags':
-    specifier: ^0.4.0
-    version: 0.4.0
   '@types/node':
     specifier: ^20.3.3
     version: 20.3.3
@@ -1979,14 +1976,6 @@ packages:
       '@jridgewell/sourcemap-codec': 1.4.14
     dev: true
 
-  /@mapbox/stylelint-processor-arbitrary-tags@0.4.0:
-    resolution: {integrity: sha512-HTyW4vLgCVrAvmbV4TtXVpkrg3gkRR4WMEveNOo4OBxzA5wl5xQdxe0Iow8B5FRI3ose5yFLA8jvbfU8ZayPJQ==}
-    engines: {node: '>=10'}
-    dependencies:
-      execall: 1.0.0
-      split-lines: 1.1.0
-    dev: true
-
   /@nicolo-ribaudo/semver-v6@6.3.3:
     resolution: {integrity: sha512-3Yc1fUTs69MG/uZbJlLSI3JISMn2UV2rg+1D/vROUqZyh3l6iYHCs7GMp+M40ZD7yOdDbYjJcU1oTJhrc+dGKg==}
     hasBin: true
@@ -2813,14 +2802,6 @@ packages:
       fsevents: 2.3.2
     dev: true
 
-  /clone-regexp@1.0.1:
-    resolution: {integrity: sha512-Fcij9IwRW27XedRIJnSOEupS7RVcXtObJXbcUOX93UCLqqOdRpkvzKywOOSizmEK/Is3S/RHX9dLdfo6R1Q1mw==}
-    engines: {node: '>=0.10.0'}
-    dependencies:
-      is-regexp: 1.0.0
-      is-supported-regexp-flag: 1.0.1
-    dev: true
-
   /color-convert@1.9.3:
     resolution: {integrity: sha512-QfAUtd+vFdAtFQcC8CCyYt1fYWxSqAiK2cSD6zDB8N3cpsEBAvRxp9zOGg6G/SHHJYAT88/az/IuDGALsNVbGg==}
     dependencies:
@@ -3352,13 +3333,6 @@ packages:
   /esutils@2.0.3:
     resolution: {integrity: sha512-kVscqXk4OCp68SZ0dkgEKVi6/8ij300KBWTJq32P/dYeWTSwK41WyTxalN1eRmA5Z9UU/LX9D7FWSmV9SAYx6g==}
     engines: {node: '>=0.10.0'}
-    dev: true
-
-  /execall@1.0.0:
-    resolution: {integrity: sha512-/J0Q8CvOvlAdpvhfkD/WnTQ4H1eU0exze2nFGPj/RSC7jpQ0NkKe2r28T5eMkhEEs+fzepMZNy1kVRKNlC04nQ==}
-    engines: {node: '>=0.10.0'}
-    dependencies:
-      clone-regexp: 1.0.1
     dev: true
 
   /fast-deep-equal@3.1.3:
@@ -3914,11 +3888,6 @@ packages:
     engines: {node: '>= 0.4'}
     dependencies:
       has-tostringtag: 1.0.0
-    dev: true
-
-  /is-supported-regexp-flag@1.0.1:
-    resolution: {integrity: sha512-3vcJecUUrpgCqc/ca0aWeNu64UGgxcvO60K/Fkr1N6RSvfGCTU60UKN68JDmKokgba0rFFJs12EnzOQa14ubKQ==}
-    engines: {node: '>=0.10.0'}
     dev: true
 
   /is-symbol@1.0.4:
@@ -5185,11 +5154,6 @@ packages:
 
   /spdx-license-ids@3.0.13:
     resolution: {integrity: sha512-XkD+zwiqXHikFZm4AX/7JSCXA98U5Db4AFd5XUg/+9UNtnH75+Z9KxtpYiJZx36mUDVOwH83pl7yvCer6ewM3w==}
-    dev: true
-
-  /split-lines@1.1.0:
-    resolution: {integrity: sha512-ZAEc8yWc1Rlpm6R8Vf09XQS8MGiCXqvtETibXerH5wLSHJQA17dXijTpUkvqF9Cw0rVC0aDFfaa50U4tkhjkTA==}
-    engines: {node: '>=0.10.0'}
     dev: true
 
   /split-on-first@3.0.0:

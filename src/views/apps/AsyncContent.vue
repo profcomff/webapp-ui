@@ -27,12 +27,12 @@ const sendMarketing = (url: string) => {
 </script>
 
 <template>
-	<section v-for="{ name, type, buttons, id } of appsStore.categories" class="section" :key="id">
+	<section v-for="{ name, type: sectionType, buttons, id } of appsStore.categories" class="section" :key="id">
 		<h2 class="h2">
 			{{ name }}
 		</h2>
 
-		<div :class="{ grid3: type === 'grid3', list: type === 'list' }">
+		<div :class="{ grid3: sectionType === 'grid3', list: sectionType === 'list' }">
 			<div
 				v-for="{ icon, link, name, type, id } of buttons"
 				class="app"
@@ -40,7 +40,7 @@ const sendMarketing = (url: string) => {
 				:aria-disabled="type === ButtonType.Disabled"
 			>
 				<img v-if="icon.startsWith('http')" :src="icon" :alt="name" width="400" height="400" class="icon" />
-				<MaterialIcon v-else :name="icon" class="icon" />
+				<MaterialIcon v-else :name="icon" class="material-icon" :size="sectionType === 'grid3' ? 40 : 24" />
 
 				<a
 					v-if="type === ButtonType.External"
@@ -103,15 +103,19 @@ const sendMarketing = (url: string) => {
 		pointer-events: none;
 	}
 
+	& .material-icon {
+		margin-bottom: 8px;
+	}
+
 	& .app {
 		max-width: 144px;
 		background: white;
 		padding: 8px min(8%, 8px);
-		display: block;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
 		font-size: 14px;
 		text-align: center;
-		overflow-wrap: anywhere;
-		word-break: keep-all;
 		box-shadow: 0 0 20px oklch(0 0 0deg / 10%);
 		transition: all 0.3s ease;
 
@@ -122,14 +126,16 @@ const sendMarketing = (url: string) => {
 	}
 }
 
-.list .app {
-	display: flex;
-	align-items: center;
-	padding: 12px 24px;
-	gap: 0.8em;
-	background: oklch(100% 0 0deg);
-	border-radius: 5px;
-	margin-bottom: 10px;
+.list {
+	& .app {
+		display: flex;
+		align-items: center;
+		padding: 12px 24px;
+		gap: 0.8em;
+		background: oklch(100% 0 0deg);
+		border-radius: 5px;
+		margin-bottom: 10px;
+	}
 }
 
 .h2 {
@@ -143,6 +149,14 @@ const sendMarketing = (url: string) => {
 	&:last-child {
 		margin-bottom: 0;
 	}
+}
+
+.app-link {
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+	overflow-wrap: anywhere;
+	-webkit-line-clamp: 3;
+	overflow: hidden;
 }
 
 .app-link::after {

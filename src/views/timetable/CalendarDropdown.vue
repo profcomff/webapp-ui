@@ -17,14 +17,19 @@ const expanderClickHandler = () => {
 };
 
 const clickOutsideHandler = (e: MouseEvent) => {
-	if (e.target !== expander.value && e.target !== calendar.value) {
+	if (
+		e.target &&
+		calendar.value &&
+		expander.value &&
+		!expander.value.contains(e.target as Node) &&
+		!calendar.value.contains(e.target as Node)
+	) {
 		show.value = false;
 		innerDate.value = props.date;
 	}
 };
 
-const textClickHandler = (e: MouseEvent) => {
-	e.stopImmediatePropagation();
+const textClickHandler = () => {
 	show.value = !show.value;
 	innerDate.value = props.date;
 };
@@ -57,13 +62,7 @@ onUnmounted(() => {
 
 		<MaterialIcon name="expand_more" class="expander-icon" />
 	</button>
-	<div
-		:style="{ transform: `scaleY(${+show})` }"
-		class="dropdown"
-		id="calendar"
-		ref="calendar"
-		@click="$event.stopImmediatePropagation()"
-	>
+	<div :style="{ transform: `scaleY(${+show})` }" class="dropdown" id="calendar" ref="calendar">
 		<IrdomCalendar :selected="date" v-model="innerDate" />
 	</div>
 </template>
