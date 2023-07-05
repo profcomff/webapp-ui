@@ -5,3 +5,8 @@ export class AuthBaseApi extends BaseApi {
 		super(`/auth${path}`);
 	}
 }
+
+export interface DefaultResponse {
+	status: string;
+	message: string;
+}

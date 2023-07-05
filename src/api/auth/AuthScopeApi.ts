@@ -1,6 +1,6 @@
 import { DefaultResponse } from '../BaseApi';
 import { Scope } from '../models';
-import { AuthBaseApi } from './AuthBaseApi';
+import { AuthBaseApi, DefaultResponse } from './AuthBaseApi';
 
 interface ModifyScopeBody {
 	name: string;
