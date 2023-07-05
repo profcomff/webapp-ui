@@ -8,3 +8,5 @@ export { default as AccessAllowed } from './AccessAllowed.vue';
 export { default as IrdomAuthButton, type AuthButton } from './IrdomAuthButton.vue';
 export { default as TelegramButton } from './TelegramButon.vue';
 export { default as IrdomChip } from './IrdomChip.vue';
+export { default as EmailPasswordForm } from './EmailPasswordForm.vue';
+export type { SubmitData } from './EmailPasswordForm.vue';

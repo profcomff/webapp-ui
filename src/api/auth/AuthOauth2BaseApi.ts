@@ -1,6 +1,7 @@
 import { AuthBaseApi } from './AuthBaseApi';
 
 export const oauth2Methods: Record<string, AuthOauth2BaseApi> = {};
+export const UNKNOWN_DEVICE = 'unknown device';
 
 interface AuthResponse {
 	token: string;
@@ -31,14 +32,14 @@ export class AuthOauth2BaseApi<LoginBody extends AuthBody = object> extends Auth
 
 	public async login(body: LoginBody) {
 		if (!body.session_name) {
-			body.session_name = navigator.userAgent ?? 'unknown device';
+			body.session_name = navigator.userAgent ?? UNKNOWN_DEVICE;
 		}
 		return this.post<AuthResponse, LoginBody>('/login', body);
 	}
 
 	public async register(body: RegisterBody) {
 		if (!body.session_name) {
-			body.session_name = navigator.userAgent ?? 'unknown device';
+			body.session_name = navigator.userAgent ?? UNKNOWN_DEVICE;
 		}
 		return this.post<AuthResponse, RegisterBody>('/registration', body);
 	}
