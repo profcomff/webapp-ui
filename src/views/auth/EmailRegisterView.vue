@@ -1,10 +1,15 @@
 <script setup lang="ts">
-import { IrdomLayout } from '@/components';
+import { authEmailApi } from '@/api/auth';
+import { EmailPasswordForm, IrdomLayout, SubmitData } from '@/components';
+
+const submitHandler = async (data: SubmitData) => {
+	await authEmailApi.register(data);
+};
 </script>
 
 <template>
 	<IrdomLayout title="Вход" backable back="/auth/all">
-		<p>Еще не сделал</p>
+		<EmailPasswordForm mode="register" @submit="submitHandler" />
 	</IrdomLayout>
 </template>
 
