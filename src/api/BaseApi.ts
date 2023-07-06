@@ -1,6 +1,11 @@
 import axios, { AxiosResponse } from 'axios';
 import queryString from 'query-string';
 
+export interface DefaultResponse {
+	status: string;
+	message: string;
+}
+
 export class BaseApi {
 	url: string;
 

@@ -1,8 +1,8 @@
 import { BaseApi } from '../BaseApi';
-import { Button, Category } from '../models';
+import { AppButton, AppButtonCategory } from '../models';
 
-type GetButtonsResponse = Category & {
-	buttons: Button[];
+type GetButtonsResponse = AppButtonCategory & {
+	buttons: AppButton[];
 };
 
 export enum CategoryInfo {
@@ -17,8 +17,8 @@ class ServicesApi extends BaseApi {
 	public async getCategories<Info extends CategoryInfo = never>(info?: Info[]) {
 		return this.get<
 			Array<
-				Category & {
-					buttons: CategoryInfo.Buttons extends Info ? Button[] : never;
+				AppButtonCategory & {
+					buttons: CategoryInfo.Buttons extends Info ? AppButton[] : never;
 				}
 			>,
 			{ info?: Info[] }

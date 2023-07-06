@@ -1,13 +1,3 @@
-interface Error {
-	loc: [string, number];
-	msg: string;
-	type: string;
-}
-
-export interface ErrorResponse {
-	detail: Error[];
-}
-
 export interface Entity {
 	id: number;
 }
@@ -55,7 +45,7 @@ export enum ButtonType {
 	Disabled = 'disabled',
 }
 
-export interface Button {
+export interface AppButton {
 	id: number;
 	order: number;
 	icon: string;
@@ -64,23 +54,11 @@ export interface Button {
 	type: ButtonType;
 }
 
-export interface Category {
+export interface AppButtonCategory {
 	id: number;
 	order: number;
 	type: 'grid3' | 'list';
 	name: string;
-}
-
-export interface AppButton {
-	icon: string | { src: string };
-	text: string;
-	path: string;
-}
-
-export interface AppButtonCategory {
-	name: string;
-	type: 'grid3' | 'list';
-	items: AppButton[];
 }
 
 export interface Group {
@@ -109,4 +87,29 @@ export interface UserScope extends Entity {
 
 export interface Session extends Entity {
 	email: string;
+}
+
+export interface UserdataSource extends Entity {
+	name: string;
+	trust_level: number;
+}
+
+export interface UserdataCategory extends Entity {
+	name: string;
+	read_scope?: string;
+	update_scope?: string;
+}
+
+export enum UserdataParamResponseType {
+	All = 'all',
+	Last = 'last',
+	MostTrusted = 'most_trusted',
+}
+
+export interface UserdataParam extends Entity {
+	name: string;
+	is_required: boolean;
+	changeable: boolean;
+	type: UserdataParamResponseType;
+	category_id: number;
 }
