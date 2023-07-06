@@ -8,9 +8,7 @@ const props = defineProps<{
 	deleteIcon: string;
 }>();
 
-defineEmits<{
-	(e: 'delete', scopeId: number): void;
-}>();
+defineEmits<{ delete: [scopeId: number] }>();
 
 const sorted = computed(() => [...props.users].sort((a, b) => a.id - b.id));
 </script>
