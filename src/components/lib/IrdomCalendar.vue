@@ -5,7 +5,7 @@ import MaterialIcon from './MaterialIcon.vue';
 const weekdays = ['пн', 'вт', 'ср', 'чт', 'пт', 'сб', 'вс'];
 
 const props = defineProps<{ selected: Date; modelValue: Date }>();
-const emits = defineEmits<{ (e: 'update:modelValue', value: Date): void }>();
+const emits = defineEmits<{ 'update:modelValue': [value: Date] }>();
 
 const getDays = (date: Date) => new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate();
 const getItemDate = (day: number) => new Date(props.modelValue.getFullYear(), props.modelValue.getMonth(), day);
