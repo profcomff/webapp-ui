@@ -3,16 +3,20 @@ import { AuthMethod, authEmailApi } from '@/api/auth';
 import { EmailPasswordForm, IrdomAuthButton, IrdomLayout, SubmitData } from '@/components';
 import TelegramButon from '@/components/TelegramButon.vue';
 import { authButtons } from '@/constants';
-import axios from 'axios';
+import { LocalStorage, LocalStorageItem } from '@/models';
+import { useProfileStore } from '@/store';
+import { useRouter } from 'vue-router';
 
-const submitHandler = async (data: SubmitData) => {
-	try {
-		await authEmailApi.login(data);
-	} catch (err) {
-		if (axios.isAxiosError(err)) {
-			console.log(err.response?.data.message);
-		}
-	}
+const router = useRouter();
+const profileStore = useProfileStore();
+
+const submitHandler = async (body: SubmitData) => {
+	const { data } = await authEmailApi.login(body);
+
+	LocalStorage.set(LocalStorageItem.Token, data.token);
+	profileStore.updateToken();
+
+	router.push('/profile');
 };
 </script>
 
