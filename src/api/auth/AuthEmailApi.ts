@@ -31,6 +31,14 @@ interface ResetPasswordParams {
 	'reset-token': string;
 }
 
+interface LoginResponse {
+	token: string;
+	expires: string;
+	id: number;
+	user_id: number;
+	session_scopes: string[];
+}
+
 class AuthEmailApi extends AuthBaseApi {
 	constructor() {
 		super('/email');
@@ -48,7 +56,7 @@ class AuthEmailApi extends AuthBaseApi {
 			body.session_name = navigator.userAgent ?? UNKNOWN_DEVICE;
 		}
 
-		return this.post('/login', body);
+		return this.post<LoginResponse, LoginBody>('/login', body);
 	}
 
 	public async approveEmail(params: ApproveEmailParams) {
