@@ -1,9 +1,9 @@
-import { Button, Category } from '@/api/models';
+import { AppButton, AppButtonCategory } from '@/api/models';
 import { defineStore } from 'pinia';
 import { ref } from 'vue';
 
-interface StoreCategory extends Category {
-	buttons: Button[];
+interface StoreCategory extends AppButtonCategory {
+	buttons: AppButton[];
 }
 
 export const useAppsStore = defineStore('apps', () => {

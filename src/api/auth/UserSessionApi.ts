@@ -1,3 +1,4 @@
+import { DefaultResponse } from '../BaseApi';
 import { SessionScope, UserScope, Session } from './../models/index';
 import { AuthBaseApi } from './AuthBaseApi';
 
@@ -26,11 +27,6 @@ export enum AuthMethod {
 	VK = 'vk_auth',
 }
 
-interface StatusResponse {
-	status: string;
-	message: string;
-}
-
 interface SessionResponse {
 	id: number;
 	user_id: number;
@@ -49,7 +45,7 @@ class UserSessionApi extends AuthBaseApi {
 		super('');
 	}
 	public async logout() {
-		return this.post<StatusResponse>('/logout');
+		return this.post<DefaultResponse>('/logout');
 	}
 	public async getMe<Info extends MySessionInfo = never>(info?: Info[]) {
 		return this.get<
