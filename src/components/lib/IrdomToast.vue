@@ -26,7 +26,7 @@ const icon = computed(() => {
 <template>
 	<div class="toast">
 		<MaterialIcon :name="icon" class="icon" />
-		<div>
+		<div class="description">
 			<div class="header">
 				<b class="title">{{ props.toast.title }}</b>
 				<div>
@@ -43,7 +43,6 @@ const icon = computed(() => {
 <style scoped>
 .toast {
 	display: flex;
-	align-items: flex-start;
 	gap: 16px;
 	box-shadow: 0 0 20px oklch(0 0 0deg / 10%);
 	background: white;
@@ -65,5 +64,9 @@ const icon = computed(() => {
 
 .close {
 	display: flex;
+}
+
+.description {
+	flex: 1;
 }
 </style>
