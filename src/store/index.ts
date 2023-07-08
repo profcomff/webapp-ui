@@ -1,3 +1,4 @@
+export { useToastStore } from './toast';
 export { useAppsStore } from './apps';
 export { useTimetableStore } from './timetable';
 export { useProfileStore } from './profile';

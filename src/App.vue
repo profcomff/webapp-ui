@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, onMounted } from 'vue';
-import { IrdomNavbar, NavbarItem } from './components';
+import { IrdomNavbar, NavbarItem, IrdomToastList } from './components';
 import { useProfileStore, useTimetableStore } from './store';
 import { marketingApi } from './api/marketing';
 
@@ -52,4 +52,5 @@ onMounted(async () => {
 <template>
 	<RouterView />
 	<IrdomNavbar :items="navbarItems" />
+	<IrdomToastList />
 </template>

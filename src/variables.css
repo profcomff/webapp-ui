@@ -5,4 +5,5 @@
 	--color-accent: oklch(75% 0.18 57.8deg);
 	--toolbar-height: 56px;
 	--navbar-height: 80px;
+	--container-width: 900px;
 }

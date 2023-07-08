@@ -48,7 +48,7 @@ button:not(:disabled) {
 }
 
 .container {
-	width: min(900px, 100%);
+	width: min(var(--container-width), 100%);
 	margin: 0 auto;
 }
 
