@@ -9,3 +9,5 @@ export { default as IrdomAuthButton, type AuthButton } from './IrdomAuthButton.v
 export { default as TelegramButton } from './TelegramButon.vue';
 export { default as IrdomChip } from './IrdomChip.vue';
 export { default as IrdomToastList } from './IrdomToastList.vue';
+export { default as EmailPasswordForm } from './EmailPasswordForm.vue';
+export type { SubmitData } from './EmailPasswordForm.vue';

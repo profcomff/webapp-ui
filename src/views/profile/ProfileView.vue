@@ -14,7 +14,10 @@ const router = useRouter();
 const toolbarMenu: ToolbarMenuItem[] = [
 	{
 		name: 'Выход',
-		onClick: AuthApi.logout,
+		onClick: async () => {
+			await AuthApi.logout();
+			router.push('/auth');
+		},
 	},
 	{
 		name: 'Сессии',

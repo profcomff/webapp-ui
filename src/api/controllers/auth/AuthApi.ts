@@ -1,7 +1,8 @@
-import { scoped } from './decorators';
+import { useToastStore } from './../../../store/toast';
+import { scoped, showErrorToast } from './decorators';
 import { useAuthStore, useProfileStore } from '@/store';
 import { LocalStorage, LocalStorageItem, scopename } from '@/models';
-import { MySessionInfo, UserInfo, authScopeApi, authUserApi, userSessionApi } from '@/api/auth';
+import { MySessionInfo, UserInfo, authEmailApi, authScopeApi, authUserApi, userSessionApi } from '@/api/auth';
 
 export class AuthApi {
 	static getScopes = scoped(scopename.auth.scope.read, async function getScopes() {
@@ -22,19 +23,28 @@ export class AuthApi {
 		setUsers(data.items);
 	});
 
-	static async logout() {
-		const profileStore = useProfileStore();
-		if (profileStore.isUserLogged) {
-			await userSessionApi.logout();
+	static logout = showErrorToast<ReturnType<typeof userSessionApi.logout>>(async () => {
+		{
+			const toastStore = useToastStore();
+			const promise = userSessionApi.logout();
+
+			await promise;
+
 			LocalStorage.delete(LocalStorageItem.Token);
 			LocalStorage.delete(LocalStorageItem.TokenScopes);
-			location.reload();
-		}
-	}
 
-	static async getMe(info?: MySessionInfo[]) {
+			toastStore.push({
+				title: 'Вы успешно вышли из аккаунта',
+			});
+
+			return promise;
+		}
+	});
+
+	static getMe = showErrorToast<ReturnType<typeof userSessionApi.getMe>>(async (info?: MySessionInfo[]) => {
 		const profileStore = useProfileStore();
-		const { data } = await userSessionApi.getMe(info);
+		const promise = userSessionApi.getMe(info);
+		const { data } = await promise;
 
 		profileStore.id = data.id;
 		profileStore.groups = data.groups ?? null;
@@ -48,5 +58,44 @@ export class AuthApi {
 			data.session_scopes.map(s => s.name),
 		);
 		profileStore.updateTokenScopes();
-	}
+
+		return promise;
+	});
+
+	static loginEmail = showErrorToast<ReturnType<typeof authEmailApi.login>>(
+		async (email: string, password: string) => {
+			const profileStore = useProfileStore();
+			const toastStore = useToastStore();
+
+			const promise = authEmailApi.login({ email, password });
+			const { data } = await promise;
+
+			LocalStorage.set(LocalStorageItem.Token, data.token);
+			profileStore.updateToken();
+
+			toastStore.push({
+				title: 'Вы успешно вошли в аккаунт',
+			});
+
+			return promise;
+		},
+	);
+
+	static registerEmail = showErrorToast<ReturnType<typeof authEmailApi.register>>(
+		async (email: string, password: string) => {
+			const toastStore = useToastStore();
+
+			const promise = authEmailApi.register({ email, password });
+			const { data } = await promise;
+
+			toastStore.push(
+				{
+					title: data.message,
+				},
+				'infinity',
+			);
+
+			return promise;
+		},
+	);
 }
