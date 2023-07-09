@@ -1,22 +1,18 @@
 <script setup lang="ts">
-import { AuthMethod, authEmailApi } from '@/api/auth';
+import { AuthApi } from '@/api';
+import { AuthMethod } from '@/api/auth';
 import { EmailPasswordForm, IrdomAuthButton, IrdomLayout, SubmitData } from '@/components';
 import TelegramButon from '@/components/TelegramButon.vue';
 import { authButtons } from '@/constants';
-import { LocalStorage, LocalStorageItem } from '@/models';
-import { useProfileStore } from '@/store';
 import { useRouter } from 'vue-router';
 
 const router = useRouter();
-const profileStore = useProfileStore();
 
-const submitHandler = async (body: SubmitData) => {
-	const { data } = await authEmailApi.login(body);
-
-	LocalStorage.set(LocalStorageItem.Token, data.token);
-	profileStore.updateToken();
-
-	router.push('/profile');
+const submitHandler = async ({ email, password }: SubmitData) => {
+	const response = await AuthApi.loginEmail(email, password);
+	if (response) {
+		router.push('/profile');
+	}
 };
 </script>
 

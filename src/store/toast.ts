@@ -5,10 +5,12 @@ import { ref } from 'vue';
 export const useToastStore = defineStore('toast', () => {
 	const list = ref<Map<number, Toast>>(new Map());
 
-	function push(toast: Toast, timeout = 3000) {
+	function push(toast: Toast, timeout: number | 'infinity' = 3000) {
 		const id = Math.round(Number.MAX_SAFE_INTEGER * Math.random());
 		list.value.set(id, toast);
-		setTimeout(() => remove(id), timeout);
+		if (timeout !== 'infinity') {
+			setTimeout(() => remove(id), timeout);
+		}
 	}
 
 	function remove(id: number) {

@@ -1,14 +1,20 @@
 <script setup lang="ts">
-import { authEmailApi } from '@/api/auth';
+import { AuthApi } from '@/api';
 import { EmailPasswordForm, IrdomLayout, SubmitData } from '@/components';
+import { useRouter } from 'vue-router';
 
-const submitHandler = async (data: SubmitData) => {
-	await authEmailApi.register(data);
+const router = useRouter();
+
+const submitHandler = async ({ email, password }: SubmitData) => {
+	const response = await AuthApi.registerEmail(email, password);
+	if (response) {
+		router.push('/auth/all');
+	}
 };
 </script>
 
 <template>
-	<IrdomLayout title="Вход" backable back="/auth/all">
+	<IrdomLayout title="Регистрация" backable back="/auth/all">
 		<EmailPasswordForm mode="register" @submit="submitHandler" />
 	</IrdomLayout>
 </template>
