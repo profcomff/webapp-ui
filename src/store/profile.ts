@@ -32,6 +32,10 @@ export const useProfileStore = defineStore('profile', () => {
 		tokenScopes.value = newTokenScopes ?? LocalStorage.getObject<string[]>(LocalStorageItem.TokenScopes) ?? [];
 	}
 
+	function deleteToken() {
+		LocalStorage.delete(LocalStorageItem.Token, LocalStorageItem.TokenScopes);
+	}
+
 	async function updateMarketingId(newMarketingId?: number) {
 		const item = LocalStorage.get(LocalStorageItem.MarketingId);
 		if (newMarketingId) {
@@ -71,5 +75,6 @@ export const useProfileStore = defineStore('profile', () => {
 		id,
 		authMethods,
 		sessionScopes,
+		deleteToken,
 	};
 });
