@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useRoute, useRouter } from 'vue-router';
-import { ActionItem, ToolbarMenuItem } from './types';
+import { ToolbarActionItem, ToolbarMenuItem } from './types';
 import { marketingApi } from '@/api/marketing';
 import { useProfileStore } from '@/store';
 
@@ -8,7 +8,7 @@ interface Props {
 	menuItems?: ToolbarMenuItem[];
 	title?: string;
 	back?: string;
-	actions?: ActionItem[];
+	actions?: ToolbarActionItem[];
 	share?: boolean;
 	backable?: boolean;
 }
