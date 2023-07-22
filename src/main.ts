@@ -21,6 +21,14 @@ const vuetify = createVuetify({
 			md,
 		},
 	},
+	defaults: {
+		VChip: {
+			style: 'border-radius: 999px !important;',
+		},
+		VContainer: {
+			style: 'max-width: 900px;',
+		},
+	},
 	blueprint: md3,
 	theme: {
 		defaultTheme: 'customTheme',
