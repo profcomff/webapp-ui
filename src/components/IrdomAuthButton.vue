@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { AuthMethod, AuthOauth2BaseApi } from '@/api/auth';
-import { IrdomButton } from '@/components/lib';
 import { onMounted, ref } from 'vue';
 
 export interface AuthButton {
@@ -36,12 +35,12 @@ const clickHandler = async () => {
 </script>
 
 <template>
-	<IrdomButton type="button" @click="clickHandler" :style="{ background: button.color }" icon>
+	<v-btn type="button" @click="clickHandler" :color="button.color">
 		<svg width="24" height="24" class="icon">
 			<use :xlink:href="button.icon"></use>
 		</svg>
 		{{ button.name }}
-	</IrdomButton>
+	</v-btn>
 </template>
 
 <style scoped>

@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import IrdomToolbar from './IrdomToolbar/IrdomToolbar.vue';
-import { ToolbarAction, ToolbarMenuItem } from './IrdomToolbar/types';
+import { ToolbarMenuItem, ToolbarActionItem } from './IrdomToolbar/types';
 
 defineProps<{
-	toolbarActions?: ToolbarAction[];
+	toolbarActions?: ToolbarActionItem[];
 	toolbarMenu?: ToolbarMenuItem[];
 	back?: string;
 	title?: string;
@@ -24,18 +24,13 @@ defineProps<{
 		<slot name="toolbar" />
 	</IrdomToolbar>
 
-	<slot name="body" />
-
-	<main class="container main" v-bind="$attrs">
-		<slot />
-	</main>
+	<v-main>
+		<v-container>
+			<v-row>
+				<v-col class="d-flex flex-column">
+					<slot />
+				</v-col>
+			</v-row>
+		</v-container>
+	</v-main>
 </template>
-
-<style scoped>
-.main {
-	padding: 16px;
-	display: flex;
-	flex-direction: column;
-	flex: 1;
-}
-</style>

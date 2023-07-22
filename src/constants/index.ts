@@ -67,5 +67,6 @@ export const authButtons: AuthButton[] = [
 		api: authGoogleApi,
 		method: AuthMethod.Google,
 		icon: `${logos}#google`,
+		color: '#fff',
 	},
 ];

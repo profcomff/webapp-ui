@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { TimetableApi } from '@/api';
 import { DataRow } from '@/components';
-import { MaterialIcon } from '@/components/lib';
 import { useTimetableStore } from '@/store';
 import { formatTime } from '@/utils';
 import { computed } from 'vue';
@@ -71,11 +70,11 @@ const lecturers = computed(() => {
 	<h2 class="h2">{{ event?.name }}</h2>
 
 	<DataRow title="Группа" :info="event?.group.map(g => g.number).join(', ')" class="row">
-		<MaterialIcon name="group" class="icon" />
+		<v-icon icon="md:group" class="icon" />
 	</DataRow>
 
 	<DataRow :title="scheduleTitle" :info="scheduleInfo" class="row">
-		<MaterialIcon name="schedule" class="icon" />
+		<v-icon icon="md:schedule" class="icon" />
 	</DataRow>
 
 	<DataRow
@@ -86,7 +85,7 @@ const lecturers = computed(() => {
 		:key="id"
 		clickable
 	>
-		<MaterialIcon name="location_on" />
+		<v-icon icon="md:location_on" />
 	</DataRow>
 
 	<DataRow
@@ -98,7 +97,7 @@ const lecturers = computed(() => {
 		clickable
 		:key="id"
 	>
-		<MaterialIcon name="person" />
+		<v-icon icon="md:person" />
 	</DataRow>
 </template>
 

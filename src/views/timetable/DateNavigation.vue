@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { MaterialIcon } from '@/components/lib';
 import { getDateWithDayOffset, getWeekdayName, stringifyDate } from '@/utils';
 import { computed } from 'vue';
 
@@ -11,13 +10,13 @@ const tomorrow = computed(() => getDateWithDayOffset(props.date, 1));
 
 <template>
 	<nav class="nav" aria-label="Навигация по дням">
-		<div class="container wrapper">
+		<div class="wrapper">
 			<RouterLink
 				:to="`/timetable/${stringifyDate(yestarday)}`"
 				class="noselect button left"
 				:aria-label="getWeekdayName(yestarday, 'long')"
 			>
-				<MaterialIcon name="arrow_back_ios" />
+				<v-icon icon="md:arrow_back_ios" />
 				<span>{{ getWeekdayName(yestarday) }}</span>
 			</RouterLink>
 
@@ -29,7 +28,7 @@ const tomorrow = computed(() => getDateWithDayOffset(props.date, 1));
 				:aria-label="getWeekdayName(tomorrow)"
 			>
 				<span>{{ getWeekdayName(tomorrow) }}</span>
-				<MaterialIcon name="arrow_forward_ios" class="right-icon" />
+				<v-icon icon="md:arrow_forward_ios" class="right-icon" />
 			</RouterLink>
 		</div>
 	</nav>
@@ -40,6 +39,7 @@ const tomorrow = computed(() => getDateWithDayOffset(props.date, 1));
 	width: 100%;
 	position: sticky;
 	top: 0;
+	margin-bottom: 40px;
 }
 
 .wrapper {
@@ -47,7 +47,6 @@ const tomorrow = computed(() => getDateWithDayOffset(props.date, 1));
 	align-items: center;
 	justify-content: space-between;
 	text-transform: uppercase;
-	background: oklch(95.28% 0.007 277.16deg);
 }
 
 .button {

@@ -50,7 +50,10 @@ onMounted(async () => {
 });
 </script>
 <template>
-	<RouterView />
-	<IrdomNavbar :items="navbarItems" />
+	<v-app>
+		<RouterView />
+		<IrdomNavbar :items="navbarItems" />
+	</v-app>
+
 	<IrdomToastList />
 </template>

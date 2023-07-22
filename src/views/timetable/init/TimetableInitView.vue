@@ -5,7 +5,7 @@ import { ref } from 'vue';
 import AsyncGroupsList from './AsyncGroupsList.vue';
 import { marketingApi } from '@/api/marketing';
 import { useProfileStore } from '@/store';
-import { IrdomInput } from '@/components/lib';
+
 const query = ref('');
 const profileStore = useProfileStore();
 
@@ -24,20 +24,24 @@ const sendMarketing = (e: Event) => {
 
 <template>
 	<IrdomLayout>
-		<img :src="Logo" alt="Логотип физфака" class="logo" />
+		<img :src="Logo" alt="Логотип физфака" class="align-self-center logo mb-20" />
 
-		<h2 class="h2">Добро пожаловать!</h2>
+		<h1 class="text-lg-h1 text-md-h2 text-sm-h3 text-xs-h4 align-self-center greeting">Добро пожаловать!</h1>
 		<p class="message">Наше приложение позволит получить доступ к сервисам для студентов ФФ МГУ!</p>
 		<p class="message">Для просмотра расписания выберите свою группу:</p>
 
-		<IrdomInput
-			type="text"
-			class="input"
-			v-model="query"
-			placeholder="Введите номер группы"
-			inputmode="numeric"
-			@change.once="sendMarketing"
-		/>
+		<v-responsive class="align-self-center" width="344">
+			<v-text-field
+				type="text"
+				v-model="query"
+				label="Номер группы"
+				placeholder="Введите номер группы"
+				inputmode="numeric"
+				class="align-self-center input"
+				@change.once="sendMarketing"
+				max-width="344"
+			/>
+		</v-responsive>
 
 		<Suspense>
 			<AsyncGroupsList :query="query" />
@@ -47,28 +51,19 @@ const sendMarketing = (e: Event) => {
 	</IrdomLayout>
 </template>
 <style scoped>
+.greeting,
+.input {
+	margin-bottom: 24px;
+}
+
 .logo {
 	width: min(50%, 144px);
 	aspect-ratio: 1;
-	align-self: center;
-	margin-bottom: 20px;
 	pointer-events: none;
+	margin-bottom: 20px;
 }
 
 .message {
-	line-height: 141%;
 	margin-bottom: 20px;
-}
-
-.input {
-	align-self: center;
-	margin-bottom: 24px;
-	width: 100%;
-	max-width: 400px;
-}
-
-.h2 {
-	margin-bottom: 24px;
-	text-align: center;
 }
 </style>

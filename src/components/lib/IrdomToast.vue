@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { Toast, ToastType } from '@/models';
-import { MaterialIcon } from '.';
 import { computed } from 'vue';
 
 const props = defineProps<{
@@ -25,13 +24,13 @@ const icon = computed(() => {
 
 <template>
 	<div class="toast">
-		<MaterialIcon :name="icon" class="icon" />
+		<v-icon :icon="`md:${icon}`" class="icon" />
 		<div class="description">
 			<div class="header">
 				<b class="title">{{ props.toast.title }}</b>
 				<div>
 					<button type="button" class="close" @click="$emit('close')">
-						<MaterialIcon name="close" />
+						<v-icon icon="md:close" />
 					</button>
 				</div>
 			</div>

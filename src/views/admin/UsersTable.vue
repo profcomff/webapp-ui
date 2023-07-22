@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { User } from '@/api/models';
-import { MaterialIcon } from '@/components/lib';
 import { computed } from 'vue';
 
 const props = defineProps<{
@@ -14,43 +13,35 @@ const sorted = computed(() => [...props.users].sort((a, b) => a.id - b.id));
 </script>
 
 <template>
-	<table class="table">
-		<thead class="row">
-			<th>id</th>
-			<th>email</th>
+	<v-table>
+		<thead>
+			<tr>
+				<th>id</th>
+				<th>email</th>
+				<th></th>
+			</tr>
 		</thead>
-		<tr v-for="{ id, email } of sorted" class="row" :key="id">
-			<td>
-				<RouterLink :to="`/profile/${id}`" class="link">{{ id }}</RouterLink>
-			</td>
-			<td>{{ email }}</td>
-			<td>
-				<button type="button" @click="$emit('delete', id)">
-					<MaterialIcon name="delete_forever" />
-				</button>
-			</td>
-		</tr>
-	</table>
+		<tbody>
+			<tr v-for="{ id, email } of sorted" class="row" :key="id">
+				<td>
+					<RouterLink :to="`/profile/${id}`" class="link">{{ id }}</RouterLink>
+				</td>
+				<td>{{ email }}</td>
+				<td>
+					<v-btn type="button" @click="$emit('delete', id)" icon="md:delete_forever" variant="text" />
+				</td>
+			</tr>
+		</tbody>
+	</v-table>
 </template>
 
 <style scoped>
 .row {
-	padding: 4px 8px;
-	display: grid;
-	grid-template-columns: 20px 1fr auto;
-	gap: 16px;
-}
+	&:nth-child(even) {
+		background: oklch(0 0 0deg / 8%);
+	}
 
-.row:nth-child(even) {
-	background: oklch(0 0 0deg / 8%);
-}
-
-.row th {
-	text-align: start;
-}
-
-@media screen and (width <= 575px) {
-	.row {
+	@media screen and (width <= 575px) {
 		font-size: 12px;
 	}
 }
