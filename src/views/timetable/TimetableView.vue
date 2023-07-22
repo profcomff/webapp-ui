@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ActionItem, IrdomLayout, ToolbarMenuItem } from '@/components';
+import { ToolbarActionItem, IrdomLayout, ToolbarMenuItem } from '@/components';
 import { LocalStorage, LocalStorageItem } from '@/models';
 import { parseDate, stringifyDate } from '@/utils';
 import DateNavigation from './DateNavigation.vue';
@@ -13,7 +13,7 @@ const router = useRouter();
 const route = useRoute();
 const timetableStore = useTimetableStore();
 
-const toolbarActions = computed<ActionItem[]>(() =>
+const toolbarActions = computed<ToolbarActionItem[]>(() =>
 	(route.params.date as string) === stringifyDate(new Date())
 		? []
 		: [
