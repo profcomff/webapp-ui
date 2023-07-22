@@ -26,7 +26,7 @@ const sendMarketing = (e: Event) => {
 	<IrdomLayout>
 		<img :src="Logo" alt="Логотип физфака" class="align-self-center logo mb-20" />
 
-		<h1 class="text-lg-h1 text-md-h2 text-sm-h3 text-xs-h4 align-self-center greeting">Добро пожаловать!</h1>
+		<h4 class="text-h4 align-self-center greeting">Добро пожаловать!</h4>
 		<p class="message">Наше приложение позволит получить доступ к сервисам для студентов ФФ МГУ!</p>
 		<p class="message">Для просмотра расписания выберите свою группу:</p>
 
