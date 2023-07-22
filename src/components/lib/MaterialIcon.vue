@@ -19,7 +19,11 @@ withDefaults(defineProps<Props>(), {
 
 <style scoped>
 :global(.material-symbols-sharp) {
-	font-variation-settings: 'FILL' 1, 'wght' 500, 'GRAD' 0, 'opsz' 24;
+	font-variation-settings:
+		'FILL' 1,
+		'wght' 500,
+		'GRAD' 0,
+		'opsz' 24;
 	pointer-events: none;
 	font-size: inherit;
 	max-width: calc(1em + 4px);

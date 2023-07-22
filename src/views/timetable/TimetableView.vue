@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { IrdomLayout, ToolbarMenuItem } from '@/components';
+import { ActionItem, IrdomLayout, ToolbarMenuItem } from '@/components';
 import { LocalStorage, LocalStorageItem } from '@/models';
 import { parseDate, stringifyDate } from '@/utils';
 import DateNavigation from './DateNavigation.vue';
@@ -13,13 +13,13 @@ const router = useRouter();
 const route = useRoute();
 const timetableStore = useTimetableStore();
 
-const toolbarActions = computed(() =>
+const toolbarActions = computed<ActionItem[]>(() =>
 	(route.params.date as string) === stringifyDate(new Date())
 		? []
 		: [
 				{
 					icon: 'today',
-					href: `/timetable/${stringifyDate(new Date())}`,
+					onClick: () => router.push(`/timetable/${stringifyDate(new Date())}`),
 					ariaLabel: 'Вернуться к сегодняшнему дню',
 				},
 		  ],
@@ -52,9 +52,7 @@ watch(date, () => {
 		<template #toolbar>
 			<CalendarDropdown :date="date" />
 		</template>
-		<template #body>
-			<DateNavigation :date="date" />
-		</template>
+		<DateNavigation :date="date" />
 
 		<Suspense :key="key">
 			<AsyncEventsList :date="date" />

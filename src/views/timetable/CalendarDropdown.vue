@@ -1,5 +1,6 @@
+toolbar
 <script setup lang="ts">
-import { MaterialIcon, IrdomCalendar } from '@/components/lib';
+import { IrdomCalendar } from '@/components/lib';
 import { useTimetableStore } from '@/store';
 import { onMounted, onUnmounted, ref } from 'vue';
 
@@ -60,9 +61,9 @@ onUnmounted(() => {
 			{{ `Группа ${group?.number ?? ''}` }}
 		</span>
 
-		<MaterialIcon name="expand_more" class="expander-icon" />
+		<v-icon icon="md:expand_more" class="expander-icon" />
 	</button>
-	<div :style="{ transform: `scaleY(${+show})` }" class="dropdown" id="calendar" ref="calendar">
+	<div :style="{ transform: `scaleY(${+show})` }" class="dropdown bg-indigo-darken-4" id="calendar" ref="calendar">
 		<IrdomCalendar :selected="date" v-model="innerDate" />
 	</div>
 </template>
@@ -104,8 +105,7 @@ onUnmounted(() => {
 	top: 56px;
 	left: 0;
 	right: 0;
-	background: var(--color-primary-dark);
-	z-index: 10;
+	z-index: 1000;
 	box-shadow: 0 2px 4px oklch(0 0 0deg / 50%);
 	display: flex;
 	justify-content: center;

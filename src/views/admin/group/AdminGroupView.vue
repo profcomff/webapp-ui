@@ -5,7 +5,6 @@ import ScopesTable from '../ScopesTable.vue';
 import { onMounted, computed } from 'vue';
 import { useRoute } from 'vue-router';
 import { AccessAllowed, IrdomLayout } from '@/components';
-import { MaterialIcon } from '@/components/lib';
 import { scopename } from '@/models';
 import { AuthApi } from '@/api';
 
@@ -68,7 +67,7 @@ const addScope = async (e: Event) => {
 		</AccessAllowed>
 
 		<form @submit.prevent="addScope" class="form" v-if="hasTokenAccess(scopename.auth.group.update)">
-			<MaterialIcon name="add" />
+			<v-icon icon="md:add" />
 
 			<label for="id">
 				id
@@ -82,7 +81,7 @@ const addScope = async (e: Event) => {
 			</label>
 
 			<button type="submit">
-				<MaterialIcon name="done" />
+				<v-icon icon="md:done" />
 			</button>
 		</form>
 	</IrdomLayout>

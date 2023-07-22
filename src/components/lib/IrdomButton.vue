@@ -12,7 +12,9 @@ withDefaults(defineProps<{ icon?: boolean }>(), { icon: false });
 .button {
 	--background: white;
 
-	box-shadow: 0 1px 2px oklch(0 0 0deg / 30%), 0 1px 3px 1px oklch(0 0 0deg / 15%);
+	box-shadow:
+		0 1px 2px oklch(0 0 0deg / 30%),
+		0 1px 3px 1px oklch(0 0 0deg / 15%);
 	padding: 10px 24px;
 	border-radius: 999px;
 	display: inline-flex;

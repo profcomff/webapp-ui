@@ -13,7 +13,7 @@ const props = defineProps<{
 }>();
 
 const emits = defineEmits<{
-	(e: 'submit', data: SubmitData): void;
+	submit: [data: SubmitData];
 }>();
 
 const submitHandler = async (event: Event) => {

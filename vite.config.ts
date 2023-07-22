@@ -7,6 +7,7 @@ import Vue from '@vitejs/plugin-vue';
 import path from 'path';
 import postcssPresetEnv from 'postcss-preset-env';
 import basicSsl from '@vitejs/plugin-basic-ssl';
+import vuetify from 'vite-plugin-vuetify';
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -24,6 +25,7 @@ export default defineConfig({
 	plugins: [
 		basicSsl(),
 		Vue(),
+		vuetify(),
 		Eslint(),
 		Stylelint({
 			files: [path.resolve(__dirname, 'src/**/*.{vue,css}')],

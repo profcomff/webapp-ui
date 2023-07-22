@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { AccessAllowed, IrdomLayout } from '@/components';
-import { MaterialIcon } from '@/components/lib';
 import { scopename } from '@/models';
 import { useProfileStore } from '@/store';
 
@@ -19,9 +18,7 @@ const copyToken = () => {
 	<IrdomLayout title="Админка">
 		<div class="info">
 			<p>Ваш id: {{ profileStore.id }}</p>
-			<button type="button" @click="copyToken">
-				Скопировать токен <MaterialIcon name="content_copy" :size="14" />
-			</button>
+			<v-btn type="button" @click="copyToken" append-icon="md:content_copy">Скопировать токен</v-btn>
 		</div>
 		<RouterLink to="/admin/groups" class="link">Группы пользователей</RouterLink>
 
@@ -41,15 +38,5 @@ const copyToken = () => {
 	display: flex;
 	column-gap: 8px;
 	align-items: center;
-
-	& > button {
-		transition: 0.3s ease;
-		padding: 2px 4px;
-		border-radius: 999px;
-
-		&:hover {
-			background: oklch(0% 0 0deg / 20%);
-		}
-	}
 }
 </style>

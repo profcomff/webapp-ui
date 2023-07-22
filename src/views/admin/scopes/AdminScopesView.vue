@@ -4,7 +4,6 @@ import ScopesTable from '../ScopesTable.vue';
 import { onMounted, computed } from 'vue';
 import { useAuthStore, useProfileStore } from '@/store';
 import { IrdomLayout, AccessAllowed } from '@/components';
-import { MaterialIcon } from '@/components/lib';
 import { scopename } from '@/models';
 import { AuthApi } from '@/api';
 
@@ -52,41 +51,24 @@ const createScope = async (e: Event) => {
 				delete-icon="delete_forever"
 				@delete="deleteScope"
 				style="width: 100%"
+				class="table"
 			/>
-			<form @submit.prevent="createScope" class="form">
-				<MaterialIcon name="add" />
-				<label for="name">
-					name
-					<input type="text" id="name" name="name" autocomplete="off" required />
-				</label>
+			<v-form @submit.prevent="createScope" class="d-flex form">
+				<v-text-field name="name" autocomplete="off" label="name" prepend-icon="md:add" required />
+				<v-text-field label="comment" name="comment" autocomplete="off" />
 
-				<label for="comment">
-					comment
-					<input type="text" id="comment" name="comment" autocomplete="off" />
-				</label>
-
-				<button type="submit">
-					<MaterialIcon name="done" />
-				</button>
-			</form>
+				<v-btn type="submit" icon="md:done" />
+			</v-form>
 		</AccessAllowed>
 	</IrdomLayout>
 </template>
 
 <style scoped>
 .form {
-	display: flex;
 	gap: 16px;
-	align-items: center;
-	flex-wrap: wrap;
 }
 
-.form input {
-	padding: 2px 8px;
-}
-
-.form label {
-	display: flex;
-	gap: 4px;
+.table {
+	margin-bottom: 40px;
 }
 </style>
