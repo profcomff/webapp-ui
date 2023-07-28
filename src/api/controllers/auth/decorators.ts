@@ -64,7 +64,7 @@ export function checkToken<Resp>(method: (...args: any[]) => Resp) {
 	};
 }
 
-type Func<Resp> = (...args: any[]) => Resp | undefined | Awaited<ReturnType<any>>;
+type Func<Resp> = (...args: any[]) => Resp | undefined | any;
 // type AsyncFunc<Resp> = (...args: any[]) => Promise<Resp | undefined>;
 type Decorator<Resp = undefined> = (method: Func<Resp>, ...args: any[]) => Func<Resp | undefined>;
 type DecoratorResp<D extends Decorator> = D extends Decorator<R> ? R : never;
