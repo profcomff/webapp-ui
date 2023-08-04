@@ -1,40 +1,38 @@
-import axios, { AxiosError } from 'axios';
 import { useToastStore } from './../../../store/toast';
 import { apply, checkToken, scoped, showErrorToast } from './decorators';
 import { useAuthStore, useProfileStore } from '@/store';
-import { LocalStorage, LocalStorageItem, ToastType, scopename } from '@/models';
+import { LocalStorage, LocalStorageItem, scopename } from '@/models';
 import { MySessionInfo, UserInfo, authEmailApi, authScopeApi, authUserApi, userSessionApi } from '@/api/auth';
-import { useRouter } from 'vue-router';
 
 export class AuthApi {
 	static getScopes = apply(
-		async function getScopes() {
+		async () => {
 			const { setScopes } = useAuthStore();
 			const { data } = await authScopeApi.getScopes();
 			setScopes(data);
 		},
 		[scoped, scopename.auth.scope.read],
-		[checkToken, 0],
+		[checkToken],
 	);
 
 	static getUser = apply(
-		async function getUser(id: number, info: UserInfo[]) {
+		async (id: number, info: UserInfo[]) => {
 			const { setUsers } = useAuthStore();
 			const { data } = await authUserApi.getUser(id, info);
 			setUsers([data]);
 		},
 		[scoped, scopename.auth.user.read],
-		[checkToken, 0],
+		[checkToken],
 	);
 
 	static getUsers = apply(
-		async function getUsers(info: UserInfo[]) {
+		async (info: UserInfo[]) => {
 			const { setUsers } = useAuthStore();
 			const { data } = await authUserApi.getUsers(info);
 			setUsers(data.items);
 		},
 		[scoped, scopename.auth.user.read],
-		[checkToken, 0],
+		[checkToken],
 	);
 
 	static logout = apply(
@@ -55,8 +53,8 @@ export class AuthApi {
 				return promise;
 			}
 		},
-		[showErrorToast<ReturnType<typeof userSessionApi.logout>>, 0],
-		[checkToken, 0],
+		[showErrorToast],
+		[checkToken],
 	);
 
 	static getMe = apply(
@@ -80,8 +78,8 @@ export class AuthApi {
 
 			return promise;
 		},
-		[showErrorToast<ReturnType<typeof userSessionApi.getMe>>, 0],
-		[checkToken, 0],
+		[showErrorToast],
+		[checkToken],
 	);
 
 	static loginEmail = apply(
@@ -101,8 +99,8 @@ export class AuthApi {
 
 			return promise;
 		},
-		[showErrorToast<ReturnType<typeof authEmailApi.login>>, 0],
-		[checkToken, 0],
+		[showErrorToast],
+		[checkToken],
 	);
 
 	static registerEmail = apply(
@@ -116,12 +114,12 @@ export class AuthApi {
 				{
 					title: data.message,
 				},
-				'infinity',
+				null,
 			);
 
 			return promise;
 		},
-		[showErrorToast<ReturnType<typeof authEmailApi.register>>, 0],
-		[checkToken, 0],
+		[showErrorToast],
+		[checkToken],
 	);
 }

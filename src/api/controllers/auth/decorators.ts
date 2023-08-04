@@ -3,26 +3,29 @@ import { userSessionApi } from '@/api/auth';
 import { ToastType } from '@/models';
 import { useProfileStore, useToastStore } from '@/store';
 import axios from 'axios';
-import { R } from 'vitest/dist/types-198fd1d9';
 import { useRouter } from 'vue-router';
 
-export function scoped<Resp>(method: (...args: any[]) => Resp, scopeName: string) {
-	return (...args: any[]) => {
+export type Func<R = any, FuncArgs extends any[] = any[]> = (...args: FuncArgs) => R;
+type Decorator<F extends Func = Func, DecoratorArgs extends any[] = any[]> = Func<F, [F, ...DecoratorArgs]>;
+type DecoratorTuple<D extends Decorator = Decorator> = [D, ...(D extends Decorator<Func, infer DA> ? DA : never)];
+
+export function scoped<F extends Func>(method: F, scope: string): Func<ReturnType<F>, Parameters<F>> {
+	return (...args) => {
 		const { hasTokenAccess } = useProfileStore();
 		const toastStore = useToastStore();
 
-		if (hasTokenAccess(scopeName)) {
+		if (hasTokenAccess(scope)) {
 			return method(...args);
-		} else {
-			toastStore.push({
-				title: `У вас нет доступа к методу ${method.name}`,
-				type: ToastType.Error,
-			});
 		}
+
+		toastStore.push({
+			title: `У вас нет доступа к методу ${method.name}`,
+			type: ToastType.Error,
+		});
 	};
 }
 
-export function showErrorToast<Resp>(method: (...args: any[]) => Resp) {
+export function showErrorToast<F extends Func>(method: F): Func<Promise<ReturnType<F>>, Parameters<F>> {
 	return async (...args: any[]) => {
 		const toastStore = useToastStore();
 		try {
@@ -45,7 +48,7 @@ export function showErrorToast<Resp>(method: (...args: any[]) => Resp) {
 	};
 }
 
-export function checkToken<Resp>(method: (...args: any[]) => Resp) {
+export function checkToken<F extends Func<any, any>>(method: F): Func<Promise<ReturnType<F>>, Parameters<F>> {
 	return async (...args: any[]) => {
 		const router = useRouter();
 		const toastStore = useToastStore();
@@ -64,17 +67,15 @@ export function checkToken<Resp>(method: (...args: any[]) => Resp) {
 	};
 }
 
-type Func<Resp> = (...args: any[]) => Resp | undefined | any;
-// type AsyncFunc<Resp> = (...args: any[]) => Promise<Resp | undefined>;
-type Decorator<Resp = undefined> = (method: Func<Resp>, ...args: any[]) => Func<Resp | undefined>;
-type DecoratorResp<D extends Decorator> = D extends Decorator<R> ? R : never;
-type DecoratorTuple<D extends Decorator, Resp> = [Decorator<Resp | undefined>, ...Omit<Parameters<D>, 0>];
-
-export function apply<Resp>(method: Func<Resp>, ...decoratorTuples: DecoratorTuple<Decorator, Resp>[]) {
-	if (decoratorTuples.length === 0) {
-		return method;
-	} else {
+export function apply<F extends Func>(
+	method: F,
+	...decoratorTuples: DecoratorTuple[]
+): Func<ReturnType<F>, Parameters<F>> {
+	if (decoratorTuples.length) {
 		const decoratorTuple = decoratorTuples.shift()!;
-		return apply(decoratorTuple[0](method, ...decoratorTuple), ...decoratorTuples);
+		const decorator = decoratorTuple[0];
+		const args = decoratorTuple.slice(1) as unknown[];
+		return apply(decorator(method, ...args), ...decoratorTuples);
 	}
+	return method;
 }
