@@ -23,7 +23,9 @@ export class LocalStorage {
 		return localStorage.getItem(name);
 	}
 
-	static delete(name: LocalStorageItem) {
-		localStorage.removeItem(name);
+	static delete(...names: LocalStorageItem[]) {
+		for (const name of names) {
+			localStorage.removeItem(name);
+		}
 	}
 }

@@ -32,6 +32,13 @@ export const useProfileStore = defineStore('profile', () => {
 		tokenScopes.value = newTokenScopes ?? LocalStorage.getObject<string[]>(LocalStorageItem.TokenScopes) ?? [];
 	}
 
+	function deleteToken() {
+		LocalStorage.delete(LocalStorageItem.Token, LocalStorageItem.TokenScopes);
+		[id, token, tokenScopes, authMethods, groups, indirectGroups, userScopes, sessionScopes].forEach(i => {
+			i.value = null;
+		});
+	}
+
 	async function updateMarketingId(newMarketingId?: number) {
 		const item = LocalStorage.get(LocalStorageItem.MarketingId);
 		if (newMarketingId) {
@@ -71,5 +78,6 @@ export const useProfileStore = defineStore('profile', () => {
 		id,
 		authMethods,
 		sessionScopes,
+		deleteToken,
 	};
 });
