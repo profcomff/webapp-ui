@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { userSessionApi } from '@/api/auth';
 import { ToastType } from '@/models';
+import router from '@/router';
 import { useProfileStore, useToastStore } from '@/store';
 import axios from 'axios';
 
@@ -58,7 +59,7 @@ export function checkToken<F extends Func<any, any>>(method: F): Func<Promise<Re
 				const { deleteToken } = useProfileStore();
 				const toastStore = useToastStore();
 				deleteToken();
-				location.reload(); // TODO: придумать нормальное решение
+				router.push('/auth');
 				toastStore.push({ title: 'Сессия истекла' });
 			}
 		}
