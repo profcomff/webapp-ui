@@ -1,3 +1,4 @@
+import { SessionScope } from './../api/models/index';
 import { scopename } from './../models/ScopeName';
 import { marketingApi } from '@/api/marketing';
 import { LocalStorage, LocalStorageItem } from '@/models';
@@ -34,6 +35,9 @@ export const useProfileStore = defineStore('profile', () => {
 
 	function deleteToken() {
 		LocalStorage.delete(LocalStorageItem.Token, LocalStorageItem.TokenScopes);
+		[id, token, tokenScopes, authMethods, groups, indirectGroups, userScopes, sessionScopes].forEach(i => {
+			i.value = null;
+		});
 	}
 
 	async function updateMarketingId(newMarketingId?: number) {

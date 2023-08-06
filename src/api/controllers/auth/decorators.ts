@@ -3,7 +3,6 @@ import { userSessionApi } from '@/api/auth';
 import { ToastType } from '@/models';
 import { useProfileStore, useToastStore } from '@/store';
 import axios from 'axios';
-import { useRouter } from 'vue-router';
 
 export type Func<R = any, FuncArgs extends any[] = any[]> = (...args: FuncArgs) => R;
 type Decorator<F extends Func = Func, DecoratorArgs extends any[] = any[]> = Func<F, [F, ...DecoratorArgs]>;
@@ -32,6 +31,7 @@ export function showErrorToast<F extends Func>(method: F): Func<Promise<ReturnTy
 			const response = await method(...args);
 			return response;
 		} catch (err) {
+			console.log(err);
 			if (axios.isAxiosError(err)) {
 				toastStore.push({
 					title: err.response?.data.message,
@@ -50,17 +50,16 @@ export function showErrorToast<F extends Func>(method: F): Func<Promise<ReturnTy
 
 export function checkToken<F extends Func<any, any>>(method: F): Func<Promise<ReturnType<F>>, Parameters<F>> {
 	return async (...args: any[]) => {
-		const router = useRouter();
-		const toastStore = useToastStore();
-		const { deleteToken } = useProfileStore();
 		try {
 			await userSessionApi.getMe();
 			const response = await method(...args);
 			return response;
 		} catch (error) {
-			if (axios.isAxiosError(error) && error.status === 403) {
+			if (axios.isAxiosError(error) && error.response?.status === 403) {
+				const { deleteToken } = useProfileStore();
+				const toastStore = useToastStore();
 				deleteToken();
-				router.push('/auth');
+				location.reload();
 				toastStore.push({ title: 'Сессия истекла' });
 			}
 		}
@@ -72,6 +71,7 @@ export function apply<F extends Func>(
 	...decoratorTuples: DecoratorTuple[]
 ): Func<ReturnType<F>, Parameters<F>> {
 	if (decoratorTuples.length) {
+		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 		const decoratorTuple = decoratorTuples.shift()!;
 		const decorator = decoratorTuple[0];
 		const args = decoratorTuple.slice(1) as unknown[];

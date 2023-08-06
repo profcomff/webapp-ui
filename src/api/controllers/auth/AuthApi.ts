@@ -5,15 +5,11 @@ import { LocalStorage, LocalStorageItem, scopename } from '@/models';
 import { MySessionInfo, UserInfo, authEmailApi, authScopeApi, authUserApi, userSessionApi } from '@/api/auth';
 
 export class AuthApi {
-	static getScopes = apply(
-		async () => {
-			const { setScopes } = useAuthStore();
-			const { data } = await authScopeApi.getScopes();
-			setScopes(data);
-		},
-		[scoped, scopename.auth.scope.read],
-		[checkToken],
-	);
+	static getScopes = apply(async () => {
+		const { setScopes } = useAuthStore();
+		const { data } = await authScopeApi.getScopes();
+		setScopes(data);
+	}, [scoped, scopename.auth.scope.read]);
 
 	static getUser = apply(
 		async (id: number, info: UserInfo[] = []) => {
@@ -22,7 +18,6 @@ export class AuthApi {
 			setUsers([data]);
 		},
 		[scoped, scopename.auth.user.read],
-		[checkToken],
 	);
 
 	static getUsers = apply(
@@ -32,26 +27,19 @@ export class AuthApi {
 			setUsers(data.items);
 		},
 		[scoped, scopename.auth.user.read],
-		[checkToken],
 	);
 
 	static logout = apply(
 		async () => {
-			{
-				const toastStore = useToastStore();
-				const promise = userSessionApi.logout();
-
-				await promise;
-
-				LocalStorage.delete(LocalStorageItem.Token);
-				LocalStorage.delete(LocalStorageItem.TokenScopes);
-
-				toastStore.push({
-					title: 'Вы успешно вышли из аккаунта',
-				});
-
-				return promise;
-			}
+			const toastStore = useToastStore();
+			const promise = userSessionApi.logout();
+			const { deleteToken } = useProfileStore();
+			deleteToken();
+			location.reload();
+			toastStore.push({
+				title: 'Вы успешно вышли из аккаунта!',
+			});
+			return promise;
 		},
 		[showErrorToast],
 		[checkToken],
@@ -78,6 +66,7 @@ export class AuthApi {
 
 			return promise;
 		},
+
 		[showErrorToast],
 		[checkToken],
 	);
@@ -100,7 +89,6 @@ export class AuthApi {
 			return promise;
 		},
 		[showErrorToast],
-		[checkToken],
 	);
 
 	static registerEmail = apply(
@@ -120,6 +108,5 @@ export class AuthApi {
 			return promise;
 		},
 		[showErrorToast],
-		[checkToken],
 	);
 }

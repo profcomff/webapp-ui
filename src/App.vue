@@ -1,17 +1,11 @@
 <script setup lang="ts">
 import { computed, onMounted } from 'vue';
 import { IrdomNavbar, NavbarItem, IrdomToastList } from './components';
-import { useProfileStore, useTimetableStore, useToastStore } from './store';
+import { useProfileStore, useTimetableStore } from './store';
 import { marketingApi } from './api/marketing';
-import { userSessionApi } from './api/auth';
-import axios from 'axios';
-import router from './router';
-import { ToastType } from './models';
-import { AuthApi } from './api';
 
 const profileStore = useProfileStore();
-const toastStore = useToastStore();
-const { updateToken, updateTokenScopes, updateMarketingId, deleteToken } = profileStore;
+const { updateToken, updateTokenScopes, updateMarketingId } = profileStore;
 const { updateGroup } = useTimetableStore();
 
 const navbarItems = computed<NavbarItem[]>(() => {
