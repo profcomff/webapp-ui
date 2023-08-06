@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { IrdomLayout } from '@/components';
 import AsyncLecturerInfo from './AsyncLecturerInfo.vue';
 import AsyncLecturerSchedule from './AsyncLecturerSchedule.vue';
+import { IrdomLayout } from '@/components';
 import { useRoute } from 'vue-router';
 
 const route = useRoute();

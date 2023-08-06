@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { MaterialIcon, IrdomCalendar } from '@/components/lib';
+import { IrdomCalendar, MaterialIcon } from '@/components/lib';
+import { computed, onMounted, onUnmounted, ref } from 'vue';
 import { useTimetableStore } from '@/store';
-import { onMounted, onUnmounted, ref } from 'vue';
 
 const show = ref(false);
 const expander = ref<HTMLButtonElement | null>(null);
@@ -9,8 +9,9 @@ const calendar = ref<HTMLDivElement | null>(null);
 const { group } = useTimetableStore();
 
 const props = defineProps<{ date: Date }>();
+const date = computed(() => props.date);
 
-const innerDate = ref(props.date);
+const innerDate = ref(date.value);
 const expanderClickHandler = () => {
 	show.value = !show.value;
 	innerDate.value = props.date;
@@ -45,12 +46,12 @@ onUnmounted(() => {
 
 <template>
 	<button
+		ref="expander"
 		type="button"
 		class="expander"
 		:aria-expanded="show"
 		aria-controls="calendar"
 		@click="expanderClickHandler"
-		ref="expander"
 	>
 		<span class="date" @click="textClickHandler">
 			{{ date.toLocaleDateString('ru-RU', { day: 'numeric', month: 'long' }) }}
@@ -62,8 +63,8 @@ onUnmounted(() => {
 
 		<MaterialIcon name="expand_more" class="expander-icon" />
 	</button>
-	<div :style="{ transform: `scaleY(${+show})` }" class="dropdown" id="calendar" ref="calendar">
-		<IrdomCalendar :selected="date" v-model="innerDate" />
+	<div id="calendar" ref="calendar" :style="{ transform: `scaleY(${+show})` }" class="dropdown">
+		<IrdomCalendar v-model="innerDate" :selected="date" />
 	</div>
 </template>
 

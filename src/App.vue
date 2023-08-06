@@ -1,6 +1,6 @@
 <script setup lang="ts">
+import { IrdomNavbar, IrdomToastList, NavbarItem } from './components';
 import { computed, onMounted } from 'vue';
-import { IrdomNavbar, NavbarItem, IrdomToastList } from './components';
 import { useProfileStore, useTimetableStore } from './store';
 import { marketingApi } from './api/marketing';
 

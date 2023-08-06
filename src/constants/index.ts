@@ -1,16 +1,16 @@
 import {
-	authLkmsuApi,
-	authPhysicsApi,
-	authMymsuApi,
-	authYandexApi,
-	authVkApi,
+	AuthMethod,
 	authGithubApi,
 	authGoogleApi,
+	authLkmsuApi,
+	authMymsuApi,
+	authPhysicsApi,
 	authTelegramApi,
-	AuthMethod,
+	authVkApi,
+	authYandexApi,
 } from '@/api/auth';
-import logos from '@/assets/logos.svg';
 import { AuthButton } from '@/components';
+import logos from '@/assets/logos.svg';
 
 export const authButtons: AuthButton[] = [
 	{

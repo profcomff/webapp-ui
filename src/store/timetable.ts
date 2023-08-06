@@ -1,9 +1,9 @@
-import { stringifyDate } from '@/utils';
+import { Event, Lecturer, Room } from '@/api/models';
 import { LocalStorage, LocalStorageItem } from '@/models';
 import { StudyGroup } from './../api/models/index';
-import { Lecturer, Room, Event } from '@/api/models';
 import { defineStore } from 'pinia';
 import { ref } from 'vue';
+import { stringifyDate } from '@/utils';
 
 interface StoreLecturer extends Lecturer {
 	schedule: Map<number, Event> | null;

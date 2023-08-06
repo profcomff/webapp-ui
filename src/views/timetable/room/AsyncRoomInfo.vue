@@ -1,15 +1,16 @@
 <script setup lang="ts">
-import { TimetableApi } from '@/api/controllers/TimetableApi';
 import { DataRow } from '@/components';
 import { MaterialIcon } from '@/components/lib';
-import { useTimetableStore } from '@/store';
+import { TimetableApi } from '@/api/controllers/TimetableApi';
 import { computed } from 'vue';
+import { useTimetableStore } from '@/store';
 
 const props = defineProps<{ id: number }>();
 
 const timetableStore = useTimetableStore();
+const roomId = computed(() => props.id);
 
-if (!timetableStore.rooms.has(props.id)) {
+if (!timetableStore.rooms.has(roomId.value)) {
 	await TimetableApi.getRoom(props.id);
 }
 

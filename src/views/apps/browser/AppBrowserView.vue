@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { IrdomToolbar } from '@/components';
-import { useProfileStore } from '@/store';
 import { computed } from 'vue';
+import { useProfileStore } from '@/store';
 import { useRoute } from 'vue-router';
 
 const back =
@@ -21,7 +21,7 @@ const url = computed(() => {
 </script>
 
 <template>
-	<IrdomToolbar backable :back="back" :title="route.query.title as string ?? undefined" />
+	<IrdomToolbar backable :back="back" :title="(route.query.title as string) ?? undefined" />
 	<iframe :src="url" frameborder="0" class="iframe" allow="camera" />
 </template>
 

@@ -1,6 +1,6 @@
-import { DefaultResponse } from '../BaseApi';
-import { SessionScope, UserScope, Session } from './../models/index';
+import { Session, SessionScope, UserScope } from './../models/index';
 import { AuthBaseApi } from './AuthBaseApi';
+import { DefaultResponse } from '../BaseApi';
 
 interface CreateBody {
 	scopes: string[];

@@ -1,6 +1,6 @@
 <!-- Страница со списком основных методов входа -->
 <script setup lang="ts">
-import { IrdomLayout, IrdomAuthButton } from '@/components';
+import { IrdomAuthButton, IrdomLayout } from '@/components';
 import { authButtons } from '@/constants';
 </script>
 
@@ -8,10 +8,10 @@ import { authButtons } from '@/constants';
 	<IrdomLayout title="Вход">
 		<h2 class="title">Войти через</h2>
 		<IrdomAuthButton
-			type="button"
 			v-for="i in 3"
-			:button="authButtons[i - 1]"
 			:key="authButtons[i - 1].name"
+			type="button"
+			:button="authButtons[i - 1]"
 			class="button"
 		/>
 		<RouterLink to="/auth/all" class="link">Все способы входа</RouterLink>

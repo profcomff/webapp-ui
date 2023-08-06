@@ -1,8 +1,8 @@
-import { StudyGroup } from './../api/models/index';
 import { LocalStorage, LocalStorageItem } from '@/models';
-import { stringifyDate } from '@/utils';
-import { TimetableView } from '@/views';
 import { NavigationGuard, RouteRecordRaw } from 'vue-router';
+import { StudyGroup } from './../api/models/index';
+import { TimetableView } from '@/views';
+import { stringifyDate } from '@/utils';
 
 export const timetableRoutes: RouteRecordRaw[] = [
 	{

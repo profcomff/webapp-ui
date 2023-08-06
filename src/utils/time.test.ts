@@ -1,5 +1,5 @@
+import { describe, expect, it } from 'vitest';
 import { formatTime } from './time';
-import { describe, it, expect } from 'vitest';
 
 describe('Time format function:', () => {
 	it('should format timestamp to hh:mm', () => {

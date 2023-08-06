@@ -1,14 +1,16 @@
 <script setup lang="ts">
-import { useTimetableStore } from '@/store';
 import Placeholder from '@/assets/profile_image_placeholder.webp';
-import { computed } from 'vue';
 import { TimetableApi } from '@/api';
+import { computed } from 'vue';
+import { useTimetableStore } from '@/store';
 
 const timetableStore = useTimetableStore();
 
 const props = defineProps<{ id: number }>();
 
-if (!timetableStore.lecturers.has(props.id)) {
+const lecturerId = computed(() => props.id);
+
+if (!timetableStore.lecturers.has(lecturerId.value)) {
 	await TimetableApi.getLecturer(props.id);
 }
 

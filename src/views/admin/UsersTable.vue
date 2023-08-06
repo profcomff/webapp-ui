@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { User } from '@/api/models';
 import { MaterialIcon } from '@/components/lib';
+import { User } from '@/api/models';
 import { computed } from 'vue';
 
 const props = defineProps<{
@@ -19,7 +19,7 @@ const sorted = computed(() => [...props.users].sort((a, b) => a.id - b.id));
 			<th>id</th>
 			<th>email</th>
 		</thead>
-		<tr v-for="{ id, email } of sorted" class="row" :key="id">
+		<tr v-for="{ id, email } of sorted" :key="id" class="row">
 			<td>
 				<RouterLink :to="`/profile/${id}`" class="link">{{ id }}</RouterLink>
 			</td>

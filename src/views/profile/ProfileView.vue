@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import { IrdomLayout, ToolbarMenuItem, IrdomAuthButton, TelegramButton } from '@/components';
-import { useProfileStore } from '@/store';
-import { onMounted, computed } from 'vue';
-import Placeholder from '@/assets/profile_image_placeholder.webp';
-import { AuthApi } from '@/api';
 import { AuthMethod, MySessionInfo } from '@/api/auth';
+import { IrdomAuthButton, IrdomLayout, TelegramButton, ToolbarMenuItem } from '@/components';
+import { computed, onMounted } from 'vue';
+import { AuthApi } from '@/api';
+import Placeholder from '@/assets/profile_image_placeholder.webp';
 import { authButtons } from '@/constants';
+import { useProfileStore } from '@/store';
 import { useRouter } from 'vue-router';
 
 const profileStore = useProfileStore();
@@ -49,7 +49,7 @@ const canUnlinked = computed(() => authButtons.filter(({ method }) => profileSto
 	<IrdomLayout :toolbar-menu="toolbarMenu" title="Профиль">
 		<img :src="Placeholder" alt="Аватар" width="400 " height="400" class="avatar" />
 
-		<section class="section" v-if="profileStore.authMethods?.length !== 8">
+		<section v-if="profileStore.authMethods?.length !== 8" class="section">
 			<h2>Привязать аккаунт</h2>
 			<div class="buttons">
 				<IrdomAuthButton v-for="button of canLinked" :key="button.method" :button="button" />

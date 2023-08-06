@@ -1,5 +1,5 @@
-import { BaseApi } from './BaseApi';
 import { ArrayResponse, Entity } from './models';
+import { BaseApi } from './BaseApi';
 
 export interface GetAllParams {
 	limit?: number;

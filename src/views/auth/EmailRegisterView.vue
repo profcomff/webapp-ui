@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { AuthApi } from '@/api';
 import { EmailPasswordForm, IrdomLayout, SubmitData } from '@/components';
+import { AuthApi } from '@/api';
 import { useRouter } from 'vue-router';
 
 const router = useRouter();

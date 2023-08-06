@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import IrdomToolbar from './IrdomToolbar/IrdomToolbar.vue';
 import { ToolbarAction, ToolbarMenuItem } from './IrdomToolbar/types';
+import IrdomToolbar from './IrdomToolbar/IrdomToolbar.vue';
 
 defineProps<{
 	toolbarActions?: ToolbarAction[];

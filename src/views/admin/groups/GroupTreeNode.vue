@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { authGroupApi } from '@/api/auth';
-import { useAuthStore, useProfileStore } from '@/store';
 import { IrdomPopover, MaterialIcon } from '@/components/lib';
+import { nextTick, ref } from 'vue';
+import { useAuthStore, useProfileStore } from '@/store';
 import { StoreGroup } from '@/store/auth';
-import { ref, nextTick } from 'vue';
+import { authGroupApi } from '@/api/auth';
 import { scopename } from '@/models';
 
 const props = withDefaults(defineProps<{ node: StoreGroup | null; indentSize?: number }>(), {
@@ -72,11 +72,11 @@ const toggleHandler = () => {
 <template>
 	<details
 		v-if="node"
+		ref="details"
 		:style="{ marginLeft: `${node.parent_id ? indentSize : 0}px` }"
 		class="node"
 		:open="node.parent_id === null ? true : false"
 		@toggle="toggleHandler"
-		ref="details"
 	>
 		<summary :class="['summary', { nomarker: node.children.size === 0 }]">
 			<div class="summary-wrapper">
@@ -85,8 +85,8 @@ const toggleHandler = () => {
 				</RouterLink>
 
 				<IrdomPopover
-					style="font-size: 12px"
 					v-id="hasTokenAccess(scopename.auth.group.create) || hasTokenAccess(scopename.auth.group.delete)"
+					style="font-size: 12px"
 				>
 					<template #expander>
 						<MaterialIcon name="more_horiz" />
@@ -95,16 +95,16 @@ const toggleHandler = () => {
 					<ul>
 						<li>
 							<button
-								type="button"
 								v-if="hasTokenAccess(scopename.auth.group.create)"
-								@click="showFormHandler"
+								type="button"
 								class="menu-button"
+								@click="showFormHandler"
 							>
 								Добавить группу
 							</button>
 						</li>
 						<li v-if="node.parent_id && hasTokenAccess(scopename.auth.group.delete)">
-							<button type="button" @click="deleteGroup(node?.id)" class="menu-button delete">
+							<button type="button" class="menu-button delete" @click="deleteGroup(node?.id)">
 								Удалить
 							</button>
 						</li>
@@ -116,17 +116,17 @@ const toggleHandler = () => {
 		<template v-if="open">
 			<GroupTreeNode
 				v-for="child of node.children.values()"
+				:key="child.id"
 				:node="child"
 				:indent-size="indentSize"
-				:key="child.id"
 			/>
 		</template>
-		<form class="form" @submit.prevent="createGroup" v-if="showForm">
+		<form v-if="showForm" class="form" @submit.prevent="createGroup">
 			<MaterialIcon name="add" />
 
 			<label for="new-group-name">
 				name
-				<input type="text" id="new-group-name" name="new-group-name" required ref="input" />
+				<input id="new-group-name" ref="input" type="text" name="new-group-name" required />
 			</label>
 
 			<button type="submit">

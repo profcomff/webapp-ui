@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { IrdomLayout } from '@/components';
 import AsyncContent from './AsyncContent.vue';
+import { IrdomLayout } from '@/components';
 </script>
 
 <template>

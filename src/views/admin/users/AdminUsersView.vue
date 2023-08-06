@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { AuthApi } from '@/api';
 import { AccessAllowed, IrdomLayout } from '@/components';
-import { scopename } from '@/models';
-import { onMounted } from 'vue';
+import { AuthApi } from '@/api';
 import UsersTable from '../UsersTable.vue';
+import { onMounted } from 'vue';
+import { scopename } from '@/models';
 import { useAuthStore } from '@/store';
 
 onMounted(() => {

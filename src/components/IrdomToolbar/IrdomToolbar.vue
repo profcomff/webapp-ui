@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { useRoute, useRouter } from 'vue-router';
 import { IrdomPopover, MaterialIcon } from '../lib';
 import { ToolbarAction, ToolbarActionButton, ToolbarActionLink, ToolbarMenuItem } from './types';
+import { useRoute, useRouter } from 'vue-router';
 import { marketingApi } from '@/api/marketing';
 import { useProfileStore } from '@/store';
 
@@ -24,6 +24,7 @@ const props = withDefaults(defineProps<Props>(), {
 	actions: () => [],
 	share: false,
 	backable: false,
+	back: undefined,
 });
 
 const data = {
@@ -53,9 +54,9 @@ const onBack = () => {
 <template>
 	<header class="toolbar">
 		<div class="container wrapper">
-			<div class="meta" v-if="title || back">
-				<button type="button" @click="onBack" aria-label="Назад" :disabled="!backable" class="title-button">
-					<MaterialIcon name="arrow_back" v-if="backable" />
+			<div v-if="title || back" class="meta">
+				<button type="button" aria-label="Назад" :disabled="!backable" class="title-button" @click="onBack">
+					<MaterialIcon v-if="backable" name="arrow_back" />
 					<h1 class="noselect title">{{ title }}</h1>
 				</button>
 			</div>
@@ -68,31 +69,31 @@ const onBack = () => {
 				<div class="actions">
 					<template v-for="action of actions">
 						<RouterLink
-							:to="(action as ToolbarActionLink).href"
 							v-if="(action as ToolbarActionLink).href"
-							class="button"
 							:key="`link-${action.icon}`"
+							:to="(action as ToolbarActionLink).href"
+							class="button"
 						>
 							<MaterialIcon :name="action.icon" />
 						</RouterLink>
 
 						<button
-							type="button"
-							@click="(action as ToolbarActionButton).onClick"
-							:aria-label="action.ariaLabel"
-							class="button"
 							v-else-if="(action as ToolbarActionButton).onClick"
 							:key="`button-${action.icon}`"
+							type="button"
+							:aria-label="action.ariaLabel"
+							class="button"
+							@click="(action as ToolbarActionButton).onClick"
 						>
 							<MaterialIcon :name="action.icon" />
 						</button>
 					</template>
 					<button
+						v-if="share && canShare"
 						type="button"
-						@click="shareHandler"
 						class="button"
 						aria-label="Поделиться"
-						v-if="share && canShare"
+						@click="shareHandler"
 					>
 						<MaterialIcon name="share" />
 					</button>
@@ -100,7 +101,7 @@ const onBack = () => {
 				<IrdomPopover v-if="menuItems.length > 0" style="min-width: 48px; height: 100%">
 					<ul>
 						<li v-for="{ name, onClick } of menuItems" :key="name">
-							<button @click="onClick" class="menu-item">{{ name }}</button>
+							<button class="menu-item" @click="onClick">{{ name }}</button>
 						</li>
 					</ul>
 				</IrdomPopover>

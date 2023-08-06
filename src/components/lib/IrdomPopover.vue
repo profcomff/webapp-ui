@@ -43,20 +43,20 @@ onUnmounted(() => {
 
 <template>
 	<button
+		v-bind="$attrs"
+		ref="button"
 		type="button"
 		class="expander"
-		v-bind="$attrs"
-		@click="expanderClickHandler"
 		:aria-expanded="show"
 		:aria-controls="id"
 		aria-label="Выпадающее меню"
-		ref="button"
+		@click="expanderClickHandler"
 	>
 		<slot name="expander">
 			<MaterialIcon name="more_vert" />
 		</slot>
 	</button>
-	<menu v-show="show" :id="id" class="popover" ref="menu"> <slot /></menu>
+	<menu v-show="show" :id="id" ref="menu" class="popover"> <slot /></menu>
 </template>
 
 <style scoped>

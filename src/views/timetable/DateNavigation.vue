@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { MaterialIcon } from '@/components/lib';
 import { getDateWithDayOffset, getWeekdayName, stringifyDate } from '@/utils';
+import { MaterialIcon } from '@/components/lib';
 import { computed } from 'vue';
 
 const props = defineProps<{ date: Date }>();

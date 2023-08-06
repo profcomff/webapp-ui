@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { useToastStore } from '@/store';
 import { IrdomToast } from './lib';
+import { useToastStore } from '@/store';
 
 const toastStore = useToastStore();
 </script>

@@ -1,16 +1,17 @@
 <script setup lang="ts">
-import { TimetableApi } from '@/api';
 import { DataRow } from '@/components';
 import { MaterialIcon } from '@/components/lib';
-import { useTimetableStore } from '@/store';
-import { formatTime } from '@/utils';
+import { TimetableApi } from '@/api';
 import { computed } from 'vue';
+import { formatTime } from '@/utils';
+import { useTimetableStore } from '@/store';
 
 const props = defineProps<{ id: number }>();
 
 const timetableStore = useTimetableStore();
+const eventId = computed(() => props.id);
 
-if (!timetableStore.events.has(props.id)) {
+if (!timetableStore.events.has(eventId.value)) {
 	await TimetableApi.getEvent(props.id);
 }
 
@@ -79,24 +80,24 @@ const lecturers = computed(() => {
 	</DataRow>
 
 	<DataRow
-		v-for="{ name, id } of event?.room"
+		v-for="{ name, id: roomId } of event?.room"
+		:key="roomId"
 		:title="name"
 		class="row"
-		:href="`/timetable/room/${id}`"
-		:key="id"
+		:href="`/timetable/room/${roomId}`"
 		clickable
 	>
 		<MaterialIcon name="location_on" />
 	</DataRow>
 
 	<DataRow
-		v-for="{ id, info, title } of lecturers"
+		v-for="{ id: lecturerId, info, title } of lecturers"
+		:key="lecturerId"
 		:title="title"
-		:href="`/timetable/lecturer/${id}`"
+		:href="`/timetable/lecturer/${lecturerId}`"
 		:info="info"
 		class="row"
 		clickable
-		:key="id"
 	>
 		<MaterialIcon name="person" />
 	</DataRow>

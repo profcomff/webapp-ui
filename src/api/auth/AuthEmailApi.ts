@@ -1,5 +1,5 @@
-import { DefaultResponse } from '../BaseApi';
 import { AuthBaseApi } from './AuthBaseApi';
+import { DefaultResponse } from '../BaseApi';
 import { UNKNOWN_DEVICE } from './AuthOauth2BaseApi';
 
 interface RegisterBody {

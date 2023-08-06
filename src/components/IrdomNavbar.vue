@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { useRoute } from 'vue-router';
 import { MaterialIcon } from './lib';
+import { useRoute } from 'vue-router';
 
 export interface NavbarItem {
 	name: string;
@@ -17,7 +17,7 @@ defineProps<{
 <template>
 	<nav class="nav">
 		<div class="container wrapper">
-			<div v-for="{ icon, name, path } in items" class="nav-item" :key="name">
+			<div v-for="{ icon, name, path } in items" :key="name" class="nav-item">
 				<span :class="['icon', { active: path.some(p => route.path.startsWith(p)) }]">
 					<MaterialIcon :name="icon" :size="20" />
 				</span>

@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { userSessionApi } from '@/api/auth';
-import { ToastType } from '@/models';
 import { useProfileStore, useToastStore } from '@/store';
+import { ToastType } from '@/models';
 import axios from 'axios';
+import { userSessionApi } from '@/api/auth';
 
 export type Func<R = any, FuncArgs extends any[] = any[]> = (...args: FuncArgs) => R;
 type Decorator<F extends Func = Func, DecoratorArgs extends any[] = any[]> = Func<F, [F, ...DecoratorArgs]>;

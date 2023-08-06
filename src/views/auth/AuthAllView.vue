@@ -1,7 +1,7 @@
 <script setup lang="ts">
+import { EmailPasswordForm, IrdomAuthButton, IrdomLayout, SubmitData } from '@/components';
 import { AuthApi } from '@/api';
 import { AuthMethod } from '@/api/auth';
-import { EmailPasswordForm, IrdomAuthButton, IrdomLayout, SubmitData } from '@/components';
 import TelegramButon from '@/components/TelegramButon.vue';
 import { authButtons } from '@/constants';
 import { useRouter } from 'vue-router';

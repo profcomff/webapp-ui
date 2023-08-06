@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { Scope } from '@/api/models';
 import { MaterialIcon } from '@/components/lib';
+import { Scope } from '@/api/models';
 import { computed } from 'vue';
 
 const props = defineProps<{
@@ -20,7 +20,7 @@ const sorted = computed(() => [...props.scopes].sort((a, b) => (a.name > b.name 
 			<th>name</th>
 			<th>comment</th>
 		</thead>
-		<tr v-for="{ id, name, comment } of sorted" class="row" :key="id">
+		<tr v-for="{ id, name, comment } of sorted" :key="id" class="row">
 			<td>{{ id }}</td>
 			<td>{{ name }}</td>
 			<td>{{ comment }}</td>

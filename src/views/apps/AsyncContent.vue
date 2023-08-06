@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import { ServicesApi } from '@/api';
-import { marketingApi } from '@/api/marketing';
+import { useAppsStore, useProfileStore } from '@/store';
 import { ButtonType } from '@/api/models';
 import { CategoryInfo } from '@/api/services';
 import { MaterialIcon } from '@/components/lib';
-import { useAppsStore, useProfileStore } from '@/store';
 import { RouterLink } from 'vue-router';
+import { ServicesApi } from '@/api';
+import { marketingApi } from '@/api/marketing';
 
 const appsStore = useAppsStore();
 const profileStore = useProfileStore();
@@ -27,19 +27,30 @@ const sendMarketing = (url: string) => {
 </script>
 
 <template>
-	<section v-for="{ name, type: sectionType, buttons, id } of appsStore.categories" class="section" :key="id">
+	<section
+		v-for="{ name: categoryName, type: sectionType, buttons, id: categoryId } of appsStore.categories"
+		:key="categoryId"
+		class="section"
+	>
 		<h2 class="h2">
-			{{ name }}
+			{{ categoryName }}
 		</h2>
 
 		<div :class="{ grid3: sectionType === 'grid3', list: sectionType === 'list' }">
 			<div
-				v-for="{ icon, link, name, type, id } of buttons"
+				v-for="{ icon, link, name: buttonName, type, id: buttonId } of buttons"
+				:key="buttonId"
 				class="app"
-				:key="id"
 				:aria-disabled="type === ButtonType.Disabled"
 			>
-				<img v-if="icon.startsWith('http')" :src="icon" :alt="name" width="400" height="400" class="icon" />
+				<img
+					v-if="icon.startsWith('http')"
+					:src="icon"
+					:alt="buttonName"
+					width="400"
+					height="400"
+					class="icon"
+				/>
 				<MaterialIcon v-else :name="icon" class="material-icon" :size="sectionType === 'grid3' ? 40 : 24" />
 
 				<a
@@ -49,19 +60,19 @@ const sendMarketing = (url: string) => {
 					target="_blank"
 					@click="sendMarketing(link)"
 				>
-					{{ name }}
+					{{ buttonName }}
 				</a>
 
 				<RouterLink
 					v-else-if="type === ButtonType.Internal"
-					:to="`/apps/browser/?title=${name}#${link}`"
+					:to="`/apps/browser/?title=${buttonName}#${link}`"
 					class="app-link"
 				>
-					{{ name }}
+					{{ buttonName }}
 				</RouterLink>
 
 				<RouterLink v-else-if="type === ButtonType.Inapp" :to="link" class="app-link">
-					{{ name }}
+					{{ buttonName }}
 				</RouterLink>
 			</div>
 		</div>

@@ -1,11 +1,11 @@
 <!-- Страница, которую видит пользователь, когда происходит обработка OAuth редиректа ответа -->
 <script setup lang="ts">
-import { IrdomLayout } from '@/components';
-import { LocalStorage, LocalStorageItem } from '@/models/LocalStorage';
-import { isAxiosError } from 'axios';
 import { AuthOauth2BaseApi, oauth2Methods } from '@/api/auth';
-import { useProfileStore } from '@/store';
+import { LocalStorage, LocalStorageItem } from '@/models/LocalStorage';
+import { IrdomLayout } from '@/components';
+import { isAxiosError } from 'axios';
 import { onMounted } from 'vue';
+import { useProfileStore } from '@/store';
 import { useRouter } from 'vue-router';
 
 const router = useRouter();

@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import { authScopeApi } from '@/api/auth/AuthScopeApi';
-import ScopesTable from '../ScopesTable.vue';
-import { onMounted, computed } from 'vue';
+import { AccessAllowed, IrdomLayout } from '@/components';
+import { computed, onMounted } from 'vue';
 import { useAuthStore, useProfileStore } from '@/store';
-import { IrdomLayout, AccessAllowed } from '@/components';
-import { MaterialIcon } from '@/components/lib';
-import { scopename } from '@/models';
 import { AuthApi } from '@/api';
+import { MaterialIcon } from '@/components/lib';
+import ScopesTable from '../ScopesTable.vue';
+import { authScopeApi } from '@/api/auth/AuthScopeApi';
+import { scopename } from '@/models';
 
 const authStore = useAuthStore();
 const profileStore = useProfileStore();
@@ -50,19 +50,19 @@ const createScope = async (e: Event) => {
 			<ScopesTable
 				:scopes="authStore.scopes.values()"
 				delete-icon="delete_forever"
-				@delete="deleteScope"
 				style="width: 100%"
+				@delete="deleteScope"
 			/>
-			<form @submit.prevent="createScope" class="form">
+			<form class="form" @submit.prevent="createScope">
 				<MaterialIcon name="add" />
 				<label for="name">
 					name
-					<input type="text" id="name" name="name" autocomplete="off" required />
+					<input id="name" type="text" name="name" autocomplete="off" required />
 				</label>
 
 				<label for="comment">
 					comment
-					<input type="text" id="comment" name="comment" autocomplete="off" />
+					<input id="comment" type="text" name="comment" autocomplete="off" />
 				</label>
 
 				<button type="submit">

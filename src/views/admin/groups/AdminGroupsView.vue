@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { GroupInfo, authGroupApi } from '@/api/auth';
-import { useAuthStore } from '@/store';
-import { onMounted, computed } from 'vue';
+import { computed, onMounted } from 'vue';
 import GroupTreeNode from './GroupTreeNode.vue';
 import { IrdomLayout } from '@/components';
 import { StoreGroup } from '@/store/auth';
+import { useAuthStore } from '@/store';
 
 const authStore = useAuthStore();
 
@@ -34,7 +34,7 @@ const roots = computed(() => {
 
 <template>
 	<IrdomLayout title="Редактирование групп пользователей" backable back="/admin">
-		<GroupTreeNode v-for="root of roots" :node="root" :key="root.id" />
+		<GroupTreeNode v-for="root of roots" :key="root.id" :node="root" />
 	</IrdomLayout>
 </template>
 

@@ -1,5 +1,5 @@
-import { BaseApi } from '../BaseApi';
 import { AppButton, AppButtonCategory } from '../models';
+import { BaseApi } from '../BaseApi';
 
 type GetButtonsResponse = AppButtonCategory & {
 	buttons: AppButton[];

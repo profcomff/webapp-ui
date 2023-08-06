@@ -1,13 +1,13 @@
 <script setup lang="ts">
-import { GroupInfo, authGroupApi } from '@/api/auth';
-import { useAuthStore, useProfileStore } from '@/store';
-import ScopesTable from '../ScopesTable.vue';
-import { onMounted, computed } from 'vue';
-import { useRoute } from 'vue-router';
 import { AccessAllowed, IrdomLayout } from '@/components';
-import { MaterialIcon } from '@/components/lib';
-import { scopename } from '@/models';
+import { GroupInfo, authGroupApi } from '@/api/auth';
+import { computed, onMounted } from 'vue';
+import { useAuthStore, useProfileStore } from '@/store';
 import { AuthApi } from '@/api';
+import { MaterialIcon } from '@/components/lib';
+import ScopesTable from '../ScopesTable.vue';
+import { scopename } from '@/models';
+import { useRoute } from 'vue-router';
 
 const profileStore = useProfileStore();
 const { hasTokenAccess } = profileStore;
@@ -67,15 +67,15 @@ const addScope = async (e: Event) => {
 			/>
 		</AccessAllowed>
 
-		<form @submit.prevent="addScope" class="form" v-if="hasTokenAccess(scopename.auth.group.update)">
+		<form v-if="hasTokenAccess(scopename.auth.group.update)" class="form" @submit.prevent="addScope">
 			<MaterialIcon name="add" />
 
 			<label for="id">
 				id
-				<input type="text" id="id" name="id" autocomplete="off" required list="scope-names" />
+				<input id="id" type="text" name="id" autocomplete="off" required list="scope-names" />
 
 				<datalist id="scope-names">
-					<option v-for="{ id, name } of authStore.scopes.values()" :value="id" :key="id">
+					<option v-for="{ id, name } of authStore.scopes.values()" :key="id" :value="id">
 						{{ name }}
 					</option>
 				</datalist>

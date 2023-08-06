@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { MaterialIcon } from '@/components/lib';
 import AsyncRoomInfo from './AsyncRoomInfo.vue';
-import { IrdomLayout } from '@/components';
 import AsyncRoomSchedule from './AsyncRoomSchedule.vue';
+import { IrdomLayout } from '@/components';
+import { MaterialIcon } from '@/components/lib';
 import { useRoute } from 'vue-router';
 
 const route = useRoute();

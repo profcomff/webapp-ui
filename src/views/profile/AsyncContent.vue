@@ -1,19 +1,17 @@
 <script setup lang="ts">
-import UAParser from 'ua-parser-js';
-
 import { SessionInfo, userSessionApi } from '@/api/auth';
-import { MaterialIcon } from '@/components/lib';
-
-import Apple from '@/assets/logo/Apple.svg';
-import Desktop from '@/assets/logo/Desktop.svg';
-import Chrome from '@/assets/logo/Chrome.svg';
-import Firefox from '@/assets/logo/Firefox.svg';
-import Safari from '@/assets/logo/Safari.svg';
 import Android from '@/assets/logo/Android.svg';
-import Mobile from '@/assets/logo/Mobile.svg';
-import Tablet from '@/assets/logo/Tablet.svg';
+import Apple from '@/assets/logo/Apple.svg';
+import Chrome from '@/assets/logo/Chrome.svg';
+import Desktop from '@/assets/logo/Desktop.svg';
+import Firefox from '@/assets/logo/Firefox.svg';
 import Ipad from '@/assets/logo/Ipad.svg';
 import Iphone from '@/assets/logo/Iphone.svg';
+import { MaterialIcon } from '@/components/lib';
+import Mobile from '@/assets/logo/Mobile.svg';
+import Safari from '@/assets/logo/Safari.svg';
+import Tablet from '@/assets/logo/Tablet.svg';
+import UAParser from 'ua-parser-js';
 import Yandex from '@/assets/logo/Yandex.svg';
 
 const { data } = await userSessionApi.getSessions<SessionInfo.Token>([SessionInfo.Token]);

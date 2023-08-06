@@ -1,4 +1,4 @@
-import { Group, User, Scope } from '../models';
+import { Group, Scope, User } from '../models';
 import { AuthBaseApi } from './AuthBaseApi';
 
 export enum UserInfo {

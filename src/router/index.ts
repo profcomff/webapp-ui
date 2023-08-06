@@ -1,12 +1,12 @@
-import { useProfileStore } from '@/store';
-import { marketingApi } from '@/api/marketing/MarketingApi';
 import { LocalStorage, LocalStorageItem } from '@/models/LocalStorage';
-import { adminRoutes, adminHandler } from './admin';
-import { profileRoutes } from './profile';
-import { authRoutes } from './auth';
+import { RouteRecordRaw, createRouter, createWebHistory } from 'vue-router';
+import { adminHandler, adminRoutes } from './admin';
+import { timetableHandler, timetableRoutes } from './timetable';
 import { AppsView } from '@/views';
-import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router';
-import { timetableRoutes, timetableHandler } from './timetable';
+import { authRoutes } from './auth';
+import { marketingApi } from '@/api/marketing/MarketingApi';
+import { profileRoutes } from './profile';
+import { useProfileStore } from '@/store';
 
 const routes: RouteRecordRaw[] = [
 	{

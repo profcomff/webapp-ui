@@ -1,12 +1,12 @@
-import { defineConfig } from 'vite';
-import { fileURLToPath, URL } from 'url';
-import { VitePWA } from 'vite-plugin-pwa';
-import Stylelint from 'vite-plugin-stylelint';
+import { URL, fileURLToPath } from 'url';
 import Eslint from 'vite-plugin-eslint';
+import Stylelint from 'vite-plugin-stylelint';
+import { VitePWA } from 'vite-plugin-pwa';
 import Vue from '@vitejs/plugin-vue';
+import basicSsl from '@vitejs/plugin-basic-ssl';
+import { defineConfig } from 'vite';
 import path from 'path';
 import postcssPresetEnv from 'postcss-preset-env';
-import basicSsl from '@vitejs/plugin-basic-ssl';
 
 // https://vitejs.dev/config/
 export default defineConfig({

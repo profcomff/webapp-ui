@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { StudyGroup } from '@/api/models';
 import { LocalStorage, LocalStorageItem } from '@/models';
-import { useTimetableStore } from '@/store';
-import { useRouter } from 'vue-router';
 import { IrdomChip } from '@/components';
+import { StudyGroup } from '@/api/models';
+import { useRouter } from 'vue-router';
+import { useTimetableStore } from '@/store';
 defineProps<{
 	course: string;
 	groups: StudyGroup[];
@@ -22,8 +22,8 @@ const setGroup = (group: StudyGroup) => {
 <template>
 	<div class="section">
 		<h3>{{ `${course} курс` }}</h3>
-		<ul class="ul" ref="list">
-			<li class="li" v-for="group of groups" :key="group.id">
+		<ul ref="list" class="ul">
+			<li v-for="group of groups" :key="group.id" class="li">
 				<IrdomChip @click="setGroup(group)">{{ group.number }}</IrdomChip>
 			</li>
 		</ul>

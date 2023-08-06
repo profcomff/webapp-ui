@@ -1,8 +1,8 @@
-import { useToastStore } from './../../../store/toast';
-import { apply, checkToken, scoped, showErrorToast } from './decorators';
-import { useAuthStore, useProfileStore } from '@/store';
 import { LocalStorage, LocalStorageItem, scopename } from '@/models';
 import { MySessionInfo, UserInfo, authEmailApi, authScopeApi, authUserApi, userSessionApi } from '@/api/auth';
+import { apply, checkToken, scoped, showErrorToast } from './decorators';
+import { useAuthStore, useProfileStore } from '@/store';
+import { useToastStore } from './../../../store/toast';
 
 export class AuthApi {
 	static getScopes = apply(async () => {

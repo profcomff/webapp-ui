@@ -1,5 +1,5 @@
+import { describe, expect, it } from 'vitest';
 import { lz } from './utils';
-import { describe, it, expect } from 'vitest';
 
 describe('Leading-zero add function:', () => {
 	it('should add leading zero to one-digit numbers', () => {

@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import Logo from '/icon.svg';
-import { IrdomLayout } from '@/components';
-import { ref } from 'vue';
 import AsyncGroupsList from './AsyncGroupsList.vue';
-import { marketingApi } from '@/api/marketing';
-import { useProfileStore } from '@/store';
 import { IrdomInput } from '@/components/lib';
+import { IrdomLayout } from '@/components';
+import Logo from '/icon.svg';
+import { marketingApi } from '@/api/marketing';
+import { ref } from 'vue';
+import { useProfileStore } from '@/store';
 const query = ref('');
 const profileStore = useProfileStore();
 
@@ -31,9 +31,9 @@ const sendMarketing = (e: Event) => {
 		<p class="message">Для просмотра расписания выберите свою группу:</p>
 
 		<IrdomInput
+			v-model="query"
 			type="text"
 			class="input"
-			v-model="query"
 			placeholder="Введите номер группы"
 			inputmode="numeric"
 			@change.once="sendMarketing"

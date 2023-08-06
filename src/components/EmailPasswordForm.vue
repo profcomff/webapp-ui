@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { IrdomInput, IrdomButton } from './lib';
+import { IrdomButton, IrdomInput } from './lib';
 
 import { computed } from 'vue';
 
@@ -13,7 +13,7 @@ const props = defineProps<{
 }>();
 
 const emits = defineEmits<{
-	(e: 'submit', data: SubmitData): void;
+	submit: [data: SubmitData];
 }>();
 
 const submitHandler = async (event: Event) => {

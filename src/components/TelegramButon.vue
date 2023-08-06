@@ -1,7 +1,7 @@
 <script setup lang="ts">
+import { onMounted, ref } from 'vue';
 import { AuthMethod } from '@/api/auth';
 import { useProfileStore } from '@/store';
-import { onMounted, ref } from 'vue';
 
 const telegram = ref<HTMLDivElement | null>(null);
 const profileStore = useProfileStore();

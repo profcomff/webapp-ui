@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import { IrdomLayout, ToolbarMenuItem } from '@/components';
 import { LocalStorage, LocalStorageItem } from '@/models';
-import { parseDate, stringifyDate } from '@/utils';
-import DateNavigation from './DateNavigation.vue';
-import { useRoute, useRouter } from 'vue-router';
 import { computed, ref, watch } from 'vue';
+import { parseDate, stringifyDate } from '@/utils';
+import { useRoute, useRouter } from 'vue-router';
 import AsyncEventsList from './AsyncEventsList.vue';
 import CalendarDropdown from './CalendarDropdown.vue';
+import DateNavigation from './DateNavigation.vue';
 import { useTimetableStore } from '@/store';
 
 const router = useRouter();

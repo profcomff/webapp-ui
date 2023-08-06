@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { StudyGroup } from '@/api/models';
-import { timetableGroupApi } from '@/api/timetable';
-import { computed } from 'vue';
 import GroupsListItem from './GroupsListItem.vue';
+import { StudyGroup } from '@/api/models';
+import { computed } from 'vue';
+import { timetableGroupApi } from '@/api/timetable';
 
 const props = withDefaults(defineProps<{ query?: string }>(), {
 	query: '',

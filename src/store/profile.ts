@@ -1,8 +1,8 @@
-import { scopename } from './../models/ScopeName';
-import { marketingApi } from '@/api/marketing';
 import { LocalStorage, LocalStorageItem } from '@/models';
-import { defineStore } from 'pinia';
 import { computed, ref } from 'vue';
+import { defineStore } from 'pinia';
+import { marketingApi } from '@/api/marketing';
+import { scopename } from './../models/ScopeName';
 
 export const useProfileStore = defineStore('profile', () => {
 	const id = ref<number | null>(null);

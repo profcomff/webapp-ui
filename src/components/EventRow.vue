@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { Event } from '@/api/models';
-import { getNameWithInitials, formatTime } from '@/utils';
-import { computed } from 'vue';
+import { formatTime, getNameWithInitials } from '@/utils';
 import DataRow from './DataRow.vue';
+import { Event } from '@/api/models';
+import { computed } from 'vue';
 
 const props = defineProps<{ event: Event; info: Array<'lecturer' | 'group' | 'room'> }>();
 
@@ -36,7 +36,7 @@ const info = computed(() => {
 </script>
 
 <template>
-	<DataRow :title="event.name" :info="info" :href="`/timetable/event/${event.id}`" clickable :key="event.id">
+	<DataRow :key="event.id" :title="event.name" :info="info" :href="`/timetable/event/${event.id}`" clickable>
 		<b>{{ formatTime(event.start_ts) }}</b>
 		<span>{{ formatTime(event.end_ts) }}</span>
 	</DataRow>
