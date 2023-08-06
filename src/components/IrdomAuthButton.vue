@@ -28,7 +28,7 @@ onMounted(async () => {
 const clickHandler = async () => {
 	if (props.unlink) {
 		await props.button.api.unregister();
-		location.reload();
+		location.reload(); // TODO: придумать нормальное решение
 	} else if (authUrl.value) {
 		window.open(authUrl.value, '_blank');
 	}

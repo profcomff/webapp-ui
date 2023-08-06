@@ -58,7 +58,7 @@ export function checkToken<F extends Func<any, any>>(method: F): Func<Promise<Re
 				const { deleteToken } = useProfileStore();
 				const toastStore = useToastStore();
 				deleteToken();
-				location.reload();
+				location.reload(); // TODO: придумать нормальное решение
 				toastStore.push({ title: 'Сессия истекла' });
 			}
 		}

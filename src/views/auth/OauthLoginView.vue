@@ -9,8 +9,6 @@ import { onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 
 const router = useRouter();
-// const currentPath = window.location.origin + router.currentRoute.value.fullPath;
-// const telegramBotName = computed(() => import.meta.env.VITE_AUTH_TELEGRAM_BOT);
 
 onMounted(async () => {
 	const authMethod: AuthOauth2BaseApi | undefined = oauth2Methods[router.currentRoute.value.path];

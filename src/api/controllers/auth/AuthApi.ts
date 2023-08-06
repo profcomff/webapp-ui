@@ -33,7 +33,7 @@ export class AuthApi {
 		async () => {
 			const profileStore = useProfileStore();
 			profileStore.deleteToken();
-			location.reload();
+			location.reload(); // TODO: придумать нормальное решение
 		},
 		[showErrorToast],
 		[checkToken],
