@@ -31,15 +31,9 @@ export class AuthApi {
 
 	static logout = apply(
 		async () => {
-			const toastStore = useToastStore();
-			const promise = userSessionApi.logout();
-			const { deleteToken } = useProfileStore();
-			deleteToken();
+			const profileStore = useProfileStore();
+			profileStore.deleteToken();
 			location.reload();
-			toastStore.push({
-				title: 'Вы успешно вышли из аккаунта!',
-			});
-			return promise;
 		},
 		[showErrorToast],
 		[checkToken],

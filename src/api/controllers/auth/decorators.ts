@@ -31,7 +31,6 @@ export function showErrorToast<F extends Func>(method: F): Func<Promise<ReturnTy
 			const response = await method(...args);
 			return response;
 		} catch (err) {
-			console.log(err);
 			if (axios.isAxiosError(err)) {
 				toastStore.push({
 					title: err.response?.data.message,

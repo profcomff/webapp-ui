@@ -1,4 +1,3 @@
-import { SessionScope } from './../api/models/index';
 import { scopename } from './../models/ScopeName';
 import { marketingApi } from '@/api/marketing';
 import { LocalStorage, LocalStorageItem } from '@/models';
