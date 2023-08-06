@@ -15,4 +15,4 @@ const updateSW = registerSW({
 	},
 });
 
-createApp(App).use(router).use(createPinia()).mount('#app');
+createApp(App).use(createPinia()).use(router).mount('#app');

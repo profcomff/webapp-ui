@@ -1,12 +1,10 @@
-import { LocalStorage, LocalStorageItem } from '@/models/LocalStorage';
 import { RouteRecordRaw, createRouter, createWebHistory } from 'vue-router';
-import { adminHandler, adminRoutes } from './admin';
-import { timetableHandler, timetableRoutes } from './timetable';
+import { authGuard, authRoutes } from './auth';
+import { timetableGuard, timetableRoutes } from './timetable';
 import { AppsView } from '@/views';
-import { authRoutes } from './auth';
-import { marketingApi } from '@/api/marketing/MarketingApi';
+import { adminRoutes } from './admin';
+import { marketingGuard } from './guards';
 import { profileRoutes } from './profile';
-import { useProfileStore } from '@/store';
 
 const routes: RouteRecordRaw[] = [
 	{
@@ -52,26 +50,9 @@ const router = createRouter({
 	routes,
 });
 
-router.beforeEach(to => {
-	if (to.path === '/profile' && !LocalStorage.get(LocalStorageItem.Token)) {
-		return { path: '/auth' };
-	} else if (to.path === '/auth' && LocalStorage.get(LocalStorageItem.Token)) {
-		return { path: '/profile' };
-	}
-});
-router.beforeEach(timetableHandler);
-router.beforeEach(adminHandler);
+router.beforeEach(authGuard);
+router.beforeEach(timetableGuard);
 
-router.afterEach((to, from) => {
-	const { marketingId } = useProfileStore();
-	if (marketingId) {
-		marketingApi.writeAction({
-			action: 'route to',
-			path_from: from.fullPath,
-			path_to: to.fullPath,
-			user_id: marketingId,
-		});
-	}
-});
+router.afterEach(marketingGuard);
 
 export default router;

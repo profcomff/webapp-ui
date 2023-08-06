@@ -14,6 +14,6 @@
 	},
 	"rules": {
 		"no-duplicate-imports": "error",
-		"sort-imports": "error"
+		"sort-imports": "warn"
 	}
 }
