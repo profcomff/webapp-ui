@@ -74,6 +74,7 @@ export class AuthApi {
 			const { data } = await promise;
 
 			LocalStorage.set(LocalStorageItem.Token, data.token);
+			LocalStorage.set(LocalStorageItem.TokenScopes, data.session_scopes);
 			profileStore.updateToken();
 
 			toastStore.push({
