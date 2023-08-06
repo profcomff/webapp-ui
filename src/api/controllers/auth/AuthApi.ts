@@ -2,7 +2,16 @@ import { useToastStore } from './../../../store/toast';
 import { apply, checkToken, scoped, showErrorToast } from './decorators';
 import { useAuthStore, useProfileStore } from '@/store';
 import { LocalStorage, LocalStorageItem, scopename } from '@/models';
-import { MySessionInfo, UserInfo, authEmailApi, authScopeApi, authUserApi, userSessionApi } from '@/api/auth';
+import {
+	MySessionInfo,
+	SessionInfo,
+	UserInfo,
+	authEmailApi,
+	authScopeApi,
+	authUserApi,
+	userSessionApi,
+} from '@/api/auth';
+import router from '@/router';
 
 export class AuthApi {
 	static getScopes = apply(async () => {
@@ -32,8 +41,12 @@ export class AuthApi {
 	static logout = apply(
 		async () => {
 			const profileStore = useProfileStore();
+			const toastStore = useToastStore();
 			profileStore.deleteToken();
-			location.reload(); // TODO: придумать нормальное решение
+			router.push('/auth');
+			toastStore.push({
+				title: 'Вы успешно вышли из аккаунта!',
+			});
 		},
 		[showErrorToast],
 		[checkToken],
@@ -101,6 +114,24 @@ export class AuthApi {
 
 			return promise;
 		},
+		[showErrorToast],
+	);
+
+	static getSessions = apply(
+		async (info?: SessionInfo[]) => {
+			const data = await userSessionApi.getSessions(info);
+			return data;
+		},
+		[showErrorToast],
+		[checkToken],
+	);
+
+	static deleteSession = apply(
+		async (token: string) => {
+			const data = await userSessionApi.deleteSession(token);
+			return data;
+		},
+		[checkToken],
 		[showErrorToast],
 	);
 }

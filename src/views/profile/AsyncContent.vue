@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import UAParser from 'ua-parser-js';
 
-import { SessionInfo, userSessionApi } from '@/api/auth';
+import { SessionInfo } from '@/api/auth';
 import { MaterialIcon } from '@/components/lib';
 
 import Apple from '@/assets/logo/Apple.svg';
@@ -15,9 +15,17 @@ import Tablet from '@/assets/logo/Tablet.svg';
 import Ipad from '@/assets/logo/Ipad.svg';
 import Iphone from '@/assets/logo/Iphone.svg';
 import Yandex from '@/assets/logo/Yandex.svg';
+import { AuthApi } from '@/api';
+import { computed, ref } from 'vue';
 
-const { data } = await userSessionApi.getSessions<SessionInfo.Token>([SessionInfo.Token]);
-data.sort((a, b) => +new Date(b.last_activity) - +new Date(a.last_activity));
+const { data } = await AuthApi.getSessions([SessionInfo.Token]);
+const sessions = ref<Map<string, typeof data extends Array<infer X> ? X : never>>(new Map());
+data.forEach(session => {
+	sessions.value.set(session.token, session);
+});
+const sortedSessions = computed(() =>
+	Array.from(sessions.value.values()).sort((a, b) => +new Date(b.last_activity) - +new Date(a.last_activity)),
+);
 
 const formatTime = (date: string) => {
 	const d = new Date(date);
@@ -63,10 +71,14 @@ const getIcon = (name: string) => {
 	if (browser?.includes('yandex')) return Yandex;
 	return Desktop;
 };
+
+const deleteHandler = (token: string) => {
+	sessions.value.delete(token);
+};
 </script>
 
 <template>
-	<div v-for="session of data" :key="session.id" class="card">
+	<div v-for="session of sortedSessions" :key="session.id" class="card">
 		<div class="wrapper">
 			<div class="">
 				<img :src="getIcon(session.session_name)" alt="" width="64" height="64" />
@@ -78,7 +90,7 @@ const getIcon = (name: string) => {
 		</div>
 
 		<div>
-			<button type="button" @click="userSessionApi.deleteSession(session.token)">
+			<button type="button" @click="deleteHandler(session.token)">
 				<MaterialIcon name="delete" :size="32" />
 			</button>
 		</div>
