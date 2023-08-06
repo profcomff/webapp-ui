@@ -11,7 +11,7 @@ const authStore = useAuthStore();
 const userId = computed(() => +route.params.id);
 
 onMounted(() => {
-	AuthApi.getUser(userId);
+	AuthApi.getUser(userId.value);
 });
 </script>
 
