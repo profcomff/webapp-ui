@@ -26,7 +26,7 @@ export class AuthApi {
 	);
 
 	static getUsers = apply(
-		async (info: UserInfo[]) => {
+		async (info: UserInfo[] = []) => {
 			const { setUsers } = useAuthStore();
 			const { data } = await authUserApi.getUsers(info);
 			setUsers(data.items);
