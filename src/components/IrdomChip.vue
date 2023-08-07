@@ -28,7 +28,7 @@ withDefaults(
 			background: oklch(91.59% 0.012 268.97deg);
 
 			@supports (color: color-mix(in oklab, black, white)) {
-				background: color-mix(in oklab, var(--color-primary-dark) 5%, var(--background));
+				background: color-mix(in oklab, rgb(var(--v-theme-primary-darken-1)) 5%, var(--background));
 			}
 		}
 
@@ -36,7 +36,7 @@ withDefaults(
 			background: oklch(88.87% 0.019 286.01deg);
 
 			@supports (color: color-mix(in oklab, black, white)) {
-				background: color-mix(in oklab, var(--color-primary-dark) 9%, var(--background));
+				background: color-mix(in oklab, rgb(var(--v-theme-primary-darken-1)) 9%, var(--background));
 			}
 		}
 	}

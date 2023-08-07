@@ -1,7 +1,6 @@
 import App from './App.vue';
 import router from './router';
 
-import './variables.css';
 import './index.css';
 import 'vuetify/styles';
 import 'material-design-icons-iconfont/dist/material-design-icons.css';
@@ -12,6 +11,14 @@ import { createVuetify } from 'vuetify';
 import { registerSW } from 'virtual:pwa-register';
 import { aliases, md } from 'vuetify/iconsets/md';
 import { md3 } from 'vuetify/blueprints';
+
+const PkffLightTheme = {
+	dark: false,
+	colors: {
+		background: 'rgb(255, 255, 255)',
+		surface: 'rgb(0, 1, 76)',
+	},
+};
 
 const vuetify = createVuetify({
 	icons: {
@@ -31,14 +38,9 @@ const vuetify = createVuetify({
 	},
 	blueprint: md3,
 	theme: {
-		defaultTheme: 'customTheme',
+		defaultTheme: 'PkffLightTheme',
 		themes: {
-			customTheme: {
-				colors: {
-					primary: '#1a237e',
-					secondary: '#1a237e',
-				},
-			},
+			PkffLightTheme,
 		},
 	},
 });

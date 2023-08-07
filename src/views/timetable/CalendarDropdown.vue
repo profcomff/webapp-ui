@@ -63,7 +63,7 @@ onUnmounted(() => {
 
 		<v-icon icon="md:expand_more" class="expander-icon" />
 	</button>
-	<div :style="{ transform: `scaleY(${+show})` }" class="dropdown bg-indigo-darken-4" id="calendar" ref="calendar">
+	<div :style="{ transform: `scaleY(${+show})` }" class="dropdown" id="calendar" ref="calendar">
 		<IrdomCalendar :selected="date" v-model="innerDate" />
 	</div>
 </template>
@@ -102,7 +102,7 @@ onUnmounted(() => {
 
 .dropdown {
 	position: absolute;
-	top: 56px;
+	top: 64px;
 	left: 0;
 	right: 0;
 	z-index: 1000;
@@ -113,5 +113,6 @@ onUnmounted(() => {
 	transform: translateY(0);
 	transition: transform 0.3s ease;
 	transform-origin: top;
+	background-color: rgb(var(--v-theme-background));
 }
 </style>
