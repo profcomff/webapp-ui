@@ -11,7 +11,7 @@ defineProps<{
 </script>
 
 <template>
-	<v-bottom-navigation grow>
+	<v-bottom-navigation grow elevation="4">
 		<v-btn v-for="{ icon, name, path } in items" :key="name" @click="$router.push(path[0])">
 			<v-icon :icon="`md:${icon}`" />
 			{{ name }}

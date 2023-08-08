@@ -1,8 +1,7 @@
-toolbar
 <script setup lang="ts">
 import { IrdomCalendar } from '@/components/lib';
 import { useTimetableStore } from '@/store';
-import { onMounted, onUnmounted, ref } from 'vue';
+import { ref } from 'vue';
 
 const show = ref(false);
 const expander = ref<HTMLButtonElement | null>(null);
@@ -29,23 +28,11 @@ const clickOutsideHandler = (e: MouseEvent) => {
 		innerDate.value = props.date;
 	}
 };
-
-const textClickHandler = () => {
-	show.value = !show.value;
-	innerDate.value = props.date;
-};
-
-onMounted(() => {
-	document.addEventListener('click', clickOutsideHandler);
-});
-
-onUnmounted(() => {
-	document.removeEventListener('click', clickOutsideHandler);
-});
 </script>
 
 <template>
 	<button
+		v-ripple
 		type="button"
 		class="expander"
 		:aria-expanded="show"
@@ -53,17 +40,23 @@ onUnmounted(() => {
 		@click="expanderClickHandler"
 		ref="expander"
 	>
-		<span class="date" @click="textClickHandler">
+		<span class="date">
 			{{ date.toLocaleDateString('ru-RU', { day: 'numeric', month: 'long' }) }}
 		</span>
 
-		<span class="group" @click="textClickHandler">
+		<span class="group">
 			{{ `Группа ${group?.number ?? ''}` }}
 		</span>
 
 		<v-icon icon="md:expand_more" class="expander-icon" />
 	</button>
-	<div :style="{ transform: `scaleY(${+show})` }" class="dropdown" id="calendar" ref="calendar">
+	<div
+		:style="{ transform: `scaleY(${+show})` }"
+		class="dropdown"
+		id="calendar"
+		ref="calendar"
+		v-click-outside="clickOutsideHandler"
+	>
 		<IrdomCalendar :selected="date" v-model="innerDate" />
 	</div>
 </template>
@@ -113,6 +106,6 @@ onUnmounted(() => {
 	transform: translateY(0);
 	transition: transform 0.3s ease;
 	transform-origin: top;
-	background-color: rgb(var(--v-theme-background));
+	background-color: rgb(var(--v-theme-surface));
 }
 </style>

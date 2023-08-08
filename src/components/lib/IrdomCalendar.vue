@@ -36,7 +36,13 @@ const changeMonthHandler = (offset: number) => {
 				<v-icon icon="md:arrow_forward_ios" />
 			</button>
 		</div>
-		<div class="grid">
+		<div
+			class="grid"
+			v-touch="{
+				left: () => changeMonthHandler(1),
+				right: () => changeMonthHandler(-1),
+			}"
+		>
 			<span v-for="weekday of weekdays" class="noselect weekday" :key="weekday">{{ weekday }}</span>
 			<RouterLink
 				v-for="i in getDays(modelValue)"
@@ -90,7 +96,7 @@ const changeMonthHandler = (offset: number) => {
 }
 
 .current {
-	background: var(--color-accent);
+	background: rgb(var(--v-theme-secondary));
 	color: black;
 }
 

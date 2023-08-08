@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ToolbarActionItem, IrdomLayout, ToolbarMenuItem } from '@/components';
 import { LocalStorage, LocalStorageItem } from '@/models';
-import { parseDate, stringifyDate } from '@/utils';
+import { parseDate, stringifyDate, getDateWithDayOffset } from '@/utils';
 import DateNavigation from './DateNavigation.vue';
 import { useRoute, useRouter } from 'vue-router';
 import { computed, ref, watch } from 'vue';
@@ -45,10 +45,19 @@ const date = computed(() => {
 const key = ref(1);
 watch(date, () => {
 	key.value++;
+	console.log('Changed');
 });
 </script>
 <template>
-	<IrdomLayout title="" :toolbar-actions="toolbarActions" :toolbar-menu="toolbarMenu" style="padding-top: 0">
+	<IrdomLayout
+		title=""
+		:toolbar-actions="toolbarActions"
+		:toolbar-menu="toolbarMenu"
+		:touch="{
+			left: () => router.push(`/timetable/${stringifyDate(getDateWithDayOffset(date, 1))}`),
+			right: () => router.push(`/timetable/${stringifyDate(getDateWithDayOffset(date, -1))}`),
+		}"
+	>
 		<template #toolbar>
 			<CalendarDropdown :date="date" />
 		</template>

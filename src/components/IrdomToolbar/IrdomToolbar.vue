@@ -50,7 +50,7 @@ const onBack = () => {
 </script>
 
 <template>
-	<v-app-bar class="overflow-visible">
+	<v-app-bar class="overflow-visible" elevation="4">
 		<template #prepend>
 			<v-btn icon="md:arrow_back" color="white" @click="onBack" v-if="backable" />
 			<slot />

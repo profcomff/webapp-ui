@@ -9,6 +9,7 @@ defineProps<{
 	title?: string;
 	share?: boolean;
 	backable?: boolean;
+	touch?: unknown;
 }>();
 </script>
 
@@ -24,13 +25,15 @@ defineProps<{
 		<slot name="toolbar" />
 	</IrdomToolbar>
 
-	<v-main>
-		<v-container>
-			<v-row>
-				<v-col class="d-flex flex-column">
-					<slot />
-				</v-col>
-			</v-row>
-		</v-container>
-	</v-main>
+	<div style="height: 100%; width: 100%" v-touch="touch">
+		<v-main>
+			<v-container>
+				<v-row>
+					<v-col class="d-flex flex-column">
+						<slot />
+					</v-col>
+				</v-row>
+			</v-container>
+		</v-main>
+	</div>
 </template>

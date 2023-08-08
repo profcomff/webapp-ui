@@ -1,5 +1,2 @@
-export { default as MaterialIcon } from './MaterialIcon.vue';
 export { default as IrdomCalendar } from './IrdomCalendar.vue';
-export { default as IrdomButton } from './IrdomButton.vue';
-export { default as IrdomInput } from './IrdomInput.vue';
 export { default as IrdomToast } from './IrdomToast.vue';

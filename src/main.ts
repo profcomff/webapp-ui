@@ -17,6 +17,7 @@ const PkffLightTheme = {
 	colors: {
 		background: 'rgb(255, 255, 255)',
 		surface: 'rgb(0, 1, 76)',
+		secondary: 'rgb(255, 139, 0)',
 	},
 };
 
