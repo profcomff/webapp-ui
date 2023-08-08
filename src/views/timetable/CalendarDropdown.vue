@@ -62,6 +62,10 @@ const clickOutsideHandler = (e: MouseEvent) => {
 </template>
 
 <style scoped>
+button.expander {
+	padding: 0 8px 0 16px;
+}
+
 .expander {
 	display: grid;
 	grid-template-areas:
@@ -80,6 +84,11 @@ const clickOutsideHandler = (e: MouseEvent) => {
 	display: flex;
 	align-items: center;
 	justify-content: center;
+	transition: 0.3s ease;
+}
+
+button[aria-expanded='true'] .expander-icon {
+	rotate: 180deg;
 }
 
 .group {

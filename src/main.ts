@@ -16,8 +16,16 @@ const PkffLightTheme = {
 	dark: false,
 	colors: {
 		background: 'rgb(255, 255, 255)',
+		'on-background': 'rgb(0, 0, 0)',
+
 		surface: 'rgb(0, 1, 76)',
+		'on-surface': 'rgb(255, 255, 255)',
+
+		'surface-variant': 'rgb(245, 245, 245)',
+		'on-surface-variant': 'rgba(0, 0, 0, 0.87)',
+
 		secondary: 'rgb(255, 139, 0)',
+		'on-secondary': 'rgb(255, 255, 255)',
 	},
 };
 
@@ -35,6 +43,12 @@ const vuetify = createVuetify({
 		},
 		VContainer: {
 			style: 'max-width: 900px;',
+		},
+		VList: {
+			style: 'background-color: rgb(var(--v-theme-background)); color: rgb(var(--v-theme-on-background))',
+		},
+		VCard: {
+			style: 'background-color: rgb(var(--v-theme-surface-variant)); color: rgba(var(--v-theme-on-surface-variant))',
 		},
 	},
 	blueprint: md3,

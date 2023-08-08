@@ -37,6 +37,7 @@ const sendMarketing = (url: string) => {
 				class="app"
 				:key="id"
 				:aria-disabled="type === ButtonType.Disabled"
+				v-ripple
 			>
 				<img v-if="icon.startsWith('http')" :src="icon" :alt="name" width="400" height="400" class="icon" />
 				<v-icon v-else :icon="`md:${icon}`" class="material-icon" :size="sectionType === 'grid3' ? 40 : 24" />
@@ -133,7 +134,12 @@ const sendMarketing = (url: string) => {
 		gap: 0.8em;
 		border-radius: 5px;
 		margin-bottom: 10px;
-		background: rgb(0 0 0 / 5%);
+		background-color: rgb(var(--v-theme-surface-variant));
+		transition: ease 0.3s;
+	}
+
+	& .app:hover {
+		filter: brightness(90%);
 	}
 }
 
