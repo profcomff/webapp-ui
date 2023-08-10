@@ -113,3 +113,7 @@ export interface UserdataParam extends Entity {
 	type: UserdataParamResponseType;
 	category_id: number;
 }
+
+export interface Userdata {
+	items: Array<Record<string, string>>;
+}

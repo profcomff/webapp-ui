@@ -1,19 +1,20 @@
 <script setup lang="ts">
 import { IrdomLayout, ToolbarMenuItem, IrdomAuthButton, TelegramButton } from '@/components';
 import { useProfileStore } from '@/store';
-import { onMounted, computed } from 'vue';
+import { onMounted, computed, ref } from 'vue';
 import Placeholder from '@/assets/profile_image_placeholder.webp';
 import { AuthApi } from '@/api';
 import { AuthMethod, MySessionInfo } from '@/api/auth';
 import { authButtons } from '@/constants';
 import { useRouter } from 'vue-router';
 import { UserdataApi } from '@/api/controllers/UserdataApi';
+import { Userdata } from '@/api/models';
 
 const profileStore = useProfileStore();
 const router = useRouter();
-if (profileStore.id !== null) {
-	const { userdata } = UserdataApi.getUser(profileStore.id);
-}
+const userdata = ref<Userdata>({ items: [] });
+const userdataLoading = ref(false);
+
 const toolbarMenu: ToolbarMenuItem[] = [
 	{
 		name: 'Выход',
@@ -33,36 +34,42 @@ onMounted(async () => {
 		profileStore.updateToken(history.state.token);
 		delete history.state.token;
 	}
-	await AuthApi.getMe([
+
+	userdataLoading.value = true;
+	const { data: me } = await AuthApi.getMe([
 		MySessionInfo.AuthMethods,
 		MySessionInfo.Groups,
 		MySessionInfo.IndirectGroups,
 		MySessionInfo.SessionScopes,
 		MySessionInfo.UserScopes,
 	]);
+
+	const { data } = await UserdataApi.getUser(me.id);
+	userdata.value = data;
+	userdataLoading.value = false;
 });
 
 const canLinked = computed(() =>
 	authButtons.filter(({ method }) => !profileStore.authMethods?.includes(method) && method !== AuthMethod.Telegram),
 );
 const canUnlinked = computed(() => authButtons.filter(({ method }) => profileStore.authMethods?.includes(method)));
-const userdata_ = computed(() => userdata.)
 </script>
 
 <template>
 	<IrdomLayout :toolbar-menu="toolbarMenu" title="Профиль">
 		<img :src="Placeholder" alt="Аватар" width="400 " height="400" class="avatar" />
 
-		<!-- <section class="section" v-if="profileStore.authMethods?.length !== 8">
+		<div v-if="userdataLoading">Загрузка...</div>
+		<div v-else>
+			{{ JSON.stringify(userdata) }}
+		</div>
+
+		<section class="section" v-if="profileStore.authMethods?.length !== 8">
 			<h2>Привязать аккаунт</h2>
 			<div class="buttons">
 				<IrdomAuthButton v-for="button of canLinked" :key="button.method" :button="button" />
 				<TelegramButton v-if="!profileStore.authMethods?.includes(AuthMethod.Telegram)" />
 			</div>
-		</section> -->
-
-		<section class="section" v-for="item of userdata">
-			<h2>{{ item }}</h2>
 		</section>
 
 		<section v-if="profileStore.authMethods && profileStore.authMethods.length > 1" class="section">
@@ -73,7 +80,7 @@ const userdata_ = computed(() => userdata.)
 		</section>
 	</IrdomLayout>
 </template>
- 
+
 <style scoped>
 .li {
 	list-style-position: inside;

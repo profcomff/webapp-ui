@@ -1,14 +1,15 @@
-import { BaseApi } from '../BaseApi';
+import { Userdata } from '../models';
+import { UserdataBaseApi } from './UserdataBaseApi';
 
 type Json = Record<string, Record<string, string>>;
 
-class UserdataUserApi extends BaseApi {
+class UserdataUserApi extends UserdataBaseApi {
 	constructor() {
 		super('/user');
 	}
 
 	public async getById(id: number) {
-		return this.get<Record<string, Record<string, string>>>(`/${id}`);
+		return this.get<Userdata>(`/${id}`);
 	}
 
 	public async patchById(id: number, body: Json) {

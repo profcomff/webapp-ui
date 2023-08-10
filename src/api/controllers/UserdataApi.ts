@@ -1,5 +1,5 @@
 import { userdataUserApi } from '../userdata/UserdataUserApi';
-import { apply, showErrorToast } from './auth/decorators';
+import { apply, checkToken, showErrorToast } from './auth/decorators';
 
 export class UserdataApi {
 	static getUser = apply(
@@ -7,6 +7,7 @@ export class UserdataApi {
 			const promise = await userdataUserApi.getById(id);
 			return promise;
 		},
+		[checkToken],
 		[showErrorToast],
 	);
 }
