@@ -7,7 +7,7 @@ export const profileRoutes: RouteRecordRaw[] = [
 	},
 	{
 		path: 'sessions',
-		component: () => import('@/views/profile/ProfileSessionsView.vue'),
+		component: () => import('@/views/profile/sessions/ProfileSessionsView.vue'),
 	},
 	{
 		path: ':id(\\d+)',

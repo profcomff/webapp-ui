@@ -1,14 +1,15 @@
-import { BaseApi, DefaultResponse } from '../BaseApi';
+import { DefaultResponse } from '../BaseApi';
 import { UserdataParam } from '../models';
+import { UserdataBaseApi } from './UserdataBaseApi';
 
 interface Args {
 	id: number;
 	categoryId: number;
 }
 
-class UserdataParamApi extends BaseApi {
+class UserdataParamApi extends UserdataBaseApi {
 	constructor() {
-		super('/userdata/category');
+		super('/category');
 	}
 
 	public async getAll(categoryId: number) {
