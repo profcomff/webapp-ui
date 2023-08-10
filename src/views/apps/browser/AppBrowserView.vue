@@ -22,11 +22,15 @@ const url = computed(() => {
 
 <template>
 	<IrdomToolbar backable :back="back" :title="(route.query.title as string) ?? undefined" />
-	<iframe :src="url" frameborder="0" class="iframe" allow="camera" />
+	<v-main style="height: 100%">
+		<iframe :src="url" frameborder="0" class="iframe" allow="camera" />
+	</v-main>
 </template>
 
 <style scoped>
 .iframe {
 	flex: 1;
+	width: 100%;
+	height: 100%;
 }
 </style>

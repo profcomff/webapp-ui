@@ -26,7 +26,7 @@ defineProps<{
 	</IrdomToolbar>
 
 	<div style="height: 100%; width: 100%" v-touch="touch">
-		<v-main>
+		<v-main style="height: 100%">
 			<v-container>
 				<v-row>
 					<v-col class="d-flex flex-column">
