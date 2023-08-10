@@ -7,10 +7,13 @@ import { AuthApi } from '@/api';
 import { AuthMethod, MySessionInfo } from '@/api/auth';
 import { authButtons } from '@/constants';
 import { useRouter } from 'vue-router';
+import { UserdataApi } from '@/api/controllers/UserdataApi';
 
 const profileStore = useProfileStore();
 const router = useRouter();
-
+if (profileStore.id !== null) {
+	const { userdata } = UserdataApi.getUser(profileStore.id);
+}
 const toolbarMenu: ToolbarMenuItem[] = [
 	{
 		name: 'Выход',
@@ -43,18 +46,23 @@ const canLinked = computed(() =>
 	authButtons.filter(({ method }) => !profileStore.authMethods?.includes(method) && method !== AuthMethod.Telegram),
 );
 const canUnlinked = computed(() => authButtons.filter(({ method }) => profileStore.authMethods?.includes(method)));
+const userdata_ = computed(() => userdata.)
 </script>
 
 <template>
 	<IrdomLayout :toolbar-menu="toolbarMenu" title="Профиль">
 		<img :src="Placeholder" alt="Аватар" width="400 " height="400" class="avatar" />
 
-		<section v-if="profileStore.authMethods?.length !== 8" class="section">
+		<!-- <section class="section" v-if="profileStore.authMethods?.length !== 8">
 			<h2>Привязать аккаунт</h2>
 			<div class="buttons">
 				<IrdomAuthButton v-for="button of canLinked" :key="button.method" :button="button" />
 				<TelegramButton v-if="!profileStore.authMethods?.includes(AuthMethod.Telegram)" />
 			</div>
+		</section> -->
+
+		<section class="section" v-for="item of userdata">
+			<h2>{{ item }}</h2>
 		</section>
 
 		<section v-if="profileStore.authMethods && profileStore.authMethods.length > 1" class="section">
@@ -65,7 +73,7 @@ const canUnlinked = computed(() => authButtons.filter(({ method }) => profileSto
 		</section>
 	</IrdomLayout>
 </template>
-
+ 
 <style scoped>
 .li {
 	list-style-position: inside;
