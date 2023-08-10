@@ -45,7 +45,6 @@ const date = computed(() => {
 const key = ref(1);
 watch(date, () => {
 	key.value++;
-	console.log('Changed');
 });
 </script>
 <template>

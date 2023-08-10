@@ -24,7 +24,7 @@ const changeMonthHandler = (offset: number) => {
 <template>
 	<div class="calendar">
 		<div class="controls">
-			<button type="button" class="left" @click="changeMonthHandler(-1)" aria-label="Предыдущий месяц">
+			<button type="button" class="left" @click="changeMonthHandler(-1)" aria-label="Предыдущий месяц" v-ripple>
 				<v-icon icon="md:arrow_back_ios" />
 			</button>
 
@@ -32,7 +32,7 @@ const changeMonthHandler = (offset: number) => {
 				{{ modelValue.toLocaleDateString('ru-RU', { month: 'long', year: 'numeric' }) }}
 			</span>
 
-			<button type="button" class="right" @click="changeMonthHandler(1)" aria-label="Следующий месяц">
+			<button type="button" class="right" @click="changeMonthHandler(1)" aria-label="Следующий месяц" v-ripple>
 				<v-icon icon="md:arrow_forward_ios" />
 			</button>
 		</div>
@@ -52,6 +52,7 @@ const changeMonthHandler = (offset: number) => {
 				:style="{ 'grid-column': i === 1 ? getItemDate(i).getDay() : 'unset' }"
 				:aria-label="getAriaLabel(i)"
 				:key="i"
+				v-ripple
 			>
 				{{ i }}
 			</RouterLink>
@@ -93,6 +94,12 @@ const changeMonthHandler = (offset: number) => {
 	display: flex;
 	justify-content: center;
 	align-items: center;
+	transition: 0.3s ease;
+}
+
+.day:hover {
+	background-color: rgb(var(--v-theme-secondary));
+	opacity: 0.9;
 }
 
 .current {

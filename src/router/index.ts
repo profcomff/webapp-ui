@@ -52,7 +52,8 @@ const router = createRouter({
 	routes,
 });
 
-router.beforeEach(to => {
+router.beforeEach(async to => {
+	await new Promise(r => setTimeout(r, 150));
 	if (to.path === '/profile' && !LocalStorage.get(LocalStorageItem.Token)) {
 		return { path: '/auth' };
 	} else if (to.path === '/auth' && LocalStorage.get(LocalStorageItem.Token)) {
