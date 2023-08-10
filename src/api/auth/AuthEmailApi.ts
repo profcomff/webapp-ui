@@ -50,9 +50,6 @@ class AuthEmailApi extends AuthBaseApi {
 	}
 
 	public async login(body: LoginBody) {
-		if (!body.scopes) {
-			body.scopes = [];
-		}
 		if (!body.session_name) {
 			body.session_name = navigator.userAgent ?? UNKNOWN_DEVICE;
 		}
