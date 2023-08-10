@@ -12,6 +12,7 @@ const props = defineProps<{
 }>();
 
 function findFirstIndexOfStringByPrefix(arr: NavbarItem[], prefix: string) {
+	console.debug('Navbar buttons are ', arr);
 	for (let i = 0; i < arr.length; i++) {
 		for (let j = 0; j < arr[i].path.length; j++) {
 			if (prefix.startsWith(arr[i].path[j])) {
