@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { IrdomLayout, ToolbarMenuItem, IrdomAuthButton, TelegramButton } from '@/components';
 import { useProfileStore } from '@/store';
-import { onMounted, computed, ref } from 'vue';
+import { onMounted, computed, ref, capitalize } from 'vue';
 import Placeholder from '@/assets/profile_image_placeholder.webp';
 import { AuthApi } from '@/api';
 import { AuthMethod, MySessionInfo } from '@/api/auth';
@@ -12,7 +12,10 @@ import { Userdata } from '@/api/models';
 
 const profileStore = useProfileStore();
 const router = useRouter();
+const userdataCategory: Record<string, Record<string, string>[]> = {};
 const userdata = ref<Userdata>({ items: [] });
+const userdata_priority: Array<string> = ['Личная информация', 'Учёба', 'Контакты'];
+let sortedUserdataCategories = {};
 const userdataLoading = ref(false);
 
 const toolbarMenu: ToolbarMenuItem[] = [
@@ -47,6 +50,21 @@ onMounted(async () => {
 	const { data } = await UserdataApi.getUser(me.id);
 	userdata.value = data;
 	userdataLoading.value = false;
+
+	userdata.value.items.forEach(item => {
+		if (!userdataCategory[item['category']]) {
+			userdataCategory[item['category']] = [];
+		}
+		userdataCategory[item['category']].push({ param: item['param'], value: item['value'] });
+	});
+	sortedUserdataCategories = Object.keys(userdataCategory).sort((a, b) => {
+		return userdata_priority.indexOf(a) > userdata_priority.indexOf(b) ? 1 : -1;
+	});
+	sortedUserdataCategories.reduce((key, obj) => {
+		obj[key] = userdataCategory[key];
+		return obj;
+	}, {})
+	}
 });
 
 const canLinked = computed(() =>
@@ -58,10 +76,21 @@ const canUnlinked = computed(() => authButtons.filter(({ method }) => profileSto
 <template>
 	<IrdomLayout :toolbar-menu="toolbarMenu" title="Профиль">
 		<img :src="Placeholder" alt="Аватар" width="400 " height="400" class="avatar" />
-
 		<div v-if="userdataLoading">Загрузка...</div>
-		<div v-else>
-			{{ JSON.stringify(userdata) }}
+		<div v-else class="userdata">
+			<div v-for="category in Object.keys(userdataCategory)" :key="category" class="userdata-category">
+				<h2>
+					{{ sortedUserdataCategories }}
+				</h2>
+				<div v-for="info in userdataCategory[category]" :key="info.id" class="userdata-param">
+					<div>
+						{{ info.param }}
+					</div>
+					<h3>
+						{{ info.value }}
+					</h3>
+				</div>
+			</div>
 		</div>
 
 		<section class="section" v-if="profileStore.authMethods?.length !== 8">
@@ -122,5 +151,18 @@ const canUnlinked = computed(() => authButtons.filter(({ method }) => profileSto
 	& h2 {
 		margin-bottom: 20px;
 	}
+}
+
+.userdata {
+	margin-left: 100px;
+}
+
+.userdata-category {
+	margin-bottom: 3%;
+}
+
+.userdata-param {
+	margin-bottom: 10px;
+	margin-top: 10px;
 }
 </style>
