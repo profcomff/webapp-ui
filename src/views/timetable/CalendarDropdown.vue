@@ -115,6 +115,6 @@ button[aria-expanded='true'] .expander-icon {
 	transform: translateY(0);
 	transition: transform 0.3s ease;
 	transform-origin: top;
-	background-color: rgb(var(--v-theme-surface));
+	background-color: rgb(var(--v-theme-primary));
 }
 </style>
