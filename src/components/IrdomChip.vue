@@ -70,9 +70,7 @@ withDefaults(
 			--background: color-mix(in oklab, transparent 83.5%, var(--color-primary));
 		}
 
-		box-shadow:
-			1px 2px oklab(0% 0 0 / 30%),
-			1px 3px 1px oklch(0% 0 0deg / 15%);
+		box-shadow: 1px 2px oklab(0% 0 0 / 30%), 1px 3px 1px oklch(0% 0 0deg / 15%);
 	}
 
 	--background: oklch(83.52% 0.025 285.85deg);
