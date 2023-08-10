@@ -25,8 +25,8 @@ defineProps<{
 		<slot name="toolbar" />
 	</IrdomToolbar>
 
-	<div style="height: 100%; width: 100%" v-touch="touch">
-		<v-main style="height: 100%">
+	<div v-touch="touch" class="v-main-wrapper">
+		<v-main>
 			<v-container>
 				<v-row>
 					<v-col class="d-flex flex-column">
@@ -37,3 +37,11 @@ defineProps<{
 		</v-main>
 	</div>
 </template>
+
+<style scoped>
+v-main,
+.v-main-wrapper {
+	height: 100%;
+	width: 100%;
+}
+</style>
