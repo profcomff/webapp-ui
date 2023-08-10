@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { MaterialIcon, IrdomCalendar } from '@/components/lib';
+import { IrdomCalendar } from '@/components/lib';
 import { useTimetableStore } from '@/store';
-import { onMounted, onUnmounted, ref } from 'vue';
+import { ref } from 'vue';
 
 const show = ref(false);
 const expander = ref<HTMLButtonElement | null>(null);
@@ -28,23 +28,11 @@ const clickOutsideHandler = (e: MouseEvent) => {
 		innerDate.value = props.date;
 	}
 };
-
-const textClickHandler = () => {
-	show.value = !show.value;
-	innerDate.value = props.date;
-};
-
-onMounted(() => {
-	document.addEventListener('click', clickOutsideHandler);
-});
-
-onUnmounted(() => {
-	document.removeEventListener('click', clickOutsideHandler);
-});
 </script>
 
 <template>
 	<button
+		v-ripple
 		type="button"
 		class="expander"
 		:aria-expanded="show"
@@ -52,22 +40,32 @@ onUnmounted(() => {
 		@click="expanderClickHandler"
 		ref="expander"
 	>
-		<span class="date" @click="textClickHandler">
+		<span class="date">
 			{{ date.toLocaleDateString('ru-RU', { day: 'numeric', month: 'long' }) }}
 		</span>
 
-		<span class="group" @click="textClickHandler">
+		<span class="group">
 			{{ `Группа ${group?.number ?? ''}` }}
 		</span>
 
-		<MaterialIcon name="expand_more" class="expander-icon" />
+		<v-icon icon="md:expand_more" class="expander-icon" />
 	</button>
-	<div :style="{ transform: `scaleY(${+show})` }" class="dropdown" id="calendar" ref="calendar">
+	<div
+		:style="{ transform: `scaleY(${+show})` }"
+		class="dropdown"
+		id="calendar"
+		ref="calendar"
+		v-click-outside="clickOutsideHandler"
+	>
 		<IrdomCalendar :selected="date" v-model="innerDate" />
 	</div>
 </template>
 
 <style scoped>
+button.expander {
+	padding: 0 8px 0 16px;
+}
+
 .expander {
 	display: grid;
 	grid-template-areas:
@@ -86,6 +84,11 @@ onUnmounted(() => {
 	display: flex;
 	align-items: center;
 	justify-content: center;
+	transition: 0.3s ease;
+}
+
+button[aria-expanded='true'] .expander-icon {
+	rotate: 180deg;
 }
 
 .group {
@@ -101,11 +104,10 @@ onUnmounted(() => {
 
 .dropdown {
 	position: absolute;
-	top: 56px;
+	top: 64px;
 	left: 0;
 	right: 0;
-	background: var(--color-primary-dark);
-	z-index: 10;
+	z-index: 1000;
 	box-shadow: 0 2px 4px oklch(0 0 0deg / 50%);
 	display: flex;
 	justify-content: center;
@@ -113,5 +115,6 @@ onUnmounted(() => {
 	transform: translateY(0);
 	transition: transform 0.3s ease;
 	transform-origin: top;
+	background-color: rgb(var(--v-theme-primary));
 }
 </style>

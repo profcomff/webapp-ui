@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { IrdomInput, IrdomButton } from './lib';
-
 import { computed } from 'vue';
 
 export interface SubmitData {
@@ -13,7 +11,7 @@ const props = defineProps<{
 }>();
 
 const emits = defineEmits<{
-	(e: 'submit', data: SubmitData): void;
+	submit: [data: SubmitData];
 }>();
 
 const submitHandler = async (event: Event) => {
@@ -32,8 +30,15 @@ const buttonText = computed(() => (props.mode === 'login' ? 'Вход' : 'Рег
 
 <template>
 	<form class="form" @submit.prevent="submitHandler">
-		<IrdomInput type="email" name="email" autocomplete="email" placeholder="Введите почту" class="input" required />
-		<IrdomInput
+		<v-text-field
+			type="email"
+			name="email"
+			autocomplete="email"
+			placeholder="Введите почту"
+			class="input"
+			required
+		/>
+		<v-text-field
 			type="password"
 			name="password"
 			:autocomplete="mode === 'login' ? 'current-password' : 'new-password'"
@@ -41,7 +46,7 @@ const buttonText = computed(() => (props.mode === 'login' ? 'Вход' : 'Рег
 			class="input"
 			required
 		/>
-		<IrdomButton type="submit" class="submit">{{ buttonText }}</IrdomButton>
+		<v-btn type="submit" class="submit">{{ buttonText }}</v-btn>
 	</form>
 </template>
 
@@ -50,8 +55,8 @@ const buttonText = computed(() => (props.mode === 'login' ? 'Вход' : 'Рег
 	width: 100%;
 	max-width: 400px;
 	align-self: center;
-	background: var(--color-primary);
-	color: white;
+	background: rgb(var(--v-theme-primary));
+	color: rgb(var(--v-theme-on-primary));
 	margin: 0 auto 16px;
 }
 

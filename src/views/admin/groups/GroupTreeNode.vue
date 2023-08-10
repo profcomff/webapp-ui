@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { authGroupApi } from '@/api/auth';
 import { useAuthStore, useProfileStore } from '@/store';
-import { IrdomPopover, MaterialIcon } from '@/components/lib';
 import { StoreGroup } from '@/store/auth';
-import { ref, nextTick } from 'vue';
 import { scopename } from '@/models';
+import { ref } from 'vue';
+import { VExpansionPanel } from 'vuetify/lib/components/index.mjs';
 
 const props = withDefaults(defineProps<{ node: StoreGroup | null; indentSize?: number }>(), {
 	indentSize: 32,
@@ -13,6 +13,7 @@ const props = withDefaults(defineProps<{ node: StoreGroup | null; indentSize?: n
 const profileStore = useProfileStore();
 const { hasTokenAccess } = profileStore;
 const authStore = useAuthStore();
+const panel = ref<VExpansionPanel | null>(null);
 
 const createGroup = async (e: Event) => {
 	if (props.node && hasTokenAccess(scopename.auth.group.create)) {
@@ -29,9 +30,6 @@ const createGroup = async (e: Event) => {
 			authStore.setGroup(data);
 
 			form.reset();
-			if (details.value) {
-				details.value.open = true;
-			}
 		}
 	}
 };
@@ -43,144 +41,62 @@ const deleteGroup = async (groupId?: number) => {
 	}
 };
 
-const open = ref(false);
-const showForm = ref(false);
-const details = ref<HTMLDetailsElement | null>(null);
-const input = ref<HTMLInputElement | null>(null);
-
-const showFormHandler = () => {
-	if (details.value) {
-		details.value.open = true;
-	}
-	showForm.value = true;
-
-	nextTick(() => {
-		if (input.value) {
-			input.value.focus();
-		}
-	});
-};
-
-const toggleHandler = () => {
-	open.value = !open.value;
-	if (showForm.value) {
-		showForm.value = open.value;
-	}
+const selectedHandler = () => {
+	console.log(panel.value?.value);
 };
 </script>
 
 <template>
-	<details
-		v-if="node"
-		:style="{ marginLeft: `${node.parent_id ? indentSize : 0}px` }"
-		class="node"
-		:open="node.parent_id === null ? true : false"
-		@toggle="toggleHandler"
-		ref="details"
-	>
-		<summary :class="['summary', { nomarker: node.children.size === 0 }]">
-			<div class="summary-wrapper">
-				<RouterLink :to="`/admin/group/${node.id}`" class="link">
-					{{ node.name }}
-				</RouterLink>
+	<v-expansion-panel v-if="node" ref="panel" @group:selected="selectedHandler">
+		<v-expansion-panel-title>
+			<RouterLink :to="`/admin/group/${node.id}`" class="link">
+				{{ node.name }}
+			</RouterLink>
 
-				<IrdomPopover
-					style="font-size: 12px"
-					v-id="hasTokenAccess(scopename.auth.group.create) || hasTokenAccess(scopename.auth.group.delete)"
-				>
-					<template #expander>
-						<MaterialIcon name="more_horiz" />
-					</template>
+			<v-menu
+				icon="more_horiz"
+				v-if="hasTokenAccess(scopename.auth.group.create) || hasTokenAccess(scopename.auth.group.delete)"
+			>
+				<template #activator="{ props }">
+					<v-btn icon="md:more_horiz" v-bind="props" variant="text" />
+				</template>
+				<v-list>
+					<v-list-item v-if="hasTokenAccess(scopename.auth.group.create)"> Добавить группу </v-list-item>
+					<v-list-item
+						v-if="node.parent_id && hasTokenAccess(scopename.auth.group.delete)"
+						color="var(--v-theme-error)"
+						@click="deleteGroup(node?.id)"
+					>
+						Удалить
+					</v-list-item>
+				</v-list>
+			</v-menu>
+		</v-expansion-panel-title>
 
-					<ul>
-						<li>
-							<button
-								type="button"
-								v-if="hasTokenAccess(scopename.auth.group.create)"
-								@click="showFormHandler"
-								class="menu-button"
-							>
-								Добавить группу
-							</button>
-						</li>
-						<li v-if="node.parent_id && hasTokenAccess(scopename.auth.group.delete)">
-							<button type="button" @click="deleteGroup(node?.id)" class="menu-button delete">
-								Удалить
-							</button>
-						</li>
-					</ul>
-				</IrdomPopover>
-			</div>
-		</summary>
+		<v-expansion-panel-text>
+			<v-expansion-panels class="list">
+				<GroupTreeNode
+					v-for="child of node.children.values()"
+					:node="child"
+					:indent-size="indentSize"
+					:key="child.id"
+				/>
+			</v-expansion-panels>
 
-		<template v-if="open">
-			<GroupTreeNode
-				v-for="child of node.children.values()"
-				:node="child"
-				:indent-size="indentSize"
-				:key="child.id"
-			/>
-		</template>
-		<form class="form" @submit.prevent="createGroup" v-if="showForm">
-			<MaterialIcon name="add" />
-
-			<label for="new-group-name">
-				name
-				<input type="text" id="new-group-name" name="new-group-name" required ref="input" />
-			</label>
-
-			<button type="submit">
-				<MaterialIcon name="done" />
-			</button>
-		</form>
-	</details>
+			<v-form class="d-flex form" @submit.prevent="createGroup">
+				<v-text-field label="name" name="new-group-name" prepend-icon="md:add" required />
+				<v-btn type="submit" icon="md:done" />
+			</v-form>
+		</v-expansion-panel-text>
+	</v-expansion-panel>
 </template>
 
 <style scoped>
 .form {
-	display: flex;
-	gap: 16px;
-	align-items: center;
-	flex-wrap: wrap;
-	margin-left: 21px;
-}
-
-.form input {
-	padding: 2px 8px;
-}
-
-.form label {
-	display: flex;
-	gap: 4px;
-}
-
-.summary {
-	padding: 8px 16px;
 	gap: 16px;
 }
 
-.summary-wrapper {
-	display: inline-flex;
-	align-items: center;
-	gap: 16px;
-}
-
-.node .node {
-	border-left: 1px solid gray;
-}
-
-.menu-button {
-	padding: 8px 16px;
-	width: 100%;
-	font-size: 16px;
-	text-align: start;
-}
-
-.delete {
-	color: red;
-}
-
-.nomarker::marker {
-	content: '';
+.list {
+	margin-bottom: 12px;
 }
 </style>

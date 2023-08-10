@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { IrdomLayout, ToolbarMenuItem } from '@/components';
+import { ToolbarActionItem, IrdomLayout, ToolbarMenuItem } from '@/components';
 import { LocalStorage, LocalStorageItem } from '@/models';
-import { parseDate, stringifyDate } from '@/utils';
+import { parseDate, stringifyDate, getDateWithDayOffset } from '@/utils';
 import DateNavigation from './DateNavigation.vue';
 import { useRoute, useRouter } from 'vue-router';
 import { computed, ref, watch } from 'vue';
@@ -13,13 +13,13 @@ const router = useRouter();
 const route = useRoute();
 const timetableStore = useTimetableStore();
 
-const toolbarActions = computed(() =>
+const toolbarActions = computed<ToolbarActionItem[]>(() =>
 	(route.params.date as string) === stringifyDate(new Date())
 		? []
 		: [
 				{
 					icon: 'today',
-					href: `/timetable/${stringifyDate(new Date())}`,
+					onClick: () => router.push(`/timetable/${stringifyDate(new Date())}`),
 					ariaLabel: 'Вернуться к сегодняшнему дню',
 				},
 		  ],
@@ -48,13 +48,19 @@ watch(date, () => {
 });
 </script>
 <template>
-	<IrdomLayout title="" :toolbar-actions="toolbarActions" :toolbar-menu="toolbarMenu" style="padding-top: 0">
+	<IrdomLayout
+		title=""
+		:toolbar-actions="toolbarActions"
+		:toolbar-menu="toolbarMenu"
+		:touch="{
+			left: () => router.push(`/timetable/${stringifyDate(getDateWithDayOffset(date, 1))}`),
+			right: () => router.push(`/timetable/${stringifyDate(getDateWithDayOffset(date, -1))}`),
+		}"
+	>
 		<template #toolbar>
 			<CalendarDropdown :date="date" />
 		</template>
-		<template #body>
-			<DateNavigation :date="date" />
-		</template>
+		<DateNavigation :date="date" />
 
 		<Suspense :key="key">
 			<AsyncEventsList :date="date" />

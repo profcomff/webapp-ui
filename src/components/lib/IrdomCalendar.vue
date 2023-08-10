@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { stringifyDate } from '@/utils';
-import MaterialIcon from './MaterialIcon.vue';
 
 const weekdays = ['пн', 'вт', 'ср', 'чт', 'пт', 'сб', 'вс'];
 
@@ -25,19 +24,25 @@ const changeMonthHandler = (offset: number) => {
 <template>
 	<div class="calendar">
 		<div class="controls">
-			<button type="button" class="left" @click="changeMonthHandler(-1)" aria-label="Предыдущий месяц">
-				<MaterialIcon name="arrow_back_ios" />
+			<button type="button" class="left" @click="changeMonthHandler(-1)" aria-label="Предыдущий месяц" v-ripple>
+				<v-icon icon="md:arrow_back_ios" />
 			</button>
 
 			<span class="noselect">
 				{{ modelValue.toLocaleDateString('ru-RU', { month: 'long', year: 'numeric' }) }}
 			</span>
 
-			<button type="button" class="right" @click="changeMonthHandler(1)" aria-label="Следующий месяц">
-				<MaterialIcon name="arrow_forward_ios" />
+			<button type="button" class="right" @click="changeMonthHandler(1)" aria-label="Следующий месяц" v-ripple>
+				<v-icon icon="md:arrow_forward_ios" />
 			</button>
 		</div>
-		<div class="grid">
+		<div
+			class="grid"
+			v-touch="{
+				left: () => changeMonthHandler(1),
+				right: () => changeMonthHandler(-1),
+			}"
+		>
 			<span v-for="weekday of weekdays" class="noselect weekday" :key="weekday">{{ weekday }}</span>
 			<RouterLink
 				v-for="i in getDays(modelValue)"
@@ -47,6 +52,7 @@ const changeMonthHandler = (offset: number) => {
 				:style="{ 'grid-column': i === 1 ? getItemDate(i).getDay() : 'unset' }"
 				:aria-label="getAriaLabel(i)"
 				:key="i"
+				v-ripple
 			>
 				{{ i }}
 			</RouterLink>
@@ -88,10 +94,16 @@ const changeMonthHandler = (offset: number) => {
 	display: flex;
 	justify-content: center;
 	align-items: center;
+	transition: 0.3s ease;
+}
+
+.day:hover {
+	background-color: rgb(var(--v-theme-secondary));
+	opacity: 0.9;
 }
 
 .current {
-	background: var(--color-accent);
+	background: rgb(var(--v-theme-secondary));
 	color: black;
 }
 

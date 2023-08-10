@@ -10,7 +10,7 @@ defineProps<Props>();
 </script>
 
 <template>
-	<div :class="['row', { clickable }]">
+	<div :class="['row', { clickable }]" v-ripple>
 		<div class="slot">
 			<slot />
 		</div>
@@ -36,7 +36,6 @@ defineProps<Props>();
 	gap: 20px;
 	align-items: center;
 	position: relative;
-	transition: background 0.3s;
 	height: 70px;
 
 	&:last-child {
@@ -45,8 +44,13 @@ defineProps<Props>();
 }
 
 .clickable {
-	background: whitesmoke;
+	background: rgb(var(--v-theme-surface-variant));
 	cursor: pointer;
+	transition: ease 0.3s;
+}
+
+.clickable:hover {
+	filter: brightness(90%);
 }
 
 .slot {
@@ -88,7 +92,7 @@ defineProps<Props>();
 
 .title-link:focus-visible {
 	outline: none;
-	color: var(--color-accent);
+	color: rgb(var(--v-theme-secondary));
 }
 
 .title-link::after {

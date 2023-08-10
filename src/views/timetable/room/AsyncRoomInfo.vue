@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { TimetableApi } from '@/api/controllers/TimetableApi';
 import { DataRow } from '@/components';
-import { MaterialIcon } from '@/components/lib';
 import { useTimetableStore } from '@/store';
 import { computed } from 'vue';
 
@@ -31,11 +30,11 @@ const title = computed(() => {
 	<h2 class="h2">{{ room?.name }}</h2>
 
 	<DataRow v-if="room?.building" :title="room.building" class="row">
-		<MaterialIcon name="location_on" />
+		<v-icon icon="md:location_on" />
 	</DataRow>
 
 	<DataRow v-if="room?.direction" :title="title" class="row">
-		<MaterialIcon name="explore" />
+		<v-icon icon="md:explore" />
 	</DataRow>
 </template>
 

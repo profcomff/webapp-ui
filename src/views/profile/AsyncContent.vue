@@ -2,7 +2,6 @@
 import UAParser from 'ua-parser-js';
 
 import { SessionInfo, userSessionApi } from '@/api/auth';
-import { MaterialIcon } from '@/components/lib';
 
 import Apple from '@/assets/logo/Apple.svg';
 import Desktop from '@/assets/logo/Desktop.svg';
@@ -66,48 +65,36 @@ const getIcon = (name: string) => {
 </script>
 
 <template>
-	<div v-for="session of data" :key="session.id" class="card">
-		<div class="wrapper">
-			<div class="">
-				<img :src="getIcon(session.session_name)" alt="" width="64" height="64" />
+	<v-card v-for="{ id, session_name, last_activity, token } of data" :key="id" class="card">
+		<div class="d-flex">
+			<div>
+				<v-img :src="getIcon(session_name)" alt="" width="64" height="64" />
 			</div>
-			<div class="text">
-				<b>{{ formatDevice(session.session_name) }}</b>
-				<p>{{ formatTime(session.last_activity) }}</p>
+			<div>
+				<v-card-title>
+					{{ formatDevice(session_name) }}
+				</v-card-title>
+				<v-card-subtitle>
+					{{ formatTime(last_activity) }}
+				</v-card-subtitle>
 			</div>
 		</div>
 
-		<div>
-			<button type="button" @click="userSessionApi.deleteSession(session.token)">
-				<MaterialIcon name="delete" :size="32" />
-			</button>
-		</div>
-	</div>
+		<v-card-actions>
+			<v-btn @click="userSessionApi.deleteSession(token)">Завершить сессию</v-btn>
+		</v-card-actions>
+	</v-card>
 </template>
-
 <style scoped>
 .card {
-	border-radius: 20px;
-	padding: 20px;
-	box-shadow: 0 0 20px oklch(0 0 0deg / 10%);
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
 	margin-bottom: 20px;
-	background: oklch(100% 0 0deg);
+
+	&:last-child {
+		margin-bottom: 0;
+	}
 }
 
-.card b {
-	font-size: 20px;
-}
-
-.card p {
-	margin-top: 12px;
-}
-
-.wrapper {
-	display: flex;
-	gap: 32px;
-	align-items: center;
+.d-flex {
+	padding: 0.5rem;
 }
 </style>

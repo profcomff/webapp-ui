@@ -3,7 +3,6 @@ import { ServicesApi } from '@/api';
 import { marketingApi } from '@/api/marketing';
 import { ButtonType } from '@/api/models';
 import { CategoryInfo } from '@/api/services';
-import { MaterialIcon } from '@/components/lib';
 import { useAppsStore, useProfileStore } from '@/store';
 import { RouterLink } from 'vue-router';
 
@@ -38,9 +37,10 @@ const sendMarketing = (url: string) => {
 				class="app"
 				:key="id"
 				:aria-disabled="type === ButtonType.Disabled"
+				v-ripple
 			>
 				<img v-if="icon.startsWith('http')" :src="icon" :alt="name" width="400" height="400" class="icon" />
-				<MaterialIcon v-else :name="icon" class="material-icon" :size="sectionType === 'grid3' ? 40 : 24" />
+				<v-icon v-else :icon="`md:${icon}`" class="material-icon" :size="sectionType === 'grid3' ? 40 : 24" />
 
 				<a
 					v-if="type === ButtonType.External"
@@ -132,9 +132,14 @@ const sendMarketing = (url: string) => {
 		align-items: center;
 		padding: 12px 24px;
 		gap: 0.8em;
-		background: oklch(100% 0 0deg);
 		border-radius: 5px;
 		margin-bottom: 10px;
+		background-color: rgb(var(--v-theme-surface-variant));
+		transition: ease 0.3s;
+	}
+
+	& .app:hover {
+		filter: brightness(90%);
 	}
 }
 
