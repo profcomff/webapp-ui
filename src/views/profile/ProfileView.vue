@@ -9,15 +9,17 @@ import { authButtons } from '@/constants';
 import { useRouter } from 'vue-router';
 import { UserdataApi } from '@/api/controllers/UserdataApi';
 import { Userdata } from '@/api/models';
+import { stringify } from 'querystring';
 
 const profileStore = useProfileStore();
 const router = useRouter();
-const userdataCategory: Record<string, Record<string, string>[]> = {};
+let userdataCategory: Record<string, Record<string, string>[]> = {};
 const userdata = ref<Userdata>({ items: [] });
-const userdata_priority: Array<string> = ['Личная информация', 'Учёба', 'Контакты'];
-let sortedUserdataCategories = {};
+const userdataPriority: Array<string> = ['Личная информация', 'Учёба', 'Контакты'];
+const userInfoPriority: Array<string> = ['Фамилия', 'Имя', 'Отчество'];
+let sortedUserdataCategories: string[];
 const userdataLoading = ref(false);
-
+let username = '';
 const toolbarMenu: ToolbarMenuItem[] = [
 	{
 		name: 'Выход',
@@ -57,14 +59,25 @@ onMounted(async () => {
 		}
 		userdataCategory[item['category']].push({ param: item['param'], value: item['value'] });
 	});
+	const beginValue: Record<string, Record<string, string>[]> = {};
 	sortedUserdataCategories = Object.keys(userdataCategory).sort((a, b) => {
-		return userdata_priority.indexOf(a) > userdata_priority.indexOf(b) ? 1 : -1;
+		return userdataPriority.indexOf(a) > userdataPriority.indexOf(b) ? 1 : -1;
 	});
-	sortedUserdataCategories.reduce((key, obj) => {
+	userdataCategory = sortedUserdataCategories.reduce((obj, key: string): Record<string, Record<string, string>[]> => {
 		obj[key] = userdataCategory[key];
 		return obj;
-	}, {})
-	}
+	}, beginValue);
+	userdataCategory['Личная информация'].sort((a, b) => {
+		return userInfoPriority.indexOf(a.param) > userInfoPriority.indexOf(b.param) ? 1 : -1;
+	});
+	let count = 0;
+	userdataCategory['Личная информация'].forEach(item => {
+		if (item.param === 'Имя' || item.param === 'Фамилия' || item.param === 'Отчество') {
+			username += item.value + ' ';
+			++count;
+		}
+	});
+	userdataCategory['Личная информация'].splice(0, count);
 });
 
 const canLinked = computed(() =>
@@ -74,22 +87,29 @@ const canUnlinked = computed(() => authButtons.filter(({ method }) => profileSto
 </script>
 
 <template>
-	<IrdomLayout :toolbar-menu="toolbarMenu" title="Профиль">
+	<IrdomLayout :toolbar-menu="toolbarMenu" title="Профиль" class="personal">
 		<img :src="Placeholder" alt="Аватар" width="400 " height="400" class="avatar" />
+		<section class="user-info">
+			<h1>
+				{{ username }}
+			</h1>
+		</section>
 		<div v-if="userdataLoading">Загрузка...</div>
 		<div v-else class="userdata">
-			<div v-for="category in Object.keys(userdataCategory)" :key="category" class="userdata-category">
-				<h2>
-					{{ sortedUserdataCategories }}
-				</h2>
-				<div v-for="info in userdataCategory[category]" :key="info.id" class="userdata-param">
-					<div>
-						{{ info.param }}
+			<div v-for="category in Object.keys(userdataCategory)" :key="category">
+				<section v-if="userdataCategory[category].length !== 0" class="section">
+					<h2>
+						{{ category }}
+					</h2>
+					<div v-for="info in userdataCategory[category]" :key="info.id" class="userdata-param">
+						<div>
+							{{ info.param }}
+						</div>
+						<h3>
+							{{ info.value }}
+						</h3>
 					</div>
-					<h3>
-						{{ info.value }}
-					</h3>
-				</div>
+				</section>
 			</div>
 		</div>
 
@@ -135,7 +155,6 @@ const canUnlinked = computed(() => authButtons.filter(({ method }) => profileSto
 	width: 100%;
 	max-width: 256px;
 	border-radius: 999px;
-	box-shadow: 0 0 20px oklch(0 0 0deg / 10%);
 	object-fit: cover;
 }
 
@@ -164,5 +183,15 @@ const canUnlinked = computed(() => authButtons.filter(({ method }) => profileSto
 .userdata-param {
 	margin-bottom: 10px;
 	margin-top: 10px;
+}
+
+.user-info {
+	display: inline-block;
+	align-self: center;
+	margin-bottom: 4%;
+}
+
+.personal {
+	height: 50%;
 }
 </style>
