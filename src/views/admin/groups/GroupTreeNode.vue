@@ -4,7 +4,7 @@ import { useAuthStore, useProfileStore } from '@/store';
 import { StoreGroup } from '@/store/auth';
 import { scopename } from '@/models';
 import { ref } from 'vue';
-import { VExpansionPanel } from 'vuetify/lib/components/index.mjs';
+import { VExpansionPanel } from 'vuetify/components';
 
 const props = withDefaults(defineProps<{ node: StoreGroup | null; indentSize?: number }>(), {
 	indentSize: 32,
@@ -54,11 +54,11 @@ const selectedHandler = () => {
 			</RouterLink>
 
 			<v-menu
-				icon="more_horiz"
 				v-if="hasTokenAccess(scopename.auth.group.create) || hasTokenAccess(scopename.auth.group.delete)"
+				icon="more_horiz"
 			>
-				<template #activator="{ props }">
-					<v-btn icon="md:more_horiz" v-bind="props" variant="text" />
+				<template #activator="{ props: menuProps }">
+					<v-btn icon="md:more_horiz" v-bind="menuProps" variant="text" />
 				</template>
 				<v-list>
 					<v-list-item v-if="hasTokenAccess(scopename.auth.group.create)"> Добавить группу </v-list-item>
@@ -77,9 +77,9 @@ const selectedHandler = () => {
 			<v-expansion-panels class="list">
 				<GroupTreeNode
 					v-for="child of node.children.values()"
+					:key="child.id"
 					:node="child"
 					:indent-size="indentSize"
-					:key="child.id"
 				/>
 			</v-expansion-panels>
 

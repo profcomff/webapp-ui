@@ -1,119 +1,119 @@
 name: Тесты и раскатка в тестовую среду
 
 on:
-  push:
-    branches: ["main"]
+    push:
+        branches: ['main']
 
 env:
-  REGISTRY: ghcr.io
-  IMAGE_NAME: ${{ github.repository }}
+    REGISTRY: ghcr.io
+    IMAGE_NAME: ${{ github.repository }}
 
 jobs:
-  test:
-    name: Проверяем стили
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@master
+    test:
+        name: Проверяем стили
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@master
 
-      - uses: pnpm/action-setup@v2
-        with:
-          version: 7.26.3
+            - uses: pnpm/action-setup@v2
+              with:
+                  version: 7.26.3
 
-      - uses: actions/setup-node@v3
-        with:
-          node-version: "18"
-          cache: "pnpm"
+            - uses: actions/setup-node@v3
+              with:
+                  node-version: '18'
+                  cache: 'pnpm'
 
-      - name: Install
-        run: pnpm install
+            - name: Install
+              run: pnpm install
 
-      - name: Check
-        run: pnpm lint && pnpm stylelint
+            - name: Check
+              run: pnpm lint && pnpm stylelint
 
-  test-format:
-    name: Выполняем тесты
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@master
+    test-format:
+        name: Выполняем тесты
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@master
 
-      - uses: pnpm/action-setup@v2
-        with:
-          version: 7.26.3
+            - uses: pnpm/action-setup@v2
+              with:
+                  version: 7.26.3
 
-      - uses: actions/setup-node@v3
-        with:
-          node-version: "18"
-          cache: "pnpm"
+            - uses: actions/setup-node@v3
+              with:
+                  node-version: '18'
+                  cache: 'pnpm'
 
-      - name: Install
-        run: pnpm install
+            - name: Install
+              run: pnpm install
 
-      - name: Check
-        run: pnpm test
+            - name: Check
+              run: pnpm test
 
-  build-test-image:
-    name: Собираем тестовый Docker
-    runs-on: ubuntu-latest
-    needs:
-      - test
-      - test-format
-    permissions:
-      contents: read
-      packages: write
+    build-test-image:
+        name: Собираем тестовый Docker
+        runs-on: ubuntu-latest
+        needs:
+            - test
+            - test-format
+        permissions:
+            contents: read
+            packages: write
 
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@master
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@master
 
-      - name: Log in to the Container registry
-        uses: docker/login-action@v2
-        with:
-          registry: ${{ env.REGISTRY }}
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+            - name: Log in to the Container registry
+              uses: docker/login-action@v2
+              with:
+                  registry: ${{ env.REGISTRY }}
+                  username: ${{ github.actor }}
+                  password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Extract metadata (tags, labels) for Docker
-        id: meta
-        uses: docker/metadata-action@v4
-        with:
-          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
-          tags: |
-            type=raw,value=test,enable=true
+            - name: Extract metadata (tags, labels) for Docker
+              id: meta
+              uses: docker/metadata-action@v4
+              with:
+                  images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+                  tags: |
+                      type=raw,value=test,enable=true
 
-      - name: Build and push Docker image
-        uses: docker/build-push-action@v4
-        with:
-          file: ./deployment/Dockerfile
-          context: .
-          push: true
-          build-args: |
-            BUILD_MODE=testing
-            LAUNCH_MODE=testing
-            APP_VERSION=${{ github.ref_name }}
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
+            - name: Build and push Docker image
+              uses: docker/build-push-action@v4
+              with:
+                  file: ./deployment/Dockerfile
+                  context: .
+                  push: true
+                  build-args: |
+                      BUILD_MODE=testing
+                      LAUNCH_MODE=testing
+                      APP_VERSION=${{ github.ref_name }}
+                  tags: ${{ steps.meta.outputs.tags }}
+                  labels: ${{ steps.meta.outputs.labels }}
 
-  deploy-test:
-    name: Раскатываем тестовый Docker
-    runs-on: [self-hosted, Linux]
-    needs: build-test-image
-    environment:
-      name: Testing
-      url: https://app.test.profcomff.com/
-    env:
-      CONTAINER_NAME: com_profcomff_app_test
-    permissions:
-      packages: read
-    steps:
-      - name: Run docker container
-        run: |
-          docker pull ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:test
-          docker stop ${{ env.CONTAINER_NAME }} || true && docker rm ${{ env.CONTAINER_NAME }} || true
-          docker run \
-            --detach \
-            --restart on-failure:3 \
-            --network=web \
-            --name ${{ env.CONTAINER_NAME }} \
-            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:test
+    deploy-test:
+        name: Раскатываем тестовый Docker
+        runs-on: [self-hosted, Linux]
+        needs: build-test-image
+        environment:
+            name: Testing
+            url: https://app.test.profcomff.com/
+        env:
+            CONTAINER_NAME: com_profcomff_app_test
+        permissions:
+            packages: read
+        steps:
+            - name: Run docker container
+              run: |
+                  docker pull ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:test
+                  docker stop ${{ env.CONTAINER_NAME }} || true && docker rm ${{ env.CONTAINER_NAME }} || true
+                  docker run \
+                    --detach \
+                    --restart on-failure:3 \
+                    --network=web \
+                    --name ${{ env.CONTAINER_NAME }} \
+                    ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:test

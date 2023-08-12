@@ -10,7 +10,7 @@ defineProps<Props>();
 </script>
 
 <template>
-	<div :class="['row', { clickable }]" v-ripple>
+	<div v-ripple :class="['row', { clickable }]">
 		<div class="slot">
 			<slot />
 		</div>

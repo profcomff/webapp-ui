@@ -10,7 +10,9 @@ const props = defineProps<{ date: Date }>();
 const timetableStore = useTimetableStore();
 const groupId = computed(() => timetableStore.group?.id);
 
-if (!timetableStore.days.has(stringifyDate(props.date)) && groupId.value) {
+const date = computed(() => props.date);
+
+if (!timetableStore.days.has(stringifyDate(date.value)) && groupId.value) {
 	await TimetableApi.getDayEvents(props.date, groupId.value);
 }
 
@@ -18,7 +20,7 @@ const events = computed(() => timetableStore.days.get(stringifyDate(props.date))
 </script>
 
 <template>
-	<EventRow v-for="event of events" :event="event" :key="event.id" :info="['room', 'lecturer']" />
+	<EventRow v-for="event of events" :key="event.id" :event="event" :info="['room', 'lecturer']" />
 
 	<span v-if="events?.length === 0" class="empty"> Свободный день! </span>
 </template>

@@ -32,13 +32,13 @@ const clickOutsideHandler = (e: MouseEvent) => {
 
 <template>
 	<button
+		ref="expander"
 		v-ripple
 		type="button"
 		class="expander"
 		:aria-expanded="show"
 		aria-controls="calendar"
 		@click="expanderClickHandler"
-		ref="expander"
 	>
 		<span class="date">
 			{{ date.toLocaleDateString('ru-RU', { day: 'numeric', month: 'long' }) }}
@@ -51,13 +51,13 @@ const clickOutsideHandler = (e: MouseEvent) => {
 		<v-icon icon="md:expand_more" class="expander-icon" />
 	</button>
 	<div
-		:style="{ transform: `scaleY(${+show})` }"
-		class="dropdown"
 		id="calendar"
 		ref="calendar"
 		v-click-outside="clickOutsideHandler"
+		:style="{ transform: `scaleY(${+show})` }"
+		class="dropdown"
 	>
-		<IrdomCalendar :selected="date" v-model="innerDate" />
+		<IrdomCalendar v-model="innerDate" :selected="date" />
 	</div>
 </template>
 

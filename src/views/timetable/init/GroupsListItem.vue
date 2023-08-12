@@ -22,8 +22,8 @@ const setGroup = (group: StudyGroup) => {
 <template>
 	<div class="section">
 		<h3>{{ `${course} курс` }}</h3>
-		<ul class="ul" ref="list">
-			<li class="li" v-for="group of groups" :key="group.id">
+		<ul ref="list" class="ul">
+			<li v-for="group of groups" :key="group.id" class="li">
 				<v-chip @click="setGroup(group)">{{ group.number }}</v-chip>
 			</li>
 		</ul>

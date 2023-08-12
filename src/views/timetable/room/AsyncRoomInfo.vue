@@ -6,9 +6,11 @@ import { computed } from 'vue';
 
 const props = defineProps<{ id: number }>();
 
+const roomId = computed(() => props.id);
+
 const timetableStore = useTimetableStore();
 
-if (!timetableStore.rooms.has(props.id)) {
+if (!timetableStore.rooms.has(roomId.value)) {
 	await TimetableApi.getRoom(props.id);
 }
 

@@ -13,7 +13,7 @@ withDefaults(defineProps<{ scope: string; noFallback?: boolean }>(), {
 	</template>
 
 	<h2 v-else>
-		<slot name="fallback" v-if="!noFallback">
+		<slot v-if="!noFallback" name="fallback">
 			<h2>403 Forbidden</h2>
 		</slot>
 	</h2>
