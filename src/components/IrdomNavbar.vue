@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, Ref } from 'vue';
 
 export interface NavbarItem {
 	name: string;
@@ -11,18 +11,20 @@ const props = defineProps<{
 	items: NavbarItem[];
 }>();
 
-const findFirstIndexOfStringByPrefix = (arr: NavbarItem[], prefix: string) => {
+const findFirstIndexOfStringByPrefix = (arr: NavbarItem[], prefix: string, result: Ref<number | undefined>) => {
 	arr.forEach((ni, i) => {
 		ni.path.forEach(p => {
 			if (prefix.startsWith(p)) {
-				return i;
+				result.value = i;
+				return;
 			}
 		});
 	});
 	return undefined;
 };
 
-const value = ref(findFirstIndexOfStringByPrefix(props.items, window.location.pathname));
+const value = ref(undefined);
+findFirstIndexOfStringByPrefix(props.items, window.location.pathname, value);
 </script>
 
 <template>
