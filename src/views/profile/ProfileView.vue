@@ -1,25 +1,23 @@
 <script setup lang="ts">
 import { IrdomLayout, ToolbarMenuItem, IrdomAuthButton, TelegramButton } from '@/components';
 import { useProfileStore } from '@/store';
-import { onMounted, computed, ref, capitalize } from 'vue';
+import { onMounted, computed, ref } from 'vue';
 import Placeholder from '@/assets/profile_image_placeholder.webp';
 import { AuthApi } from '@/api';
 import { AuthMethod, MySessionInfo } from '@/api/auth';
 import { authButtons } from '@/constants';
 import { useRouter } from 'vue-router';
 import { UserdataApi } from '@/api/controllers/UserdataApi';
-import { Userdata } from '@/api/models';
-import { stringify } from 'querystring';
+import { UserdataConverter } from '@/utils';
+import { UserdataArray } from '@/models';
 
 const profileStore = useProfileStore();
 const router = useRouter();
-let userdataCategory: Record<string, Record<string, string>[]> = {};
-const userdata = ref<Userdata>({ items: [] });
-const userdataPriority: Array<string> = ['Личная информация', 'Учёба', 'Контакты'];
-const userInfoPriority: Array<string> = ['Фамилия', 'Имя', 'Отчество'];
-let sortedUserdataCategories: string[];
+
+const userdata = ref<UserdataArray>([]);
 const userdataLoading = ref(false);
-let username = '';
+const fullName = ref('');
+
 const toolbarMenu: ToolbarMenuItem[] = [
 	{
 		name: 'Выход',
@@ -50,34 +48,11 @@ onMounted(async () => {
 	]);
 
 	const { data } = await UserdataApi.getUser(me.id);
-	userdata.value = data;
-	userdataLoading.value = false;
 
-	userdata.value.items.forEach(item => {
-		if (!userdataCategory[item['category']]) {
-			userdataCategory[item['category']] = [];
-		}
-		userdataCategory[item['category']].push({ param: item['param'], value: item['value'] });
-	});
-	const beginValue: Record<string, Record<string, string>[]> = {};
-	sortedUserdataCategories = Object.keys(userdataCategory).sort((a, b) => {
-		return userdataPriority.indexOf(a) > userdataPriority.indexOf(b) ? 1 : -1;
-	});
-	userdataCategory = sortedUserdataCategories.reduce((obj, key: string): Record<string, Record<string, string>[]> => {
-		obj[key] = userdataCategory[key];
-		return obj;
-	}, beginValue);
-	userdataCategory['Личная информация'].sort((a, b) => {
-		return userInfoPriority.indexOf(a.param) > userInfoPriority.indexOf(b.param) ? 1 : -1;
-	});
-	let count = 0;
-	userdataCategory['Личная информация'].forEach(item => {
-		if (item.param === 'Имя' || item.param === 'Фамилия' || item.param === 'Отчество') {
-			username += item.value + ' ';
-			++count;
-		}
-	});
-	userdataCategory['Личная информация'].splice(0, count);
+	userdata.value = UserdataConverter.flatToArray(data);
+	fullName.value = UserdataConverter.getFullName(data);
+
+	userdataLoading.value = false;
 });
 
 const canLinked = computed(() =>
@@ -91,29 +66,29 @@ const canUnlinked = computed(() => authButtons.filter(({ method }) => profileSto
 		<img :src="Placeholder" alt="Аватар" width="400 " height="400" class="avatar" />
 		<section class="user-info">
 			<h1>
-				{{ username }}
+				{{ fullName }}
 			</h1>
 		</section>
 		<div v-if="userdataLoading">Загрузка...</div>
 		<div v-else class="userdata">
-			<div v-for="category in Object.keys(userdataCategory)" :key="category">
-				<section v-if="userdataCategory[category].length !== 0" class="section">
+			<div v-for="{ name, data } of userdata" :key="name">
+				<section class="section">
 					<h2>
-						{{ category }}
+						{{ name }}
 					</h2>
-					<div v-for="info in userdataCategory[category]" :key="info.id" class="userdata-param">
+					<div v-for="{ param, value } of data" :key="param" class="userdata-param">
 						<div>
-							{{ info.param }}
+							{{ param }}
 						</div>
 						<h3>
-							{{ info.value }}
+							{{ value }}
 						</h3>
 					</div>
 				</section>
 			</div>
 		</div>
 
-		<section class="section" v-if="profileStore.authMethods?.length !== 8">
+		<section v-if="profileStore.authMethods?.length !== 8" class="section">
 			<h2>Привязать аккаунт</h2>
 			<div class="buttons">
 				<IrdomAuthButton v-for="button of canLinked" :key="button.method" :button="button" />
@@ -131,22 +106,6 @@ const canUnlinked = computed(() => authButtons.filter(({ method }) => profileSto
 </template>
 
 <style scoped>
-.li {
-	list-style-position: inside;
-
-	&::marker {
-		content: '- ';
-	}
-}
-
-.ul {
-	margin-bottom: 20px;
-
-	&:last-child {
-		margin-bottom: 0;
-	}
-}
-
 .avatar {
 	align-self: center;
 	margin-bottom: 16px;

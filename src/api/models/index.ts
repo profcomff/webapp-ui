@@ -114,6 +114,12 @@ export interface UserdataParam extends Entity {
 	category_id: number;
 }
 
-export interface Userdata {
-	items: Array<Record<string, string>>;
+export interface UserdataRawItem {
+	category: string;
+	param: string;
+	value: string;
+}
+
+export interface UserdataRaw {
+	items: UserdataRawItem[];
 }
