@@ -14,9 +14,17 @@ import Tablet from '@/assets/logo/Tablet.svg';
 import Ipad from '@/assets/logo/Ipad.svg';
 import Iphone from '@/assets/logo/Iphone.svg';
 import Yandex from '@/assets/logo/Yandex.svg';
+import { AuthApi } from '@/api';
+import { computed, ref } from 'vue';
 
-const { data } = await userSessionApi.getSessions<SessionInfo.Token>([SessionInfo.Token]);
-data.sort((a, b) => +new Date(b.last_activity) - +new Date(a.last_activity));
+const { data } = await AuthApi.getSessions([SessionInfo.Token]);
+const sessions = ref<Map<string, typeof data extends Array<infer X> ? X : never>>(new Map());
+data.forEach(session => {
+	sessions.value.set(session.token, session);
+});
+const sortedSessions = computed(() =>
+	Array.from(sessions.value.values()).sort((a, b) => +new Date(b.last_activity) - +new Date(a.last_activity)),
+);
 
 const formatTime = (date: string) => {
 	const d = new Date(date);
@@ -62,10 +70,15 @@ const getIcon = (name: string) => {
 	if (browser?.includes('yandex')) return Yandex;
 	return Desktop;
 };
+
+const deleteHandler = async (token: string) => {
+	sessions.value.delete(token);
+	await userSessionApi.deleteSession(token);
+};
 </script>
 
 <template>
-	<v-card v-for="{ id, session_name, last_activity, token } of data" :key="id" class="card">
+	<v-card v-for="{ id, session_name, last_activity, token } of sortedSessions" :key="id" class="card">
 		<div class="d-flex">
 			<div>
 				<v-img :src="getIcon(session_name)" alt="" width="64" height="64" />
@@ -81,7 +94,7 @@ const getIcon = (name: string) => {
 		</div>
 
 		<v-card-actions>
-			<v-btn @click="userSessionApi.deleteSession(token)">Завершить сессию</v-btn>
+			<v-btn @click="deleteHandler(token)">Завершить сессию</v-btn>
 		</v-card-actions>
 	</v-card>
 </template>

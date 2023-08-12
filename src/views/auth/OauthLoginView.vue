@@ -56,6 +56,10 @@ onMounted(async () => {
 			return router.replace({ path: '/auth/error', query: { text: 'Выбран неверный аккаунт' } });
 		}
 
+		if (e.response && e.response.status === 409) {
+			return router.replace({ path: '/auth/error', query: { text: 'Аккаунт с такими данными уже существуют' } });
+		}
+
 		return router.replace({ path: '/auth/error', query: { text: 'Непредвиденная ошибка' } });
 	}
 });
