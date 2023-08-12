@@ -12,10 +12,10 @@ const tomorrow = computed(() => getDateWithDayOffset(props.date, 1));
 	<nav class="nav" aria-label="Навигация по дням">
 		<div class="wrapper">
 			<RouterLink
+				v-ripple
 				:to="`/timetable/${stringifyDate(yestarday)}`"
 				class="noselect button left"
 				:aria-label="getWeekdayName(yestarday, 'long')"
-				v-ripple
 			>
 				<v-icon icon="md:arrow_back_ios" />
 				<span>{{ getWeekdayName(yestarday) }}</span>
@@ -24,10 +24,10 @@ const tomorrow = computed(() => getDateWithDayOffset(props.date, 1));
 			<span class="noselect today">{{ getWeekdayName(date, 'long') }}</span>
 
 			<RouterLink
+				v-ripple
 				:to="`/timetable/${stringifyDate(tomorrow)}`"
 				class="noselect button right"
 				:aria-label="getWeekdayName(tomorrow)"
-				v-ripple
 			>
 				<span>{{ getWeekdayName(tomorrow) }}</span>
 				<v-icon icon="md:arrow_forward_ios" class="right-icon" />

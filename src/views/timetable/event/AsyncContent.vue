@@ -9,7 +9,9 @@ const props = defineProps<{ id: number }>();
 
 const timetableStore = useTimetableStore();
 
-if (!timetableStore.events.has(props.id)) {
+const eventId = computed(() => props.id);
+
+if (!timetableStore.events.has(eventId.value)) {
 	await TimetableApi.getEvent(props.id);
 }
 
@@ -78,24 +80,24 @@ const lecturers = computed(() => {
 	</DataRow>
 
 	<DataRow
-		v-for="{ name, id } of event?.room"
+		v-for="{ name, id: roomId } of event?.room"
+		:key="roomId"
 		:title="name"
 		class="row"
-		:href="`/timetable/room/${id}`"
-		:key="id"
+		:href="`/timetable/room/${roomId}`"
 		clickable
 	>
 		<v-icon icon="md:location_on" />
 	</DataRow>
 
 	<DataRow
-		v-for="{ id, info, title } of lecturers"
+		v-for="{ id: lecturerId, info, title } of lecturers"
+		:key="lecturerId"
 		:title="title"
-		:href="`/timetable/lecturer/${id}`"
+		:href="`/timetable/lecturer/${lecturerId}`"
 		:info="info"
 		class="row"
 		clickable
-		:key="id"
 	>
 		<v-icon icon="md:person" />
 	</DataRow>

@@ -39,8 +39,8 @@ async function handleAccept() {
 	<IrdomLayout title="Вход" backable back="/auth">
 		<p>Вы еще не совершали вход в приложение с этим аккаунтом. Создать новый профиль?</p>
 		<div class="btns">
-			<v-btn type="button" @click="router.push('/auth')" class="no">Нет</v-btn>
-			<v-btn type="button" @click="handleAccept" class="yes">Да</v-btn>
+			<v-btn type="button" class="no" @click="router.push('/auth')">Нет</v-btn>
+			<v-btn type="button" class="yes" @click="handleAccept">Да</v-btn>
 		</div>
 	</IrdomLayout>
 </template>

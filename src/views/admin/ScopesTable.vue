@@ -28,7 +28,7 @@ const sorted = computed(() => [...props.scopes].sort((a, b) => (a.name > b.name 
 				<td>{{ name }}</td>
 				<td>{{ comment }}</td>
 				<td>
-					<v-btn type="button" @click="$emit('delete', id)" icon="md:delete_forever" variant="text" />
+					<v-btn type="button" icon="md:delete_forever" variant="text" @click="$emit('delete', id)" />
 				</td>
 			</tr>
 		</tbody>

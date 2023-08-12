@@ -32,14 +32,14 @@ const sendMarketing = (e: Event) => {
 
 		<v-responsive class="align-self-center" width="344">
 			<v-text-field
-				type="text"
 				v-model="query"
+				type="text"
 				label="Номер группы"
 				placeholder="Введите номер группы"
 				inputmode="numeric"
 				class="align-self-center input"
-				@change.once="sendMarketing"
 				max-width="344"
+				@change.once="sendMarketing"
 			/>
 		</v-responsive>
 

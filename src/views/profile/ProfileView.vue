@@ -49,7 +49,7 @@ const canUnlinked = computed(() => authButtons.filter(({ method }) => profileSto
 	<IrdomLayout :toolbar-menu="toolbarMenu" title="Профиль">
 		<img :src="Placeholder" alt="Аватар" width="400 " height="400" class="avatar" />
 
-		<section class="section" v-if="profileStore.authMethods?.length !== 8">
+		<section v-if="profileStore.authMethods?.length !== 8" class="section">
 			<h2>Привязать аккаунт</h2>
 			<div class="buttons">
 				<IrdomAuthButton v-for="button of canLinked" :key="button.method" :button="button" />

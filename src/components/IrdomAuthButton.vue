@@ -35,7 +35,7 @@ const clickHandler = async () => {
 </script>
 
 <template>
-	<v-btn type="button" @click="clickHandler" :color="button.color">
+	<v-btn type="button" :color="button.color" @click="clickHandler">
 		<svg width="24" height="24" class="icon">
 			<use :xlink:href="button.icon"></use>
 		</svg>

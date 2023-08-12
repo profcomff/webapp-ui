@@ -66,15 +66,15 @@ const addScope = async (e: Event) => {
 			/>
 		</AccessAllowed>
 
-		<form @submit.prevent="addScope" class="form" v-if="hasTokenAccess(scopename.auth.group.update)">
+		<form v-if="hasTokenAccess(scopename.auth.group.update)" class="form" @submit.prevent="addScope">
 			<v-icon icon="md:add" />
 
 			<label for="id">
 				id
-				<input type="text" id="id" name="id" autocomplete="off" required list="scope-names" />
+				<input id="id" type="text" name="id" autocomplete="off" required list="scope-names" />
 
 				<datalist id="scope-names">
-					<option v-for="{ id, name } of authStore.scopes.values()" :value="id" :key="id">
+					<option v-for="{ id, name } of authStore.scopes.values()" :key="id" :value="id">
 						{{ name }}
 					</option>
 				</datalist>

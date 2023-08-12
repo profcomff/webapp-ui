@@ -24,7 +24,7 @@ const changeMonthHandler = (offset: number) => {
 <template>
 	<div class="calendar">
 		<div class="controls">
-			<button type="button" class="left" @click="changeMonthHandler(-1)" aria-label="Предыдущий месяц" v-ripple>
+			<button v-ripple type="button" class="left" aria-label="Предыдущий месяц" @click="changeMonthHandler(-1)">
 				<v-icon icon="md:arrow_back_ios" />
 			</button>
 
@@ -32,27 +32,27 @@ const changeMonthHandler = (offset: number) => {
 				{{ modelValue.toLocaleDateString('ru-RU', { month: 'long', year: 'numeric' }) }}
 			</span>
 
-			<button type="button" class="right" @click="changeMonthHandler(1)" aria-label="Следующий месяц" v-ripple>
+			<button v-ripple type="button" class="right" aria-label="Следующий месяц" @click="changeMonthHandler(1)">
 				<v-icon icon="md:arrow_forward_ios" />
 			</button>
 		</div>
 		<div
-			class="grid"
 			v-touch="{
 				left: () => changeMonthHandler(1),
 				right: () => changeMonthHandler(-1),
 			}"
+			class="grid"
 		>
-			<span v-for="weekday of weekdays" class="noselect weekday" :key="weekday">{{ weekday }}</span>
+			<span v-for="weekday of weekdays" :key="weekday" class="noselect weekday">{{ weekday }}</span>
 			<RouterLink
 				v-for="i in getDays(modelValue)"
+				:key="i"
+				v-ripple
 				class="day"
 				:to="`/timetable/${getItemStringDate(i)}`"
 				:class="['day', { current: isCurrent(i), today: isToday(i) && !isCurrent(i) }]"
 				:style="{ 'grid-column': i === 1 ? getItemDate(i).getDay() : 'unset' }"
 				:aria-label="getAriaLabel(i)"
-				:key="i"
-				v-ripple
 			>
 				{{ i }}
 			</RouterLink>

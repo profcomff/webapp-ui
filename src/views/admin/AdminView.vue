@@ -18,7 +18,7 @@ const copyToken = () => {
 	<IrdomLayout title="Админка">
 		<div class="info">
 			<p>Ваш id: {{ profileStore.id }}</p>
-			<v-btn type="button" @click="copyToken" append-icon="md:content_copy">Скопировать токен</v-btn>
+			<v-btn type="button" append-icon="md:content_copy" @click="copyToken">Скопировать токен</v-btn>
 		</div>
 		<RouterLink to="/admin/groups" class="link">Группы пользователей</RouterLink>
 

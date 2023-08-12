@@ -22,13 +22,13 @@ const sorted = computed(() => [...props.users].sort((a, b) => a.id - b.id));
 			</tr>
 		</thead>
 		<tbody>
-			<tr v-for="{ id, email } of sorted" class="row" :key="id">
+			<tr v-for="{ id, email } of sorted" :key="id" class="row">
 				<td>
 					<RouterLink :to="`/profile/${id}`" class="link">{{ id }}</RouterLink>
 				</td>
 				<td>{{ email }}</td>
 				<td>
-					<v-btn type="button" @click="$emit('delete', id)" icon="md:delete_forever" variant="text" />
+					<v-btn type="button" icon="md:delete_forever" variant="text" @click="$emit('delete', id)" />
 				</td>
 			</tr>
 		</tbody>

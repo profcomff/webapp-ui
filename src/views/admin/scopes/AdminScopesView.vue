@@ -49,11 +49,11 @@ const createScope = async (e: Event) => {
 			<ScopesTable
 				:scopes="authStore.scopes.values()"
 				delete-icon="delete_forever"
-				@delete="deleteScope"
 				style="width: 100%"
 				class="table"
+				@delete="deleteScope"
 			/>
-			<v-form @submit.prevent="createScope" class="d-flex form">
+			<v-form class="d-flex form" @submit.prevent="createScope">
 				<v-text-field name="name" autocomplete="off" label="name" prepend-icon="md:add" required />
 				<v-text-field label="comment" name="comment" autocomplete="off" />
 

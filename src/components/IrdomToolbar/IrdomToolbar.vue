@@ -23,6 +23,7 @@ const props = withDefaults(defineProps<Props>(), {
 	actions: () => [],
 	share: false,
 	backable: false,
+	back: undefined,
 });
 
 const data = {
@@ -52,7 +53,7 @@ const onBack = () => {
 <template>
 	<v-app-bar class="overflow-visible" elevation="4">
 		<template #prepend>
-			<v-btn icon="md:arrow_back" color="white" @click="onBack" v-if="backable" />
+			<v-btn v-if="backable" icon="md:arrow_back" color="white" @click="onBack" />
 			<slot />
 		</template>
 		<v-app-bar-title v-if="title !== ''">
@@ -62,20 +63,20 @@ const onBack = () => {
 			<v-btn
 				v-for="{ icon, onClick } in actions"
 				:key="icon"
-				@click="onClick"
 				:icon="`md:${icon}`"
 				color="white"
+				@click="onClick"
 			/>
 			<v-btn
-				@click="shareHandler"
-				aria-label="Поделиться"
 				v-if="share && canShare"
+				aria-label="Поделиться"
 				color="white"
 				icon="md:share"
+				@click="shareHandler"
 			/>
 			<v-menu v-if="menuItems.length > 0">
-				<template #activator="{ props }">
-					<v-btn icon="md:more_vert" v-bind="props" color="white" />
+				<template #activator="{ props: menuProps }">
+					<v-btn icon="md:more_vert" v-bind="menuProps" color="white" />
 				</template>
 				<v-list>
 					<v-list-item v-for="{ name, onClick } of menuItems" :key="name" @click="onClick">

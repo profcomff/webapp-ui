@@ -8,7 +8,9 @@ const props = defineProps<{ id: number }>();
 
 const timetableStore = useTimetableStore();
 
-if (!timetableStore.rooms.get(props.id)?.schedule) {
+const roomId = computed(() => props.id);
+
+if (!timetableStore.rooms.get(roomId.value)?.schedule) {
 	await TimetableApi.getRoomEvents(props.id);
 }
 
@@ -16,6 +18,6 @@ const events = computed(() => timetableStore.rooms.get(props.id)?.schedule);
 </script>
 
 <template>
-	<EventRow v-for="event of events?.values()" :event="event" :key="event.id" :info="['lecturer', 'group']" />
+	<EventRow v-for="event of events?.values()" :key="event.id" :event="event" :info="['lecturer', 'group']" />
 	<span v-if="!events?.size">В аудитории нет пар</span>
 </template>
