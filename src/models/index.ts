@@ -31,7 +31,7 @@ export type UserdataArray = UserdataArrayItem[];
 
 export enum UserdataCategoryName {
 	PersonalInfo = 'Личная информация',
-	Study = 'Учеба',
+	Study = 'Учёба',
 	Contacts = 'Контакты',
 }
 

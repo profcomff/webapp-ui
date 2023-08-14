@@ -48,9 +48,8 @@ onMounted(async () => {
 	]);
 
 	const { data } = await UserdataApi.getUser(me.id);
-
-	userdata.value = UserdataConverter.flatToArray(data);
 	fullName.value = UserdataConverter.getFullName(data);
+	userdata.value = UserdataConverter.flatToArray(data);
 
 	userdataLoading.value = false;
 });
@@ -62,32 +61,31 @@ const canUnlinked = computed(() => authButtons.filter(({ method }) => profileSto
 </script>
 
 <template>
-	<IrdomLayout :toolbar-menu="toolbarMenu" title="Профиль" class="personal">
+	<IrdomLayout :toolbar-menu="toolbarMenu" title="Профиль" class-name="profile-toolbar">
 		<img :src="Placeholder" alt="Аватар" width="400 " height="400" class="avatar" />
-		<section class="user-info">
-			<h1>
-				{{ fullName }}
-			</h1>
-		</section>
-		<div v-if="userdataLoading">Загрузка...</div>
-		<div v-else class="userdata">
-			<div v-for="{ name, data } of userdata" :key="name">
-				<section class="section">
-					<h2>
+
+		<span class="user-name">
+			{{ fullName }}
+		</span>
+		<section class="section">
+			<h2>Основная информация</h2>
+			<div v-if="userdataLoading">Загрузка...</div>
+			<div v-else>
+				<div v-for="{ name, data } of userdata" :key="name" class="userdata-section">
+					<div class="userdata-category">
 						{{ name }}
-					</h2>
-					<div v-for="{ param, value } of data" :key="param" class="userdata-param">
-						<div>
+					</div>
+					<div v-for="{ param, value } of data" :key="param">
+						<div class="userdata-param">
 							{{ param }}
 						</div>
-						<h3>
+						<div class="userdata-value">
 							{{ value }}
-						</h3>
+						</div>
 					</div>
-				</section>
+				</div>
 			</div>
-		</div>
-
+		</section>
 		<section v-if="profileStore.authMethods?.length !== 8" class="section">
 			<h2>Привязать аккаунт</h2>
 			<div class="buttons">
@@ -112,9 +110,11 @@ const canUnlinked = computed(() => authButtons.filter(({ method }) => profileSto
 	aspect-ratio: 1;
 	height: auto;
 	width: 100%;
-	max-width: 256px;
+	max-width: 161px;
 	border-radius: 999px;
 	object-fit: cover;
+	position: relative;
+	z-index: 2;
 }
 
 .buttons {
@@ -131,26 +131,62 @@ const canUnlinked = computed(() => authButtons.filter(({ method }) => profileSto
 	}
 }
 
-.userdata {
-	margin-left: 100px;
+.userdata-section {
+	margin-left: 12px;
 }
 
 .userdata-category {
-	margin-bottom: 3%;
+	color: var(--m-3-sys-light-outline, #79747e);
+	font-size: 14px;
+	font-weight: 900;
+	line-height: 16px; /* 114.286% */
+	letter-spacing: 0.5px;
+	margin-top: 11px;
+
+	&:not(:last-child) {
+		margin-bottom: 11px;
+	}
 }
 
 .userdata-param {
-	margin-bottom: 10px;
-	margin-top: 10px;
+	margin-left: 11px;
+	margin-bottom: 5px;
+	color: var(--m-3-sys-light-outline, #79747e);
+	font-size: 12px;
+	font-weight: 500;
+	line-height: 16px;
+	letter-spacing: 0.5px;
 }
 
-.user-info {
+.userdata-value {
+	margin-left: 11px;
+	margin-bottom: 16px;
+	color: var(--m-3-sys-light-on-surface, #1c1b1f);
+	font-size: 16px;
+	font-weight: 400;
+	line-height: 24px;
+	letter-spacing: 0.5px;
+}
+
+.user-name {
+	margin-bottom: 32px;
 	display: inline-block;
 	align-self: center;
-	margin-bottom: 4%;
+	color: #000;
+	font-kerning: none;
+	font-size: 32px;
+	font-weight: 700;
+	line-height: 20px;
+	letter-spacing: 0.1px;
 }
 
-.personal {
-	height: 50%;
+.info {
+	margin-bottom: 30px;
+	margin-top: 50px;
+	color: #000;
+	font-size: 20px;
+	font-weight: 600;
+	line-height: 16px; /* 80% */
+	letter-spacing: 0.5px;
 }
 </style>

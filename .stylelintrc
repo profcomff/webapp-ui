@@ -5,8 +5,9 @@
 		"value-no-vendor-prefix": null,
 		"function-disallowed-list": ["rgba", "hsla", "hsl"],
 		"color-function-notation": "modern",
-		"color-no-hex": true,
+		"color-no-hex": null,
 		"selector-nested-pattern": "^&",
-		"no-descending-specificity": null
+		"no-descending-specificity": null,
+		"selector-class-pattern": null 
 	}
 }

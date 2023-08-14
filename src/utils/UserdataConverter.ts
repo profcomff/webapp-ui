@@ -19,6 +19,8 @@ const userdataConfig: Partial<UserdataConfig> = {
 };
 
 export class UserdataConverter {
+	public static hasFullName: boolean = false;
+
 	public static flatToTree(flat: UserdataRaw): UserdataTree {
 		return flat.items.reduce((acc, item) => {
 			if (!acc.has(item.category)) {
@@ -51,8 +53,16 @@ export class UserdataConverter {
 
 	public static treeToArray(tree: UserdataTree): UserdataArray {
 		const res: UserdataArray = [];
-
+		const name = [UserdataParamName.Name, UserdataParamName.Surname, UserdataParamName.Patronymic];
 		for (const [category, sheet] of tree.entries()) {
+			for (const param of sheet.keys()) {
+				if (UserdataConverter.hasFullName && name.includes(param as UserdataParamName)) {
+					sheet.delete(param);
+				}
+			}
+			if (sheet.size === 0) {
+				continue;
+			}
 			res.push(UserdataConverter.sheetToItem(category, sheet));
 		}
 
@@ -79,7 +89,7 @@ export class UserdataConverter {
 		if (!name && !surname && !patronymic) {
 			return '[object Object]';
 		}
-
+		UserdataConverter.hasFullName = true;
 		return `${surname} ${name} ${patronymic}`.trim();
 	}
 }
