@@ -1,15 +1,22 @@
 <script setup lang="ts">
 import { IrdomLayout, ToolbarMenuItem, IrdomAuthButton, TelegramButton } from '@/components';
 import { useProfileStore } from '@/store';
-import { onMounted, computed } from 'vue';
+import { onMounted, computed, ref } from 'vue';
 import Placeholder from '@/assets/profile_image_placeholder.webp';
 import { AuthApi } from '@/api';
 import { AuthMethod, MySessionInfo } from '@/api/auth';
 import { authButtons } from '@/constants';
 import { useRouter } from 'vue-router';
+import { UserdataApi } from '@/api/controllers/UserdataApi';
+import { UserdataConverter } from '@/utils';
+import { UserdataArray } from '@/models';
 
 const profileStore = useProfileStore();
 const router = useRouter();
+
+const userdata = ref<UserdataArray>([]);
+const userdataLoading = ref(false);
+const fullName = ref('');
 
 const toolbarMenu: ToolbarMenuItem[] = [
 	{
@@ -30,13 +37,21 @@ onMounted(async () => {
 		profileStore.updateToken(history.state.token);
 		delete history.state.token;
 	}
-	await AuthApi.getMe([
+
+	userdataLoading.value = true;
+	const { data: me } = await AuthApi.getMe([
 		MySessionInfo.AuthMethods,
 		MySessionInfo.Groups,
 		MySessionInfo.IndirectGroups,
 		MySessionInfo.SessionScopes,
 		MySessionInfo.UserScopes,
 	]);
+
+	const { data } = await UserdataApi.getUser(me.id);
+	fullName.value = UserdataConverter.getFullName(data);
+	userdata.value = UserdataConverter.flatToArray(data);
+
+	userdataLoading.value = false;
 });
 
 const canLinked = computed(() =>
@@ -46,9 +61,31 @@ const canUnlinked = computed(() => authButtons.filter(({ method }) => profileSto
 </script>
 
 <template>
-	<IrdomLayout :toolbar-menu="toolbarMenu" title="Профиль">
+	<IrdomLayout :toolbar-menu="toolbarMenu" title="Профиль" class-name="profile-toolbar">
 		<img :src="Placeholder" alt="Аватар" width="400 " height="400" class="avatar" />
 
+		<span class="user-name">
+			{{ fullName }}
+		</span>
+		<section class="section">
+			<h2>Основная информация</h2>
+			<div v-if="userdataLoading">Загрузка...</div>
+			<div v-else>
+				<div v-for="{ name, data } of userdata" :key="name" class="userdata-section">
+					<div class="userdata-category">
+						{{ name }}
+					</div>
+					<div v-for="{ param, value } of data" :key="param">
+						<div class="userdata-param">
+							{{ param }}
+						</div>
+						<div class="userdata-value">
+							{{ value }}
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
 		<section v-if="profileStore.authMethods?.length !== 8" class="section">
 			<h2>Привязать аккаунт</h2>
 			<div class="buttons">
@@ -67,32 +104,17 @@ const canUnlinked = computed(() => authButtons.filter(({ method }) => profileSto
 </template>
 
 <style scoped>
-.li {
-	list-style-position: inside;
-
-	&::marker {
-		content: '- ';
-	}
-}
-
-.ul {
-	margin-bottom: 20px;
-
-	&:last-child {
-		margin-bottom: 0;
-	}
-}
-
 .avatar {
 	align-self: center;
 	margin-bottom: 16px;
 	aspect-ratio: 1;
 	height: auto;
 	width: 100%;
-	max-width: 256px;
+	max-width: 161px;
 	border-radius: 999px;
-	box-shadow: 0 0 20px oklch(0 0 0deg / 10%);
 	object-fit: cover;
+	position: relative;
+	z-index: 2;
 }
 
 .buttons {
@@ -107,5 +129,64 @@ const canUnlinked = computed(() => authButtons.filter(({ method }) => profileSto
 	& h2 {
 		margin-bottom: 20px;
 	}
+}
+
+.userdata-section {
+	margin-left: 12px;
+}
+
+.userdata-category {
+	color: var(--m-3-sys-light-outline, #79747e);
+	font-size: 14px;
+	font-weight: 900;
+	line-height: 16px; /* 114.286% */
+	letter-spacing: 0.5px;
+	margin-top: 11px;
+
+	&:not(:last-child) {
+		margin-bottom: 11px;
+	}
+}
+
+.userdata-param {
+	margin-left: 11px;
+	margin-bottom: 5px;
+	color: var(--m-3-sys-light-outline, #79747e);
+	font-size: 12px;
+	font-weight: 500;
+	line-height: 16px;
+	letter-spacing: 0.5px;
+}
+
+.userdata-value {
+	margin-left: 11px;
+	margin-bottom: 16px;
+	color: var(--m-3-sys-light-on-surface, #1c1b1f);
+	font-size: 16px;
+	font-weight: 400;
+	line-height: 24px;
+	letter-spacing: 0.5px;
+}
+
+.user-name {
+	margin-bottom: 32px;
+	display: inline-block;
+	align-self: center;
+	color: #000;
+	font-kerning: none;
+	font-size: 32px;
+	font-weight: 700;
+	line-height: 20px;
+	letter-spacing: 0.1px;
+}
+
+.info {
+	margin-bottom: 30px;
+	margin-top: 50px;
+	color: #000;
+	font-size: 20px;
+	font-weight: 600;
+	line-height: 16px; /* 80% */
+	letter-spacing: 0.5px;
 }
 </style>

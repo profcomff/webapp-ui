@@ -113,3 +113,13 @@ export interface UserdataParam extends Entity {
 	type: UserdataParamResponseType;
 	category_id: number;
 }
+
+export interface UserdataRawItem {
+	category: string;
+	param: string;
+	value: string;
+}
+
+export interface UserdataRaw {
+	items: UserdataRawItem[];
+}
