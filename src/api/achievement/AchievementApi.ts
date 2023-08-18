@@ -4,12 +4,16 @@ interface AchievementCreate {
 	name: string;
 	description: string;
 }
+interface Reciever {
+	user_id: number;
+}
 export interface AchievementGet {
 	id: number;
 	name: string;
 	description: string;
 	picture: string | undefined;
 	owner_user_id: number;
+	recievers: Reciever[] | undefined;
 }
 interface AchievementEdit {
 	name: string | undefined;
@@ -35,7 +39,7 @@ class AchievementApi extends BaseApi {
 	}
 
 	public async edit(id: number, name: string | undefined, description: string | undefined) {
-		return this.post<AchievementGet, AchievementEdit>(`/achievement/${id}`, { name, description });
+		return this.patch<AchievementGet, AchievementEdit>(`/achievement/${id}`, { name, description });
 	}
 
 	public async getAll() {
@@ -46,8 +50,24 @@ class AchievementApi extends BaseApi {
 		return this.get<AchievementGet>(`/achievement/${id}`);
 	}
 
+	public async getRecievers(id: number) {
+		return this.get<AchievementGet>(`/achievement/${id}/reciever`);
+	}
+
+	public async revoke(user_id: number, achievement_id: number) {
+		return this.delete<AchievementGet>(`/achievement/${achievement_id}/reciever/${user_id}`);
+	}
+
+	public async give(user_id: number, achievement_id: number) {
+		return this.post<AchievementGet>(`/achievement/${achievement_id}/reciever/${user_id}`);
+	}
+
 	public async getUser(id: number) {
 		return this.get<UserAchievementsGet>(`/user/${id}`);
+	}
+
+	public getPictureUrl(picture: string | undefined) {
+		return import.meta.env.VITE_API_URL + '/achievement/' + picture;
 	}
 }
 

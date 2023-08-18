@@ -24,7 +24,11 @@ export const adminRoutes: RouteRecordRaw[] = [
 	},
 	{
 		path: 'achievement',
-		component: () => import('../views/admin/achievement/AchivementCreateView.vue'),
+		component: () => import('../views/admin/achievement/AchievementListView.vue'),
+	},
+	{
+		path: 'achievement/:id(\\d+)',
+		component: () => import('../views/admin/achievement/AchievementRecieversView.vue'),
 	},
 ];
 
