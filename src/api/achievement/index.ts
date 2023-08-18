@@ -1,2 +1,2 @@
 export { achievementApi } from './AchievementApi';
-export type { AchievementGet } from './AchievementApi';
+export type { AchievementGet, UserAchievementsGet } from './AchievementApi';

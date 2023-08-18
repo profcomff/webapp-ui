@@ -10,6 +10,7 @@ import { useRouter } from 'vue-router';
 import { UserdataApi } from '@/api/controllers/UserdataApi';
 import { UserdataConverter } from '@/utils';
 import { UserdataArray } from '@/models';
+import AchievementsSlider from './achievement/AchievementsSlider.vue';
 
 const profileStore = useProfileStore();
 const router = useRouter();
@@ -67,6 +68,10 @@ const canUnlinked = computed(() => authButtons.filter(({ method }) => profileSto
 		<span class="user-name">
 			{{ fullName }}
 		</span>
+		<section v-if="profileStore.id !== null" class="section">
+			<h2>Достижения</h2>
+			<AchievementsSlider :user-id="profileStore.id" />
+		</section>
 		<section class="section">
 			<h2>Основная информация</h2>
 			<div v-if="userdataLoading">Загрузка...</div>

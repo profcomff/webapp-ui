@@ -19,9 +19,9 @@ interface AchievementEdit {
 	name: string | undefined;
 	description: string | undefined;
 }
-interface UserAchievementsGet {
+export interface UserAchievementsGet {
 	id: number;
-	achievements: AchievementGet[];
+	achievement: AchievementGet[];
 }
 
 class AchievementApi extends BaseApi {
