@@ -17,6 +17,14 @@ export const scopename = Object.freeze({
 			update: 'auth.user.update',
 		},
 	},
+	achievements: {
+		achievement: {
+			create: 'achievements.achievement.create',
+			update: 'achievements.achievement.edit',
+			give: 'achievements.achievement.give',
+			revoke: 'achievements.achievement.revoke',
+		},
+	},
 	webapp: {
 		admin: {
 			show: 'webapp.admin.show',

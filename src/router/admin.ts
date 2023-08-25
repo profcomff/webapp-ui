@@ -22,6 +22,14 @@ export const adminRoutes: RouteRecordRaw[] = [
 		path: 'users',
 		component: () => import('../views/admin/users/AdminUsersView.vue'),
 	},
+	{
+		path: 'achievement',
+		component: () => import('../views/admin/achievement/AchievementListView.vue'),
+	},
+	{
+		path: 'achievement/:id(\\d+)',
+		component: () => import('../views/admin/achievement/AchievementRecieversView.vue'),
+	},
 ];
 
 export const adminHandler: NavigationGuard = to => {

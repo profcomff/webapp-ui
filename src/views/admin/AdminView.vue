@@ -29,6 +29,10 @@ const copyToken = () => {
 		<AccessAllowed :scope="scopename.auth.user.read" no-fallback>
 			<RouterLink to="/admin/users" class="link">Пользователи</RouterLink>
 		</AccessAllowed>
+
+		<AccessAllowed :scope="scopename.achievements.achievement.create" no-fallback>
+			<RouterLink to="/admin/achievement" class="link">Достижения</RouterLink>
+		</AccessAllowed>
 	</IrdomLayout>
 </template>
 
