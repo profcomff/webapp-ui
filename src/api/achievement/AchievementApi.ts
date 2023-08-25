@@ -16,8 +16,8 @@ export interface AchievementGet {
 	recievers: Reciever[] | undefined;
 }
 interface AchievementEdit {
-	name: string | undefined;
-	description: string | undefined;
+	name?: string | null;
+	description?: string | null;
 }
 export interface UserAchievementsGet {
 	id: number;
@@ -38,8 +38,8 @@ class AchievementApi extends BaseApi {
 		);
 	}
 
-	public async edit(id: number, name: string | undefined, description: string | undefined) {
-		return this.patch<AchievementGet, AchievementEdit>(`/achievement/${id}`, { name, description });
+	public async edit(id: number, edit: AchievementEdit) {
+		return this.patch<AchievementGet, AchievementEdit>(`/achievement/${id}`, edit);
 	}
 
 	public async getAll() {
