@@ -5,13 +5,13 @@ import AchievementElement from './AchievementsElement.vue';
 
 const props = defineProps<{ userId: number }>();
 const achievements: Ref<AchievementGet[]> = ref([]);
-const loaded = ref(false);
+const isLoaded = ref(false);
 
 onMounted(async () => {
 	achievementApi.getUser(props.userId).then(resp => {
 		achievements.value = resp.data.achievement;
 		console.log(achievements.value);
-		loaded.value = true;
+		isLoaded.value = true;
 	});
 });
 </script>
@@ -26,7 +26,7 @@ onMounted(async () => {
 			/>
 		</v-slide-group-item>
 	</v-slide-group>
-	<div v-else-if="!loaded">
+	<div v-else-if="!isLoaded">
 		<p>Загрузка...</p>
 	</div>
 	<div v-else>
