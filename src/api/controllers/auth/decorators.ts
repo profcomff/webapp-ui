@@ -52,8 +52,6 @@ export function checkToken<F extends Func<any, any>>(method: F): Func<Promise<Re
 	return async (...args: any[]) => {
 		try {
 			await userSessionApi.getMe();
-			const response = await method(...args);
-			return response;
 		} catch (error) {
 			if (axios.isAxiosError(error) && error.response?.status === 403) {
 				const { deleteToken } = useProfileStore();
@@ -63,6 +61,8 @@ export function checkToken<F extends Func<any, any>>(method: F): Func<Promise<Re
 				toastStore.push({ title: 'Сессия истекла' });
 			}
 		}
+		const response = await method(...args);
+		return response;
 	};
 }
 
