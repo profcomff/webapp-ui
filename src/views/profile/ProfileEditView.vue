@@ -1,10 +1,11 @@
 <script setup lang="ts">
-import { IrdomLayout, ToolbarMenuItem } from '@/components';
+import { IrdomLayout, IrdomAuthButton, TelegramButton } from '@/components';
 import { useProfileStore } from '@/store';
-import { onMounted, ref } from 'vue';
+import { onMounted, computed, ref } from 'vue';
 import Placeholder from '@/assets/profile_image_placeholder.webp';
 import { AuthApi } from '@/api';
-import { MySessionInfo } from '@/api/auth';
+import { AuthMethod, MySessionInfo } from '@/api/auth';
+import { authButtons } from '@/constants';
 import { useRouter } from 'vue-router';
 import { UserdataApi } from '@/api/controllers/UserdataApi';
 import { UserdataConverter } from '@/utils';
@@ -17,28 +18,6 @@ const router = useRouter();
 const userdata = ref<UserdataArray>([]);
 const userdataLoading = ref(false);
 const fullName = ref('');
-
-const toolbarMenu: ToolbarMenuItem[] = [
-	{
-		name: 'Выход',
-		onClick: async () => {
-			await AuthApi.logout();
-			router.push('/auth');
-		},
-	},
-	{
-		name: 'Сессии',
-		onClick: () => router.push('/profile/sessions'),
-	},
-	{
-		name: 'Редактировать профиль',
-		onClick: () => router.push('/profile/edit'),
-	},
-	{
-		name: 'Изменить методы авторизации',
-		onClick: () => router.push('/profile/edit-auth'),
-	},
-];
 
 onMounted(async () => {
 	if (history.state.token) {
@@ -61,10 +40,15 @@ onMounted(async () => {
 
 	userdataLoading.value = false;
 });
+
+const canLinked = computed(() =>
+	authButtons.filter(({ method }) => !profileStore.authMethods?.includes(method) && method !== AuthMethod.Telegram),
+);
+const canUnlinked = computed(() => authButtons.filter(({ method }) => profileStore.authMethods?.includes(method)));
 </script>
 
 <template>
-	<IrdomLayout :toolbar-menu="toolbarMenu" title="Профиль" class-name="profile-toolbar">
+	<IrdomLayout title="Профиль" class-name="profile-toolbar">
 		<img :src="Placeholder" alt="Аватар" width="400 " height="400" class="avatar" />
 
 		<span class="user-name">
@@ -93,10 +77,37 @@ onMounted(async () => {
 				</div>
 			</div>
 		</section>
+		<section v-if="profileStore.authMethods?.length !== 8" class="section">
+			<h2>Привязать аккаунт</h2>
+			<div class="buttons">
+				<IrdomAuthButton v-for="button of canLinked" :key="button.method" :button="button" />
+				<TelegramButton v-if="!profileStore.authMethods?.includes(AuthMethod.Telegram)" />
+			</div>
+		</section>
+
+		<section v-if="profileStore.authMethods && profileStore.authMethods.length > 1" class="section">
+			<h2>Отвязать аккаунт</h2>
+			<div class="buttons">
+				<IrdomAuthButton v-for="button of canUnlinked" :key="button.method" :button="button" unlink />
+			</div>
+		</section>
+		<div class="fab">
+			<v-btn icon="md:save" size="x-large" color="secondary" elevation="24" @click="router.push('/profile')" />
+		</div>
 	</IrdomLayout>
 </template>
 
 <style scoped>
+.save-button {
+	color: rgb(var(--v-theme-surface));
+}
+
+.fab {
+	position: fixed;
+	bottom: calc(var(--v-layout-bottom) + 20px);
+	right: 50px;
+}
+
 .avatar {
 	align-self: center;
 	margin-bottom: 16px;

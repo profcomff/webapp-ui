@@ -36,9 +36,7 @@ export enum UserdataCategoryName {
 }
 
 export enum UserdataParamName {
-	Surname = 'Фамилия',
-	Name = 'Имя',
-	Patronymic = 'Отчество',
+	FullName = 'Полное имя',
 }
 
 export type UserdataConfig = Readonly<Record<UserdataCategoryName, Readonly<UserdataParamName[]>>>;

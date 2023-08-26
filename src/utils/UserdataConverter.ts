@@ -11,11 +11,7 @@ import {
 
 const categoryOrder = [UserdataCategoryName.PersonalInfo, UserdataCategoryName.Study, UserdataCategoryName.Contacts];
 const userdataConfig: Partial<UserdataConfig> = {
-	[UserdataCategoryName.PersonalInfo]: [
-		UserdataParamName.Surname,
-		UserdataParamName.Name,
-		UserdataParamName.Patronymic,
-	] as const,
+	[UserdataCategoryName.PersonalInfo]: [UserdataParamName.FullName] as const,
 };
 
 export class UserdataConverter {
@@ -53,7 +49,7 @@ export class UserdataConverter {
 
 	public static treeToArray(tree: UserdataTree): UserdataArray {
 		const res: UserdataArray = [];
-		const name = [UserdataParamName.Name, UserdataParamName.Surname, UserdataParamName.Patronymic];
+		const name = UserdataParamName.FullName;
 		for (const [category, sheet] of tree.entries()) {
 			for (const param of sheet.keys()) {
 				if (UserdataConverter.hasFullName && name.includes(param as UserdataParamName)) {
@@ -82,14 +78,12 @@ export class UserdataConverter {
 	public static getFullName(flat: UserdataRaw) {
 		const tree = UserdataConverter.flatToTree(flat);
 		const info = tree.get(UserdataCategoryName.PersonalInfo);
-		const name = info?.get(UserdataParamName.Name) ?? '';
-		const surname = info?.get(UserdataParamName.Surname) ?? '';
-		const patronymic = info?.get(UserdataParamName.Patronymic) ?? '';
+		const full_name = info?.get(UserdataParamName.FullName) ?? '';
 
-		if (!name && !surname && !patronymic) {
+		if (!full_name) {
 			return '[object Object]';
 		}
 		UserdataConverter.hasFullName = true;
-		return `${surname} ${name} ${patronymic}`.trim();
+		return `${full_name}`.trim();
 	}
 }

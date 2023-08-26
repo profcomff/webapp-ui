@@ -98,6 +98,7 @@ export interface UserdataCategory extends Entity {
 	name: string;
 	read_scope?: string;
 	update_scope?: string;
+	params?: UserdataParam[];
 }
 
 export enum UserdataParamResponseType {
