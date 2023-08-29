@@ -83,7 +83,36 @@ export class UserdataConverter {
 		if (!full_name) {
 			return '[object Object]';
 		}
-		UserdataConverter.hasFullName = true;
-		return `${full_name}`.trim();
+	}
+
+	public static categoryToFlat(categories: UserdataCategory[]) {
+		const result: UserdataRaw = { items: [] };
+		categories.forEach(category => {
+			category.params?.forEach(param => {
+				result.items.push({ category: category.name, param: param, value: '' } as UserdataRawItem);
+			});
+		});
+		return result;
+	}
+
+	public static uniteWithUserCategories(categories: UserdataRaw, userCategories: UserdataRaw): UserdataArray {
+		const result_userdata: UserdataArray = [];
+		const categoriesTree = UserdataConverter.flatToTree(categories);
+		const userCategoriesTree = UserdataConverter.flatToTree(userCategories);
+		categoriesTree.forEach((item, category) => {
+			const category_info: UserdataArrayDataItem[] = [];
+			item.forEach((value, param) => {
+				if (userCategoriesTree.get(category) && userCategoriesTree.get(category)?.get(param)) {
+					const userValue = userCategoriesTree.get(category)?.get(param);
+					if (userValue) {
+						category_info.push({ param: param, value: userValue });
+					}
+				} else {
+					category_info.push({ param: param, value: value });
+				}
+			});
+			result_userdata.push({ name: category, data: category_info });
+		});
+		return result_userdata;
 	}
 }
