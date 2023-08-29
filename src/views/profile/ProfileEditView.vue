@@ -1,31 +1,30 @@
 <script setup lang="ts">
-import { IrdomLayout, IrdomAuthButton, TelegramButton } from '@/components';
+import { IrdomLayout } from '@/components';
 import { useProfileStore } from '@/store';
-import { onMounted, computed, ref } from 'vue';
+import { onMounted, ref } from 'vue';
 import Placeholder from '@/assets/profile_image_placeholder.webp';
 import { AuthApi } from '@/api';
-import { AuthMethod, MySessionInfo } from '@/api/auth';
-import { authButtons } from '@/constants';
-import { useRouter } from 'vue-router';
+import { MySessionInfo } from '@/api/auth';
 import { UserdataApi } from '@/api/controllers/UserdataApi';
 import { UserdataConverter } from '@/utils';
-import { UserdataArray } from '@/models';
-import AchievementsSlider from './achievement/AchievementsSlider.vue';
+import { UserdataArray, UserdataCategoryName, UserdataParams } from '@/models';
+import router from '@/router';
+import { UserdataExtendedValue } from '@/api/models';
+
+// import router from '@/router';
 
 const profileStore = useProfileStore();
-const router = useRouter();
-
-const userdata = ref<UserdataArray>([]);
-const userdataLoading = ref(false);
+const fullName_item = ref<UserdataExtendedValue | null>();
+const photoURL_item = ref<UserdataExtendedValue | null>();
 const fullName = ref('');
-
+const photoURL = ref('');
+const userdata = ref<UserdataArray>([]);
 onMounted(async () => {
 	if (history.state.token) {
 		profileStore.updateToken(history.state.token);
 		delete history.state.token;
 	}
 
-	userdataLoading.value = true;
 	const { data: me } = await AuthApi.getMe([
 		MySessionInfo.AuthMethods,
 		MySessionInfo.Groups,
@@ -33,73 +32,108 @@ onMounted(async () => {
 		MySessionInfo.SessionScopes,
 		MySessionInfo.UserScopes,
 	]);
-
-	const { data } = await UserdataApi.getUser(me.id);
-	fullName.value = UserdataConverter.getFullName(data);
-	userdata.value = UserdataConverter.flatToArray(data);
-
-	userdataLoading.value = false;
+	const { data: user } = await UserdataApi.getUser(me.id);
+	const { data } = await UserdataApi.getCategories();
+	console.log(data);
+	fullName_item.value = UserdataConverter.getItem(user, {
+		category: UserdataCategoryName.PersonalInfo,
+		param: UserdataParams.FullName,
+	});
+	photoURL_item.value = UserdataConverter.getItem(user, {
+		category: UserdataCategoryName.PersonalInfo,
+		param: UserdataParams.Photo,
+	});
+	fullName.value = fullName_item.value?.name ?? '[object Object]';
+	photoURL.value = photoURL_item.value?.name ?? Placeholder;
+	userdata.value = UserdataConverter.uniteWithUserCategories(UserdataConverter.categoryToFlat(data), user);
 });
 
-const canLinked = computed(() =>
-	authButtons.filter(({ method }) => !profileStore.authMethods?.includes(method) && method !== AuthMethod.Telegram),
-);
-const canUnlinked = computed(() => authButtons.filter(({ method }) => profileStore.authMethods?.includes(method)));
+async function saveEdit() {
+	const { data: me } = await AuthApi.getMe([
+		MySessionInfo.AuthMethods,
+		MySessionInfo.Groups,
+		MySessionInfo.IndirectGroups,
+		MySessionInfo.SessionScopes,
+		MySessionInfo.UserScopes,
+	]);
+	const updateBody = UserdataConverter.arrayToUpdate(userdata.value, 'user', [
+		{
+			category: UserdataCategoryName.PersonalInfo,
+			param: UserdataParams.FullName,
+			value: fullName.value,
+		},
+	]);
+	UserdataApi.patchUserById(me.id, updateBody);
+	router.push('/profile');
+}
 </script>
 
 <template>
 	<IrdomLayout title="Профиль" class-name="profile-toolbar">
-		<img :src="Placeholder" alt="Аватар" width="400 " height="400" class="avatar" />
+		<img :src="photoURL" alt="Аватар" width="400 " height="400" class="avatar" />
+		<input
+			v-model="fullName"
+			outline="none"
+			:readonly="!fullName_item?.changeable"
+			:required="fullName_item?.is_required"
+			class="user-name"
+			:contenteditable="true"
+			@input="fullName = ($event.target as HTMLInputElement).value"
+		/>
 
-		<span class="user-name">
-			{{ fullName }}
-		</span>
-		<section v-if="profileStore.id !== null" class="section">
-			<h2>Достижения</h2>
-			<AchievementsSlider :user-id="profileStore.id" />
-		</section>
 		<section class="section">
 			<h2>Основная информация</h2>
-			<div v-if="userdataLoading">Загрузка...</div>
-			<div v-else>
-				<div v-for="{ name, data } of userdata" :key="name" class="userdata-section">
+			<div>
+				<div v-for="{ name, data } of userdata" :key="name">
 					<div class="userdata-category">
 						{{ name }}
 					</div>
 					<div v-for="{ param, value } of data" :key="param">
 						<div class="userdata-param">
 							{{ param }}
+							<b v-if="value.is_required" class="required-field"> * </b>
 						</div>
 						<div class="userdata-value">
-							{{ value }}
+							<v-text-field
+								class="edit-fields"
+								:model-value="value.name"
+								:required="value.is_required"
+								:disabled="!value.changeable"
+								variant="underlined"
+								@input="value.name = $event.target.value"
+							>
+							</v-text-field>
 						</div>
 					</div>
 				</div>
 			</div>
 		</section>
-		<section v-if="profileStore.authMethods?.length !== 8" class="section">
-			<h2>Привязать аккаунт</h2>
-			<div class="buttons">
-				<IrdomAuthButton v-for="button of canLinked" :key="button.method" :button="button" />
-				<TelegramButton v-if="!profileStore.authMethods?.includes(AuthMethod.Telegram)" />
-			</div>
-		</section>
-
-		<section v-if="profileStore.authMethods && profileStore.authMethods.length > 1" class="section">
-			<h2>Отвязать аккаунт</h2>
-			<div class="buttons">
-				<IrdomAuthButton v-for="button of canUnlinked" :key="button.method" :button="button" unlink />
-			</div>
-		</section>
 		<div class="fab">
-			<v-btn icon="md:save" size="x-large" color="secondary" elevation="24" @click="router.push('/profile')" />
+			<v-btn icon="md:save" size="x-large" color="secondary" elevation="24" @click="saveEdit" />
 		</div>
 	</IrdomLayout>
 </template>
 
 <style scoped>
-.save-button {
-	color: rgb(var(--v-theme-surface));
+/deep/ .v-field {
+	--v-field-input-padding-top: 0 !important;
+	--v-field-input-padding-bottom: 0 !important;
+}
+
+/deep/ .v-text-field input {
+	margin-top: 0 !important;
+}
+
+.edit-username {
+	align-self: center;
+}
+
+.edit-fields {
+	padding: 0;
+}
+
+.required-field {
+	color: red;
 }
 
 .fab {
@@ -135,17 +169,14 @@ const canUnlinked = computed(() => authButtons.filter(({ method }) => profileSto
 	}
 }
 
-.userdata-section {
-	margin-left: 12px;
-}
-
 .userdata-category {
+	margin-top: 28px;
+	margin-bottom: 6px;
 	color: var(--m-3-sys-light-outline, #79747e);
-	font-size: 14px;
+	font-size: 16px;
 	font-weight: 900;
 	line-height: 16px; /* 114.286% */
 	letter-spacing: 0.5px;
-	margin-top: 11px;
 
 	&:not(:last-child) {
 		margin-bottom: 11px;
@@ -153,18 +184,16 @@ const canUnlinked = computed(() => authButtons.filter(({ method }) => profileSto
 }
 
 .userdata-param {
-	margin-left: 11px;
-	margin-bottom: 5px;
 	color: var(--m-3-sys-light-outline, #79747e);
 	font-size: 12px;
 	font-weight: 500;
 	line-height: 16px;
 	letter-spacing: 0.5px;
+	margin-top: 18.5px;
 }
 
 .userdata-value {
-	margin-left: 11px;
-	margin-bottom: 16px;
+	margin-bottom: 5px;
 	color: var(--m-3-sys-light-on-surface, #1c1b1f);
 	font-size: 16px;
 	font-weight: 400;
@@ -173,15 +202,21 @@ const canUnlinked = computed(() => authButtons.filter(({ method }) => profileSto
 }
 
 .user-name {
+	resize: none;
+	overflow: hidden;
+	text-align: center;
 	margin-bottom: 32px;
-	display: inline-block;
+	display: flex;
 	align-self: center;
 	color: #000;
 	font-kerning: none;
 	font-size: 32px;
 	font-weight: 700;
-	line-height: 20px;
+	line-height: 35px;
 	letter-spacing: 0.1px;
+	outline: none;
+	border: none;
+	width: 100%;
 }
 
 .info {
@@ -192,5 +227,10 @@ const canUnlinked = computed(() => authButtons.filter(({ method }) => profileSto
 	font-weight: 600;
 	line-height: 16px; /* 80% */
 	letter-spacing: 0.5px;
+}
+
+.v-text-field {
+	width: 356px;
+	text-align: center;
 }
 </style>

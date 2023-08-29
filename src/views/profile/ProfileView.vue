@@ -8,15 +8,19 @@ import { MySessionInfo } from '@/api/auth';
 import { useRouter } from 'vue-router';
 import { UserdataApi } from '@/api/controllers/UserdataApi';
 import { UserdataConverter } from '@/utils';
-import { UserdataArray } from '@/models';
+import { UserdataArray, UserdataCategoryName, UserdataParams } from '@/models';
 import AchievementsSlider from './achievement/AchievementsSlider.vue';
+import { UserdataExtendedValue } from '@/api/models';
 
 const profileStore = useProfileStore();
 const router = useRouter();
 
 const userdata = ref<UserdataArray>([]);
 const userdataLoading = ref(false);
+const fullName_item = ref<UserdataExtendedValue | null>();
+const photoURL_item = ref<UserdataExtendedValue | null>();
 const fullName = ref('');
+const photoURL = ref('');
 
 const toolbarMenu: ToolbarMenuItem[] = [
 	{
@@ -56,7 +60,16 @@ onMounted(async () => {
 	]);
 
 	const { data } = await UserdataApi.getUser(me.id);
-	fullName.value = UserdataConverter.getFullName(data);
+	fullName_item.value = UserdataConverter.getItem(data, {
+		category: UserdataCategoryName.PersonalInfo,
+		param: UserdataParams.FullName,
+	});
+	photoURL_item.value = UserdataConverter.getItem(data, {
+		category: UserdataCategoryName.PersonalInfo,
+		param: UserdataParams.Photo,
+	});
+	fullName.value = fullName_item.value?.name ?? '[object Object]';
+	photoURL.value = photoURL_item.value?.name ?? Placeholder;
 	userdata.value = UserdataConverter.flatToArray(data);
 
 	userdataLoading.value = false;
@@ -65,8 +78,7 @@ onMounted(async () => {
 
 <template>
 	<IrdomLayout :toolbar-menu="toolbarMenu" title="Профиль" class-name="profile-toolbar">
-		<img :src="Placeholder" alt="Аватар" width="400 " height="400" class="avatar" />
-
+		<img :src="photoURL" alt="Аватар" width="400 " height="400" class="avatar" />
 		<span class="user-name">
 			{{ fullName }}
 		</span>
@@ -87,7 +99,7 @@ onMounted(async () => {
 							{{ param }}
 						</div>
 						<div class="userdata-value">
-							{{ value }}
+							{{ value.name }}
 						</div>
 					</div>
 				</div>
@@ -163,13 +175,14 @@ onMounted(async () => {
 
 .user-name {
 	margin-bottom: 32px;
+	text-align: center;
 	display: inline-block;
 	align-self: center;
 	color: #000;
 	font-kerning: none;
 	font-size: 32px;
 	font-weight: 700;
-	line-height: 20px;
+	line-height: 35px;
 	letter-spacing: 0.1px;
 }
 

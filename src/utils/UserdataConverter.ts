@@ -1,30 +1,48 @@
-import { UserdataRaw } from '@/api/models';
+import { UserdataExtendedValue, UserdataUpdateUser, UserdataUpdateUserItem } from './../api/models/index';
+import { UserdataArrayCategoryItem, UserdataArrayDataItem, UserdataParams } from './../models/index';
+import { UserdataCategory, UserdataParamResponseType, UserdataRaw, UserdataRawItem } from '@/api/models';
 import {
 	UserdataArray,
 	UserdataArrayItem,
 	UserdataCategoryName,
 	UserdataConfig,
-	UserdataParamName,
 	UserdataTree,
 	UserdataTreeSheet,
 } from '@/models';
 
-const categoryOrder = [UserdataCategoryName.PersonalInfo, UserdataCategoryName.Study, UserdataCategoryName.Contacts];
+const categoryOrder = [
+	UserdataCategoryName.PersonalInfo,
+	UserdataCategoryName.Study,
+	UserdataCategoryName.Contacts,
+	UserdataCategoryName.Career,
+];
 const userdataConfig: Partial<UserdataConfig> = {
-	[UserdataCategoryName.PersonalInfo]: [UserdataParamName.FullName] as const,
+	[UserdataCategoryName.PersonalInfo]: [UserdataParams.Photo, UserdataParams.FullName] as const,
 };
 
 export class UserdataConverter {
-	public static hasFullName: boolean = false;
+	public static alreadyGetParams: UserdataRawItem[] = [];
 
 	public static flatToTree(flat: UserdataRaw): UserdataTree {
 		return flat.items.reduce((acc, item) => {
 			if (!acc.has(item.category)) {
 				acc.set(item.category, new Map());
 			}
-
-			acc.get(item.category)!.set(item.param, item.value);
-
+			const extendedValue: UserdataExtendedValue = {
+				name: '',
+				is_required: false,
+				changeable: true,
+				type: UserdataParamResponseType.All,
+			};
+			if (typeof item.value === 'string') {
+				extendedValue.name = item.value;
+			} else {
+				extendedValue.name = item.value.name;
+				extendedValue.is_required = item.value.is_required;
+				extendedValue.changeable = item.value.changeable;
+				extendedValue.type = item.value.type;
+			}
+			acc.get(item.category)!.set(item.param, extendedValue);
 			return acc;
 		}, new Map() as UserdataTree);
 	}
@@ -40,7 +58,8 @@ export class UserdataConverter {
 		if (paramOrder) {
 			res.data.sort(
 				(a, b) =>
-					paramOrder.indexOf(a.param as UserdataParamName) - paramOrder.indexOf(b.param as UserdataParamName),
+					paramOrder.indexOf(a.param as UserdataParams.FullName) -
+					paramOrder.indexOf(b.param as UserdataParams.FullName),
 			);
 		}
 
@@ -49,10 +68,11 @@ export class UserdataConverter {
 
 	public static treeToArray(tree: UserdataTree): UserdataArray {
 		const res: UserdataArray = [];
-		const name = UserdataParamName.FullName;
 		for (const [category, sheet] of tree.entries()) {
 			for (const param of sheet.keys()) {
-				if (UserdataConverter.hasFullName && name.includes(param as UserdataParamName)) {
+				if (
+					UserdataConverter.alreadyGetParams.find(item => item.category === category && item.param === param)
+				) {
 					sheet.delete(param);
 				}
 			}
@@ -75,23 +95,37 @@ export class UserdataConverter {
 		return UserdataConverter.treeToArray(UserdataConverter.flatToTree(flat));
 	}
 
-	public static getFullName(flat: UserdataRaw) {
-		const tree = UserdataConverter.flatToTree(flat);
-		const info = tree.get(UserdataCategoryName.PersonalInfo);
-		const full_name = info?.get(UserdataParamName.FullName) ?? '';
-
-		if (!full_name) {
-			return '[object Object]';
-		}
-	}
-
 	public static categoryToFlat(categories: UserdataCategory[]) {
 		const result: UserdataRaw = { items: [] };
 		categories.forEach(category => {
 			category.params?.forEach(param => {
-				result.items.push({ category: category.name, param: param, value: '' } as UserdataRawItem);
+				result.items.push({
+					category: category.name,
+					param: param.name,
+					value: {
+						name: '',
+						is_required: param.is_required,
+						changeable: param.changeable,
+						type: param.type,
+					},
+				} as UserdataRawItem);
 			});
 		});
+		return result;
+	}
+
+	public static arrayToFlat(userdata: UserdataArray): UserdataRaw {
+		const result: UserdataRaw = { items: [] };
+		for (const item of userdata) {
+			for (const info of item.data) {
+				const rawInfo: UserdataRawItem = {
+					category: item.name,
+					param: info.param,
+					value: info.value,
+				};
+				result.items.push(rawInfo);
+			}
+		}
 		return result;
 	}
 
@@ -99,20 +133,95 @@ export class UserdataConverter {
 		const result_userdata: UserdataArray = [];
 		const categoriesTree = UserdataConverter.flatToTree(categories);
 		const userCategoriesTree = UserdataConverter.flatToTree(userCategories);
-		categoriesTree.forEach((item, category) => {
+		for (const [category, item] of categoriesTree) {
 			const category_info: UserdataArrayDataItem[] = [];
-			item.forEach((value, param) => {
+			for (const [param, value] of item) {
+				if (
+					UserdataConverter.alreadyGetParams.find(item => item.category === category && item.param === param)
+				) {
+					continue;
+				}
+
 				if (userCategoriesTree.get(category) && userCategoriesTree.get(category)?.get(param)) {
 					const userValue = userCategoriesTree.get(category)?.get(param);
-					if (userValue) {
-						category_info.push({ param: param, value: userValue });
-					}
+					category_info.push({
+						param: param,
+						value: {
+							name: userValue!.name,
+							is_required: value.is_required,
+							changeable: value.changeable,
+							type: value.type,
+						},
+					});
 				} else {
 					category_info.push({ param: param, value: value });
 				}
-			});
+			}
 			result_userdata.push({ name: category, data: category_info });
-		});
+		}
+		result_userdata.sort(
+			(a, b) =>
+				categoryOrder.indexOf(a.name as UserdataCategoryName) -
+				categoryOrder.indexOf(b.name as UserdataCategoryName),
+		);
 		return result_userdata;
+	}
+
+	public static arrayToUpdate(
+		userdata: UserdataArray,
+		source: string,
+		alreadyGetParamValue: UserdataUpdateUserItem[],
+	): UserdataUpdateUser {
+		const updateUserdata: UserdataUpdateUser = { items: [], source: '' };
+		updateUserdata.source = source;
+		for (const category of userdata) {
+			for (const item of category.data) {
+				if (!item.value.changeable) {
+					continue;
+				}
+				const updateItem = {} as UserdataUpdateUserItem;
+				if (item.value.name.trim() === '') {
+					updateItem.category = category.name;
+					updateItem.param = item.param;
+					updateItem.value = null;
+				} else {
+					updateItem.category = category.name;
+					updateItem.param = item.param;
+					updateItem.value = item.value.name;
+				}
+
+				updateUserdata.items.push(updateItem);
+			}
+		}
+		for (const item of alreadyGetParamValue) {
+			const update_already_get_item = UserdataConverter.alreadyGetParams.find(
+				element => element.category === item.category && element.param === item.param,
+			);
+			if (update_already_get_item) {
+				const updateItem = {
+					category: item.category,
+					param: item.param,
+					value: item.value,
+				} as UserdataUpdateUserItem;
+				updateUserdata.items.push(updateItem);
+				console.log('MEM');
+			}
+		}
+		return updateUserdata;
+	}
+
+	public static getItem(flat: UserdataRaw, info: UserdataArrayCategoryItem): UserdataExtendedValue | null {
+		const tree = UserdataConverter.flatToTree(flat);
+		const info_tree = tree.get(info.category);
+		const itemValue = info_tree?.get(info.param) ?? '';
+		if (!itemValue) {
+			return null;
+		}
+		UserdataConverter.alreadyGetParams.push({
+			category: info.category,
+			param: info.param,
+			value: itemValue,
+		} as UserdataRawItem);
+		return itemValue;
 	}
 }

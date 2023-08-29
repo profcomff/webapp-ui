@@ -1,3 +1,5 @@
+import { UserdataExtendedValue } from '@/api/models';
+
 export { LocalStorage, LocalStorageItem } from './LocalStorage';
 export { scopename } from './ScopeName';
 
@@ -13,13 +15,18 @@ export interface Toast {
 	description?: string;
 }
 
-export type UserdataTreeSheet = Map<string, string>;
+export type UserdataTreeSheet = Map<string, UserdataExtendedValue>;
 
 export type UserdataTree = Map<string, UserdataTreeSheet>;
 
 export interface UserdataArrayDataItem {
 	param: string;
-	value: string;
+	value: UserdataExtendedValue;
+}
+
+export interface UserdataArrayCategoryItem {
+	category: string;
+	param: string;
 }
 
 export interface UserdataArrayItem {
@@ -33,10 +40,12 @@ export enum UserdataCategoryName {
 	PersonalInfo = 'Личная информация',
 	Study = 'Учёба',
 	Contacts = 'Контакты',
+	Career = 'Карьера',
 }
 
-export enum UserdataParamName {
+export enum UserdataParams {
 	FullName = 'Полное имя',
+	Photo = 'Фото',
 }
 
-export type UserdataConfig = Readonly<Record<UserdataCategoryName, Readonly<UserdataParamName[]>>>;
+export type UserdataConfig = Readonly<Record<UserdataCategoryName, Readonly<UserdataParams[]>>>;
