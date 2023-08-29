@@ -1,4 +1,4 @@
-import { UserdataRaw } from '@/api/models';
+import { UserdataParamResponseType, UserdataRaw } from '@/api/models';
 import { describe, it, expect } from 'vitest';
 import { UserdataConverter } from './UserdataConverter';
 import { UserdataArrayItem, UserdataTree, UserdataTreeSheet } from '@/models';
@@ -19,8 +19,24 @@ const flatResposne: UserdataRaw = {
 };
 
 const treeSheet: UserdataTreeSheet = new Map([
-	['street', 'Моховая'],
-	['city', 'Москва'],
+	[
+		'street',
+		{
+			name: 'Моховая',
+			is_required: true,
+			changeable: false,
+			type: UserdataParamResponseType.All,
+		},
+	],
+	[
+		'city',
+		{
+			name: 'Москва',
+			is_required: false,
+			changeable: true,
+			type: UserdataParamResponseType.All,
+		},
+	],
 ]);
 
 const expectedObject: UserdataTree = new Map([['Address', treeSheet]]);
@@ -30,11 +46,21 @@ const arrayItem: UserdataArrayItem = {
 	data: [
 		{
 			param: 'street',
-			value: 'Моховая',
+			value: {
+				name: 'Моховая',
+				is_required: true,
+				changeable: false,
+				type: UserdataParamResponseType.All,
+			},
 		},
 		{
 			param: 'city',
-			value: 'Москва',
+			value: {
+				name: 'Москва',
+				is_required: false,
+				changeable: true,
+				type: UserdataParamResponseType.All,
+			},
 		},
 	],
 };

@@ -71,7 +71,7 @@ async function saveEdit() {
 <template>
 	<IrdomLayout title="Профиль" class-name="profile-toolbar">
 		<img :src="photoURL" alt="Аватар" width="400 " height="400" class="avatar" />
-		<input
+		<textarea
 			v-model="fullName"
 			outline="none"
 			:readonly="!fullName_item?.changeable"
