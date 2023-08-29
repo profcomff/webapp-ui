@@ -23,8 +23,8 @@ const treeSheet: UserdataTreeSheet = new Map([
 		'street',
 		{
 			name: 'Моховая',
-			is_required: true,
-			changeable: false,
+			is_required: false,
+			changeable: true,
 			type: UserdataParamResponseType.All,
 		},
 	],
@@ -48,8 +48,8 @@ const arrayItem: UserdataArrayItem = {
 			param: 'street',
 			value: {
 				name: 'Моховая',
-				is_required: true,
-				changeable: false,
+				is_required: false,
+				changeable: true,
 				type: UserdataParamResponseType.All,
 			},
 		},
