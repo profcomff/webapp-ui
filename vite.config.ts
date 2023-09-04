@@ -34,7 +34,7 @@ export default defineConfig({
 			workbox: {
 				runtimeCaching: [
 					{
-						urlPattern: /^https:\/\/fonts\.googleapis\.com\/.*/i,
+						urlPattern: /^https?:\/\/fonts\.googleapis\.com\/.*/i,
 						handler: 'CacheFirst',
 						options: {
 							cacheName: 'google-fonts-cache',
@@ -48,7 +48,7 @@ export default defineConfig({
 						},
 					},
 					{
-						urlPattern: /^https:\/\/fonts\.gstatic\.com\/.*/i,
+						urlPattern: /^https?:\/\/fonts\.gstatic\.com\/.*/i,
 						handler: 'CacheFirst',
 						options: {
 							cacheName: 'gstatic-fonts-cache',
@@ -62,21 +62,7 @@ export default defineConfig({
 						},
 					},
 					{
-						urlPattern: /^https:\/\/api\.(test\.)?profcomff.com\/(?!auth).*/i,
-						handler: 'StaleWhileRevalidate',
-						options: {
-							cacheName: 'api-cache',
-							expiration: {
-								maxEntries: 30,
-								maxAgeSeconds: 60 * 60 * 24 * 30, // <== ~ month
-							},
-							cacheableResponse: {
-								statuses: [0, 200],
-							},
-						},
-					},
-					{
-						urlPattern: /^https:\/\/cdn\.profcomff\.com/i,
+						urlPattern: /^https?:\/\/cdn\.profcomff\.com\/.*/i,
 						handler: 'CacheFirst',
 						options: {
 							cacheName: 'cdn-cache',
@@ -86,8 +72,8 @@ export default defineConfig({
 						},
 					},
 					{
-						urlPattern: /^https:\/\/api\.(test\.)?profcomff.com\/[a-zA-Z]+\/static.*/,
-						handler: 'CacheFirst',
+						urlPattern: /^https?:\/\/api\.(test\.)?profcomff.com\/[a-zA-Z]+\/static\/.*/i,
+						handler: 'StaleWhileRevalidate',
 						options: {
 							cacheName: 'static-cache',
 							cacheableResponse: {
@@ -213,8 +199,8 @@ export default defineConfig({
 						type: 'image/webp',
 					},
 				],
-				name: process.env.MODE === 'prod' ? 'Твой Физфак!' : `Твой Физфак! (${process.env.MODE})`,
-				short_name: process.env.MODE === 'prod' ? 'Твой ФФ!' : `Твой ФФ! (${process.env.MODE})`,
+				name: process.env.MODE === 'production' ? 'Твой Физфак!' : `Твой Физфак! (${process.env.MODE})`,
+				short_name: process.env.MODE === 'production' ? 'Твой ФФ!' : `Твой ФФ! (${process.env.MODE})`,
 				orientation: 'portrait',
 				display: 'standalone',
 				start_url: '/timetable',
