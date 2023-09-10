@@ -3,6 +3,7 @@ import { useTimetableStore } from '@/store';
 import Placeholder from '@/assets/profile_image_placeholder.webp';
 import { computed } from 'vue';
 import { TimetableApi } from '@/api';
+import Markdown from '@/components/MarkdownRenderer.vue';
 
 const timetableStore = useTimetableStore();
 
@@ -32,6 +33,7 @@ const imgUrl = computed(() =>
 <template>
 	<img :src="imgUrl" alt="Фотография преподавателя" class="avatar" width="256" height="256" />
 	<h2 class="full-name">{{ fullName }}</h2>
+	<markdown class="description" :text="lecturer?.description"></markdown>
 </template>
 
 <style scoped>
@@ -50,6 +52,9 @@ const imgUrl = computed(() =>
 .full-name {
 	align-self: center;
 	text-align: center;
+}
+
+.description {
 	margin-bottom: 64px;
 }
 </style>
