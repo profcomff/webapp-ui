@@ -46,4 +46,11 @@ ul ul, ol ul {
 ol ol, ul ol {
 	margin-left: 15px;
 }
+a {
+	color: #1a0dab;
+	text-decoration: none;
+}
+a::hover {
+	text-decoration: underline;
+}
 </style>
