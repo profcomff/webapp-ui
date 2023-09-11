@@ -40,10 +40,12 @@ h6 {
 	margin-top: 2.33em;
 	margin-bottom: 2.13em;
 }
-ul ul, ol ul {
+ul ul,
+ol ul {
 	margin-left: 15px;
 }
-ol ol, ul ol {
+ol ol,
+ul ol {
 	margin-left: 15px;
 }
 a {
