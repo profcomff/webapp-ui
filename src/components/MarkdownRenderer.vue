@@ -52,7 +52,7 @@ a {
 	color: #1a0dab;
 	text-decoration: none;
 }
-a::hover {
+a:hover {
 	text-decoration: underline;
 }
 </style>
