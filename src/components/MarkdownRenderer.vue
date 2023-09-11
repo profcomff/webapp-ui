@@ -18,32 +18,32 @@ const markdown = new Markdown({
 <style scoped>
 .md >>> h1 {
 	margin-top: 0.67em;
-	margin-bottom: 0.47em;
+	margin-bottom: 4px;
 }
 
 .md >>> h2 {
 	margin-top: 0.83em;
-	margin-bottom: 0.63em;
+	margin-bottom: 4px;
 }
 
 .md >>> h3 {
 	margin-top: 1em;
-	margin-bottom: 0.8em;
+	margin-bottom: 4px;
 }
 
 .md >>> h4 {
 	margin-top: 1.33em;
-	margin-bottom: 1.13em;
+	margin-bottom: 4px;
 }
 
 .md >>> h5 {
 	margin-top: 1.67em;
-	margin-bottom: 1.47em;
+	margin-bottom: 4px;
 }
 
 .md >>> h6 {
 	margin-top: 2.33em;
-	margin-bottom: 2.13em;
+	margin-bottom: 4px;
 }
 
 .md >>> ul ul,
