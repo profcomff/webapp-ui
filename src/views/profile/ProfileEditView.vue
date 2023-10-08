@@ -11,8 +11,6 @@ import { UserdataArray, UserdataCategoryName, UserdataParams } from '@/models';
 import router from '@/router';
 import { UserdataExtendedValue } from '@/api/models';
 
-// import router from '@/router';
-
 const profileStore = useProfileStore();
 const fullName_item = ref<UserdataExtendedValue | null>();
 const photoURL_item = ref<UserdataExtendedValue | null>();
@@ -34,7 +32,6 @@ onMounted(async () => {
 	]);
 	const { data: user } = await UserdataApi.getUser(me.id);
 	const { data } = await UserdataApi.getCategories();
-	console.log(data);
 	fullName_item.value = UserdataConverter.getItem(user, {
 		category: UserdataCategoryName.PersonalInfo,
 		param: UserdataParams.FullName,
@@ -63,7 +60,7 @@ async function saveEdit() {
 			value: fullName.value,
 		},
 	]);
-	UserdataApi.patchUserById(me.id, updateBody);
+	await UserdataApi.patchUserById(me.id, updateBody);
 	router.push('/profile');
 }
 </script>
@@ -153,12 +150,6 @@ async function saveEdit() {
 	object-fit: cover;
 	position: relative;
 	z-index: 2;
-}
-
-.buttons {
-	display: flex;
-	flex-wrap: wrap;
-	gap: 16px;
 }
 
 .section {

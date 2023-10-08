@@ -28,19 +28,16 @@ export class UserdataConverter {
 			if (!acc.has(item.category)) {
 				acc.set(item.category, new Map());
 			}
-			const extendedValue: UserdataExtendedValue = {
-				name: '',
-				is_required: false,
-				changeable: true,
-				type: UserdataParamResponseType.All,
-			};
+			let extendedValue: UserdataExtendedValue | undefined = undefined;
 			if (typeof item.value === 'string') {
-				extendedValue.name = item.value;
+				extendedValue = {
+					name: item.value,
+					is_required: false,
+					changeable: true,
+					type: UserdataParamResponseType.All,
+				};
 			} else {
-				extendedValue.name = item.value.name;
-				extendedValue.is_required = item.value.is_required;
-				extendedValue.changeable = item.value.changeable;
-				extendedValue.type = item.value.type;
+				extendedValue = item.value;
 			}
 			acc.get(item.category)!.set(item.param, extendedValue);
 			return acc;
@@ -204,7 +201,6 @@ export class UserdataConverter {
 					value: item.value,
 				} as UserdataUpdateUserItem;
 				updateUserdata.items.push(updateItem);
-				console.log('MEM');
 			}
 		}
 		return updateUserdata;
