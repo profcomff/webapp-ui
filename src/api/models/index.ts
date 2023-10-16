@@ -98,6 +98,7 @@ export interface UserdataCategory extends Entity {
 	name: string;
 	read_scope?: string;
 	update_scope?: string;
+	params?: UserdataParam[];
 }
 
 export enum UserdataParamResponseType {
@@ -117,9 +118,27 @@ export interface UserdataParam extends Entity {
 export interface UserdataRawItem {
 	category: string;
 	param: string;
-	value: string;
+	value: UserdataExtendedValue | string;
 }
 
 export interface UserdataRaw {
 	items: UserdataRawItem[];
+}
+
+export interface UserdataExtendedValue {
+	name: string;
+	is_required?: boolean;
+	changeable?: boolean;
+	type?: UserdataParamResponseType;
+}
+
+export interface UserdataUpdateUserItem {
+	category: string;
+	param: string;
+	value: string | null;
+}
+
+export interface UserdataUpdateUser {
+	items: UserdataUpdateUserItem[];
+	source: string;
 }

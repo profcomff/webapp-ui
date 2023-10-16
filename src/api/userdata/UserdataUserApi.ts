@@ -1,4 +1,4 @@
-import { UserdataRaw } from '../models';
+import { UserdataRaw, UserdataUpdateUser } from '../models';
 import { UserdataBaseApi } from './UserdataBaseApi';
 
 type Json = Record<string, Record<string, string>>;
@@ -12,8 +12,8 @@ class UserdataUserApi extends UserdataBaseApi {
 		return this.get<UserdataRaw>(`/${id}`);
 	}
 
-	public async patchById(id: number, body: Json) {
-		return this.post<Json, Json>(`/${id}`, body);
+	public async patchById(id: number, body: UserdataUpdateUser) {
+		return this.post<Json, UserdataUpdateUser>(`/${id}`, body);
 	}
 }
 
