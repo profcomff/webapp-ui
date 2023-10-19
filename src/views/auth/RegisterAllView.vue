@@ -11,10 +11,10 @@ import { authButtons } from '@/constants';
 			<div>
 				<div class="buttons">
 					<IrdomAuthButton
-						class="button"
 						v-for="button of authButtons.filter(({ method }) => method !== AuthMethod.Telegram)"
 						:key="button.name"
 						:button="button"
+						class="button"
 					/>
 					<TelegramButon class="button" />
 					<div ref="telegram"></div>

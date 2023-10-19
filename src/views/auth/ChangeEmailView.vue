@@ -15,7 +15,6 @@ const submitHandler = async (event: Event) => {
 	const form = event.target as HTMLFormElement;
 	const formData = new FormData(form);
 	const email = formData.get('email')?.toString();
-	const repeat_password = formData.get('repeat-password')?.toString();
 	if (email) {
 		const response = await AuthApi.requestResetEmail(email);
 		if (response) {
