@@ -57,12 +57,6 @@ import { authButtons } from '@/constants';
 	align-self: center !important;
 }
 
-.link {
-	width: fit-content;
-	display: block;
-	margin: 0 auto 64px;
-}
-
 .button {
 	border-radius: 8px !important;
 }

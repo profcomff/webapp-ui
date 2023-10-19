@@ -54,12 +54,6 @@ import { authButtons } from '@/constants';
 	align-self: center !important;
 }
 
-.link {
-	width: fit-content;
-	display: block;
-	margin: 0 auto 64px;
-}
-
 .button {
 	border-radius: 8px !important;
 }
@@ -70,20 +64,6 @@ import { authButtons } from '@/constants';
 	display: grid;
 	gap: 16px;
 	max-width: 400px;
-}
-
-.link-text-register {
-	color: #18185c;
-	margin: 0 auto;
-	text-align: center;
-	font-size: 15px;
-	font-style: normal;
-	font-weight: 400;
-	line-height: normal;
-
-	& a {
-		font-weight: 700;
-	}
 }
 
 .link-text-politics {

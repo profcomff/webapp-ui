@@ -57,35 +57,6 @@ const submitHandler = async (event: Event) => {
 	line-height: normal;
 }
 
-.field {
-	text-align: left;
-	width: 100%;
-	max-width: 400px;
-	align-self: center;
-}
-
-.forgot-pass {
-	align-self: center;
-	padding-bottom: 10px;
-	max-width: 333px;
-	justify-self: right;
-	text-align: right;
-	width: 100%;
-	color: #18185c;
-	font-size: 14px;
-	font-style: normal;
-	font-weight: 700;
-	line-height: normal;
-}
-
-.submit-login {
-	width: 100%;
-	max-width: 150px;
-	align-self: center;
-	margin: 5px auto 16px;
-	border-radius: 8px !important;
-}
-
 .submit-register {
 	width: 100%;
 	max-width: 200px;
@@ -106,15 +77,5 @@ const submitHandler = async (event: Event) => {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-}
-
-.password-validate {
-	color: #f19035;
-	font-size: 14px;
-	font-style: normal;
-	font-weight: 700;
-	line-height: normal;
-	margin: 0 auto;
-	text-align: center;
 }
 </style>
