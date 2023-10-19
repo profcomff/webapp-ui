@@ -21,4 +21,16 @@ export const profileRoutes: RouteRecordRaw[] = [
 		path: 'edit-auth',
 		component: () => import('@/views/profile/ProfileEditAuthView.vue'),
 	},
+	{
+		path: 'settings',
+		component: () => import('@/views/profile/ProfileSettingsView.vue'),
+	},
+	{
+		path: 'change-password',
+		component: () => import('@/views/auth/ChangePasswordView.vue'),
+	},
+	{
+		path: 'change-email',
+		component: () => import('@/views/auth/ChangeEmailView.vue'),
+	},
 ];

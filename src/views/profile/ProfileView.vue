@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { IrdomLayout, ToolbarMenuItem } from '@/components';
+import { IrdomLayout, ToolbarActionItem } from '@/components';
 import { useProfileStore } from '@/store';
 import { onMounted, ref } from 'vue';
 import Placeholder from '@/assets/profile_image_placeholder.webp';
@@ -22,25 +22,16 @@ const photoURL_item = ref<UserdataExtendedValue | null>();
 const fullName = ref('');
 const photoURL = ref('');
 
-const toolbarMenu: ToolbarMenuItem[] = [
+const toolbarAction: ToolbarActionItem[] = [
 	{
-		name: 'Выход',
-		onClick: async () => {
-			await AuthApi.logout();
-			router.push('/auth');
-		},
+		icon: 'edit',
+		ariaLabel: 'Редактировать профиль',
+		onClick: async () => router.push('/profile/edit'),
 	},
 	{
-		name: 'Сессии',
-		onClick: () => router.push('/profile/sessions'),
-	},
-	{
-		name: 'Редактировать профиль',
-		onClick: () => router.push('/profile/edit'),
-	},
-	{
-		name: 'Изменить методы авторизации',
-		onClick: () => router.push('/profile/edit-auth'),
+		icon: 'settings',
+		ariaLabel: 'Настройки',
+		onClick: async () => router.push('/profile/settings'),
 	},
 ];
 
@@ -77,7 +68,7 @@ onMounted(async () => {
 </script>
 
 <template>
-	<IrdomLayout :toolbar-menu="toolbarMenu" title="Профиль" class-name="profile-toolbar">
+	<IrdomLayout :toolbar-actions="toolbarAction" title="Профиль" class-name="profile-toolbar">
 		<img :src="photoURL" alt="Аватар" width="400 " height="400" class="avatar" />
 		<span class="user-name">
 			{{ fullName }}

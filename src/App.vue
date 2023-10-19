@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, onMounted } from 'vue';
-import { IrdomNavbar, NavbarItem, IrdomToastList } from './components';
+import { IrdomNavbar, IrdomToastList, NavbarItem } from './components';
 import { useProfileStore, useTimetableStore } from './store';
 import { marketingApi } from './api/marketing';
 
@@ -20,11 +20,11 @@ const navbarItems = computed<NavbarItem[]>(() => {
 			name: 'Сервисы',
 			path: ['/apps'],
 		},
-		// {
-		// 	icon: 'account_circle',
-		// 	name: 'Профиль',
-		// 	path: ['/profile', '/auth'],
-		// },
+		{
+			icon: 'account_circle',
+			name: 'Профиль',
+			path: ['/profile', '/auth'],
+		},
 	];
 	// if (profileStore.isAdmin) {
 	// 	common.push({
@@ -52,8 +52,7 @@ onMounted(async () => {
 <template>
 	<v-app>
 		<RouterView />
+		<IrdomToastList />
 		<IrdomNavbar :items="navbarItems" />
 	</v-app>
-
-	<IrdomToastList />
 </template>

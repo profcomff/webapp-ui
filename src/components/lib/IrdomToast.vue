@@ -29,9 +29,9 @@ const icon = computed(() => {
 			<div class="header">
 				<b class="title">{{ props.toast.title }}</b>
 				<div>
-					<button type="button" class="close" @click="$emit('close')">
+					<v-btn type="button" class="close" @click="$emit('close')">
 						<v-icon icon="md:close" />
-					</button>
+					</v-btn>
 				</div>
 			</div>
 			<p>{{ props.toast.description }}</p>

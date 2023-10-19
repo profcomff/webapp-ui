@@ -45,7 +45,6 @@ const clickHandler = async () => {
 
 <style scoped>
 .icon {
-	filter: grayscale(1);
 	margin-right: 11px;
 }
 </style>

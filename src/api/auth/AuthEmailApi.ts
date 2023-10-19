@@ -28,8 +28,12 @@ interface RequestResetPasswordBody {
 	new_password: string;
 }
 
+interface RequestResetForgottenPasswordBody {
+	email: string;
+}
+
 interface ResetPasswordParams {
-	'reset-token': string;
+	new_password: string;
 }
 
 interface LoginResponse {
@@ -73,8 +77,12 @@ class AuthEmailApi extends AuthBaseApi {
 		return this.post<DefaultResponse, RequestResetPasswordBody>('/reset/password/request', body);
 	}
 
-	public async resetPassword(params: ResetPasswordParams) {
-		return this.post<DefaultResponse, ResetPasswordParams>('/reset/password', params);
+	public async requestResetForgottenPassword(body: RequestResetForgottenPasswordBody) {
+		return this.post<DefaultResponse, RequestResetForgottenPasswordBody>('/reset/password/restore', body);
+	}
+
+	public async resetPassword(body: ResetPasswordParams, token: string) {
+		return this.post<DefaultResponse, ResetPasswordParams>('/reset/password', body, { 'reset-token': token });
 	}
 }
 

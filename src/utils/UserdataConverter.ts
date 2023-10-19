@@ -146,7 +146,7 @@ export class UserdataConverter {
 						value: {
 							name: userValue!.name,
 							is_required: value.is_required,
-							changeable: value.changeable,
+							changeable: value.changeable || userValue!.name.trim() === '',
 							type: value.type,
 						},
 					});
@@ -173,9 +173,6 @@ export class UserdataConverter {
 		updateUserdata.source = source;
 		for (const category of userdata) {
 			for (const item of category.data) {
-				if (!item.value.changeable) {
-					continue;
-				}
 				const updateItem = {} as UserdataUpdateUserItem;
 				if (item.value.name.trim() === '') {
 					updateItem.category = category.name;

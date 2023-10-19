@@ -6,14 +6,14 @@ import { authButtons } from '@/constants';
 </script>
 
 <template>
-	<IrdomLayout title="Все способы входа" backable back="/auth">
+	<IrdomLayout title="Все способы регистрации">
 		<div class="container">
 			<div>
 				<div class="buttons">
 					<IrdomAuthButton
+						class="button"
 						v-for="button of authButtons.filter(({ method }) => method !== AuthMethod.Telegram)"
 						:key="button.name"
-						class="button"
 						:button="button"
 					/>
 					<TelegramButon class="button" />
@@ -21,13 +21,10 @@ import { authButtons } from '@/constants';
 				</div>
 				<hr class="line" />
 				<div class="email-login">
-					<RouterLink to="/auth">Войти по электронной почте</RouterLink>
+					<RouterLink to="/auth/register-email">Зарегистрироваться по электронной почте</RouterLink>
 				</div>
 			</div>
 			<div>
-				<div class="link-text-register">
-					Еще нет профиля? <RouterLink to="/auth/register-email">Зарегистрируйтесь</RouterLink>
-				</div>
 				<div class="link-text-politics">
 					При регистрации и входе вы соглашаетесь
 					<RouterLink to="/auth/politics">с политикой обработки данных</RouterLink>
@@ -50,7 +47,7 @@ import { authButtons } from '@/constants';
 	color: #18185c;
 	font-size: 18px;
 	font-style: normal;
-	font-weight: 400;
+	font-weight: 600;
 	line-height: normal;
 	margin-top: 15px;
 	text-align: center !important;

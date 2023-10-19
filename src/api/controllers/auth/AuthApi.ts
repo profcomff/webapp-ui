@@ -134,4 +134,46 @@ export class AuthApi {
 		[checkToken],
 		[showErrorToast],
 	);
+
+	static requestResetForgottenPassword = apply(
+		async (email: string) => {
+			const data = await authEmailApi.requestResetForgottenPassword({ email });
+			return data;
+		},
+		[showErrorToast],
+	);
+
+	static requestResetPassword = apply(
+		async (email: string, password: string, new_password: string) => {
+			const data = await authEmailApi.requestResetPassword({ email, password, new_password });
+			return data;
+		},
+		[showErrorToast],
+		[checkToken],
+	);
+
+	static resetPassword = apply(
+		async (new_password: string, token: string) => {
+			const data = await authEmailApi.resetPassword({ new_password }, token);
+			return data;
+		},
+		[showErrorToast],
+	);
+
+	static resetEmail = apply(
+		async (token: string) => {
+			const data = await authEmailApi.resetEmail({ token });
+			return data;
+		},
+		[showErrorToast],
+	);
+
+	static requestResetEmail = apply(
+		async (email: string) => {
+			const data = await authEmailApi.requestResetEmail({ email });
+			return data;
+		},
+		[checkToken],
+		[showErrorToast],
+	);
 }

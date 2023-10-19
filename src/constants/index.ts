@@ -31,7 +31,7 @@ export const authButtons: AuthButton[] = [
 		name: '@my.msu.ru',
 		api: authMymsuApi,
 		method: AuthMethod.MyMsu,
-		icon: `${logos}#msu`,
+		icon: `${logos}#yandex`,
 		color: '#2f39500d',
 	},
 	{

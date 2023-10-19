@@ -1,5 +1,8 @@
 <script setup lang="ts">
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
+
+const checkPasswords = ref(false);
+checkPasswords.value = false;
 
 export interface SubmitData {
 	email: string;
@@ -19,13 +22,18 @@ const submitHandler = async (event: Event) => {
 	const formData = new FormData(form);
 	const email = formData.get('email')?.toString();
 	const password = formData.get('password')?.toString();
+	const repeat_password = formData.get('repeat-password')?.toString();
 
-	if (email && password) {
-		emits('submit', { email, password });
+	if (password === repeat_password || props.mode === 'login') {
+		if (email && password) {
+			emits('submit', { email, password });
+		}
+	} else {
+		checkPasswords.value = true;
 	}
 };
 
-const buttonText = computed(() => (props.mode === 'login' ? 'Вход' : 'Регистрация'));
+const buttonText = computed(() => (props.mode === 'login' ? 'Войти' : 'Зарегистрироваться'));
 </script>
 
 <template>
@@ -34,46 +42,104 @@ const buttonText = computed(() => (props.mode === 'login' ? 'Вход' : 'Рег
 			type="email"
 			name="email"
 			autocomplete="email"
-			placeholder="Введите почту"
 			class="input"
+			density="compact"
 			required
+			variant="outlined"
+			label="Email"
 		/>
 		<v-text-field
+			variant="outlined"
 			type="password"
 			name="password"
 			:autocomplete="mode === 'login' ? 'current-password' : 'new-password'"
-			placeholder="Введите пароль"
 			class="input"
+			density="compact"
+			label="Пароль"
 			required
 		/>
-		<v-btn type="submit" class="submit">{{ buttonText }}</v-btn>
+
+		<div v-if="$props.mode === 'login'" class="forgot-pass">
+			<router-link to="/auth/forgot-password">Не помню пароль</router-link>
+		</div>
+
+		<v-text-field
+			v-if="$props.mode === 'register'"
+			variant="outlined"
+			type="password"
+			name="repeat-password"
+			class="input"
+			density="compact"
+			label="Повтор пароля"
+			required
+		/>
+		<div v-if="checkPasswords" class="password-validate">Пароли должны совпадать</div>
+		<v-btn v-if="$props.mode === 'register'" type="submit" class="submit-register" color="#fff">{{
+			buttonText
+		}}</v-btn>
+		<v-btn v-if="$props.mode === 'login'" type="submit" class="submit-login" color="#fff">{{ buttonText }}</v-btn>
 	</form>
 </template>
 
 <style scoped>
-.submit {
+.field {
+	text-align: left;
 	width: 100%;
 	max-width: 400px;
 	align-self: center;
-	background: rgb(var(--v-theme-primary));
-	color: rgb(var(--v-theme-on-primary));
-	margin: 0 auto 16px;
+}
+
+.forgot-pass {
+	align-self: center;
+	padding-bottom: 10px;
+	max-width: 333px;
+	justify-self: right;
+	text-align: right;
+	width: 100%;
+	color: #18185c;
+	font-size: 14px;
+	font-style: normal;
+	font-weight: 700;
+	line-height: normal;
+}
+
+.submit-login {
+	width: 100%;
+	max-width: 150px;
+	align-self: center;
+	margin: 5px auto 16px;
+	border-radius: 8px !important;
+}
+
+.submit-register {
+	width: 100%;
+	max-width: 200px;
+	align-self: center;
+	margin: 20px auto 16px;
+	border-radius: 8px !important;
 }
 
 .input {
 	align-self: center;
+	align-items: center;
 	width: 100%;
 	max-width: 400px;
-	margin: 0 auto 24px;
+	margin: 0 auto 5px;
 }
 
 .form {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
+}
 
-	@media screen and (width <= 575px) {
-		margin-top: 50%;
-	}
+.password-validate {
+	color: #f19035;
+	font-size: 14px;
+	font-style: normal;
+	font-weight: 700;
+	line-height: normal;
+	margin: 0 auto;
+	text-align: center;
 }
 </style>

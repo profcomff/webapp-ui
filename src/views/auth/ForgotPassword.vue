@@ -1,36 +1,43 @@
-<!-- Страница со списком основных методов входа -->
+Страница со списком основных методов входа
 <script setup lang="ts">
-import { IrdomLayout, SubmitData, EmailPasswordForm, IrdomAuthButton } from '@/components';
 import { AuthApi } from '@/api';
+import { IrdomLayout } from '@/components';
 import { useRouter } from 'vue-router';
-import { authButtons } from '@/constants';
+
 const router = useRouter();
 
-const submitHandler = async ({ email, password }: SubmitData) => {
-	const response = await AuthApi.loginEmail(email, password);
-	if (response) {
-		router.push('/profile');
+const submitHandler = async (event: Event) => {
+	const form = event.target as HTMLFormElement;
+	const formData = new FormData(form);
+	const email = formData.get('email')?.toString();
+	if (email) {
+		const response = await AuthApi.requestResetForgottenPassword(email);
+		if (response) {
+			router.push('/auth/auth-forgot-password');
+		}
 	}
 };
 </script>
 
 <template>
-	<IrdomLayout title="Вход в профиль">
+	<IrdomLayout title="Восстановление доступа">
 		<div class="container">
 			<div>
-				<EmailPasswordForm mode="login" @submit="submitHandler" />
-				<div class="buttons">
-					<IrdomAuthButton
-						v-for="i in 3"
-						:key="authButtons[i - 1].name"
-						type="button"
-						:button="authButtons[i - 1]"
-						class="button"
-					/>
-					<v-btn prepend-icon="more_horiz" class="button" color="#fff" @click="router.push('/auth/all')"
-						>Другие сервисы</v-btn
-					>
-				</div>
+				<form class="form" @submit.prevent="submitHandler">
+					<div class="container">
+						<v-text-field
+							type="email"
+							name="email"
+							autocomplete="email"
+							class="input"
+							density="compact"
+							required
+							variant="outlined"
+							label="Email"
+						/>
+						<v-btn type="submit" class="submit" color="#fff"> Восстановить пароль </v-btn>
+					</div>
+				</form>
 			</div>
 			<div>
 				<div class="link-text-register">
@@ -46,6 +53,21 @@ const submitHandler = async ({ email, password }: SubmitData) => {
 </template>
 
 <style scoped>
+.submit {
+	width: 100%;
+	max-width: 220px;
+	align-self: center;
+	margin: 20px auto 16px;
+	border-radius: 8px !important;
+}
+
+.input {
+	align-self: center;
+	width: 100%;
+	max-width: 400px;
+	margin: 0 auto 5px;
+}
+
 .link-text-register {
 	color: #18185c;
 	margin: 0 auto;
@@ -72,18 +94,6 @@ const submitHandler = async ({ email, password }: SubmitData) => {
 	& a {
 		text-decoration-line: underline;
 	}
-}
-
-.buttons {
-	margin: 30px auto;
-	grid-template-columns: 1fr 1fr;
-	display: grid;
-	gap: 16px;
-	max-width: 400px;
-}
-
-.button {
-	border-radius: 8px !important;
 }
 
 .container {
