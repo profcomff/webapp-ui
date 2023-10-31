@@ -1,4 +1,5 @@
-import { RouteRecordRaw } from 'vue-router';
+import { LocalStorage, LocalStorageItem } from '@/models';
+import { NavigationGuard, RouteRecordRaw } from 'vue-router';
 
 export const authRoutes: RouteRecordRaw[] = [
 	{
@@ -26,3 +27,11 @@ export const authRoutes: RouteRecordRaw[] = [
 		component: () => import('@/views/auth/OauthLoginView.vue'),
 	},
 ];
+
+export const authHandler: NavigationGuard = to => {
+	if (to.path.startsWith('/profile') && !LocalStorage.get(LocalStorageItem.Token)) {
+		return { path: '/auth' };
+	} else if (to.path.startsWith('/auth') && LocalStorage.get(LocalStorageItem.Token)) {
+		return { path: '/profile' };
+	}
+};
