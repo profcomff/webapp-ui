@@ -1,9 +1,8 @@
 import { useProfileStore } from '@/store';
 import { marketingApi } from '@/api/marketing/MarketingApi';
-import { LocalStorage, LocalStorageItem } from '@/models/LocalStorage';
 import { adminRoutes, adminHandler } from './admin';
 import { profileRoutes } from './profile';
-import { authRoutes } from './auth';
+import { authHandler, authRoutes } from './auth';
 import { AppsView } from '@/views';
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router';
 import { timetableRoutes, timetableHandler } from './timetable';
@@ -52,13 +51,7 @@ const router = createRouter({
 	routes,
 });
 
-router.beforeEach(async to => {
-	if (to.path === '/profile' && !LocalStorage.get(LocalStorageItem.Token)) {
-		return { path: '/auth' };
-	} else if (to.path === '/auth' && LocalStorage.get(LocalStorageItem.Token)) {
-		return { path: '/profile' };
-	}
-});
+router.beforeEach(authHandler);
 router.beforeEach(timetableHandler);
 router.beforeEach(adminHandler);
 
