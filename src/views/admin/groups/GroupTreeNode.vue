@@ -40,14 +40,10 @@ const deleteGroup = async (groupId?: number) => {
 		authStore.deleteGroup(groupId);
 	}
 };
-
-const selectedHandler = () => {
-	console.log(panel.value?.value);
-};
 </script>
 
 <template>
-	<v-expansion-panel v-if="node" ref="panel" @group:selected="selectedHandler">
+	<v-expansion-panel v-if="node" ref="panel">
 		<v-expansion-panel-title>
 			<RouterLink :to="`/admin/group/${node.id}`" class="link">
 				{{ node.name }}

@@ -56,8 +56,7 @@ const sorted = computed(() =>
 .grid {
 	display: grid;
 	grid-template-columns: 1fr 1fr;
-	column-gap: 2.5%;
-	row-gap: 16px;
+	gap: 16px 2.5%;
 
 	@media screen and (width <= 575px) {
 		grid-template-columns: 1fr;
