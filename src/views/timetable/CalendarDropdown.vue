@@ -72,10 +72,9 @@ button.expander {
 		'date icon'
 		'group icon ';
 	column-gap: 8px;
-	align-items: center;
 	height: 100%;
 	align-content: center;
-	justify-items: start;
+	place-items: center start;
 }
 
 .expander-icon {
