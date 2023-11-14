@@ -13,7 +13,7 @@ const submitHandler = async (event: Event) => {
 	if (email) {
 		const response = await AuthApi.requestResetForgottenPassword(email);
 		if (response) {
-			router.push('/auth/auth-forgot-password');
+			router.push({ path: '/auth', query: { plan: 'private' } });
 		}
 	}
 };

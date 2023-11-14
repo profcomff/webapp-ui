@@ -2,9 +2,10 @@
 <script setup lang="ts">
 import { IrdomLayout, SubmitData, EmailPasswordForm, IrdomAuthButton } from '@/components';
 import { AuthApi } from '@/api';
-import { useRouter } from 'vue-router';
+import { useRouter, useRoute } from 'vue-router';
 import { authButtons } from '@/constants';
 const router = useRouter();
+const route = useRoute();
 
 const submitHandler = async ({ email, password }: SubmitData) => {
 	const response = await AuthApi.loginEmail(email, password);
@@ -31,6 +32,9 @@ const submitHandler = async ({ email, password }: SubmitData) => {
 						>Другие сервисы</v-btn
 					>
 				</div>
+				<div v-if="route.query.plan" class="restore">
+					На вашу почту отправлено письмо для восстановления доступа к аккаунту
+				</div>
 			</div>
 			<div>
 				<div class="link-text-register">
@@ -46,6 +50,16 @@ const submitHandler = async ({ email, password }: SubmitData) => {
 </template>
 
 <style scoped>
+.restore {
+	color: #f19035;
+	font-size: 14px;
+	font-style: normal;
+	font-weight: 700;
+	line-height: normal;
+	margin: 0 auto;
+	text-align: center;
+}
+
 .link-text-register {
 	color: #18185c;
 	margin: 0 auto;
@@ -83,6 +97,7 @@ const submitHandler = async ({ email, password }: SubmitData) => {
 }
 
 .button {
+	overflow-x: hidden;
 	border-radius: 8px !important;
 }
 

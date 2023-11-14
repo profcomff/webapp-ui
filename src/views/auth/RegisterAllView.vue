@@ -6,7 +6,7 @@ import { authButtons } from '@/constants';
 </script>
 
 <template>
-	<IrdomLayout title="Все способы регистрации">
+	<IrdomLayout title="Все способы регистрации" backable back="/auth">
 		<div class="container">
 			<div>
 				<div class="buttons">

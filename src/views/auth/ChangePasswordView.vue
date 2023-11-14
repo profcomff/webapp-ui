@@ -14,13 +14,12 @@ const toastStore = useToastStore();
 const submitHandler = async (event: Event) => {
 	const form = event.target as HTMLFormElement;
 	const formData = new FormData(form);
-	const email = formData.get('email')?.toString();
 	const old_password = formData.get('old-password')?.toString();
 	const password = formData.get('password')?.toString();
 	const repeat_password = formData.get('repeat-password')?.toString();
 
-	if (password === repeat_password && email && old_password && password) {
-		const response = await AuthApi.requestResetPassword(email, old_password, password);
+	if (password === repeat_password && old_password && password) {
+		const response = await AuthApi.requestResetPassword(old_password, password);
 		if (response) {
 			toastStore.push({
 				title: 'Изменение пароля',
@@ -32,22 +31,19 @@ const submitHandler = async (event: Event) => {
 	} else {
 		checkPasswords.value = true;
 	}
+	
+	if (repeat_password !== password) {
+		toastStore.push({
+			title: 'Изменение пароля',
+			type: ToastType.Error,
+			description: 'Пароли не совпадают',
+		});
 };
 </script>
 
 <template>
 	<IrdomLayout title="Изменение пароля" backable back="/profile/settings">
 		<form class="form" @submit.prevent="submitHandler">
-			<v-text-field
-				type="email"
-				name="email"
-				autocomplete="email"
-				class="input"
-				density="compact"
-				required
-				variant="outlined"
-				label="Email"
-			/>
 			<v-text-field
 				variant="outlined"
 				type="password"

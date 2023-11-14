@@ -38,19 +38,15 @@ export class AuthApi {
 		[scoped, scopename.auth.user.read],
 	);
 
-	static logout = apply(
-		async () => {
-			const profileStore = useProfileStore();
-			const toastStore = useToastStore();
-			profileStore.deleteToken();
-			router.push('/auth');
-			toastStore.push({
-				title: 'Вы успешно вышли из аккаунта!',
-			});
-		},
-		[showErrorToast],
-		[checkToken],
-	);
+	static logout = apply(async () => {
+		const profileStore = useProfileStore();
+		const toastStore = useToastStore();
+		profileStore.deleteToken();
+		router.push('/auth');
+		toastStore.push({
+			title: 'Вы успешно вышли из аккаунта!',
+		});
+	}, [showErrorToast]);
 
 	static getMe = apply(
 		async (info?: MySessionInfo[]) => {
@@ -144,8 +140,8 @@ export class AuthApi {
 	);
 
 	static requestResetPassword = apply(
-		async (email: string, password: string, new_password: string) => {
-			const data = await authEmailApi.requestResetPassword({ email, password, new_password });
+		async (password: string, new_password: string) => {
+			const data = await authEmailApi.requestResetPassword({ password, new_password });
 			return data;
 		},
 		[showErrorToast],

@@ -107,6 +107,7 @@ async function saveEdit() {
 		</section>
 		<div class="fab">
 			<v-btn icon="md:save" size="x-large" color="secondary" elevation="24" @click="saveEdit" />
+			<v-btn icon="cancel" size="x-large" color="red" elevation="24" @click="$router.push('/profile')" />
 		</div>
 	</IrdomLayout>
 </template>
@@ -136,7 +137,9 @@ async function saveEdit() {
 .fab {
 	position: fixed;
 	bottom: calc(var(--v-layout-bottom) + 20px);
-	right: 50px;
+	right: 15px;
+	display: grid;
+	gap: 15px;
 }
 
 .avatar {

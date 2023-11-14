@@ -32,29 +32,34 @@ const OnClick = async () => {
 
 <style scoped>
 .button {
+	position: relative;
 	border-radius: 10px !important;
-	width: 800px;
-	max-width: 800px;
+	width: 600px;
+	max-width: 600px;
 	display: flex;
+	text-align: center;
 	padding: 12px 16px;
 	gap: 12px;
+	margin: 0 auto;
 }
 
 .button-exit {
 	border-radius: 10px !important;
 	color: red !important;
-	width: 800px;
-	max-width: 800px;
+	width: 600px;
+	max-width: 600px;
 	display: flex;
 	padding: 12px 16px;
 	gap: 12px;
+	margin: 0 auto;
 }
 
 .buttons {
+	position: relative;
 	color: #f2f2f2 !important;
-	margin: 10px auto 0;
-	display: grid;
+	display: flex;
 	flex-direction: column;
+	align-items: center;
 	gap: 20px;
 }
 </style>

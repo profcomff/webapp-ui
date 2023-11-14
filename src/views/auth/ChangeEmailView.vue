@@ -2,14 +2,27 @@
 import { AuthApi } from '@/api';
 import { ToastType } from '@/models';
 import { useToastStore } from '@/store';
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
 import { IrdomLayout } from '@/components';
 import { useRouter } from 'vue-router';
+import { MySessionInfo } from '@/api/auth/UserSessionApi';
 
 const checkPasswords = ref(false);
 checkPasswords.value = false;
 const router = useRouter();
 const toastStore = useToastStore();
+const current_email = ref('');
+
+onMounted(async () => {
+	const { data: me } = await AuthApi.getMe([
+		MySessionInfo.AuthMethods,
+		MySessionInfo.Groups,
+		MySessionInfo.IndirectGroups,
+		MySessionInfo.SessionScopes,
+		MySessionInfo.UserScopes,
+	]);
+	current_email.value = me.email;
+});
 
 const submitHandler = async (event: Event) => {
 	const form = event.target as HTMLFormElement;
@@ -30,8 +43,11 @@ const submitHandler = async (event: Event) => {
 </script>
 
 <template>
-	<IrdomLayout title="Изменение пароля" backable back="/profile/settings">
-		<div class="email">Текущий адрес электронной почты</div>
+	<IrdomLayout title="Изменение электронной почты" backable back="/profile/settings">
+		<div class="email">
+			Текущий адрес электронной почты:
+			<p class="email-text">{{ current_email }}</p>
+		</div>
 		<form class="form" @submit.prevent="submitHandler">
 			<v-text-field
 				type="email"
@@ -54,6 +70,14 @@ const submitHandler = async (event: Event) => {
 	font-size: 18px;
 	font-style: normal;
 	font-weight: 400;
+	line-height: normal;
+}
+
+.email-text {
+	color: #18185c;
+	font-size: 18px;
+	font-style: normal;
+	font-weight: 700;
 	line-height: normal;
 }
 

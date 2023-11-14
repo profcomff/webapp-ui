@@ -23,7 +23,6 @@ interface ApproveEmailParams {
 }
 
 interface RequestResetPasswordBody {
-	email: string;
 	password: string;
 	new_password: string;
 }

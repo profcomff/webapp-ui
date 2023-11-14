@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { ToastType } from '@/models';
+import { useToastStore } from '@/store';
 import { computed, ref } from 'vue';
 
 const checkPasswords = ref(false);
@@ -17,6 +19,8 @@ const emits = defineEmits<{
 	submit: [data: SubmitData];
 }>();
 
+const toastStore = useToastStore();
+
 const submitHandler = async (event: Event) => {
 	const form = event.target as HTMLFormElement;
 	const formData = new FormData(form);
@@ -30,6 +34,13 @@ const submitHandler = async (event: Event) => {
 		}
 	} else {
 		checkPasswords.value = true;
+	}
+	if (repeat_password !== password) {
+		toastStore.push({
+			title: 'Изменение пароля',
+			type: ToastType.Error,
+			description: 'Пароли не совпадают',
+		});
 	}
 };
 
