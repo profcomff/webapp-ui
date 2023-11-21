@@ -8,6 +8,6 @@
 		"color-no-hex": null,
 		"selector-nested-pattern": "^&",
 		"no-descending-specificity": null,
-		"selector-class-pattern": null 
+		"selector-class-pattern": null
 	}
 }

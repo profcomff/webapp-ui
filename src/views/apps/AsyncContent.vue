@@ -96,8 +96,7 @@ const sendMarketing = (url: string) => {
 .grid3 {
 	display: grid;
 	grid-template-columns: repeat(3, 1fr);
-	column-gap: 2.5%;
-	row-gap: 32px;
+	gap: 32px 2.5%;
 	justify-items: center;
 	align-self: center;
 

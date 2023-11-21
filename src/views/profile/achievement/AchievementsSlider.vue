@@ -10,7 +10,6 @@ const isLoaded = ref(false);
 onMounted(async () => {
 	achievementApi.getUser(props.userId).then(resp => {
 		achievements.value = resp.data.achievement;
-		console.log(achievements.value);
 		isLoaded.value = true;
 	});
 });
