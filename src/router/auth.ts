@@ -22,10 +22,6 @@ export const authRoutes: RouteRecordRaw[] = [
 		component: () => import('@/views/auth/ResetEmail.vue'),
 	},
 	{
-		path: 'auth-forgot-password',
-		component: () => import('@/views/auth/AuthForgottenPasswordView.vue'),
-	},
-	{
 		path: 'all',
 		component: () => import('@/views/auth/AuthAllView.vue'),
 	},

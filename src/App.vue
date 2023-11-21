@@ -2,6 +2,7 @@
 import { useProfileStore, useTimetableStore } from './store';
 import { marketingApi } from './api/marketing';
 import { navbarItems } from '@/constants';
+import { onMounted } from 'vue';
 
 const profileStore = useProfileStore();
 const { updateToken, updateTokenScopes, updateMarketingId } = profileStore;
