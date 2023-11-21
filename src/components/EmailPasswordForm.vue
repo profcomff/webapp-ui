@@ -104,7 +104,6 @@ const buttonText = computed(() => (props.mode === 'login' ? 'Войти' : 'За
 	align-self: center;
 	padding-bottom: 10px;
 	max-width: 333px;
-	justify-self: right;
 	text-align: right;
 	width: 100%;
 	color: #18185c;
