@@ -31,13 +31,14 @@ const submitHandler = async (event: Event) => {
 	} else {
 		checkPasswords.value = true;
 	}
-	
+
 	if (repeat_password !== password) {
 		toastStore.push({
 			title: 'Изменение пароля',
 			type: ToastType.Error,
 			description: 'Пароли не совпадают',
 		});
+	}
 };
 </script>
 
