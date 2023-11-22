@@ -25,30 +25,18 @@ const OnClick = async () => {
 			<v-btn prepend-icon="history" variant="tonal" class="button" @click="$router.push('/profile/sessions')"
 				>Текущие сессии</v-btn
 			>
-			<v-btn variant="tonal" class="button-exit" @click="OnClick">Выход</v-btn>
+			<v-btn variant="tonal" class="button" color="red" @click="OnClick">Выход</v-btn>
 		</div>
 	</IrdomLayout>
 </template>
 
 <style scoped>
 .button {
-	position: relative;
 	border-radius: 10px !important;
-	width: 600px;
+	width: 100%;
 	max-width: 600px;
 	display: flex;
 	text-align: center;
-	padding: 12px 16px;
-	gap: 12px;
-	margin: 0 auto;
-}
-
-.button-exit {
-	border-radius: 10px !important;
-	color: red !important;
-	width: 600px;
-	max-width: 600px;
-	display: flex;
 	padding: 12px 16px;
 	gap: 12px;
 	margin: 0 auto;
