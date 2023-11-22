@@ -66,7 +66,7 @@ async function saveEdit() {
 </script>
 
 <template>
-	<IrdomLayout title="Профиль" class-name="profile-toolbar">
+	<IrdomLayout title="Профиль" class-name="profile-toolbar" centered-toolbar>
 		<img :src="photoURL" alt="Аватар" width="400 " height="400" class="avatar" />
 		<textarea
 			v-model="fullName"

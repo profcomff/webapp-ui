@@ -68,7 +68,7 @@ onMounted(async () => {
 </script>
 
 <template>
-	<IrdomLayout :toolbar-actions="toolbarAction" title="Профиль" class-name="profile-toolbar">
+	<IrdomLayout :toolbar-actions="toolbarAction" title="Профиль" class-name="profile-toolbar" centered-toolbar>
 		<img :src="photoURL" alt="Аватар" width="400 " height="400" class="avatar" />
 		<span class="user-name">
 			{{ fullName }}
