@@ -66,7 +66,7 @@ async function saveEdit() {
 </script>
 
 <template>
-	<IrdomLayout title="Профиль" class-name="profile-toolbar">
+	<IrdomLayout title="Профиль" class-name="profile-toolbar" centered-toolbar backable>
 		<img :src="photoURL" alt="Аватар" width="400 " height="400" class="avatar" />
 		<textarea
 			v-model="fullName"
@@ -107,7 +107,6 @@ async function saveEdit() {
 		</section>
 		<div class="fab">
 			<v-btn icon="md:save" size="x-large" color="secondary" elevation="24" @click="saveEdit" />
-			<v-btn icon="cancel" size="x-large" color="red" elevation="24" @click="$router.push('/profile')" />
 		</div>
 	</IrdomLayout>
 </template>

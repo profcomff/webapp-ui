@@ -12,6 +12,7 @@ defineProps<{
 	touch?: unknown;
 	height?: string;
 	className?: string;
+	centeredToolbar?: boolean;
 }>();
 </script>
 
@@ -24,6 +25,7 @@ defineProps<{
 		:title="title"
 		:share="share"
 		:class="className"
+		:centered="centeredToolbar"
 	>
 		<slot name="toolbar" />
 	</IrdomToolbar>
@@ -50,10 +52,6 @@ defineProps<{
 	z-index: 1 !important;
 	position: absolute !important;
 	text-align: center !important;
-}
-
-.profile-toolbar :global(.v-toolbar-title__placeholder) {
-	margin-left: 3%;
 }
 
 .container {
