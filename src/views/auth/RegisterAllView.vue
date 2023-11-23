@@ -27,7 +27,7 @@ import { authButtons } from '@/constants';
 			<div>
 				<div class="link-text-politics">
 					При регистрации и входе вы соглашаетесь
-					<RouterLink to="/auth/politics">с политикой обработки данных</RouterLink>
+					<a href="https://pages.profcomff.com/tvoy_ff_privacy_policy">с политикой обработки данных</a>
 				</div>
 			</div>
 		</div>
