@@ -6,28 +6,25 @@ import { authButtons } from '@/constants';
 </script>
 
 <template>
-	<IrdomLayout title="Все способы входа" backable back="/auth">
+	<IrdomLayout title="Все способы регистрации" backable back="/auth">
 		<div class="container">
 			<div>
 				<div class="buttons">
 					<IrdomAuthButton
 						v-for="button of authButtons.filter(({ method }) => method !== AuthMethod.Telegram)"
 						:key="button.name"
-						class="button"
 						:button="button"
+						class="button"
 					/>
 					<TelegramButon class="button" />
 					<div ref="telegram"></div>
 				</div>
 				<hr class="line" />
 				<div class="email-login">
-					<RouterLink to="/auth">Войти по электронной почте</RouterLink>
+					<RouterLink to="/auth/register-email">Зарегистрироваться по электронной почте</RouterLink>
 				</div>
 			</div>
 			<div>
-				<div class="link-text-register">
-					Еще нет профиля? <RouterLink to="/auth/register-email">Зарегистрируйтесь</RouterLink>
-				</div>
 				<div class="link-text-politics">
 					При регистрации и входе вы соглашаетесь
 					<a href="https://pages.profcomff.com/tvoy_ff_privacy_policy">с политикой обработки данных</a>
@@ -50,7 +47,7 @@ import { authButtons } from '@/constants';
 	color: #18185c;
 	font-size: 18px;
 	font-style: normal;
-	font-weight: 400;
+	font-weight: 600;
 	line-height: normal;
 	margin-top: 15px;
 	text-align: center !important;
@@ -67,20 +64,6 @@ import { authButtons } from '@/constants';
 	display: grid;
 	gap: 16px;
 	max-width: 400px;
-}
-
-.link-text-register {
-	color: #18185c;
-	margin: 0 auto;
-	text-align: center;
-	font-size: 15px;
-	font-style: normal;
-	font-weight: 400;
-	line-height: normal;
-
-	& a {
-		font-weight: 700;
-	}
 }
 
 .link-text-politics {

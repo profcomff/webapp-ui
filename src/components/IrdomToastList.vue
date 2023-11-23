@@ -21,7 +21,7 @@ const toastStore = useToastStore();
 	position: fixed;
 	left: 0;
 	right: 0;
-	bottom: var(--navbar-height);
+	top: 70%;
 	z-index: 10;
 	width: min(100%, 344px);
 	margin: 0 auto;

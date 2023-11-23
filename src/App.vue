@@ -26,8 +26,7 @@ onMounted(async () => {
 <template>
 	<v-app>
 		<RouterView />
+		<IrdomToastList />
 		<IrdomNavbar :items="navbarItems" />
 	</v-app>
-
-	<IrdomToastList />
 </template>

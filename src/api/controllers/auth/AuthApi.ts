@@ -38,19 +38,15 @@ export class AuthApi {
 		[scoped, scopename.auth.user.read],
 	);
 
-	static logout = apply(
-		async () => {
-			const profileStore = useProfileStore();
-			const toastStore = useToastStore();
-			profileStore.deleteToken();
-			router.push('/auth');
-			toastStore.push({
-				title: 'Вы успешно вышли из аккаунта!',
-			});
-		},
-		[showErrorToast],
-		[checkToken],
-	);
+	static logout = apply(async () => {
+		const profileStore = useProfileStore();
+		const toastStore = useToastStore();
+		profileStore.deleteToken();
+		router.push('/auth');
+		toastStore.push({
+			title: 'Вы успешно вышли из аккаунта!',
+		});
+	}, [showErrorToast]);
 
 	static getMe = apply(
 		async (info?: MySessionInfo[]) => {
@@ -129,6 +125,48 @@ export class AuthApi {
 	static deleteSession = apply(
 		async (token: string) => {
 			const data = await userSessionApi.deleteSession(token);
+			return data;
+		},
+		[checkToken],
+		[showErrorToast],
+	);
+
+	static requestResetForgottenPassword = apply(
+		async (email: string) => {
+			const data = await authEmailApi.requestResetForgottenPassword({ email });
+			return data;
+		},
+		[showErrorToast],
+	);
+
+	static requestResetPassword = apply(
+		async (password: string, new_password: string) => {
+			const data = await authEmailApi.requestResetPassword({ password, new_password });
+			return data;
+		},
+		[showErrorToast],
+		[checkToken],
+	);
+
+	static resetPassword = apply(
+		async (new_password: string, token: string) => {
+			const data = await authEmailApi.resetPassword({ new_password }, token);
+			return data;
+		},
+		[showErrorToast],
+	);
+
+	static resetEmail = apply(
+		async (token: string) => {
+			const data = await authEmailApi.resetEmail({ token });
+			return data;
+		},
+		[showErrorToast],
+	);
+
+	static requestResetEmail = apply(
+		async (email: string) => {
+			const data = await authEmailApi.requestResetEmail({ email });
 			return data;
 		},
 		[checkToken],

@@ -11,4 +11,9 @@ export const navbarItems: NavbarItem[] = [
 		name: 'Сервисы',
 		path: ['/apps'],
 	},
+	{
+		icon: 'account_circle',
+		name: 'Профиль',
+		path: ['/profile', '/auth'],
+	},
 ];

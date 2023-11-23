@@ -3,6 +3,7 @@ import { useRoute, useRouter } from 'vue-router';
 import { ToolbarActionItem, ToolbarMenuItem } from './types';
 import { marketingApi } from '@/api/marketing';
 import { useProfileStore } from '@/store';
+import { computed } from 'vue';
 
 interface Props {
 	menuItems?: ToolbarMenuItem[];
@@ -11,6 +12,7 @@ interface Props {
 	actions?: ToolbarActionItem[];
 	share?: boolean;
 	backable?: boolean;
+	centered?: boolean;
 }
 
 const route = useRoute();
@@ -24,7 +26,14 @@ const props = withDefaults(defineProps<Props>(), {
 	share: false,
 	backable: false,
 	back: undefined,
+	centered: false,
 });
+
+const invisibleButtons = computed(() => {
+	return props.centered ? props.actions.length + (props.share ? 1 : 0) - (props.backable ? 1 : 0) : 0;
+});
+const leftInvisibleButtons = computed(() => (invisibleButtons.value > 0 ? invisibleButtons.value : 0));
+const rightInvisibleButtons = computed(() => (invisibleButtons.value < 0 ? -invisibleButtons.value : 0));
 
 const data = {
 	url: route.fullPath,
@@ -54,12 +63,14 @@ const onBack = () => {
 	<v-app-bar class="overflow-visible" elevation="4">
 		<template #prepend>
 			<v-btn v-if="backable" icon="md:arrow_back" color="white" @click="onBack" />
+			<v-btn v-for="index in leftInvisibleButtons" :key="index" icon></v-btn>
 			<slot />
 		</template>
-		<v-app-bar-title v-if="title !== ''">
+		<v-app-bar-title v-if="title !== ''" :class="centered ? 'centered-title' : ''">
 			{{ title }}
 		</v-app-bar-title>
 		<template #append>
+			<v-btn v-for="index in rightInvisibleButtons" :key="index" icon disabled></v-btn>
 			<v-btn
 				v-for="{ icon, onClick } in actions"
 				:key="icon"
@@ -87,3 +98,9 @@ const onBack = () => {
 		</template>
 	</v-app-bar>
 </template>
+
+<style scoped>
+.centered-title :global(.v-toolbar-title__placeholder) {
+	margin-left: -16px;
+}
+</style>
