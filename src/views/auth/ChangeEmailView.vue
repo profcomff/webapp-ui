@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { AuthApi } from '@/api';
 import { ToastType } from '@/models';
-import { useToastStore } from '@/store';
 import { onMounted, ref } from 'vue';
-import { IrdomLayout } from '@/components';
 import { useRouter } from 'vue-router';
 import { MySessionInfo } from '@/api/auth/UserSessionApi';
+import IrdomLayout from '@/components/IrdomLayout.vue';
+import { useToastStore } from '@/store/toast';
 
 const checkPasswords = ref(false);
 checkPasswords.value = false;
@@ -19,7 +19,7 @@ onMounted(async () => {
 		MySessionInfo.Groups,
 		MySessionInfo.IndirectGroups,
 		MySessionInfo.SessionScopes,
-		MySessionInfo.UserScopes,
+		MySessionInfo.UserScopes
 	]);
 	current_email.value = me.email;
 });
@@ -34,7 +34,7 @@ const submitHandler = async (event: Event) => {
 			toastStore.push({
 				title: 'Изменение Email',
 				type: ToastType.Info,
-				description: 'На вашу почту отправлено сообщение об изменении Email',
+				description: 'На вашу почту отправлено сообщение об изменении Email'
 			});
 			router.push('/profile');
 		}

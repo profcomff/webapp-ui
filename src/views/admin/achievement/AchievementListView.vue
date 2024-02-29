@@ -1,9 +1,10 @@
 <script setup lang="ts">
-import { AccessAllowed, IrdomLayout } from '@/components';
 import { achievementApi, AchievementGet } from '@/api/achievement';
-import { scopename } from '@/models';
 import { onMounted, ref, Ref } from 'vue';
 import achievementRow from './AchievementRow.vue';
+import AccessAllowed from '@/components/AccessAllowed.vue';
+import IrdomLayout from '@/components/IrdomLayout.vue';
+import { scopename } from '@/models/ScopeName';
 
 const achiements: Ref<AchievementGet[]> = ref([]);
 
@@ -17,7 +18,11 @@ onMounted(async () => {
 	achiements.value = (await achievementApi.getAll()).data;
 });
 
-const createAchievement = async (new_name: string, new_description: string, new_pic: File[] | undefined) => {
+const createAchievement = async (
+	new_name: string,
+	new_description: string,
+	new_pic: File[] | undefined
+) => {
 	if (new_pic === undefined || new_pic.length !== 1) return;
 
 	achievementApi.create(new_name, new_description, new_pic[0]).then(
@@ -25,7 +30,7 @@ const createAchievement = async (new_name: string, new_description: string, new_
 			achiements.value.unshift(resp.data);
 			created.value = true;
 		},
-		() => (created.value = false),
+		() => (created.value = false)
 	);
 };
 
@@ -36,13 +41,19 @@ const back = history.state.back?.startsWith('/admin') ? history.state.back : '/a
 	<IrdomLayout title="Управление достижениями" backable :back="back">
 		<AccessAllowed :scope="scopename.achievements.achievement.create">
 			<v-row class="row" align-content="stretch">
-				<v-card title="Создание новой ачивки" class="constructor v-col-12" prepend-icon="md:emoji_events">
+				<v-card
+					title="Создание новой ачивки"
+					class="constructor v-col-12"
+					prepend-icon="md:emoji_events"
+				>
 					<template #text>
 						<p>Для создания ачивки нужно:</p>
 						<ul class="rules">
 							<li>придумать название</li>
 							<li>описать правила выдачи</li>
-							<li>подготовить прозрачное png изображение размером 512 на 512 пикселей не более 200 кб</li>
+							<li>
+								подготовить прозрачное png изображение размером 512 на 512 пикселей не более 200 кб
+							</li>
 						</ul>
 
 						<v-form v-if="created === undefined">
@@ -60,7 +71,7 @@ const back = history.state.back?.startsWith('/admin') ? history.state.back : '/a
 											value[0].size < 200000 ||
 											'Размер изображения не должен превышать 200 KB!'
 										);
-									},
+									}
 								]"
 							></v-file-input>
 							<v-text-field v-model="new_name" label="Названние"></v-text-field>

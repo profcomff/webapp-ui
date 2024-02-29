@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { IrdomToolbar } from '@/components';
-import { useProfileStore } from '@/store';
 import { computed } from 'vue';
 import { useRoute } from 'vue-router';
+import IrdomToolbar from '@/components/IrdomToolbar.vue';
+import { useProfileStore } from '@/store/profile';
 
 const back =
 	history.state.back?.startsWith('/apps') || history.state.back?.startsWith('/timetable')

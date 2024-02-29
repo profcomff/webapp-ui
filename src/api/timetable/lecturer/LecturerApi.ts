@@ -3,7 +3,10 @@ import { LecturerBaseApi } from './LecturerBaseApi';
 
 type PatchLecturerBody = Omit<Lecturer, 'id' | 'avatar_link'>;
 
-type CreateLecturerBody = Pick<Lecturer, 'first_name' | 'middle_name' | 'last_name' | 'description'>;
+type CreateLecturerBody = Pick<
+	Lecturer,
+	'first_name' | 'middle_name' | 'last_name' | 'description'
+>;
 
 export interface GetLecturersParams {
 	query?: string;

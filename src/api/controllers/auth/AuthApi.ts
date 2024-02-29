@@ -1,7 +1,6 @@
+import { useAuthStore } from '@/store/auth';
 import { useToastStore } from './../../../store/toast';
 import { apply, checkToken, scoped, showErrorToast } from './decorators';
-import { useAuthStore, useProfileStore } from '@/store';
-import { LocalStorage, LocalStorageItem, scopename } from '@/models';
 import {
 	MySessionInfo,
 	SessionInfo,
@@ -9,9 +8,12 @@ import {
 	authEmailApi,
 	authScopeApi,
 	authUserApi,
-	userSessionApi,
+	userSessionApi
 } from '@/api/auth';
 import router from '@/router';
+import { scopename } from '@/models/ScopeName';
+import { useProfileStore } from '@/store/profile';
+import { LocalStorage, LocalStorageItem } from '@/models/LocalStorage';
 
 export class AuthApi {
 	static getScopes = apply(async () => {
@@ -26,7 +28,7 @@ export class AuthApi {
 			const { data } = await authUserApi.getUser(id, info);
 			setUsers([data]);
 		},
-		[scoped, scopename.auth.user.read],
+		[scoped, scopename.auth.user.read]
 	);
 
 	static getUsers = apply(
@@ -35,7 +37,7 @@ export class AuthApi {
 			const { data } = await authUserApi.getUsers(info);
 			setUsers(data.items);
 		},
-		[scoped, scopename.auth.user.read],
+		[scoped, scopename.auth.user.read]
 	);
 
 	static logout = apply(async () => {
@@ -44,7 +46,7 @@ export class AuthApi {
 		profileStore.deleteToken();
 		router.push('/auth');
 		toastStore.push({
-			title: 'Вы успешно вышли из аккаунта!',
+			title: 'Вы успешно вышли из аккаунта!'
 		});
 	}, [showErrorToast]);
 
@@ -63,7 +65,7 @@ export class AuthApi {
 
 			LocalStorage.set<string[]>(
 				LocalStorageItem.TokenScopes,
-				data.session_scopes.map(s => s.name),
+				data.session_scopes.map(s => s.name)
 			);
 			profileStore.updateTokenScopes();
 
@@ -71,7 +73,7 @@ export class AuthApi {
 		},
 
 		[showErrorToast],
-		[checkToken],
+		[checkToken]
 	);
 
 	static loginEmail = apply(
@@ -86,12 +88,12 @@ export class AuthApi {
 			profileStore.updateToken();
 
 			toastStore.push({
-				title: 'Вы успешно вошли в аккаунт',
+				title: 'Вы успешно вошли в аккаунт'
 			});
 
 			return promise;
 		},
-		[showErrorToast],
+		[showErrorToast]
 	);
 
 	static registerEmail = apply(
@@ -103,14 +105,14 @@ export class AuthApi {
 
 			toastStore.push(
 				{
-					title: data.message,
+					title: data.message
 				},
-				null,
+				null
 			);
 
 			return promise;
 		},
-		[showErrorToast],
+		[showErrorToast]
 	);
 
 	static getSessions = apply(
@@ -119,7 +121,7 @@ export class AuthApi {
 			return data;
 		},
 		[showErrorToast],
-		[checkToken],
+		[checkToken]
 	);
 
 	static deleteSession = apply(
@@ -128,7 +130,7 @@ export class AuthApi {
 			return data;
 		},
 		[checkToken],
-		[showErrorToast],
+		[showErrorToast]
 	);
 
 	static requestResetForgottenPassword = apply(
@@ -136,7 +138,7 @@ export class AuthApi {
 			const data = await authEmailApi.requestResetForgottenPassword({ email });
 			return data;
 		},
-		[showErrorToast],
+		[showErrorToast]
 	);
 
 	static requestResetPassword = apply(
@@ -145,7 +147,7 @@ export class AuthApi {
 			return data;
 		},
 		[showErrorToast],
-		[checkToken],
+		[checkToken]
 	);
 
 	static resetPassword = apply(
@@ -153,7 +155,7 @@ export class AuthApi {
 			const data = await authEmailApi.resetPassword({ new_password }, token);
 			return data;
 		},
-		[showErrorToast],
+		[showErrorToast]
 	);
 
 	static resetEmail = apply(
@@ -161,7 +163,7 @@ export class AuthApi {
 			const data = await authEmailApi.resetEmail({ token });
 			return data;
 		},
-		[showErrorToast],
+		[showErrorToast]
 	);
 
 	static requestResetEmail = apply(
@@ -170,6 +172,6 @@ export class AuthApi {
 			return data;
 		},
 		[checkToken],
-		[showErrorToast],
+		[showErrorToast]
 	);
 }

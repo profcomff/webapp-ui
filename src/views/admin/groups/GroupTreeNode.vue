@@ -1,13 +1,13 @@
 <script setup lang="ts">
 import { authGroupApi } from '@/api/auth';
-import { useAuthStore, useProfileStore } from '@/store';
-import { StoreGroup } from '@/store/auth';
-import { scopename } from '@/models';
+import { scopename } from '@/models/ScopeName';
+import { StoreGroup, useAuthStore } from '@/store/auth';
+import { useProfileStore } from '@/store/profile';
 import { ref } from 'vue';
 import { VExpansionPanel } from 'vuetify/components';
 
 const props = withDefaults(defineProps<{ node: StoreGroup | null; indentSize?: number }>(), {
-	indentSize: 32,
+	indentSize: 32
 });
 
 const profileStore = useProfileStore();
@@ -50,14 +50,18 @@ const deleteGroup = async (groupId?: number) => {
 			</RouterLink>
 
 			<v-menu
-				v-if="hasTokenAccess(scopename.auth.group.create) || hasTokenAccess(scopename.auth.group.delete)"
+				v-if="
+					hasTokenAccess(scopename.auth.group.create) || hasTokenAccess(scopename.auth.group.delete)
+				"
 				icon="more_horiz"
 			>
 				<template #activator="{ props: menuProps }">
 					<v-btn icon="md:more_horiz" v-bind="menuProps" variant="text" />
 				</template>
 				<v-list>
-					<v-list-item v-if="hasTokenAccess(scopename.auth.group.create)"> Добавить группу </v-list-item>
+					<v-list-item v-if="hasTokenAccess(scopename.auth.group.create)">
+						Добавить группу
+					</v-list-item>
 					<v-list-item
 						v-if="node.parent_id && hasTokenAccess(scopename.auth.group.delete)"
 						color="var(--v-theme-error)"

@@ -28,7 +28,12 @@ const sorted = computed(() => [...props.scopes].sort((a, b) => (a.name > b.name 
 				<td>{{ name }}</td>
 				<td>{{ comment }}</td>
 				<td>
-					<v-btn type="button" icon="md:delete_forever" variant="text" @click="$emit('delete', id)" />
+					<v-btn
+						type="button"
+						icon="md:delete_forever"
+						variant="text"
+						@click="$emit('delete', id)"
+					/>
 				</td>
 			</tr>
 		</tbody>
@@ -38,7 +43,7 @@ const sorted = computed(() => [...props.scopes].sort((a, b) => (a.name > b.name 
 <style scoped>
 .row {
 	&:nth-child(even) {
-		background: oklch(0 0 0deg / 8%);
+		background: oklch(0% 0 0deg / 8%);
 	}
 
 	@media screen and (width <= 575px) {

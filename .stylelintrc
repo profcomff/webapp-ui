@@ -1,13 +1,10 @@
 {
 	"extends": ["stylelint-config-standard", "stylelint-config-recommended-vue"],
 	"rules": {
-		"property-no-vendor-prefix": null,
-		"value-no-vendor-prefix": null,
 		"function-disallowed-list": ["rgba", "hsla", "hsl"],
 		"color-function-notation": "modern",
 		"color-no-hex": null,
 		"selector-nested-pattern": "^&",
-		"no-descending-specificity": null,
 		"selector-class-pattern": null
 	}
 }

@@ -50,50 +50,50 @@ if (!appsStore.categories) {
 
 1. Добавление _части_ api. В таком случае необходимо:
 
-    1.1. Создать в директории `src/api` папку с соответствующим именем. Например `cats`:
+   1.1. Создать в директории `src/api` папку с соответствующим именем. Например `cats`:
 
-    <img src="src_api_cats.jpg" alt="Скриншот главной страницы приложения" style="max-width: 700px">
+   <img src="src_api_cats.jpg" alt="Скриншот главной страницы приложения" style="max-width: 700px">
 
-    1.2. Создать в папке `cats` базовый класс `CatsApi`, унаследованный от `BaseApi`
+   1.2. Создать в папке `cats` базовый класс `CatsApi`, унаследованный от `BaseApi`
 
-    ```typescript
-    // src/api/cats/CatsApi.ts
-    import { BaseApi } from '../BaseApi.ts';
+   ```typescript
+   // src/api/cats/CatsApi.ts
+   import { BaseApi } from '../BaseApi.ts';
 
-    export class CatsApi extends BaseApi {
-    	constructor() {
-    		super('/cats');
-    	}
+   export class CatsApi extends BaseApi {
+   	constructor() {
+   		super('/cats');
+   	}
 
-    	public meow() {
-    		alert('meow!');
-    	}
-    }
-    ```
+   	public meow() {
+   		alert('meow!');
+   	}
+   }
+   ```
 
-    1.3. Экспортировать инстанс данного класса:
+   1.3. Экспортировать инстанс данного класса:
 
-    ```typescript
-    // src/api/cats/CatsApi.ts
+   ```typescript
+   // src/api/cats/CatsApi.ts
 
-    // export class CatsApi ...
+   // export class CatsApi ...
 
-    export const catsApi = new CatsApi();
-    ```
+   export const catsApi = new CatsApi();
+   ```
 
-    ```typescript
-    // src/api/cats/index.ts
-    // export ...
-    export { catsApi } from './CatsApi.ts';
-    ```
+   ```typescript
+   // src/api/cats/index.ts
+   // export ...
+   export { catsApi } from './CatsApi.ts';
+   ```
 
-    1.4 Теперь можно использовать новое api!
+   1.4 Теперь можно использовать новое api!
 
-    ```typescript
-    import { catsApi } from '@/api/cats';
+   ```typescript
+   import { catsApi } from '@/api/cats';
 
-    catsApi.meow();
-    ```
+   catsApi.meow();
+   ```
 
 2. Добавление _группы методов_ в существующую _часть_ api. В данном случае необходимо в папке соответствующей _части_ api создать класс, унаследованный от базового класса этой _части_ api.
 

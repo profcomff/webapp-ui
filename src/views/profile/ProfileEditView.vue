@@ -1,15 +1,15 @@
 <script setup lang="ts">
-import { IrdomLayout } from '@/components';
-import { useProfileStore } from '@/store';
 import { onMounted, ref } from 'vue';
 import Placeholder from '@/assets/profile_image_placeholder.webp';
 import { AuthApi } from '@/api';
 import { MySessionInfo } from '@/api/auth';
 import { UserdataApi } from '@/api/controllers/UserdataApi';
-import { UserdataConverter } from '@/utils';
 import { UserdataArray, UserdataCategoryName, UserdataParams } from '@/models';
 import router from '@/router';
 import { UserdataExtendedValue } from '@/api/models';
+import IrdomLayout from '@/components/IrdomLayout.vue';
+import { useProfileStore } from '@/store/profile';
+import { UserdataConverter } from '@/utils/UserdataConverter';
 
 const profileStore = useProfileStore();
 const fullName_item = ref<UserdataExtendedValue | null>();
@@ -28,21 +28,24 @@ onMounted(async () => {
 		MySessionInfo.Groups,
 		MySessionInfo.IndirectGroups,
 		MySessionInfo.SessionScopes,
-		MySessionInfo.UserScopes,
+		MySessionInfo.UserScopes
 	]);
 	const { data: user } = await UserdataApi.getUser(me.id);
 	const { data } = await UserdataApi.getCategories();
 	fullName_item.value = UserdataConverter.getItem(user, {
 		category: UserdataCategoryName.PersonalInfo,
-		param: UserdataParams.FullName,
+		param: UserdataParams.FullName
 	});
 	photoURL_item.value = UserdataConverter.getItem(user, {
 		category: UserdataCategoryName.PersonalInfo,
-		param: UserdataParams.Photo,
+		param: UserdataParams.Photo
 	});
 	fullName.value = fullName_item.value?.name ?? '[object Object]';
 	photoURL.value = photoURL_item.value?.name ?? Placeholder;
-	userdata.value = UserdataConverter.uniteWithUserCategories(UserdataConverter.categoryToFlat(data), user);
+	userdata.value = UserdataConverter.uniteWithUserCategories(
+		UserdataConverter.categoryToFlat(data),
+		user
+	);
 });
 
 async function saveEdit() {
@@ -51,14 +54,14 @@ async function saveEdit() {
 		MySessionInfo.Groups,
 		MySessionInfo.IndirectGroups,
 		MySessionInfo.SessionScopes,
-		MySessionInfo.UserScopes,
+		MySessionInfo.UserScopes
 	]);
 	const updateBody = UserdataConverter.arrayToUpdate(userdata.value, 'user', [
 		{
 			category: UserdataCategoryName.PersonalInfo,
 			param: UserdataParams.FullName,
-			value: fullName.value,
-		},
+			value: fullName.value
+		}
 	]);
 	await UserdataApi.patchUserById(me.id, updateBody);
 	router.push('/profile');
@@ -112,14 +115,14 @@ async function saveEdit() {
 </template>
 
 <style scoped>
-/deep/ .v-field {
+/* /deep/ .v-field {
 	--v-field-input-padding-top: 0 !important;
 	--v-field-input-padding-bottom: 0 !important;
 }
 
 /deep/ .v-text-field input {
 	margin-top: 0 !important;
-}
+} */
 
 .edit-username {
 	align-self: center;

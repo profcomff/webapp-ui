@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { IrdomLayout } from '@/components';
 import AsyncLecturerInfo from './AsyncLecturerInfo.vue';
 import AsyncLecturerSchedule from './AsyncLecturerSchedule.vue';
 import { useRoute } from 'vue-router';
+import IrdomLayout from '@/components/IrdomLayout.vue';
 
 const route = useRoute();
 const back = history.state.back?.startsWith('/timetable/event') ? history.state.back : '/timetable';
@@ -15,7 +15,9 @@ const back = history.state.back?.startsWith('/timetable/event') ? history.state.
 			<template #fallback> Загрузка... </template>
 		</Suspense>
 
-		<b class="date">Сегодня, {{ new Date().toLocaleDateString('ru-RU', { day: '2-digit', month: 'long' }) }}</b>
+		<b class="date"
+			>Сегодня, {{ new Date().toLocaleDateString('ru-RU', { day: '2-digit', month: 'long' }) }}</b
+		>
 		<Suspense>
 			<AsyncLecturerSchedule :id="+route.params.id" />
 			<template #fallback>Загрузка...</template>

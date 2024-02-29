@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import { IrdomLayout } from '@/components';
 import { useRoute } from 'vue-router';
 import { AuthApi } from '@/api';
-import { useToastStore } from '@/store';
 import { ToastType } from '@/models';
 import router from '@/router';
+import IrdomLayout from '@/components/IrdomLayout.vue';
+import { useToastStore } from '@/store/toast';
 
 const route = useRoute();
 const toastStore = useToastStore();
@@ -16,13 +16,13 @@ const submitHandler = async () => {
 			toastStore.push({
 				title: 'Изменение Email',
 				type: ToastType.Info,
-				description: 'Email успешно изменен',
+				description: 'Email успешно изменен'
 			});
 		} else {
 			toastStore.push({
 				title: 'Изменение Email',
 				type: ToastType.Info,
-				description: 'Что-то пошло не так',
+				description: 'Что-то пошло не так'
 			});
 		}
 	}

@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import { AuthMethod } from '@/api/auth';
-import { IrdomAuthButton, IrdomLayout } from '@/components';
 import TelegramButon from '@/components/TelegramButon.vue';
-import { authButtons } from '@/constants';
+import IrdomAuthButton from '@/components/IrdomAuthButton.vue';
+import IrdomLayout from '@/components/IrdomLayout.vue';
+import { authButtons } from '@/constants/authButtons';
 </script>
 
 <template>
@@ -27,7 +28,9 @@ import { authButtons } from '@/constants';
 			<div>
 				<div class="link-text-politics">
 					При регистрации и входе вы соглашаетесь
-					<a href="https://pages.profcomff.com/tvoy_ff_privacy_policy">с политикой обработки данных</a>
+					<a href="https://pages.profcomff.com/tvoy_ff_privacy_policy"
+						>с политикой обработки данных</a
+					>
 				</div>
 			</div>
 		</div>

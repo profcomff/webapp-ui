@@ -1,9 +1,20 @@
 <script setup lang="ts">
 import { useRoute, useRouter } from 'vue-router';
-import { ToolbarActionItem, ToolbarMenuItem } from './types';
 import { marketingApi } from '@/api/marketing';
-import { useProfileStore } from '@/store';
 import { computed } from 'vue';
+import { useProfileStore } from '@/store/profile';
+import MaterialIcon from './MaterialIcon.vue';
+
+export interface ToolbarMenuItem {
+	name: string;
+	onClick: () => void;
+}
+
+export interface ToolbarActionItem {
+	icon: string;
+	ariaLabel: string;
+	onClick: (event: MouseEvent) => void;
+}
 
 interface Props {
 	menuItems?: ToolbarMenuItem[];
@@ -26,17 +37,23 @@ const props = withDefaults(defineProps<Props>(), {
 	share: false,
 	backable: false,
 	back: undefined,
-	centered: false,
+	centered: false
 });
 
 const invisibleButtons = computed(() => {
-	return props.centered ? props.actions.length + (props.share ? 1 : 0) - (props.backable ? 1 : 0) : 0;
+	return props.centered
+		? props.actions.length + (props.share ? 1 : 0) - (props.backable ? 1 : 0)
+		: 0;
 });
-const leftInvisibleButtons = computed(() => (invisibleButtons.value > 0 ? invisibleButtons.value : 0));
-const rightInvisibleButtons = computed(() => (invisibleButtons.value < 0 ? -invisibleButtons.value : 0));
+const leftInvisibleButtons = computed(() =>
+	invisibleButtons.value > 0 ? invisibleButtons.value : 0
+);
+const rightInvisibleButtons = computed(() =>
+	invisibleButtons.value < 0 ? -invisibleButtons.value : 0
+);
 
 const data = {
-	url: route.fullPath,
+	url: route.fullPath
 };
 const canShare = navigator.canShare && navigator.canShare(data);
 const shareHandler = async () => {
@@ -45,7 +62,7 @@ const shareHandler = async () => {
 		marketingApi.writeAction({
 			action: 'share',
 			user_id: profileStore.marketingId,
-			additional_data: JSON.stringify(data),
+			additional_data: JSON.stringify(data)
 		});
 	}
 };
@@ -62,7 +79,9 @@ const onBack = () => {
 <template>
 	<v-app-bar class="overflow-visible" elevation="4">
 		<template #prepend>
-			<v-btn v-if="backable" icon="md:arrow_back" color="white" @click="onBack" />
+			<v-btn v-if="backable" icon color="white" @click="onBack"
+				><material-icon icon="arrow-back"
+			/></v-btn>
 			<v-btn v-for="index in leftInvisibleButtons" :key="index" icon></v-btn>
 			<slot />
 		</template>
@@ -71,23 +90,23 @@ const onBack = () => {
 		</v-app-bar-title>
 		<template #append>
 			<v-btn v-for="index in rightInvisibleButtons" :key="index" icon disabled></v-btn>
-			<v-btn
-				v-for="{ icon, onClick } in actions"
-				:key="icon"
-				:icon="`md:${icon}`"
-				color="white"
-				@click="onClick"
-			/>
+			<v-btn v-for="{ icon, onClick } in actions" :key="icon" icon color="white" @click="onClick">
+				<material-icon :icon="icon" />
+			</v-btn>
 			<v-btn
 				v-if="share && canShare"
 				aria-label="Поделиться"
 				color="white"
-				icon="md:share"
+				icon
 				@click="shareHandler"
-			/>
+			>
+				<material-icon icon="share" />
+			</v-btn>
 			<v-menu v-if="menuItems.length > 0">
 				<template #activator="{ props: menuProps }">
-					<v-btn icon="md:more_vert" v-bind="menuProps" color="white" />
+					<v-btn v-bind="menuProps" color="white" icon>
+						<material-icon icon="more-vert" />
+					</v-btn>
 				</template>
 				<v-list>
 					<v-list-item v-for="{ name, onClick } of menuItems" :key="name" @click="onClick">

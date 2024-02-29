@@ -1,12 +1,12 @@
 <!-- Страница, которую видит пользователь, когда происходит обработка OAuth редиректа ответа -->
 <script setup lang="ts">
-import { IrdomLayout } from '@/components';
 import { LocalStorage, LocalStorageItem } from '@/models/LocalStorage';
 import { isAxiosError } from 'axios';
 import { AuthOauth2BaseApi, oauth2Methods } from '@/api/auth';
-import { useProfileStore } from '@/store';
 import { onMounted } from 'vue';
 import { useRouter } from 'vue-router';
+import IrdomLayout from '@/components/IrdomLayout.vue';
+import { useProfileStore } from '@/store/profile';
 
 const router = useRouter();
 
@@ -14,9 +14,15 @@ onMounted(async () => {
 	const authMethod: AuthOauth2BaseApi | undefined = oauth2Methods[router.currentRoute.value.path];
 	const profileStore = useProfileStore();
 	if (authMethod === undefined) {
-		return router.replace({ path: '/auth/error', query: { text: 'Метод авторизации не существует' } });
+		return router.replace({
+			path: '/auth/error',
+			query: { text: 'Метод авторизации не существует' }
+		});
 	}
-	if (router.currentRoute.value.hash === '' && Object.keys(router.currentRoute.value.query).length === 0) {
+	if (
+		router.currentRoute.value.hash === '' &&
+		Object.keys(router.currentRoute.value.query).length === 0
+	) {
 		return router.replace({ path: '/auth/error', query: { text: 'Отсутствуют параметры входа' } });
 	}
 
@@ -44,7 +50,7 @@ onMounted(async () => {
 				// TODO: Писать в маркетинг об ошибке
 				return router.replace({
 					path: '/auth/error',
-					query: { text: 'Переданы неверные данные для входа' },
+					query: { text: 'Переданы неверные данные для входа' }
 				});
 			}
 
@@ -57,7 +63,10 @@ onMounted(async () => {
 		}
 
 		if (e.response && e.response.status === 409) {
-			return router.replace({ path: '/auth/error', query: { text: 'Аккаунт с такими данными уже существуют' } });
+			return router.replace({
+				path: '/auth/error',
+				query: { text: 'Аккаунт с такими данными уже существуют' }
+			});
 		}
 
 		return router.replace({ path: '/auth/error', query: { text: 'Непредвиденная ошибка' } });

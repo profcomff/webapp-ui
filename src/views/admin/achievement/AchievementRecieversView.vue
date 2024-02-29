@@ -1,9 +1,10 @@
 <script setup lang="ts">
-import { AccessAllowed, IrdomLayout } from '@/components';
 import { achievementApi, AchievementGet } from '@/api/achievement';
-import { scopename } from '@/models';
 import { computed, onMounted, ref, Ref } from 'vue';
 import { useRoute } from 'vue-router';
+import AccessAllowed from '@/components/AccessAllowed.vue';
+import IrdomLayout from '@/components/IrdomLayout.vue';
+import { scopename } from '@/models/ScopeName';
 
 const route = useRoute();
 const achievemetId = computed(() => Number(route.params.id));
@@ -20,7 +21,9 @@ const back = history.state.back?.startsWith('/admin') ? history.state.back : '/a
 const revoke = (user_id: number) => {
 	achievementApi
 		.revoke(user_id, achievemetId.value)
-		.then(async () => (achievement.value = (await achievementApi.getRecievers(achievemetId.value)).data));
+		.then(
+			async () => (achievement.value = (await achievementApi.getRecievers(achievemetId.value)).data)
+		);
 };
 const give = (user_id: number | undefined) => {
 	if (user_id === undefined) return;

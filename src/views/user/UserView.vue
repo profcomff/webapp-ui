@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { AuthApi } from '@/api';
-import { IrdomLayout } from '@/components';
-import { useAuthStore } from '@/store';
+import { useAuthStore } from '@/store/auth';
 import { computed, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
+import IrdomLayout from '@/components/IrdomLayout.vue';
 
 const route = useRoute();
 const authStore = useAuthStore();

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { AuthMethod } from '@/api/auth';
-import { useProfileStore } from '@/store';
+import { useProfileStore } from '@/store/profile';
 import { onMounted, ref } from 'vue';
 
 const telegram = ref<HTMLDivElement | null>(null);
@@ -13,7 +13,10 @@ onMounted(() => {
 		script.src = 'https://telegram.org/js/telegram-widget.js?22';
 		script.setAttribute('data-telegram-login', import.meta.env.VITE_AUTH_TELEGRAM_BOT);
 		script.setAttribute('data-size', 'large');
-		script.setAttribute('data-auth-url', 'https://app.test.profcomff.com/auth/oauth-authorized/telegram');
+		script.setAttribute(
+			'data-auth-url',
+			'https://app.test.profcomff.com/auth/oauth-authorized/telegram'
+		);
 		telegram.value.appendChild(script);
 	}
 });

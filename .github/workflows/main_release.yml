@@ -1,152 +1,152 @@
 name: Тесты и раскатка в продакшн
 
 on:
-    push:
-        tags:
-            - 'v*'
+  push:
+    tags:
+      - 'v*'
 
 env:
-    REGISTRY: ghcr.io
-    IMAGE_NAME: ${{ github.repository }}
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
 
 jobs:
-    build-preprod-image:
-        name: Собираем pre-prod Docker
-        runs-on: ubuntu-latest
-        permissions:
-            contents: read
-            packages: write
+  build-preprod-image:
+    name: Собираем pre-prod Docker
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
 
-        steps:
-            - name: Checkout repository
-              uses: actions/checkout@v4
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-            - name: Log in to the Container registry
-              uses: docker/login-action@v2
-              with:
-                  registry: ${{ env.REGISTRY }}
-                  username: ${{ github.actor }}
-                  password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Log in to the Container registry
+        uses: docker/login-action@v2
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
 
-            - name: Define preprod metadata
-              id: meta-preprod
-              uses: docker/metadata-action@v4
-              with:
-                  images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
-                  tags: |
-                      type=raw,value=preprod,enable=true
+      - name: Define preprod metadata
+        id: meta-preprod
+        uses: docker/metadata-action@v4
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          tags: |
+            type=raw,value=preprod,enable=true
 
-            - name: Build and push preprod Docker
-              uses: docker/build-push-action@v4
-              with:
-                  file: ./deployment/Dockerfile
-                  context: .
-                  push: true
-                  build-args: |
-                      BUILD_MODE=production
-                      LAUNCH_MODE=preprod
-                      APP_VERSION=${{ github.ref_name }}
-                  tags: ${{ steps.meta-preprod.outputs.tags }}
-                  labels: ${{ steps.meta-preprod.outputs.labels }}
+      - name: Build and push preprod Docker
+        uses: docker/build-push-action@v4
+        with:
+          file: ./deployment/Dockerfile
+          context: .
+          push: true
+          build-args: |
+            BUILD_MODE=production
+            LAUNCH_MODE=preprod
+            APP_VERSION=${{ github.ref_name }}
+          tags: ${{ steps.meta-preprod.outputs.tags }}
+          labels: ${{ steps.meta-preprod.outputs.labels }}
 
-    build-prod-image:
-        name: Собираем production Docker
-        runs-on: ubuntu-latest
-        permissions:
-            contents: read
-            packages: write
+  build-prod-image:
+    name: Собираем production Docker
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
 
-        steps:
-            - name: Checkout repository
-              uses: actions/checkout@v4
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-            - name: Log in to the Container registry
-              uses: docker/login-action@v2
-              with:
-                  registry: ${{ env.REGISTRY }}
-                  username: ${{ github.actor }}
-                  password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Log in to the Container registry
+        uses: docker/login-action@v2
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
 
-            - name: Define production metadata
-              id: meta-prod
-              uses: docker/metadata-action@v4
-              with:
-                  images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
-                  tags: |
-                      type=ref,event=tag,enable=true
-                      type=raw,value=prod,enable=true
-                      type=raw,value=latest,enable=true
+      - name: Define production metadata
+        id: meta-prod
+        uses: docker/metadata-action@v4
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          tags: |
+            type=ref,event=tag,enable=true
+            type=raw,value=prod,enable=true
+            type=raw,value=latest,enable=true
 
-            - name: Build and push production Docker
-              uses: docker/build-push-action@v4
-              with:
-                  file: ./deployment/Dockerfile
-                  context: .
-                  push: true
-                  build-args: |
-                      BUILD_MODE=production
-                      LAUNCH_MODE=production
-                      APP_VERSION=${{ github.ref_name }}
-                  tags: ${{ steps.meta-prod.outputs.tags }}
-                  labels: ${{ steps.meta-prod.outputs.labels }}
+      - name: Build and push production Docker
+        uses: docker/build-push-action@v4
+        with:
+          file: ./deployment/Dockerfile
+          context: .
+          push: true
+          build-args: |
+            BUILD_MODE=production
+            LAUNCH_MODE=production
+            APP_VERSION=${{ github.ref_name }}
+          tags: ${{ steps.meta-prod.outputs.tags }}
+          labels: ${{ steps.meta-prod.outputs.labels }}
 
-    deploy-preprod:
-        name: Раскатываем pre-prod среду
-        runs-on: [self-hosted, Linux]
-        needs: build-preprod-image
-        environment:
-            name: Preprod
-            url: https://app.preprod.profcomff.com/
-        env:
-            CONTAINER_NAME: com_profcomff_app_preprod
-        permissions:
-            packages: read
-        steps:
-            - name: Run docker container
-              run: |
-                  docker pull ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:preprod
-                  docker stop ${{ env.CONTAINER_NAME }} || true && docker rm ${{ env.CONTAINER_NAME }} || true
-                  docker run \
-                    --detach \
-                    --restart on-failure:3 \
-                    --network=web \
-                    --name ${{ env.CONTAINER_NAME }} \
-                    ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:preprod
+  deploy-preprod:
+    name: Раскатываем pre-prod среду
+    runs-on: [self-hosted, Linux]
+    needs: build-preprod-image
+    environment:
+      name: Preprod
+      url: https://app.preprod.profcomff.com/
+    env:
+      CONTAINER_NAME: com_profcomff_app_preprod
+    permissions:
+      packages: read
+    steps:
+      - name: Run docker container
+        run: |
+          docker pull ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:preprod
+          docker stop ${{ env.CONTAINER_NAME }} || true && docker rm ${{ env.CONTAINER_NAME }} || true
+          docker run \
+            --detach \
+            --restart on-failure:3 \
+            --network=web \
+            --name ${{ env.CONTAINER_NAME }} \
+            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:preprod
 
-    undeploy-preprod:
-        name: Останавливаем pre-prod среду
-        runs-on: [self-hosted, Linux]
-        needs: deploy-preprod
-        environment:
-            name: Preprod
-        env:
-            CONTAINER_NAME: com_profcomff_app_preprod
-        permissions:
-            packages: read
-        steps:
-            - name: Stop docker container
-              run: |
-                  docker stop ${{ env.CONTAINER_NAME }} || true && docker rm ${{ env.CONTAINER_NAME }} || true
+  undeploy-preprod:
+    name: Останавливаем pre-prod среду
+    runs-on: [self-hosted, Linux]
+    needs: deploy-preprod
+    environment:
+      name: Preprod
+    env:
+      CONTAINER_NAME: com_profcomff_app_preprod
+    permissions:
+      packages: read
+    steps:
+      - name: Stop docker container
+        run: |
+          docker stop ${{ env.CONTAINER_NAME }} || true && docker rm ${{ env.CONTAINER_NAME }} || true
 
-    deploy-production:
-        name: Раскатываем production среду
-        runs-on: [self-hosted, Linux]
-        needs: [deploy-preprod, build-prod-image]
-        environment:
-            name: Production
-            url: https://app.profcomff.com/
-        env:
-            CONTAINER_NAME: com_profcomff_app
-        permissions:
-            packages: read
-        steps:
-            - name: Run docker container
-              run: |
-                  docker pull ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:prod
-                  docker stop ${{ env.CONTAINER_NAME }} || true && docker rm ${{ env.CONTAINER_NAME }} || true
-                  docker run \
-                    --detach \
-                    --restart always \
-                    --network=web \
-                    --name ${{ env.CONTAINER_NAME }} \
-                    ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:prod
+  deploy-production:
+    name: Раскатываем production среду
+    runs-on: [self-hosted, Linux]
+    needs: [deploy-preprod, build-prod-image]
+    environment:
+      name: Production
+      url: https://app.profcomff.com/
+    env:
+      CONTAINER_NAME: com_profcomff_app
+    permissions:
+      packages: read
+    steps:
+      - name: Run docker container
+        run: |
+          docker pull ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:prod
+          docker stop ${{ env.CONTAINER_NAME }} || true && docker rm ${{ env.CONTAINER_NAME }} || true
+          docker run \
+            --detach \
+            --restart always \
+            --network=web \
+            --name ${{ env.CONTAINER_NAME }} \
+            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:prod

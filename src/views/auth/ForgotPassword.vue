@@ -1,8 +1,8 @@
 Страница со списком основных методов входа
 <script setup lang="ts">
 import { AuthApi } from '@/api';
-import { IrdomLayout } from '@/components';
 import { useRouter } from 'vue-router';
+import IrdomLayout from '@/components/IrdomLayout.vue';
 
 const router = useRouter();
 
@@ -45,7 +45,9 @@ const submitHandler = async (event: Event) => {
 				</div>
 				<div class="link-text-politics">
 					При регистрации и входе вы соглашаетесь
-					<a href="https://pages.profcomff.com/tvoy_ff_privacy_policy">с политикой обработки данных</a>
+					<a href="https://pages.profcomff.com/tvoy_ff_privacy_policy"
+						>с политикой обработки данных</a
+					>
 				</div>
 			</div>
 		</div>

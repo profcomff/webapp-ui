@@ -3,42 +3,42 @@ import { RouteRecordRaw } from 'vue-router';
 export const authRoutes: RouteRecordRaw[] = [
 	{
 		path: '',
-		component: () => import('@/views/auth/AuthView.vue'),
+		component: () => import('@/views/auth/AuthView.vue')
 	},
 	{
 		path: 'register-all',
-		component: () => import('@/views/auth/RegisterAllView.vue'),
+		component: () => import('@/views/auth/RegisterAllView.vue')
 	},
 	{
 		path: 'forgot-password',
-		component: () => import('@/views/auth/ForgotPassword.vue'),
+		component: () => import('@/views/auth/ForgotPassword.vue')
 	},
 	{
 		path: 'reset/password',
-		component: () => import('@/views/auth/ResetPassword.vue'),
+		component: () => import('@/views/auth/ResetPassword.vue')
 	},
 	{
 		path: 'reset/email',
-		component: () => import('@/views/auth/ResetEmail.vue'),
+		component: () => import('@/views/auth/ResetEmail.vue')
 	},
 	{
 		path: 'all',
-		component: () => import('@/views/auth/AuthAllView.vue'),
+		component: () => import('@/views/auth/AuthAllView.vue')
 	},
 	{
 		path: 'register-email',
-		component: () => import('@/views/auth/EmailRegisterView.vue'),
+		component: () => import('@/views/auth/EmailRegisterView.vue')
 	},
 	{
 		path: 'register-oauth',
-		component: () => import('@/views/auth/OauthRegisterView.vue'),
+		component: () => import('@/views/auth/OauthRegisterView.vue')
 	},
 	{
 		path: 'error',
-		component: () => import('@/views/auth/LoginErrorView.vue'),
+		component: () => import('@/views/auth/LoginErrorView.vue')
 	},
 	{
 		path: 'oauth-authorized/:name([a-z\\-]+)',
-		component: () => import('@/views/auth/OauthLoginView.vue'),
-	},
+		component: () => import('@/views/auth/OauthLoginView.vue')
+	}
 ];

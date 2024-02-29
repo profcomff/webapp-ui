@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { AuthApi } from '@/api';
-import { IrdomLayout } from '@/components';
 import { useRouter } from 'vue-router';
+import IrdomLayout from '@/components/IrdomLayout.vue';
+
 const router = useRouter();
 
 const OnClick = async () => {
@@ -13,16 +14,32 @@ const OnClick = async () => {
 <template>
 	<IrdomLayout title="Настройки профиля" backable back="/profile">
 		<div class="buttons">
-			<v-btn prepend-icon="login" variant="tonal" class="button" @click="$router.push('/profile/edit-auth')"
+			<v-btn
+				prepend-icon="login"
+				variant="tonal"
+				class="button"
+				@click="$router.push('/profile/edit-auth')"
 				>Методы входа</v-btn
 			>
-			<v-btn prepend-icon="mail" variant="tonal" class="button" @click="$router.push('/profile/change-email')"
+			<v-btn
+				prepend-icon="mail"
+				variant="tonal"
+				class="button"
+				@click="$router.push('/profile/change-email')"
 				>Изменение почты</v-btn
 			>
-			<v-btn prepend-icon="key" variant="tonal" class="button" @click="$router.push('/profile/change-password')"
+			<v-btn
+				prepend-icon="key"
+				variant="tonal"
+				class="button"
+				@click="$router.push('/profile/change-password')"
 				>Изменение пароля</v-btn
 			>
-			<v-btn prepend-icon="history" variant="tonal" class="button" @click="$router.push('/profile/sessions')"
+			<v-btn
+				prepend-icon="history"
+				variant="tonal"
+				class="button"
+				@click="$router.push('/profile/sessions')"
 				>Текущие сессии</v-btn
 			>
 			<v-btn variant="tonal" class="button" color="red" @click="OnClick">Выход</v-btn>

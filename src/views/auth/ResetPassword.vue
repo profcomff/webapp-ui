@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { IrdomLayout } from '@/components';
 import { useRoute, useRouter } from 'vue-router';
 import { AuthApi } from '@/api';
 import { useToastStore } from '@/store/toast';
 import { ToastType } from '@/models';
+import IrdomLayout from '@/components/IrdomLayout.vue';
 
 const route = useRoute();
 const router = useRouter();
@@ -26,7 +26,7 @@ const submitHandler = async (event: Event) => {
 		toastStore.push({
 			title: 'Изменение пароля',
 			type: ToastType.Error,
-			description: 'Пароли не совпадают',
+			description: 'Пароли не совпадают'
 		});
 	}
 };
@@ -68,7 +68,9 @@ const submitHandler = async (event: Event) => {
 				</div>
 				<div class="link-text-politics">
 					При регистрации и входе вы соглашаетесь
-					<a href="https://pages.profcomff.com/tvoy_ff_privacy_policy">с политикой обработки данных</a>
+					<a href="https://pages.profcomff.com/tvoy_ff_privacy_policy"
+						>с политикой обработки данных</a
+					>
 				</div>
 			</div>
 		</div>

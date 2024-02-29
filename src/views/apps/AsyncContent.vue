@@ -3,7 +3,9 @@ import { ServicesApi } from '@/api';
 import { marketingApi } from '@/api/marketing';
 import { ButtonType } from '@/api/models';
 import { CategoryInfo } from '@/api/services';
-import { useAppsStore, useProfileStore } from '@/store';
+import MaterialIcon from '@/components/MaterialIcon.vue';
+import { useAppsStore } from '@/store/apps';
+import { useProfileStore } from '@/store/profile';
 import { RouterLink } from 'vue-router';
 
 const appsStore = useAppsStore();
@@ -19,14 +21,18 @@ const sendMarketing = (url: string) => {
 			action: 'route to',
 			user_id: profileStore.marketingId,
 			path_from: '/apps',
-			path_to: url,
+			path_to: url
 		});
 	}
 };
 </script>
 
 <template>
-	<section v-for="{ name, type: sectionType, buttons, id } of appsStore.categories" :key="id" class="section">
+	<section
+		v-for="{ name, type: sectionType, buttons, id } of appsStore.categories"
+		:key="id"
+		class="section"
+	>
 		<h2 class="h2">
 			{{ name }}
 		</h2>
@@ -47,7 +53,12 @@ const sendMarketing = (url: string) => {
 					height="400"
 					class="icon"
 				/>
-				<v-icon v-else :icon="`md:${icon}`" class="material-icon" :size="sectionType === 'grid3' ? 40 : 24" />
+				<MaterialIcon
+					v-else
+					:icon="icon"
+					class="material-icon"
+					:size="sectionType === 'grid3' ? 40 : 24"
+				/>
 
 				<a
 					v-if="type === ButtonType.External"
@@ -93,6 +104,17 @@ const sendMarketing = (url: string) => {
 	}
 }
 
+.list .app {
+	display: flex;
+	align-items: center;
+	padding: 12px 24px;
+	gap: 0.8em;
+	border-radius: 5px;
+	margin-bottom: 10px;
+	background-color: rgb(var(--v-theme-surface-variant));
+	transition: ease 0.3s;
+}
+
 .grid3 {
 	display: grid;
 	grid-template-columns: repeat(3, 1fr);
@@ -122,31 +144,18 @@ const sendMarketing = (url: string) => {
 		align-items: center;
 		font-size: 14px;
 		text-align: center;
-		box-shadow: 0 0 20px oklch(0 0 0deg / 10%);
+		box-shadow: 0 0 20px oklch(0% 0 0deg / 10%);
 		transition: all 0.3s ease;
 
 		&:hover {
 			transform: translateY(-4px);
-			box-shadow: 0 0 24px oklch(0 0 0deg / 12%);
+			box-shadow: 0 0 24px oklch(0% 0 0deg / 12%);
 		}
 	}
 }
 
-.list {
-	& .app {
-		display: flex;
-		align-items: center;
-		padding: 12px 24px;
-		gap: 0.8em;
-		border-radius: 5px;
-		margin-bottom: 10px;
-		background-color: rgb(var(--v-theme-surface-variant));
-		transition: ease 0.3s;
-	}
-
-	& .app:hover {
-		filter: brightness(90%);
-	}
+.list .app:hover {
+	filter: brightness(90%);
 }
 
 .h2 {
@@ -168,12 +177,12 @@ const sendMarketing = (url: string) => {
 	overflow-wrap: anywhere;
 	-webkit-line-clamp: 3;
 	overflow: hidden;
-}
 
-.app-link::after {
-	content: '';
-	position: absolute;
-	inset: 0;
-	z-index: 1;
+	&::after {
+		content: '';
+		position: absolute;
+		inset: 0;
+		z-index: 1;
+	}
 }
 </style>

@@ -1,11 +1,13 @@
 <script setup lang="ts">
-import { IrdomLayout } from '@/components';
 import AsyncContent from './AsyncContent.vue';
 import { useRoute } from 'vue-router';
+import IrdomLayout from '@/components/IrdomLayout.vue';
 
 const route = useRoute();
 const back =
-	history.state.back && /\/timetable\/\d{2}-\d{2}-\d{4}/.test(history.state.back) ? history.state.back : '/timetable';
+	history.state.back && /\/timetable\/\d{2}-\d{2}-\d{4}/.test(history.state.back)
+		? history.state.back
+		: '/timetable';
 </script>
 
 <template>

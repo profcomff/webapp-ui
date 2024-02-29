@@ -46,7 +46,7 @@ export class TimetableApi {
 		const { data } = await timetableEventApi.getAll({
 			start: stringifyDateIso(date),
 			end: stringifyDateIso(getDateWithDayOffset(date, 1)),
-			group_id: groupId,
+			group_id: groupId
 		});
 		setDay(date, data.items);
 	}
@@ -56,7 +56,7 @@ export class TimetableApi {
 		const { data } = await timetableEventApi.getAll({
 			start: stringifyDateIso(new Date()),
 			end: stringifyDateIso(getDateWithDayOffset(new Date(), 1)),
-			lecturer_id: lecturerId,
+			lecturer_id: lecturerId
 		});
 		if (data.items.length) {
 			setLecturers(data.items[0].lecturer);
@@ -69,7 +69,7 @@ export class TimetableApi {
 		const { data } = await timetableEventApi.getAll({
 			start: stringifyDateIso(new Date()),
 			end: stringifyDateIso(getDateWithDayOffset(new Date(), 1)),
-			room_id: roomId,
+			room_id: roomId
 		});
 		if (data.items.length) {
 			setRooms(data.items[0].room);

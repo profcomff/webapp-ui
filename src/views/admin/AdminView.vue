@@ -1,7 +1,8 @@
 <script setup lang="ts">
-import { AccessAllowed, IrdomLayout } from '@/components';
-import { scopename } from '@/models';
-import { useProfileStore } from '@/store';
+import AccessAllowed from '@/components/AccessAllowed.vue';
+import IrdomLayout from '@/components/IrdomLayout.vue';
+import { scopename } from '@/models/ScopeName';
+import { useProfileStore } from '@/store/profile';
 
 const profileStore = useProfileStore();
 
@@ -18,7 +19,9 @@ const copyToken = () => {
 	<IrdomLayout title="Админка">
 		<div class="info">
 			<p>Ваш id: {{ profileStore.id }}</p>
-			<v-btn type="button" append-icon="md:content_copy" @click="copyToken">Скопировать токен</v-btn>
+			<v-btn type="button" append-icon="md:content_copy" @click="copyToken"
+				>Скопировать токен</v-btn
+			>
 		</div>
 		<RouterLink to="/admin/groups" class="link">Группы пользователей</RouterLink>
 

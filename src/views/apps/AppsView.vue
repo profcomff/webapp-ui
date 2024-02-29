@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { IrdomLayout } from '@/components';
 import AsyncContent from './AsyncContent.vue';
 import { computed } from 'vue';
+import IrdomLayout from '@/components/IrdomLayout.vue';
 
 const version = computed(() => import.meta.env.VITE_APP_VERSION);
 </script>

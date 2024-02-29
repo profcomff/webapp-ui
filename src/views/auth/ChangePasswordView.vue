@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { AuthApi } from '@/api';
 import { ToastType } from '@/models';
-import { useToastStore } from '@/store';
 import { ref } from 'vue';
-import { IrdomLayout } from '@/components';
 import { useRouter } from 'vue-router';
+import IrdomLayout from '@/components/IrdomLayout.vue';
+import { useToastStore } from '@/store/toast';
 
 const checkPasswords = ref(false);
 checkPasswords.value = false;
@@ -24,7 +24,7 @@ const submitHandler = async (event: Event) => {
 			toastStore.push({
 				title: 'Изменение пароля',
 				type: ToastType.Info,
-				description: 'Пароль успешно изменен',
+				description: 'Пароль успешно изменен'
 			});
 			router.push('/profile');
 		}
@@ -36,7 +36,7 @@ const submitHandler = async (event: Event) => {
 		toastStore.push({
 			title: 'Изменение пароля',
 			type: ToastType.Error,
-			description: 'Пароли не совпадают',
+			description: 'Пароли не совпадают'
 		});
 	}
 };

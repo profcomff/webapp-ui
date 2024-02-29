@@ -2,3 +2,7 @@ a {
 	text-decoration: none;
 	color: inherit;
 }
+
+svg {
+	fill: currentcolor;
+}

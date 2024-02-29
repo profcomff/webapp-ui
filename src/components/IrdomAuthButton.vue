@@ -15,7 +15,7 @@ const props = withDefaults(
 		button: AuthButton;
 		unlink?: boolean;
 	}>(),
-	{ unlink: false },
+	{ unlink: false }
 );
 
 const authUrl = ref<string | null>(null);

@@ -2,10 +2,12 @@
 import { authScopeApi } from '@/api/auth/AuthScopeApi';
 import ScopesTable from '../ScopesTable.vue';
 import { onMounted, computed } from 'vue';
-import { useAuthStore, useProfileStore } from '@/store';
-import { IrdomLayout, AccessAllowed } from '@/components';
-import { scopename } from '@/models';
 import { AuthApi } from '@/api';
+import IrdomLayout from '@/components/IrdomLayout.vue';
+import { scopename } from '@/models/ScopeName';
+import AccessAllowed from '@/components/AccessAllowed.vue';
+import { useAuthStore } from '@/store/auth';
+import { useProfileStore } from '@/store/profile';
 
 const authStore = useAuthStore();
 const profileStore = useProfileStore();

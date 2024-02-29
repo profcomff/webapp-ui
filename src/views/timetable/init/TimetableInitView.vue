@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import Logo from '/icon.svg';
-import { IrdomLayout } from '@/components';
 import { ref } from 'vue';
 import AsyncGroupsList from './AsyncGroupsList.vue';
 import { marketingApi } from '@/api/marketing';
-import { useProfileStore } from '@/store';
+import IrdomLayout from '@/components/IrdomLayout.vue';
+import { useProfileStore } from '@/store/profile';
 
 const query = ref('');
 const profileStore = useProfileStore();
@@ -16,7 +16,7 @@ const sendMarketing = (e: Event) => {
 		marketingApi.writeAction({
 			action: 'timetable search group',
 			user_id: profileStore.marketingId,
-			additional_data: JSON.stringify({ query: input.value }),
+			additional_data: JSON.stringify({ query: input.value })
 		});
 	}
 };

@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { useToastStore } from '@/store';
-import { IrdomToast } from './lib';
+import { useToastStore } from '@/store/toast';
+import IrdomToast from './IrdomToast.vue';
 
 const toastStore = useToastStore();
 </script>

@@ -3,7 +3,6 @@ import router from './router';
 
 import './index.css';
 import 'vuetify/styles';
-import 'material-design-icons-iconfont/dist/material-design-icons.css';
 
 import { createApp } from 'vue';
 import { createPinia } from 'pinia';
@@ -18,7 +17,7 @@ const updateSW = registerSW({
 		if (isUpdate) {
 			updateSW();
 		}
-	},
+	}
 });
 
 createApp(App).use(router).use(pinia).use(vuetify).mount('#app');
