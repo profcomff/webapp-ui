@@ -6,7 +6,7 @@ type GetButtonsResponse = AppButtonCategory & {
 };
 
 export enum CategoryInfo {
-	Buttons = 'buttons',
+	Buttons = 'buttons'
 }
 
 class ServicesApi extends BaseApi {

@@ -1,10 +1,11 @@
 <script setup lang="ts">
 import { AuthApi } from '@/api';
-import { AccessAllowed, IrdomLayout } from '@/components';
-import { scopename } from '@/models';
 import { onMounted } from 'vue';
 import UsersTable from '../UsersTable.vue';
-import { useAuthStore } from '@/store';
+import AccessAllowed from '@/components/AccessAllowed.vue';
+import IrdomLayout from '@/components/IrdomLayout.vue';
+import { scopename } from '@/models/ScopeName';
+import { useAuthStore } from '@/store/auth';
 
 onMounted(() => {
 	AuthApi.getUsers();

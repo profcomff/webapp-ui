@@ -1,16 +1,17 @@
 <script setup lang="ts">
-import { IrdomLayout, ToolbarActionItem } from '@/components';
-import { useProfileStore } from '@/store';
 import { onMounted, ref } from 'vue';
 import Placeholder from '@/assets/profile_image_placeholder.webp';
 import { AuthApi } from '@/api';
 import { MySessionInfo } from '@/api/auth';
 import { useRouter } from 'vue-router';
 import { UserdataApi } from '@/api/controllers/UserdataApi';
-import { UserdataConverter } from '@/utils';
 import { UserdataArray, UserdataCategoryName, UserdataParams } from '@/models';
 import AchievementsSlider from './achievement/AchievementsSlider.vue';
 import { UserdataExtendedValue } from '@/api/models';
+import IrdomLayout from '@/components/IrdomLayout.vue';
+import { useProfileStore } from '@/store/profile';
+import { UserdataConverter } from '@/utils/UserdataConverter';
+import { ToolbarActionItem } from '@/components/IrdomToolbar.vue';
 
 const profileStore = useProfileStore();
 const router = useRouter();
@@ -26,13 +27,13 @@ const toolbarAction: ToolbarActionItem[] = [
 	{
 		icon: 'edit',
 		ariaLabel: 'Редактировать профиль',
-		onClick: async () => router.push('/profile/edit'),
+		onClick: async () => router.push('/profile/edit')
 	},
 	{
 		icon: 'settings',
 		ariaLabel: 'Настройки',
-		onClick: async () => router.push('/profile/settings'),
-	},
+		onClick: async () => router.push('/profile/settings')
+	}
 ];
 
 onMounted(async () => {
@@ -47,17 +48,17 @@ onMounted(async () => {
 		MySessionInfo.Groups,
 		MySessionInfo.IndirectGroups,
 		MySessionInfo.SessionScopes,
-		MySessionInfo.UserScopes,
+		MySessionInfo.UserScopes
 	]);
 
 	const { data } = await UserdataApi.getUser(me.id);
 	fullName_item.value = UserdataConverter.getItem(data, {
 		category: UserdataCategoryName.PersonalInfo,
-		param: UserdataParams.FullName,
+		param: UserdataParams.FullName
 	});
 	photoURL_item.value = UserdataConverter.getItem(data, {
 		category: UserdataCategoryName.PersonalInfo,
-		param: UserdataParams.Photo,
+		param: UserdataParams.Photo
 	});
 	fullName.value = fullName_item.value?.name ?? '[object Object]';
 	photoURL.value = photoURL_item.value?.name ?? Placeholder;
@@ -68,7 +69,12 @@ onMounted(async () => {
 </script>
 
 <template>
-	<IrdomLayout :toolbar-actions="toolbarAction" title="Профиль" class-name="profile-toolbar" centered-toolbar>
+	<IrdomLayout
+		:toolbar-actions="toolbarAction"
+		title="Профиль"
+		class-name="profile-toolbar"
+		centered-toolbar
+	>
 		<img :src="photoURL" alt="Аватар" width="400 " height="400" class="avatar" />
 		<span class="user-name">
 			{{ fullName }}

@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import { TimetableApi } from '@/api';
-import { DataRow } from '@/components';
-import { useTimetableStore } from '@/store';
-import { formatTime } from '@/utils';
 import { computed } from 'vue';
+import DataRow from '@/components/DataRow.vue';
+import { useTimetableStore } from '@/store/timetable';
+import { formatTime } from '@/utils/time';
+import MaterialIcon from '@/components/MaterialIcon.vue';
 
 const props = defineProps<{ id: number }>();
 
@@ -18,11 +19,13 @@ if (!timetableStore.events.has(eventId.value)) {
 const event = computed(() => timetableStore.events.get(props.id));
 
 const scheduleTitle = computed(() =>
-	event.value ? new Date(event.value.start_ts).toLocaleString('ru-RU', { day: 'numeric', month: 'long' }) : '',
+	event.value
+		? new Date(event.value.start_ts).toLocaleString('ru-RU', { day: 'numeric', month: 'long' })
+		: ''
 );
 
 const scheduleInfo = computed(() =>
-	event.value ? `${formatTime(event.value.start_ts)} – ${formatTime(event.value.end_ts)}` : '',
+	event.value ? `${formatTime(event.value.start_ts)} – ${formatTime(event.value.end_ts)}` : ''
 );
 
 interface TitleArgs {
@@ -59,7 +62,7 @@ const lecturers = computed(() => {
 			arr.push({
 				id,
 				title: lecturerTitle({ first_name, middle_name, last_name }),
-				info: lecturerInfo({ first_name, last_name, middle_name }),
+				info: lecturerInfo({ first_name, last_name, middle_name })
 			});
 		}
 	}
@@ -72,11 +75,11 @@ const lecturers = computed(() => {
 	<h2 class="h2">{{ event?.name }}</h2>
 
 	<DataRow title="Группа" :info="event?.group.map(g => g.number).join(', ')" class="row">
-		<v-icon icon="md:group" class="icon" />
+		<MaterialIcon icon="group" class="icon" />
 	</DataRow>
 
 	<DataRow :title="scheduleTitle" :info="scheduleInfo" class="row">
-		<v-icon icon="md:schedule" class="icon" />
+		<MaterialIcon icon="schedule" class="icon" />
 	</DataRow>
 
 	<DataRow
@@ -87,7 +90,7 @@ const lecturers = computed(() => {
 		:href="`/timetable/room/${roomId}`"
 		clickable
 	>
-		<v-icon icon="md:location_on" />
+		<MaterialIcon icon="location-on" />
 	</DataRow>
 
 	<DataRow
@@ -99,7 +102,7 @@ const lecturers = computed(() => {
 		class="row"
 		clickable
 	>
-		<v-icon icon="md:person" />
+		<MaterialIcon icon="person" />
 	</DataRow>
 </template>
 

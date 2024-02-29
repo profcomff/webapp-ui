@@ -1,12 +1,15 @@
 <script setup lang="ts">
 import { GroupInfo, authGroupApi } from '@/api/auth';
-import { useAuthStore, useProfileStore } from '@/store';
 import ScopesTable from '../ScopesTable.vue';
 import { onMounted, computed } from 'vue';
 import { useRoute } from 'vue-router';
-import { AccessAllowed, IrdomLayout } from '@/components';
-import { scopename } from '@/models';
 import { AuthApi } from '@/api';
+import AccessAllowed from '@/components/AccessAllowed.vue';
+import IrdomLayout from '@/components/IrdomLayout.vue';
+import { scopename } from '@/models/ScopeName';
+import { useAuthStore } from '@/store/auth';
+import { useProfileStore } from '@/store/profile';
+import MaterialIcon from '@/components/MaterialIcon.vue';
 
 const profileStore = useProfileStore();
 const { hasTokenAccess } = profileStore;
@@ -22,7 +25,9 @@ onMounted(async () => {
 	AuthApi.getScopes();
 
 	if (!group.value) {
-		const { data } = await authGroupApi.getGroup<GroupInfo.Scopes>(+route.params.id, [GroupInfo.Scopes]);
+		const { data } = await authGroupApi.getGroup<GroupInfo.Scopes>(+route.params.id, [
+			GroupInfo.Scopes
+		]);
 		authStore.setGroup(data);
 	}
 });
@@ -46,7 +51,9 @@ const addScope = async (e: Event) => {
 		const scopeId = +formData.get('id')!.toString();
 
 		if (profileStore.isUserLogged && group.value && scopeId) {
-			await authGroupApi.patchGroup(groupId.value, { scopes: [...group.value.scopes.keys(), scopeId] });
+			await authGroupApi.patchGroup(groupId.value, {
+				scopes: [...group.value.scopes.keys(), scopeId]
+			});
 			authStore.setGroupScopeById(groupId.value, scopeId);
 			form.reset();
 		}
@@ -66,8 +73,12 @@ const addScope = async (e: Event) => {
 			/>
 		</AccessAllowed>
 
-		<form v-if="hasTokenAccess(scopename.auth.group.update)" class="form" @submit.prevent="addScope">
-			<v-icon icon="md:add" />
+		<form
+			v-if="hasTokenAccess(scopename.auth.group.update)"
+			class="form"
+			@submit.prevent="addScope"
+		>
+			<MaterialIcon icon="add" />
 
 			<label for="id">
 				id
@@ -81,7 +92,7 @@ const addScope = async (e: Event) => {
 			</label>
 
 			<button type="submit">
-				<v-icon icon="md:done" />
+				<MaterialIcon icon="done" />
 			</button>
 		</form>
 	</IrdomLayout>

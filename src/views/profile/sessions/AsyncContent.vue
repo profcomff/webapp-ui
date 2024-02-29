@@ -23,7 +23,9 @@ data.forEach(session => {
 	sessions.value.set(session.token, session);
 });
 const sortedSessions = computed(() =>
-	Array.from(sessions.value.values()).sort((a, b) => +new Date(b.last_activity) - +new Date(a.last_activity)),
+	Array.from(sessions.value.values()).sort(
+		(a, b) => +new Date(b.last_activity) - +new Date(a.last_activity)
+	)
 );
 
 const formatTime = (date: string) => {
@@ -33,7 +35,7 @@ const formatTime = (date: string) => {
 		day: 'numeric',
 		month: 'long',
 		hour: 'numeric',
-		minute: 'numeric',
+		minute: 'numeric'
 	});
 };
 
@@ -78,7 +80,11 @@ const deleteHandler = async (token: string) => {
 </script>
 
 <template>
-	<v-card v-for="{ id, session_name, last_activity, token } of sortedSessions" :key="id" class="card">
+	<v-card
+		v-for="{ id, session_name, last_activity, token } of sortedSessions"
+		:key="id"
+		class="card"
+	>
 		<div class="d-flex">
 			<div>
 				<v-img :src="getIcon(session_name)" alt="" width="64" height="64" />

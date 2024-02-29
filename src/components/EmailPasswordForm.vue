@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ToastType } from '@/models';
-import { useToastStore } from '@/store';
+import { useToastStore } from '@/store/toast';
 import { computed, ref } from 'vue';
 
 const checkPasswords = ref(false);
@@ -39,7 +39,7 @@ const submitHandler = async (event: Event) => {
 		toastStore.push({
 			title: 'Изменение пароля',
 			type: ToastType.Error,
-			description: 'Пароли не совпадают',
+			description: 'Пароли не совпадают'
 		});
 	}
 };
@@ -88,7 +88,9 @@ const buttonText = computed(() => (props.mode === 'login' ? 'Войти' : 'За
 		<v-btn v-if="$props.mode === 'register'" type="submit" class="submit-register" color="#fff">{{
 			buttonText
 		}}</v-btn>
-		<v-btn v-if="$props.mode === 'login'" type="submit" class="submit-login" color="#fff">{{ buttonText }}</v-btn>
+		<v-btn v-if="$props.mode === 'login'" type="submit" class="submit-login" color="#fff">{{
+			buttonText
+		}}</v-btn>
 	</form>
 </template>
 

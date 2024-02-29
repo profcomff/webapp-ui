@@ -1,9 +1,11 @@
 <script setup lang="ts">
 import { onMounted } from 'vue';
-import { IrdomNavbar, IrdomToastList } from './components';
-import { useProfileStore, useTimetableStore } from './store';
 import { marketingApi } from './api/marketing';
-import { navbarItems } from '@/constants';
+import { useProfileStore } from './store/profile';
+import { useTimetableStore } from './store/timetable';
+import { navbarItems } from './constants/navbarItems';
+import IrdomNavbar from './components/IrdomNavbar.vue';
+import IrdomToastList from './components/IrdomToastList.vue';
 
 const profileStore = useProfileStore();
 const { updateToken, updateTokenScopes, updateMarketingId } = profileStore;
@@ -17,7 +19,7 @@ onMounted(async () => {
 	if (profileStore.marketingId) {
 		marketingApi.writeAction({
 			action: 'app loaded',
-			user_id: profileStore.marketingId,
+			user_id: profileStore.marketingId
 		});
 	}
 });

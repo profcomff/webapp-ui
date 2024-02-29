@@ -12,7 +12,7 @@ export enum MySessionInfo {
 	IndirectGroups = 'indirect_groups',
 	SessionScopes = 'session_scopes',
 	UserScopes = 'user_scopes',
-	AuthMethods = 'auth_methods',
+	AuthMethods = 'auth_methods'
 }
 
 export enum AuthMethod {
@@ -24,7 +24,7 @@ export enum AuthMethod {
 	MyMsu = 'my_msu_auth',
 	Physics = 'physics_auth',
 	Telegram = 'telegram_auth',
-	VK = 'vk_auth',
+	VK = 'vk_auth'
 }
 
 interface SessionResponse {
@@ -37,7 +37,7 @@ interface SessionResponse {
 export enum SessionInfo {
 	SessionScopes = 'session_scopes',
 	Token = 'token',
-	Expires = 'expires',
+	Expires = 'expires'
 }
 
 class UserSessionApi extends AuthBaseApi {
@@ -51,8 +51,12 @@ class UserSessionApi extends AuthBaseApi {
 		return this.get<
 			Session & {
 				[MySessionInfo.Groups]: MySessionInfo.Groups extends Info ? number[] : never;
-				[MySessionInfo.IndirectGroups]: MySessionInfo.IndirectGroups extends Info ? number[] : never;
-				[MySessionInfo.SessionScopes]: MySessionInfo.SessionScopes extends Info ? SessionScope[] : never;
+				[MySessionInfo.IndirectGroups]: MySessionInfo.IndirectGroups extends Info
+					? number[]
+					: never;
+				[MySessionInfo.SessionScopes]: MySessionInfo.SessionScopes extends Info
+					? SessionScope[]
+					: never;
 				[MySessionInfo.UserScopes]: MySessionInfo.UserScopes extends Info ? UserScope[] : never;
 				[MySessionInfo.AuthMethods]: MySessionInfo.AuthMethods extends Info ? AuthMethod[] : never;
 			},

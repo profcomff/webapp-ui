@@ -13,7 +13,7 @@ class LecturerPhotoApi extends LecturerBaseApi {
 
 	public async uploadPhoto(lecturerId: number, formData: FormData) {
 		this.post<UploadPhotoResposne, FormData>(`/${lecturerId}/photo`, formData, {
-			'Content-type': 'multipart/form-data',
+			'Content-type': 'multipart/form-data'
 		});
 	}
 }

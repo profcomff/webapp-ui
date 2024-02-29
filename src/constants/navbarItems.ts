@@ -1,19 +1,22 @@
-import { NavbarItem } from '@/components';
+import { NavbarItem } from '@/components/IrdomNavbar.vue';
 
-export const navbarItems: NavbarItem[] = [
-	{
-		icon: 'calendar_month',
+const profile: NavbarItem = {
+	icon: 'account-circle',
+	name: 'Профиль',
+	path: '/profile'
+};
+
+export const navbarItems: Record<string, NavbarItem> = {
+	'/timetable': {
+		icon: 'calendar-month',
 		name: 'Расписание',
-		path: ['/timetable'],
+		path: '/timetable'
 	},
-	{
+	'/apps': {
 		icon: 'dashboard',
 		name: 'Сервисы',
-		path: ['/apps'],
+		path: '/apps'
 	},
-	{
-		icon: 'account_circle',
-		name: 'Профиль',
-		path: ['/profile', '/auth'],
-	},
-];
+	'/profile': profile,
+	'/auth': profile
+};

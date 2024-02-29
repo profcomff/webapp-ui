@@ -17,7 +17,10 @@ class UserdataParamApi extends UserdataBaseApi {
 	}
 
 	public async create(categoryId: number, body: Omit<UserdataParam, 'id' | 'category_id'>) {
-		return this.post<UserdataParam, Omit<UserdataParam, 'id' | 'category_id'>>(`/${categoryId}/param`, body);
+		return this.post<UserdataParam, Omit<UserdataParam, 'id' | 'category_id'>>(
+			`/${categoryId}/param`,
+			body
+		);
 	}
 
 	public async getById({ id, categoryId }: Args) {
@@ -28,10 +31,13 @@ class UserdataParamApi extends UserdataBaseApi {
 		return this.get<DefaultResponse>(`/${categoryId}/param/${id}`);
 	}
 
-	public async patchById({ id, categoryId }: Args, body: Omit<UserdataParam, 'id' | 'category_id'>) {
+	public async patchById(
+		{ id, categoryId }: Args,
+		body: Omit<UserdataParam, 'id' | 'category_id'>
+	) {
 		return this.patch<UserdataParamApi, Omit<UserdataParam, 'id' | 'category_id'>>(
 			`/${categoryId}/param/${id}`,
-			body,
+			body
 		);
 	}
 }

@@ -1,18 +1,20 @@
 <script setup lang="ts">
 import { GroupInfo, authGroupApi } from '@/api/auth';
-import { useAuthStore } from '@/store';
 import { onMounted, computed } from 'vue';
 import GroupTreeNode from './GroupTreeNode.vue';
-import { IrdomLayout } from '@/components';
-import { StoreGroup } from '@/store/auth';
+import { StoreGroup, useAuthStore } from '@/store/auth';
+import IrdomLayout from '@/components/IrdomLayout.vue';
 
 const authStore = useAuthStore();
 
 onMounted(async () => {
 	if (authStore.groups.size === 0) {
 		const {
-			data: { items: groups },
-		} = await authGroupApi.getGroups<GroupInfo.Children | GroupInfo.Scopes>([GroupInfo.Children, GroupInfo.Scopes]);
+			data: { items: groups }
+		} = await authGroupApi.getGroups<GroupInfo.Children | GroupInfo.Scopes>([
+			GroupInfo.Children,
+			GroupInfo.Scopes
+		]);
 
 		for (const group of groups) {
 			authStore.setScopes(group.scopes);

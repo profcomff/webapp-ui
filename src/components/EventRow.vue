@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import { Event } from '@/api/models';
-import { getNameWithInitials, formatTime } from '@/utils';
 import { computed } from 'vue';
 import DataRow from './DataRow.vue';
+import { getNameWithInitials } from '@/utils/personName';
+import { formatTime } from '@/utils/time';
 
 const props = defineProps<{ event: Event; info: Array<'lecturer' | 'group' | 'room'> }>();
 
@@ -20,10 +21,10 @@ const info = computed(() => {
 					getNameWithInitials({
 						firstName: first_name,
 						lastName: last_name,
-						middleName: middle_name,
-					}),
+						middleName: middle_name
+					})
 				)
-				.join(', '),
+				.join(', ')
 		);
 	}
 
@@ -36,7 +37,13 @@ const info = computed(() => {
 </script>
 
 <template>
-	<DataRow :key="event.id" :title="event.name" :info="info" :href="`/timetable/event/${event.id}`" clickable>
+	<DataRow
+		:key="event.id"
+		:title="event.name"
+		:info="info"
+		:href="`/timetable/event/${event.id}`"
+		clickable
+	>
 		<b>{{ formatTime(event.start_ts) }}</b>
 		<span>{{ formatTime(event.end_ts) }}</span>
 	</DataRow>

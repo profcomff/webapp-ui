@@ -1,7 +1,7 @@
-import { stringifyDate } from '@/utils';
-import { LocalStorage, LocalStorageItem } from '@/models';
 import { StudyGroup } from './../api/models/index';
 import { Lecturer, Room, Event } from '@/api/models';
+import { LocalStorage, LocalStorageItem } from '@/models/LocalStorage';
+import { stringifyDate } from '@/utils/date';
 import { defineStore } from 'pinia';
 import { ref } from 'vue';
 
@@ -106,6 +106,6 @@ export const useTimetableStore = defineStore('timetable', () => {
 		setEvents,
 		setDay,
 		setLecturerEvents,
-		setRoomEvents,
+		setRoomEvents
 	};
 });

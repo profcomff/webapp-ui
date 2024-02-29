@@ -18,7 +18,12 @@ export interface GetEventsParams extends GetAllParams {
 	format?: 'json' | 'ics';
 }
 
-class TimetableEventApi extends TimetableEntityBaseApi<Event, GetEventsParams, ModifyEventBody, never> {
+class TimetableEventApi extends TimetableEntityBaseApi<
+	Event,
+	GetEventsParams,
+	ModifyEventBody,
+	never
+> {
 	constructor() {
 		super('/event');
 	}

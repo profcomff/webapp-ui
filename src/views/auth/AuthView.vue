@@ -1,9 +1,13 @@
 <!-- Страница со списком основных методов входа -->
 <script setup lang="ts">
-import { IrdomLayout, SubmitData, EmailPasswordForm, IrdomAuthButton } from '@/components';
 import { AuthApi } from '@/api';
 import { useRouter, useRoute } from 'vue-router';
-import { authButtons } from '@/constants';
+import { authButtons } from '@/constants/authButtons';
+import IrdomLayout from '@/components/IrdomLayout.vue';
+import EmailPasswordForm, { SubmitData } from '@/components/EmailPasswordForm.vue';
+import IrdomAuthButton from '@/components/IrdomAuthButton.vue';
+import MaterialIcon from '@/components/MaterialIcon.vue';
+
 const router = useRouter();
 const route = useRoute();
 
@@ -28,8 +32,11 @@ const submitHandler = async ({ email, password }: SubmitData) => {
 						:button="authButtons[i - 1]"
 						class="button"
 					/>
-					<v-btn prepend-icon="more_horiz" class="button" color="#fff" @click="router.push('/auth/all')"
-						>Другие сервисы</v-btn
+					<v-btn class="button" color="#fff" @click="router.push('/auth/all')">
+						<template #prepend>
+							<MaterialIcon icon="more-horiz" />
+						</template>
+						Другие сервисы</v-btn
 					>
 				</div>
 				<div v-if="route.query.plan" class="restore">
@@ -42,7 +49,9 @@ const submitHandler = async ({ email, password }: SubmitData) => {
 				</div>
 				<div class="link-text-politics">
 					При регистрации и входе вы соглашаетесь
-					<a href="https://pages.profcomff.com/tvoy_ff_privacy_policy">с политикой обработки данных</a>
+					<a href="https://pages.profcomff.com/tvoy_ff_privacy_policy"
+						>с политикой обработки данных</a
+					>
 				</div>
 			</div>
 		</div>

@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { stringifyDate } from '@/utils';
+import { stringifyDate } from '@/utils/date';
+import MaterialIcon from './MaterialIcon.vue';
 
 const weekdays = ['пн', 'вт', 'ср', 'чт', 'пт', 'сб', 'вс'];
 
@@ -7,7 +8,8 @@ const props = defineProps<{ selected: Date; modelValue: Date }>();
 const emits = defineEmits<{ 'update:modelValue': [value: Date] }>();
 
 const getDays = (date: Date) => new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate();
-const getItemDate = (day: number) => new Date(props.modelValue.getFullYear(), props.modelValue.getMonth(), day);
+const getItemDate = (day: number) =>
+	new Date(props.modelValue.getFullYear(), props.modelValue.getMonth(), day);
 const getItemStringDate = (day: number) => stringifyDate(getItemDate(day));
 const isCurrent = (day: number) => getItemStringDate(day) === stringifyDate(props.selected);
 const isToday = (day: number) => getItemStringDate(day) === stringifyDate(new Date());
@@ -24,22 +26,34 @@ const changeMonthHandler = (offset: number) => {
 <template>
 	<div class="calendar">
 		<div class="controls">
-			<button v-ripple type="button" class="left" aria-label="Предыдущий месяц" @click="changeMonthHandler(-1)">
-				<v-icon icon="md:arrow_back_ios" />
+			<button
+				v-ripple
+				type="button"
+				class="left"
+				aria-label="Предыдущий месяц"
+				@click="changeMonthHandler(-1)"
+			>
+				<MaterialIcon icon="arrow-back-ios" />
 			</button>
 
 			<span class="noselect">
 				{{ modelValue.toLocaleDateString('ru-RU', { month: 'long', year: 'numeric' }) }}
 			</span>
 
-			<button v-ripple type="button" class="right" aria-label="Следующий месяц" @click="changeMonthHandler(1)">
-				<v-icon icon="md:arrow_forward_ios" />
+			<button
+				v-ripple
+				type="button"
+				class="right"
+				aria-label="Следующий месяц"
+				@click="changeMonthHandler(1)"
+			>
+				<MaterialIcon icon="arrow-forward-ios" />
 			</button>
 		</div>
 		<div
 			v-touch="{
 				left: () => changeMonthHandler(1),
-				right: () => changeMonthHandler(-1),
+				right: () => changeMonthHandler(-1)
 			}"
 			class="grid"
 		>

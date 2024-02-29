@@ -10,7 +10,7 @@ export class EntityBaseApi<
 	E extends Entity,
 	GetAllP extends GetAllParams = never,
 	ModifyB = Omit<E, 'id'>,
-	GetP = never,
+	GetP = never
 > extends BaseApi {
 	constructor(path: string) {
 		super(path);

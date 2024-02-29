@@ -1,5 +1,11 @@
 import { describe, it, expect } from 'vitest';
-import { parseDate, stringifyDate, getWeekdayName, getDateWithDayOffset, stringifyDateIso } from './date';
+import {
+	parseDate,
+	stringifyDate,
+	getWeekdayName,
+	getDateWithDayOffset,
+	stringifyDateIso
+} from './date';
 
 describe('Convert date functions:', () => {
 	it('should parse/stringify date by common format dd-mm-yyyy', () => {

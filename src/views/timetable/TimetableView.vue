@@ -1,13 +1,14 @@
 <script setup lang="ts">
-import { ToolbarActionItem, IrdomLayout, ToolbarMenuItem } from '@/components';
-import { LocalStorage, LocalStorageItem } from '@/models';
-import { parseDate, stringifyDate, getDateWithDayOffset } from '@/utils';
 import DateNavigation from './DateNavigation.vue';
 import { useRoute, useRouter } from 'vue-router';
 import { computed, ref, watch } from 'vue';
 import AsyncEventsList from './AsyncEventsList.vue';
 import CalendarDropdown from './CalendarDropdown.vue';
-import { useTimetableStore } from '@/store';
+import { useTimetableStore } from '@/store/timetable';
+import { parseDate, stringifyDate, getDateWithDayOffset } from '@/utils/date';
+import { LocalStorage, LocalStorageItem } from '@/models/LocalStorage';
+import { ToolbarActionItem, ToolbarMenuItem } from '@/components/IrdomToolbar.vue';
+import IrdomLayout from '@/components/IrdomLayout.vue';
 
 const router = useRouter();
 const route = useRoute();
@@ -20,9 +21,9 @@ const toolbarActions = computed<ToolbarActionItem[]>(() =>
 				{
 					icon: 'today',
 					onClick: () => router.push(`/timetable/${stringifyDate(new Date())}`),
-					ariaLabel: 'Вернуться к сегодняшнему дню',
-				},
-		  ],
+					ariaLabel: 'Вернуться к сегодняшнему дню'
+				}
+			]
 );
 
 const toolbarMenu: ToolbarMenuItem[] = [
@@ -33,8 +34,8 @@ const toolbarMenu: ToolbarMenuItem[] = [
 			timetableStore.updateGroup();
 			timetableStore.days.clear();
 			router.push('/timetable/init');
-		},
-	},
+		}
+	}
 ];
 
 const date = computed(() => {
@@ -54,7 +55,7 @@ watch(date, () => {
 		:toolbar-menu="toolbarMenu"
 		:touch="{
 			left: () => router.push(`/timetable/${stringifyDate(getDateWithDayOffset(date, 1))}`),
-			right: () => router.push(`/timetable/${stringifyDate(getDateWithDayOffset(date, -1))}`),
+			right: () => router.push(`/timetable/${stringifyDate(getDateWithDayOffset(date, -1))}`)
 		}"
 	>
 		<template #toolbar>

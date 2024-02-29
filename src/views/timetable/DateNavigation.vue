@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { getDateWithDayOffset, getWeekdayName, stringifyDate } from '@/utils';
+import MaterialIcon from '@/components/MaterialIcon.vue';
+import { getDateWithDayOffset, stringifyDate, getWeekdayName } from '@/utils/date';
 import { computed } from 'vue';
 
 const props = defineProps<{ date: Date }>();
@@ -17,7 +18,7 @@ const tomorrow = computed(() => getDateWithDayOffset(props.date, 1));
 				class="noselect button left"
 				:aria-label="getWeekdayName(yestarday, 'long')"
 			>
-				<v-icon icon="md:arrow_back_ios" />
+				<MaterialIcon icon="arrow-back-ios" />
 				<span>{{ getWeekdayName(yestarday) }}</span>
 			</RouterLink>
 
@@ -30,7 +31,7 @@ const tomorrow = computed(() => getDateWithDayOffset(props.date, 1));
 				:aria-label="getWeekdayName(tomorrow)"
 			>
 				<span>{{ getWeekdayName(tomorrow) }}</span>
-				<v-icon icon="md:arrow_forward_ios" class="right-icon" />
+				<MaterialIcon icon="arrow-forward-ios" class="right-icon" />
 			</RouterLink>
 		</div>
 	</nav>

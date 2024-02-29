@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { stringifyDate } from '@/utils';
-import { useTimetableStore } from '@/store';
 import { computed } from 'vue';
 import { TimetableApi } from '@/api';
 import EventRow from '@/components/EventRow.vue';
+import { useTimetableStore } from '@/store/timetable';
+import { stringifyDate } from '@/utils/date';
 
 const props = defineProps<{ date: Date }>();
 

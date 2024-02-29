@@ -1,7 +1,8 @@
 <script setup lang="ts">
+import MaterialIcon from '@/components/MaterialIcon.vue';
 import AsyncRoomInfo from './AsyncRoomInfo.vue';
-import { IrdomLayout } from '@/components';
 import AsyncRoomSchedule from './AsyncRoomSchedule.vue';
+import IrdomLayout from '@/components/IrdomLayout.vue';
 import { useRoute } from 'vue-router';
 
 const route = useRoute();
@@ -24,13 +25,15 @@ const back = history.state.back?.startsWith('/timetable/event') ? history.state.
 			<RouterLink to="/apps/browser#https://cdn.profcomff.com/app/map/" class="map">
 				<span class="text">
 					Посмотреть на карте
-					<v-icon icon="md:open_in_new" />
+					<MaterialIcon icon="open-in-new" />
 				</span>
 			</RouterLink>
 		</section>
 
 		<section class="section">
-			<p class="date">Сегодня, {{ new Date().toLocaleDateString('ru-RU', { day: '2-digit', month: 'long' }) }}</p>
+			<p class="date">
+				Сегодня, {{ new Date().toLocaleDateString('ru-RU', { day: '2-digit', month: 'long' }) }}
+			</p>
 			<Suspense>
 				<AsyncRoomSchedule :id="+route.params.id" />
 				<template #fallback>Загрузка...</template>

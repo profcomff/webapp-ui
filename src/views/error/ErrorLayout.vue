@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { IrdomLayout } from '@/components';
+import IrdomLayout from '@/components/IrdomLayout.vue';
 
 defineProps<{ title: string; image: string }>();
 </script>

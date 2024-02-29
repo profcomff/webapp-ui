@@ -4,7 +4,7 @@ import { AuthBaseApi } from './AuthBaseApi';
 export enum UserInfo {
 	Groups = 'groups',
 	IndirectGroups = 'indirect_groups',
-	Scopes = 'scopes',
+	Scopes = 'scopes'
 }
 
 class AuthUserApi extends AuthBaseApi {

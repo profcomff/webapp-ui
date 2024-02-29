@@ -1,9 +1,11 @@
 <script setup lang="ts">
-import { IrdomLayout, IrdomAuthButton, TelegramButton } from '@/components';
-import { useProfileStore } from '@/store';
 import { onMounted, computed } from 'vue';
 import { AuthMethod } from '@/api/auth';
-import { authButtons } from '@/constants';
+import IrdomLayout from '@/components/IrdomLayout.vue';
+import IrdomAuthButton from '@/components/IrdomAuthButton.vue';
+import TelegramButton from '@/components/TelegramButon.vue';
+import { useProfileStore } from '@/store/profile';
+import { authButtons } from '@/constants/authButtons';
 
 const profileStore = useProfileStore();
 
@@ -15,9 +17,13 @@ onMounted(async () => {
 });
 
 const canLinked = computed(() =>
-	authButtons.filter(({ method }) => !profileStore.authMethods?.includes(method) && method !== AuthMethod.Telegram),
+	authButtons.filter(
+		({ method }) => !profileStore.authMethods?.includes(method) && method !== AuthMethod.Telegram
+	)
 );
-const canUnlinked = computed(() => authButtons.filter(({ method }) => profileStore.authMethods?.includes(method)));
+const canUnlinked = computed(() =>
+	authButtons.filter(({ method }) => profileStore.authMethods?.includes(method))
+);
 </script>
 
 <template>
@@ -33,7 +39,12 @@ const canUnlinked = computed(() => authButtons.filter(({ method }) => profileSto
 		<section v-if="profileStore.authMethods && profileStore.authMethods.length > 1" class="section">
 			<h2>Отвязать аккаунт</h2>
 			<div class="buttons">
-				<IrdomAuthButton v-for="button of canUnlinked" :key="button.method" :button="button" unlink />
+				<IrdomAuthButton
+					v-for="button of canUnlinked"
+					:key="button.method"
+					:button="button"
+					unlink
+				/>
 			</div>
 		</section>
 	</IrdomLayout>

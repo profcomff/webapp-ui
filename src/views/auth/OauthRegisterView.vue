@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { oauth2Methods } from '@/api/auth';
 import { useRouter } from 'vue-router';
-import { IrdomLayout } from '@/components';
 import { AxiosResponse, isAxiosError } from 'axios';
+import IrdomLayout from '@/components/IrdomLayout.vue';
 
 const router = useRouter();
 
@@ -27,7 +27,7 @@ async function handleAccept() {
 			if (e.response && e.response.status == 401) {
 				return {
 					path: '/auth/error',
-					query: { text: 'Переданы неверные данные для входа' },
+					query: { text: 'Переданы неверные данные для входа' }
 				};
 			}
 		}

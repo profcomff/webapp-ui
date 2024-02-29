@@ -1,6 +1,6 @@
 import { scopename } from './../models/ScopeName';
 import { marketingApi } from '@/api/marketing';
-import { LocalStorage, LocalStorageItem } from '@/models';
+import { LocalStorage, LocalStorageItem } from '@/models/LocalStorage';
 import { defineStore } from 'pinia';
 import { computed, ref } from 'vue';
 
@@ -29,12 +29,22 @@ export const useProfileStore = defineStore('profile', () => {
 	}
 
 	function updateTokenScopes(newTokenScopes?: string[]) {
-		tokenScopes.value = newTokenScopes ?? LocalStorage.getObject<string[]>(LocalStorageItem.TokenScopes) ?? [];
+		tokenScopes.value =
+			newTokenScopes ?? LocalStorage.getObject<string[]>(LocalStorageItem.TokenScopes) ?? [];
 	}
 
 	function deleteToken() {
 		LocalStorage.delete(LocalStorageItem.Token, LocalStorageItem.TokenScopes);
-		[id, token, tokenScopes, authMethods, groups, indirectGroups, userScopes, sessionScopes].forEach(i => {
+		[
+			id,
+			token,
+			tokenScopes,
+			authMethods,
+			groups,
+			indirectGroups,
+			userScopes,
+			sessionScopes
+		].forEach(i => {
 			i.value = null;
 		});
 	}
@@ -50,7 +60,7 @@ export const useProfileStore = defineStore('profile', () => {
 			marketingApi.writeAction({
 				user_id: data.id,
 				action: 'user registration',
-				additional_data: JSON.stringify(data),
+				additional_data: JSON.stringify(data)
 			});
 		} else {
 			marketingId.value = +item;
@@ -78,6 +88,6 @@ export const useProfileStore = defineStore('profile', () => {
 		id,
 		authMethods,
 		sessionScopes,
-		deleteToken,
+		deleteToken
 	};
 });

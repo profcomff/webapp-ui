@@ -1,8 +1,11 @@
 <script setup lang="ts">
 import { AuthApi } from '@/api';
-import { EmailPasswordForm, IrdomLayout, SubmitData, IrdomAuthButton } from '@/components';
 import { useRouter } from 'vue-router';
-import { authButtons } from '@/constants';
+import EmailPasswordForm, { SubmitData } from '@/components/EmailPasswordForm.vue';
+import IrdomLayout from '@/components/IrdomLayout.vue';
+import IrdomAuthButton from '@/components/IrdomAuthButton.vue';
+import { authButtons } from '@/constants/authButtons';
+
 const router = useRouter();
 
 const submitHandler = async ({ email, password }: SubmitData) => {
@@ -38,7 +41,9 @@ const submitHandler = async ({ email, password }: SubmitData) => {
 			<div>
 				<div class="link-text-politics">
 					При регистрации и входе вы соглашаетесь
-					<a href="https://pages.profcomff.com/tvoy_ff_privacy_policy">с политикой обработки данных</a>
+					<a href="https://pages.profcomff.com/tvoy_ff_privacy_policy"
+						>с политикой обработки данных</a
+					>
 				</div>
 			</div>
 		</div>

@@ -1,7 +1,7 @@
 <!-- Страница, которую видит пользователь, если что-то пошло не так при аутентификации -->
 <script setup lang="ts">
-import { IrdomLayout } from '@/components';
 import { useRoute } from 'vue-router';
+import IrdomLayout from '@/components/IrdomLayout.vue';
 
 const route = useRoute();
 </script>

@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { useTimetableStore } from '@/store';
 import Placeholder from '@/assets/profile_image_placeholder.webp';
 import { computed } from 'vue';
 import { TimetableApi } from '@/api';
-import Markdown from '@/components/MarkdownRenderer.vue';
+// import Markdown from '@/components/MarkdownRenderer.vue';
+import { useTimetableStore } from '@/store/timetable';
 
 const timetableStore = useTimetableStore();
 
@@ -26,14 +26,19 @@ const fullName = computed(() => {
 });
 
 const imgUrl = computed(() =>
-	lecturer.value?.avatar_link ? `${import.meta.env.VITE_API_URL}${lecturer.value?.avatar_link}` : Placeholder,
+	lecturer.value?.avatar_link
+		? `${import.meta.env.VITE_API_URL}${lecturer.value?.avatar_link}`
+		: Placeholder
 );
 </script>
 
 <template>
 	<img :src="imgUrl" alt="Фотография преподавателя" class="avatar" width="256" height="256" />
 	<h2 class="full-name">{{ fullName }}</h2>
-	<markdown class="description" :text="lecturer?.description"></markdown>
+	<p>
+		{{ lecturer?.description }}
+	</p>
+	<!-- <markdown class="description" :text="lecturer?.description"></markdown> -->
 </template>
 
 <style scoped>
@@ -45,7 +50,7 @@ const imgUrl = computed(() =>
 	width: 100%;
 	max-width: 256px;
 	border-radius: 999px;
-	box-shadow: 0 0 20px oklch(0 0 0deg / 10%);
+	box-shadow: 0 0 20px oklch(0% 0 0deg / 10%);
 	object-fit: cover;
 }
 

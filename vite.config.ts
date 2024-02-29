@@ -10,18 +10,17 @@ import postcssPresetEnv from 'postcss-preset-env';
 import basicSsl from '@vitejs/plugin-basic-ssl';
 import vuetify from 'vite-plugin-vuetify';
 
-// https://vitejs.dev/config/
 export default defineConfig({
 	css: {
 		postcss: {
 			plugins: [
 				postcssPresetEnv({
 					features: {
-						'nesting-rules': true,
-					},
-				}),
-			],
-		},
+						'nesting-rules': true
+					}
+				})
+			]
+		}
 	},
 	plugins: [
 		basicSsl(),
@@ -29,12 +28,18 @@ export default defineConfig({
 		vuetify(),
 		Eslint(),
 		Stylelint({
-			files: [path.resolve(__dirname, 'src/**/*.{vue,css}')],
+			files: [path.resolve(__dirname, 'src/**/*.{vue,css}')]
 		}),
-		VitePWA(vitePWAconfig),
+		VitePWA(vitePWAconfig)
 	],
 	resolve: {
-		alias: [{ find: '@', replacement: fileURLToPath(new URL('./src', import.meta.url)) }],
+		alias: [
+			{ find: '@', replacement: fileURLToPath(new URL('./src', import.meta.url)) },
+			{
+				find: '@icons',
+				replacement: path.resolve(__dirname, 'node_modules/vue-material-design-icons')
+			}
+		]
 	},
-	publicDir: 'src/public',
+	publicDir: 'src/public'
 });

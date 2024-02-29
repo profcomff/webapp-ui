@@ -21,7 +21,9 @@ const save = (id: number, name: string, description: string) => {
 <template>
 	<tr key="id" class="row">
 		<td>{{ props.achievement.id }}</td>
-		<td><img :src="achievementApi.getPictureUrl(props.achievement.picture)" height="50" width="50" /></td>
+		<td>
+			<img :src="achievementApi.getPictureUrl(props.achievement.picture)" height="50" width="50" />
+		</td>
 		<td>
 			<v-text-field v-model="name" variant="underlined"></v-text-field>
 		</td>
