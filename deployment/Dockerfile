@@ -20,4 +20,4 @@ ADD ./deployment/nginx.conf /etc/nginx/conf.d/default.conf
 ADD ./deployment/docker_entrypoint.sh /docker_entrypoint.sh
 COPY --from=build /app/dist /usr/share/nginx/html
 
-RUN chmod +x /docker_entrypoint.sh && /docker_entrypoint.sh
+RUN chmod +x ./docker_entrypoint.sh && /docker_entrypoint.sh
