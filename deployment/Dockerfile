@@ -1,4 +1,4 @@
-FROM node:18 AS build
+FROM oven/bun:1 AS build
 
 ARG BUILD_MODE=production
 ARG LAUNCH_MODE=production
@@ -9,9 +9,9 @@ ENV VITE_APP_VERSION=${APP_VERSION}
 
 WORKDIR /app
 ADD ./package.json ./pnpm-lock.yaml /app/
-RUN npm i -g pnpm && pnpm install
+RUN bun install
 ADD . /app
-RUN pnpm build --mode ${BUILD_MODE}
+RUN bun run build --mode ${BUILD_MODE}
 
 
 FROM nginx:1.21

@@ -16,20 +16,13 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - uses: pnpm/action-setup@v2
-        with:
-          version: 7.26.3
-
-      - uses: actions/setup-node@v3
-        with:
-          node-version: '18'
-          cache: 'pnpm'
+      - uses: oven-sh/setup-bun@v1
 
       - name: Install
-        run: pnpm install
+        run: bun install
 
       - name: Check
-        run: pnpm lint && pnpm stylelint
+        run: bun run check
 
   test-format:
     name: Выполняем тесты
@@ -38,20 +31,13 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - uses: pnpm/action-setup@v2
-        with:
-          version: 7.26.3
-
-      - uses: actions/setup-node@v3
-        with:
-          node-version: '18'
-          cache: 'pnpm'
+      - uses: oven-sh/setup-bun@v1
 
       - name: Install
-        run: pnpm install
+        run: bun install
 
       - name: Check
-        run: pnpm test
+        run: bun test
 
   build-test-image:
     name: Собираем тестовый Docker

@@ -5,9 +5,9 @@
 	"type": "module",
 	"scripts": {
 		"dev": "vite --host --port 443",
-		"build": "vue-tsc && vite build",
-		"build:development": "vue-tsc && vite build --mode development",
-		"build:testing": "vue-tsc && vite build --mode testing",
+		"build": "vite build",
+		"build:development": "vite build --mode development",
+		"build:testing": "vite build --mode testing",
 		"preview": "vite preview",
 		"test": "vitest",
 		"lint": "eslint --ext .ts,.vue .",
@@ -16,7 +16,8 @@
 		"prettier:write": "prettier . --write",
 		"stylelint": "stylelint \"**/*.{vue,css}\"",
 		"stylelint:fix": "stylelint \"**/*.{vue,css}\" --fix",
-		"format": "pnpm run lint:fix && pnpm run prettier:write && pnpm run stylelint:fix"
+		"format": "bun run lint:fix && bun run prettier:write && bun run stylelint:fix",
+		"check": "bun run lint && bun run prettier && bun run stylelint"
 	},
 	"dependencies": {
 		"axios": "^1.6.7",
