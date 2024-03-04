@@ -8,7 +8,7 @@ ENV MODE=${LAUNCH_MODE}
 ENV VITE_APP_VERSION=${APP_VERSION}
 
 WORKDIR /app
-ADD ./package.json ./pnpm-lock.yaml /app/
+ADD ./package.json ./bun.lockdb /app/
 RUN bun install
 ADD . /app
 RUN bun run build --mode ${BUILD_MODE}
