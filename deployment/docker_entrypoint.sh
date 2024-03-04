@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 export APPJS_NAME=$(cd /usr/share/nginx/html && ls js/app.*.js)
 if [ ! -z ${APPJS_NAME} ]
