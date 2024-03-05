@@ -1,16 +1,18 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import { useRoute } from 'vue-router';
-import IrdomToolbar from '@/components/IrdomToolbar.vue';
 import { useProfileStore } from '@/store/profile';
-
-const back =
-	history.state.back?.startsWith('/apps') || history.state.back?.startsWith('/timetable')
-		? history.state.back
-		: '/apps';
+import { useToolbar } from '@/store/toolbar';
 
 const profileStore = useProfileStore();
 const route = useRoute();
+const toolbar = useToolbar();
+
+toolbar.setup({
+	title: route.query.title ? String(route.query.title) : 'Твой ФФ!',
+	backUrl: '/apps',
+});
+
 const url = computed(() => {
 	const u = new URL(route.hash.slice(1));
 	if (profileStore.marketingId) {
@@ -21,7 +23,6 @@ const url = computed(() => {
 </script>
 
 <template>
-	<IrdomToolbar backable :back-url="back" :title="(route.query.title as string) ?? undefined" />
 	<v-main>
 		<iframe :src="url" frameborder="0" class="iframe" allow="camera" />
 	</v-main>

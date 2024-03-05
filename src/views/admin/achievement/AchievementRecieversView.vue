@@ -1,22 +1,27 @@
 <script setup lang="ts">
 import { achievementApi, AchievementGet } from '@/api/achievement';
-import { computed, onMounted, ref, Ref } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 import { useRoute } from 'vue-router';
 import AccessRestricted from '@/components/AccessRestricted.vue';
 import IrdomLayout from '@/components/IrdomLayout.vue';
 import { scopename } from '@/models/ScopeName';
+import { useToolbar } from '@/store/toolbar';
 
 const route = useRoute();
-const achievemetId = computed(() => Number(route.params.id));
-const achievement: Ref<AchievementGet | undefined> = ref();
+const toolbar = useToolbar();
 
-const giveTo: Ref<number | undefined> = ref();
+toolbar.setup({
+	title: 'Управление достижениями',
+	backUrl: '/admin',
+});
+
+const achievemetId = computed(() => Number(route.params.id));
+const achievement = ref<AchievementGet | undefined>(undefined);
+const giveTo = ref<number | undefined>();
 
 onMounted(async () => {
 	achievement.value = (await achievementApi.getRecievers(achievemetId.value)).data;
 });
-
-const back = history.state.back?.startsWith('/admin') ? history.state.back : '/admin';
 
 const revoke = (user_id: number) => {
 	achievementApi
@@ -34,7 +39,7 @@ const give = (user_id: number | undefined) => {
 </script>
 
 <template>
-	<IrdomLayout title="Управление достижениями" backable :back-url="back">
+	<IrdomLayout>
 		<AccessRestricted :scope="scopename.achievements.achievement.create">
 			<v-row class="row" align-content="stretch">
 				<v-card>

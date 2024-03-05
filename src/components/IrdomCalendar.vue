@@ -21,7 +21,6 @@ function changeMonthHandler(delta: number) {
 }
 
 function getItemDate(i: number) {
-	console.log(i, stringifyDate(new Date(date.value.getFullYear(), date.value.getMonth(), i)));
 	return new Date(date.value.getFullYear(), date.value.getMonth(), i);
 }
 

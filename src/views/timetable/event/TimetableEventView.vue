@@ -2,16 +2,20 @@
 import AsyncContent from './AsyncContent.vue';
 import { useRoute } from 'vue-router';
 import IrdomLayout from '@/components/IrdomLayout.vue';
+import { useToolbar } from '@/store/toolbar';
 
 const route = useRoute();
-const back =
-	history.state.back && /\/timetable\/\d{2}-\d{2}-\d{4}/.test(history.state.back)
-		? history.state.back
-		: '/timetable';
+const toolbar = useToolbar();
+
+toolbar.setup({
+	title: 'Событие',
+	backUrl: '/timetable',
+	share: true,
+});
 </script>
 
 <template>
-	<IrdomLayout backable :back-url="back" share title="Событие">
+	<IrdomLayout>
 		<Suspense>
 			<AsyncContent :id="+route.params.id" />
 

@@ -1,28 +1,32 @@
 <script setup lang="ts">
 import { achievementApi, AchievementGet } from '@/api/achievement';
-import { onMounted, ref, Ref } from 'vue';
+import { onMounted, ref } from 'vue';
 import achievementRow from './AchievementRow.vue';
 import AccessRestricted from '@/components/AccessRestricted.vue';
 import IrdomLayout from '@/components/IrdomLayout.vue';
 import { scopename } from '@/models/ScopeName';
+import { useToolbar } from '@/store/toolbar';
 
-const achiements: Ref<AchievementGet[]> = ref([]);
+const toolbar = useToolbar();
 
-const new_name: Ref<string> = ref('');
-const new_description: Ref<string> = ref('');
-const new_pic: Ref<File[] | undefined> = ref(undefined);
+toolbar.setup({ title: 'Управление достижениями', backUrl: '/admin' });
 
-const created: Ref<boolean | undefined> = ref(undefined);
+const achiements = ref<AchievementGet[]>([]);
+const newName = ref('');
+const newDescription = ref('');
+const newPic = ref<File[] | undefined>(undefined);
+const created = ref<boolean | undefined>(undefined);
 
 onMounted(async () => {
-	achiements.value = (await achievementApi.getAll()).data;
+	const { data } = await achievementApi.getAll();
+	achiements.value = data;
 });
 
-const createAchievement = async (
+async function createAchievement(
 	new_name: string,
 	new_description: string,
 	new_pic: File[] | undefined
-) => {
+) {
 	if (new_pic === undefined || new_pic.length !== 1) return;
 
 	achievementApi.create(new_name, new_description, new_pic[0]).then(
@@ -32,13 +36,11 @@ const createAchievement = async (
 		},
 		() => (created.value = false)
 	);
-};
-
-const back = history.state.back?.startsWith('/admin') ? history.state.back : '/admin';
+}
 </script>
 
 <template>
-	<IrdomLayout title="Управление достижениями" backable :back-url="back">
+	<IrdomLayout>
 		<AccessRestricted :scope="scopename.achievements.achievement.create">
 			<v-row class="row" align-content="stretch">
 				<v-card
@@ -58,7 +60,7 @@ const back = history.state.back?.startsWith('/admin') ? history.state.back : '/a
 
 						<v-form v-if="created === undefined">
 							<v-file-input
-								v-model="new_pic"
+								v-model="newPic"
 								label="Изображение"
 								aria-placeholder="Изображение в формате png 512 на 512 пикселей размером не более 200 кб"
 								prepend-icon="md:image"
@@ -74,12 +76,12 @@ const back = history.state.back?.startsWith('/admin') ? history.state.back : '/a
 									},
 								]"
 							/>
-							<v-text-field v-model="new_name" label="Названние" />
-							<v-text-field v-model="new_description" label="Описание достижения" />
+							<v-text-field v-model="newName" label="Названние" />
+							<v-text-field v-model="newDescription" label="Описание достижения" />
 							<v-card-actions>
 								<v-btn
-									:disabled="new_name === '' || new_description === ''"
-									@click="createAchievement(new_name, new_description, new_pic)"
+									:disabled="newName === '' || newDescription === ''"
+									@click="createAchievement(newName, newDescription, newPic)"
 								>
 									Сохранить
 								</v-btn>

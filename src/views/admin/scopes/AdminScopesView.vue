@@ -8,10 +8,17 @@ import { scopename } from '@/models/ScopeName';
 import AccessRestricted from '@/components/AccessRestricted.vue';
 import { useAuthStore } from '@/store/auth';
 import { useProfileStore } from '@/store/profile';
+import { useToolbar } from '@/store/toolbar';
 
 const authStore = useAuthStore();
 const profileStore = useProfileStore();
+const toolbar = useToolbar();
+
 const { hasTokenAccess } = profileStore;
+toolbar.setup({
+	title: 'Права доступа',
+	backUrl: '/admin',
+});
 
 const hasAccess = computed(() => hasTokenAccess(scopename.auth.scope.read));
 
@@ -46,7 +53,7 @@ const createScope = async (e: Event) => {
 </script>
 
 <template>
-	<IrdomLayout title="Права доступа" backable back-url="/admin">
+	<IrdomLayout>
 		<AccessRestricted :scope="scopename.auth.scope.read">
 			<ScopesTable
 				:scopes="authStore.scopes.values()"

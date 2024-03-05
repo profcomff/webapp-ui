@@ -9,12 +9,18 @@ import IrdomLayout from '@/components/IrdomLayout.vue';
 import { scopename } from '@/models/ScopeName';
 import { useAuthStore } from '@/store/auth';
 import { useProfileStore } from '@/store/profile';
+import { useToolbar } from '@/store/toolbar';
 
 const profileStore = useProfileStore();
+const toolbar = useToolbar();
+
 const { hasTokenAccess } = profileStore;
+toolbar.setup({
+	title: 'Группа',
+	backUrl: '/admin/groups',
+});
 
 const authStore = useAuthStore();
-const back = history.state.back?.startsWith('/admin') ? history.state.back : '/admin/groups';
 const route = useRoute();
 
 const groupId = computed(() => +route.params.id);
@@ -59,7 +65,7 @@ const addScope = async (e: Event) => {
 </script>
 
 <template>
-	<IrdomLayout title="Группа" backable :back-url="back">
+	<IrdomLayout>
 		<AccessRestricted :scope="scopename.auth.scope.read" no-fallback>
 			<h2>{{ group?.name }}</h2>
 			<ScopesTable

@@ -5,9 +5,13 @@ import AsyncGroupsList from './AsyncGroupsList.vue';
 import { marketingApi } from '@/api/marketing';
 import IrdomLayout from '@/components/IrdomLayout.vue';
 import { useProfileStore } from '@/store/profile';
+import { useToolbar } from '@/store/toolbar';
 
 const query = ref('');
 const profileStore = useProfileStore();
+const toolbar = useToolbar();
+
+toolbar.setup({});
 
 const sendMarketing = (e: Event) => {
 	const input = e.target as HTMLInputElement;

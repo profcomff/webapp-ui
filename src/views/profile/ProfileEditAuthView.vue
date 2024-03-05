@@ -6,8 +6,15 @@ import IrdomAuthButton from '@/components/IrdomAuthButton.vue';
 import TelegramButton from '@/components/TelegramButon.vue';
 import { useProfileStore } from '@/store/profile';
 import { authButtons } from '@/constants/authButtons';
+import { useToolbar } from '@/store/toolbar';
 
 const profileStore = useProfileStore();
+const toolbar = useToolbar();
+
+toolbar.setup({
+	title: 'Методы авторизации',
+	backUrl: '/profile',
+});
 
 onMounted(async () => {
 	if (history.state.token) {
@@ -27,7 +34,7 @@ const canUnlinked = computed(() =>
 </script>
 
 <template>
-	<IrdomLayout title="Методы авторизации" backable back-url="/profile">
+	<IrdomLayout>
 		<section v-if="profileStore.authMethods?.length !== 8" class="section">
 			<h2>Привязать аккаунт</h2>
 			<div class="buttons">

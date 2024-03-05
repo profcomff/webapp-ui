@@ -4,8 +4,15 @@ import { onMounted, computed } from 'vue';
 import GroupTreeNode from './GroupTreeNode.vue';
 import { StoreGroup, useAuthStore } from '@/store/auth';
 import IrdomLayout from '@/components/IrdomLayout.vue';
+import { useToolbar } from '@/store/toolbar';
 
 const authStore = useAuthStore();
+const toolbar = useToolbar();
+
+toolbar.setup({
+	title: 'Редактирование групп пользователей',
+	backUrl: '/amdin',
+});
 
 onMounted(async () => {
 	if (authStore.groups.size === 0) {
@@ -35,7 +42,7 @@ const roots = computed(() => {
 </script>
 
 <template>
-	<IrdomLayout title="Редактирование групп пользователей" backable back-url="/admin">
+	<IrdomLayout>
 		<v-expansion-panels>
 			<GroupTreeNode v-for="root of roots" :key="root.id" :node="root" />
 		</v-expansion-panels>

@@ -5,9 +5,15 @@ import { ToastType } from '@/models';
 import router from '@/router';
 import IrdomLayout from '@/components/IrdomLayout.vue';
 import { useToastStore } from '@/store/toast';
+import { useToolbar } from '@/store/toolbar';
 
 const route = useRoute();
 const toastStore = useToastStore();
+const toolbar = useToolbar();
+
+toolbar.setup({
+	title: 'Изменение Email',
+});
 
 const submitHandler = async () => {
 	if (route.query.token) {
@@ -31,7 +37,7 @@ const submitHandler = async () => {
 </script>
 
 <template>
-	<IrdomLayout title="Изменение Email">
+	<IrdomLayout>
 		<v-btn type="submit" class="submit" color="#fff" @click="submitHandler"> Сменить Email </v-btn>
 	</IrdomLayout>
 </template>

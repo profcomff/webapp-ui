@@ -5,6 +5,14 @@ import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import IrdomLayout from '@/components/IrdomLayout.vue';
 import { useToastStore } from '@/store/toast';
+import { useToolbar } from '@/store/toolbar';
+
+const toolbar = useToolbar();
+
+toolbar.setup({
+	title: 'Изменение пароля',
+	backUrl: '/profile/settings',
+});
 
 const checkPasswords = ref(false);
 checkPasswords.value = false;
@@ -43,7 +51,7 @@ const submitHandler = async (event: Event) => {
 </script>
 
 <template>
-	<IrdomLayout title="Изменение пароля" backable back-url="/profile/settings">
+	<IrdomLayout>
 		<form class="form" @submit.prevent="submitHandler">
 			<v-text-field
 				variant="outlined"

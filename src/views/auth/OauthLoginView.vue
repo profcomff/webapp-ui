@@ -7,8 +7,14 @@ import { onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import IrdomLayout from '@/components/IrdomLayout.vue';
 import { useProfileStore } from '@/store/profile';
+import { useToolbar } from '@/store/toolbar';
 
 const router = useRouter();
+const toolbar = useToolbar();
+
+toolbar.setup({
+	title: 'Вход',
+});
 
 onMounted(async () => {
 	const authMethod: AuthOauth2BaseApi | undefined = oauth2Methods[router.currentRoute.value.path];
@@ -75,16 +81,7 @@ onMounted(async () => {
 </script>
 
 <template>
-	<IrdomLayout title="Вход">
+	<IrdomLayout>
 		<p>Производим вход в аккаунт...</p>
-		<!-- <component
-			:is="'script'"
-			v-if="router.currentRoute.value.params.name === 'telegram'"
-			async="true"
-			src="https://telegram.org/js/telegram-widget.js?21"
-			:data-telegram-login="telegramBotName"
-			data-size="small"
-			:data-auth-url="currentPath"
-		></component> -->
 	</IrdomLayout>
 </template>

@@ -3,8 +3,15 @@ import { oauth2Methods } from '@/api/auth';
 import { useRouter } from 'vue-router';
 import { AxiosResponse, isAxiosError } from 'axios';
 import IrdomLayout from '@/components/IrdomLayout.vue';
+import { useToolbar } from '@/store/toolbar';
 
 const router = useRouter();
+const toolbar = useToolbar();
+
+toolbar.setup({
+	title: 'Вход',
+	backUrl: '/auth',
+});
 
 async function handleAccept() {
 	const authMethod = oauth2Methods[sessionStorage.getItem('id-token-issuer') || ''];
@@ -36,7 +43,7 @@ async function handleAccept() {
 </script>
 
 <template>
-	<IrdomLayout title="Вход" backable back-url="/auth">
+	<IrdomLayout>
 		<p>Вы еще не совершали вход в приложение с этим аккаунтом. Создать новый профиль?</p>
 		<div class="btns">
 			<v-btn type="button" class="no" @click="router.push('/auth')">Нет</v-btn>

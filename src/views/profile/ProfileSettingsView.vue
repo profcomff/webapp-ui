@@ -2,8 +2,15 @@
 import { AuthApi } from '@/api';
 import { useRouter } from 'vue-router';
 import IrdomLayout from '@/components/IrdomLayout.vue';
+import { useToolbar } from '@/store/toolbar';
 
 const router = useRouter();
+const toolbar = useToolbar();
+
+toolbar.setup({
+	title: 'Настройки профиля',
+	backUrl: '/profile',
+});
 
 const OnClick = async () => {
 	AuthApi.logout();
@@ -12,7 +19,7 @@ const OnClick = async () => {
 </script>
 
 <template>
-	<IrdomLayout title="Настройки профиля" backable back-url="/profile">
+	<IrdomLayout>
 		<div class="buttons">
 			<v-btn
 				prepend-icon="login"

@@ -12,9 +12,27 @@ import IrdomLayout from '@/components/IrdomLayout.vue';
 import { useProfileStore } from '@/store/profile';
 import { UserdataConverter } from '@/utils/UserdataConverter';
 import { ToolbarActionItem } from '@/components/IrdomToolbar.vue';
+import { useToolbar } from '@/store/toolbar';
 
 const profileStore = useProfileStore();
 const router = useRouter();
+const toolbar = useToolbar();
+
+toolbar.setup({
+	title: 'Профиль',
+	actions: [
+		{
+			icon: 'edit',
+			ariaLabel: 'Редактировать профиль',
+			onClick: () => router.push('/profile/edit'),
+		},
+		{
+			icon: 'settings',
+			ariaLabel: 'Настройки',
+			onClick: () => router.push('/profile/settings'),
+		},
+	],
+});
 
 const userdata = ref<UserdataArray>([]);
 const userdataLoading = ref(false);
@@ -27,12 +45,12 @@ const toolbarAction: ToolbarActionItem[] = [
 	{
 		icon: 'edit',
 		ariaLabel: 'Редактировать профиль',
-		onClick: async () => router.push('/profile/edit'),
+		onClick: () => router.push('/profile/edit'),
 	},
 	{
 		icon: 'settings',
 		ariaLabel: 'Настройки',
-		onClick: async () => router.push('/profile/settings'),
+		onClick: () => router.push('/profile/settings'),
 	},
 ];
 

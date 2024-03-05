@@ -3,8 +3,14 @@ import AccessRestricted from '@/components/AccessRestricted.vue';
 import IrdomLayout from '@/components/IrdomLayout.vue';
 import { scopename } from '@/models/ScopeName';
 import { useProfileStore } from '@/store/profile';
+import { useToolbar } from '@/store/toolbar';
 
 const profileStore = useProfileStore();
+const toolbar = useToolbar();
+
+toolbar.setup({
+	title: 'Админка',
+});
 
 const copyToken = () => {
 	if (profileStore.token) {
@@ -16,7 +22,7 @@ const copyToken = () => {
 </script>
 
 <template>
-	<IrdomLayout title="Админка">
+	<IrdomLayout>
 		<div class="info">
 			<p>Ваш id: {{ profileStore.id }}</p>
 			<v-btn type="button" append-icon="md:content_copy" @click="copyToken"
