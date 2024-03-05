@@ -18,7 +18,7 @@ const sorted = computed(() => [...props.users].sort((a, b) => a.id - b.id));
 			<tr>
 				<th>id</th>
 				<th>email</th>
-				<th></th>
+				<th />
 			</tr>
 		</thead>
 		<tbody>

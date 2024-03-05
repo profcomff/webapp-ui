@@ -15,7 +15,7 @@ const props = withDefaults(
 		button: AuthButton;
 		unlink?: boolean;
 	}>(),
-	{ unlink: false },
+	{ unlink: false }
 );
 
 const authUrl = ref<string | null>(null);
@@ -37,7 +37,7 @@ const clickHandler = async () => {
 <template>
 	<v-btn type="button" :color="button.color" @click="clickHandler">
 		<svg width="24" height="24" class="icon">
-			<use :xlink:href="button.icon"></use>
+			<use :xlink:href="button.icon" />
 		</svg>
 		{{ button.name }}
 	</v-btn>

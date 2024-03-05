@@ -19,7 +19,7 @@ const sorted = computed(() => [...props.scopes].sort((a, b) => (a.name > b.name 
 				<th>id</th>
 				<th>name</th>
 				<th>comment</th>
-				<th></th>
+				<th />
 			</tr>
 		</thead>
 		<tbody>

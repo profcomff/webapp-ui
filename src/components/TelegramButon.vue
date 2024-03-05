@@ -15,7 +15,7 @@ onMounted(() => {
 		script.setAttribute('data-size', 'large');
 		script.setAttribute(
 			'data-auth-url',
-			'https://app.test.profcomff.com/auth/oauth-authorized/telegram',
+			'https://app.test.profcomff.com/auth/oauth-authorized/telegram'
 		);
 		telegram.value.appendChild(script);
 	}
@@ -23,5 +23,5 @@ onMounted(() => {
 </script>
 
 <template>
-	<div ref="telegram"></div>
+	<div ref="telegram" />
 </template>

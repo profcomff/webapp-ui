@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue';
 import { useRoute } from 'vue-router';
-import MaterialIcon from './MaterialIcon.vue';
 const route = useRoute();
 
 export interface NavbarItem {
@@ -22,7 +21,7 @@ const items = computed(() => new Set(Object.values(props.items)));
 <template>
 	<v-bottom-navigation v-model="current" grow elevation="4" mandatory>
 		<v-btn v-for="{ icon, name, path } of items" :key="name" @click="$router.push(path)">
-			<material-icon :icon="icon" />
+			<v-icon :icon="icon" />
 			{{ name }}
 		</v-btn>
 	</v-bottom-navigation>

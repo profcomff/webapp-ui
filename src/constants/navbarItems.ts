@@ -1,14 +1,14 @@
 import { NavbarItem } from '@/components/IrdomNavbar.vue';
 
 const profile: NavbarItem = {
-	icon: 'account-circle',
+	icon: 'account_circle',
 	name: 'Профиль',
 	path: '/profile',
 };
 
 export const navbarItems: Record<string, NavbarItem> = {
 	'/timetable': {
-		icon: 'calendar-month',
+		icon: 'calendar_month',
 		name: 'Расписание',
 		path: '/timetable',
 	},

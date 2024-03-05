@@ -79,7 +79,7 @@ class AuthEmailApi extends AuthBaseApi {
 	public async requestResetForgottenPassword(body: RequestResetForgottenPasswordBody) {
 		return this.post<DefaultResponse, RequestResetForgottenPasswordBody>(
 			'/reset/password/restore',
-			body,
+			body
 		);
 	}
 

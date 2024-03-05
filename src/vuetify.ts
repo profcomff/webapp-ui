@@ -1,6 +1,6 @@
-import { md3 } from 'vuetify/lib/blueprints/index.mjs';
-import { createVuetify } from 'vuetify/lib/framework.mjs';
-import { aliases, md } from 'vuetify/lib/iconsets/md.mjs';
+import { md3 } from 'vuetify/blueprints';
+import { createVuetify } from 'vuetify';
+import { aliases, md } from 'vuetify/iconsets/md';
 
 const profcomffLight = {
 	dark: false,

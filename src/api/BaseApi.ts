@@ -16,7 +16,7 @@ export class BaseApi {
 	protected async get<Response, Params = never>(
 		path: string,
 		params?: Params,
-		headers: Record<string, string> = {},
+		headers: Record<string, string> = {}
 	): Promise<AxiosResponse<Response>> {
 		if (!headers.Authorization) {
 			headers.Authorization = localStorage.getItem('token') ?? '';
@@ -34,7 +34,7 @@ export class BaseApi {
 	protected async post<Response, Body = never>(
 		path: string,
 		body?: Body,
-		headers: Record<string, string> = {},
+		headers: Record<string, string> = {}
 	): Promise<AxiosResponse<Response>> {
 		if (!headers.Authorization) {
 			headers.Authorization = localStorage.getItem('token') ?? '';
@@ -48,7 +48,7 @@ export class BaseApi {
 	protected async delete<Response, Params = never>(
 		path: string,
 		params?: Params,
-		headers: Record<string, string> = {},
+		headers: Record<string, string> = {}
 	): Promise<AxiosResponse<Response>> {
 		if (!headers.Authorization) {
 			headers.Authorization = localStorage.getItem('token') ?? '';
@@ -60,7 +60,7 @@ export class BaseApi {
 	protected async patch<Response, Body>(
 		path: string,
 		body: Body,
-		headers: Record<string, string> = {},
+		headers: Record<string, string> = {}
 	): Promise<AxiosResponse<Response>> {
 		if (!headers.Authorization) {
 			headers.Authorization = localStorage.getItem('token') ?? '';

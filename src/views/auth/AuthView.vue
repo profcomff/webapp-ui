@@ -6,7 +6,6 @@ import { authButtons } from '@/constants/authButtons';
 import IrdomLayout from '@/components/IrdomLayout.vue';
 import EmailPasswordForm, { SubmitData } from '@/components/EmailPasswordForm.vue';
 import IrdomAuthButton from '@/components/IrdomAuthButton.vue';
-import MaterialIcon from '@/components/MaterialIcon.vue';
 
 const router = useRouter();
 const route = useRoute();
@@ -34,7 +33,7 @@ const submitHandler = async ({ email, password }: SubmitData) => {
 					/>
 					<v-btn class="button" color="#fff" @click="router.push('/auth/all')">
 						<template #prepend>
-							<MaterialIcon icon="more-horiz" />
+							<v-icon icon="more_horiz" />
 						</template>
 						Другие сервисы</v-btn
 					>

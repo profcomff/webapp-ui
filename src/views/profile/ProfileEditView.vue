@@ -44,7 +44,7 @@ onMounted(async () => {
 	photoURL.value = photoURL_item.value?.name ?? Placeholder;
 	userdata.value = UserdataConverter.uniteWithUserCategories(
 		UserdataConverter.categoryToFlat(data),
-		user,
+		user
 	);
 });
 
@@ -101,8 +101,7 @@ async function saveEdit() {
 								:disabled="!value.changeable"
 								variant="underlined"
 								@input="value.name = $event.target.value"
-							>
-							</v-text-field>
+							/>
 						</div>
 					</div>
 				</div>

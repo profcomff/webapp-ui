@@ -3,7 +3,6 @@ import { ServicesApi } from '@/api';
 import { marketingApi } from '@/api/marketing';
 import { ButtonType } from '@/api/models';
 import { CategoryInfo } from '@/api/services';
-import MaterialIcon from '@/components/MaterialIcon.vue';
 import { useAppsStore } from '@/store/apps';
 import { useProfileStore } from '@/store/profile';
 import { RouterLink } from 'vue-router';
@@ -53,7 +52,7 @@ const sendMarketing = (url: string) => {
 					height="400"
 					class="icon"
 				/>
-				<MaterialIcon
+				<v-icon
 					v-else
 					:icon="icon"
 					class="material-icon"

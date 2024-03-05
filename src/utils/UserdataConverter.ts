@@ -69,7 +69,7 @@ export class UserdataConverter {
 			res.data.sort(
 				(a, b) =>
 					paramOrder.indexOf(a.param as UserdataParams.FullName) -
-					paramOrder.indexOf(b.param as UserdataParams.FullName),
+					paramOrder.indexOf(b.param as UserdataParams.FullName)
 			);
 		}
 
@@ -82,7 +82,7 @@ export class UserdataConverter {
 			for (const param of sheet.keys()) {
 				if (
 					UserdataConverter.alreadyGetParams.find(
-						item => item.category === category && item.param === param,
+						item => item.category === category && item.param === param
 					)
 				) {
 					sheet.delete(param);
@@ -97,7 +97,7 @@ export class UserdataConverter {
 		res.sort(
 			(a, b) =>
 				categoryOrder.indexOf(a.name as UserdataCategoryName) -
-				categoryOrder.indexOf(b.name as UserdataCategoryName),
+				categoryOrder.indexOf(b.name as UserdataCategoryName)
 		);
 
 		return res;
@@ -143,7 +143,7 @@ export class UserdataConverter {
 
 	public static uniteWithUserCategories(
 		categories: UserdataRaw,
-		userCategories: UserdataRaw,
+		userCategories: UserdataRaw
 	): UserdataArray {
 		const result_userdata: UserdataArray = [];
 		const categoriesTree = UserdataConverter.flatToTree(categories);
@@ -153,7 +153,7 @@ export class UserdataConverter {
 			for (const [param, value] of item) {
 				if (
 					UserdataConverter.alreadyGetParams.find(
-						item => item.category === category && item.param === param,
+						item => item.category === category && item.param === param
 					)
 				) {
 					continue;
@@ -179,7 +179,7 @@ export class UserdataConverter {
 		result_userdata.sort(
 			(a, b) =>
 				categoryOrder.indexOf(a.name as UserdataCategoryName) -
-				categoryOrder.indexOf(b.name as UserdataCategoryName),
+				categoryOrder.indexOf(b.name as UserdataCategoryName)
 		);
 		return result_userdata;
 	}
@@ -187,7 +187,7 @@ export class UserdataConverter {
 	public static arrayToUpdate(
 		userdata: UserdataArray,
 		source: string,
-		alreadyGetParamValue: UserdataUpdateUserItem[],
+		alreadyGetParamValue: UserdataUpdateUserItem[]
 	): UserdataUpdateUser {
 		const updateUserdata: UserdataUpdateUser = { items: [], source: '' };
 		updateUserdata.source = source;
@@ -209,7 +209,7 @@ export class UserdataConverter {
 		}
 		for (const item of alreadyGetParamValue) {
 			const update_already_get_item = UserdataConverter.alreadyGetParams.find(
-				element => element.category === item.category && element.param === item.param,
+				element => element.category === item.category && element.param === item.param
 			);
 			if (update_already_get_item) {
 				const updateItem = {
@@ -225,7 +225,7 @@ export class UserdataConverter {
 
 	public static getItem(
 		flat: UserdataRaw,
-		info: UserdataArrayCategoryItem,
+		info: UserdataArrayCategoryItem
 	): UserdataExtendedValue | null {
 		const tree = UserdataConverter.flatToTree(flat);
 		const info_tree = tree.get(info.category);

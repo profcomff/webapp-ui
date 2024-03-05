@@ -18,7 +18,7 @@ import { authButtons } from '@/constants/authButtons';
 						class="button"
 					/>
 					<TelegramButon class="button" />
-					<div ref="telegram"></div>
+					<div ref="telegram" />
 				</div>
 				<hr class="line" />
 				<div class="email-login">

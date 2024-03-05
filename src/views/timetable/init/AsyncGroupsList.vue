@@ -35,8 +35,8 @@ const sorted = computed(() =>
 			'6': [],
 			'1м': [],
 			'2м': [],
-		} as Record<string, StudyGroup[]>,
-	),
+		} as Record<string, StudyGroup[]>
+	)
 );
 </script>
 

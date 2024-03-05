@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { stringifyDate } from '@/utils/date';
-import MaterialIcon from './MaterialIcon.vue';
 
 const weekdays = ['пн', 'вт', 'ср', 'чт', 'пт', 'сб', 'вс'];
 
@@ -33,7 +32,7 @@ const changeMonthHandler = (offset: number) => {
 				aria-label="Предыдущий месяц"
 				@click="changeMonthHandler(-1)"
 			>
-				<MaterialIcon icon="arrow-back-ios" />
+				<v-icon icon="arrow_back_ios" />
 			</button>
 
 			<span class="noselect">
@@ -47,7 +46,7 @@ const changeMonthHandler = (offset: number) => {
 				aria-label="Следующий месяц"
 				@click="changeMonthHandler(1)"
 			>
-				<MaterialIcon icon="arrow-forward-ios" />
+				<v-icon icon="arrow_forward_ios" />
 			</button>
 		</div>
 		<div
