@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import MaterialIcon from '@/components/MaterialIcon.vue';
 import AsyncRoomInfo from './AsyncRoomInfo.vue';
 import AsyncRoomSchedule from './AsyncRoomSchedule.vue';
 import IrdomLayout from '@/components/IrdomLayout.vue';
@@ -25,7 +24,7 @@ const back = history.state.back?.startsWith('/timetable/event') ? history.state.
 			<RouterLink to="/apps/browser#https://cdn.profcomff.com/app/map/" class="map">
 				<span class="text">
 					Посмотреть на карте
-					<MaterialIcon icon="open-in-new" />
+					<v-icon icon="open_in_new" />
 				</span>
 			</RouterLink>
 		</section>

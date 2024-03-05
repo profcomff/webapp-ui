@@ -21,7 +21,7 @@ onMounted(async () => {
 const createAchievement = async (
 	new_name: string,
 	new_description: string,
-	new_pic: File[] | undefined,
+	new_pic: File[] | undefined
 ) => {
 	if (new_pic === undefined || new_pic.length !== 1) return;
 
@@ -30,7 +30,7 @@ const createAchievement = async (
 			achiements.value.unshift(resp.data);
 			created.value = true;
 		},
-		() => (created.value = false),
+		() => (created.value = false)
 	);
 };
 
@@ -73,9 +73,9 @@ const back = history.state.back?.startsWith('/admin') ? history.state.back : '/a
 										);
 									},
 								]"
-							></v-file-input>
-							<v-text-field v-model="new_name" label="Названние"></v-text-field>
-							<v-text-field v-model="new_description" label="Описание достижения"></v-text-field>
+							/>
+							<v-text-field v-model="new_name" label="Названние" />
+							<v-text-field v-model="new_description" label="Описание достижения" />
 							<v-card-actions>
 								<v-btn
 									:disabled="new_name === '' || new_description === ''"
@@ -102,12 +102,12 @@ const back = history.state.back?.startsWith('/admin') ? history.state.back : '/a
 				<v-table fixed-header class="table v-col-12">
 					<thead>
 						<tr>
-							<th></th>
+							<th />
 							<th>Изображение</th>
 							<th>Название</th>
 							<th>Описание достижения</th>
-							<th></th>
-							<th></th>
+							<th />
+							<th />
 						</tr>
 					</thead>
 					<tbody>

@@ -22,9 +22,9 @@ const info = computed(() => {
 						firstName: first_name,
 						lastName: last_name,
 						middleName: middle_name,
-					}),
+					})
 				)
-				.join(', '),
+				.join(', ')
 		);
 	}
 

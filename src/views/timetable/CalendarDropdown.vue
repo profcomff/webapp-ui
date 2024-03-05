@@ -2,7 +2,6 @@
 import { ref } from 'vue';
 import { useTimetableStore } from '@/store/timetable';
 import IrdomCalendar from '@/components/IrdomCalendar.vue';
-import MaterialIcon from '@/components/MaterialIcon.vue';
 
 const show = ref(false);
 const expander = ref<HTMLButtonElement | null>(null);
@@ -49,7 +48,7 @@ const clickOutsideHandler = (e: MouseEvent) => {
 			{{ `Группа ${group?.number ?? ''}` }}
 		</span>
 
-		<MaterialIcon icon="expand-more" class="expander-icon" />
+		<v-icon icon="expand_more" class="expander-icon" />
 	</button>
 	<div
 		id="calendar"

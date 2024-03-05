@@ -3,7 +3,6 @@ import { useRoute, useRouter } from 'vue-router';
 import { marketingApi } from '@/api/marketing';
 import { computed } from 'vue';
 import { useProfileStore } from '@/store/profile';
-import MaterialIcon from './MaterialIcon.vue';
 
 export interface ToolbarMenuItem {
 	name: string;
@@ -46,10 +45,10 @@ const invisibleButtons = computed(() => {
 		: 0;
 });
 const leftInvisibleButtons = computed(() =>
-	invisibleButtons.value > 0 ? invisibleButtons.value : 0,
+	invisibleButtons.value > 0 ? invisibleButtons.value : 0
 );
 const rightInvisibleButtons = computed(() =>
-	invisibleButtons.value < 0 ? -invisibleButtons.value : 0,
+	invisibleButtons.value < 0 ? -invisibleButtons.value : 0
 );
 
 const data = {
@@ -79,34 +78,32 @@ const onBack = () => {
 <template>
 	<v-app-bar class="overflow-visible" elevation="4">
 		<template #prepend>
-			<v-btn v-if="backable" icon color="white" @click="onBack"
-				><material-icon icon="arrow-back"
-			/></v-btn>
-			<v-btn v-for="index in leftInvisibleButtons" :key="index" icon></v-btn>
+			<v-btn v-if="backable" icon="arrow_back" color="white" @click="onBack" />
+			<v-btn v-for="index in leftInvisibleButtons" :key="index" icon />
 			<slot />
 		</template>
 		<v-app-bar-title v-if="title !== ''" :class="centered ? 'centered-title' : ''">
 			{{ title }}
 		</v-app-bar-title>
 		<template #append>
-			<v-btn v-for="index in rightInvisibleButtons" :key="index" icon disabled></v-btn>
-			<v-btn v-for="{ icon, onClick } in actions" :key="icon" icon color="white" @click="onClick">
-				<material-icon :icon="icon" />
-			</v-btn>
+			<v-btn v-for="index in rightInvisibleButtons" :key="index" icon disabled />
+			<v-btn
+				v-for="{ icon, onClick } in actions"
+				:key="icon"
+				:icon="icon"
+				color="white"
+				@click="onClick"
+			/>
 			<v-btn
 				v-if="share && canShare"
 				aria-label="Поделиться"
 				color="white"
-				icon
+				icon="share"
 				@click="shareHandler"
-			>
-				<material-icon icon="share" />
-			</v-btn>
+			/>
 			<v-menu v-if="menuItems.length > 0">
 				<template #activator="{ props: menuProps }">
-					<v-btn v-bind="menuProps" color="white" icon>
-						<material-icon icon="more-vert" />
-					</v-btn>
+					<v-btn v-bind="menuProps" color="white" icon="more_vert" />
 				</template>
 				<v-list>
 					<v-list-item v-for="{ name, onClick } of menuItems" :key="name" @click="onClick">

@@ -22,8 +22,7 @@ const revoke = (user_id: number) => {
 	achievementApi
 		.revoke(user_id, achievemetId.value)
 		.then(
-			async () =>
-				(achievement.value = (await achievementApi.getRecievers(achievemetId.value)).data),
+			async () => (achievement.value = (await achievementApi.getRecievers(achievemetId.value)).data)
 		);
 };
 const give = (user_id: number | undefined) => {
@@ -48,7 +47,7 @@ const give = (user_id: number | undefined) => {
 			</v-row>
 
 			<v-row class="row" align="center">
-				<v-text-field v-model="giveTo" label="ID пользователя" variant="underlined"></v-text-field>
+				<v-text-field v-model="giveTo" label="ID пользователя" variant="underlined" />
 				<v-btn @click="give(giveTo)">Выдать</v-btn>
 			</v-row>
 
@@ -58,13 +57,13 @@ const give = (user_id: number | undefined) => {
 						<tr>
 							<th>id</th>
 							<th>Пользователь</th>
-							<th></th>
+							<th />
 						</tr>
 					</thead>
 					<tbody>
 						<tr v-for="{ user_id } in achievement?.recievers" :key="user_id">
 							<td>{{ user_id }}</td>
-							<td></td>
+							<td />
 							<td>
 								<v-btn type="button" icon="md:delete" variant="text" @click="revoke(user_id)" />
 							</td>

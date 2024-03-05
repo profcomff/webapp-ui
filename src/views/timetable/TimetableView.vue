@@ -23,7 +23,7 @@ const toolbarActions = computed<ToolbarActionItem[]>(() =>
 					onClick: () => router.push(`/timetable/${stringifyDate(new Date())}`),
 					ariaLabel: 'Вернуться к сегодняшнему дню',
 				},
-			],
+			]
 );
 
 const toolbarMenu: ToolbarMenuItem[] = [

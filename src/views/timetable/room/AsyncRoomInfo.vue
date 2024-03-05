@@ -3,7 +3,6 @@ import { TimetableApi } from '@/api/controllers/TimetableApi';
 import { computed } from 'vue';
 import DataRow from '@/components/DataRow.vue';
 import { useTimetableStore } from '@/store/timetable';
-import MaterialIcon from '@/components/MaterialIcon.vue';
 
 const props = defineProps<{ id: number }>();
 
@@ -33,11 +32,11 @@ const title = computed(() => {
 	<h2 class="h2">{{ room?.name }}</h2>
 
 	<DataRow v-if="room?.building" :title="room.building" class="row">
-		<MaterialIcon icon="location-on" />
+		<v-icon icon="location-on" />
 	</DataRow>
 
 	<DataRow v-if="room?.direction" :title="title" class="row">
-		<MaterialIcon icon="explore" />
+		<v-icon icon="explore" />
 	</DataRow>
 </template>
 

@@ -28,7 +28,7 @@ export class AuthApi {
 			const { data } = await authUserApi.getUser(id, info);
 			setUsers([data]);
 		},
-		[scoped, scopename.auth.user.read],
+		[scoped, scopename.auth.user.read]
 	);
 
 	static getUsers = apply(
@@ -37,7 +37,7 @@ export class AuthApi {
 			const { data } = await authUserApi.getUsers(info);
 			setUsers(data.items);
 		},
-		[scoped, scopename.auth.user.read],
+		[scoped, scopename.auth.user.read]
 	);
 
 	static logout = apply(async () => {
@@ -65,7 +65,7 @@ export class AuthApi {
 
 			LocalStorage.set<string[]>(
 				LocalStorageItem.TokenScopes,
-				data.session_scopes.map(s => s.name),
+				data.session_scopes.map(s => s.name)
 			);
 			profileStore.updateTokenScopes();
 
@@ -73,7 +73,7 @@ export class AuthApi {
 		},
 
 		[showErrorToast],
-		[checkToken],
+		[checkToken]
 	);
 
 	static loginEmail = apply(
@@ -93,7 +93,7 @@ export class AuthApi {
 
 			return promise;
 		},
-		[showErrorToast],
+		[showErrorToast]
 	);
 
 	static registerEmail = apply(
@@ -107,12 +107,12 @@ export class AuthApi {
 				{
 					title: data.message,
 				},
-				null,
+				null
 			);
 
 			return promise;
 		},
-		[showErrorToast],
+		[showErrorToast]
 	);
 
 	static getSessions = apply(
@@ -121,7 +121,7 @@ export class AuthApi {
 			return data;
 		},
 		[showErrorToast],
-		[checkToken],
+		[checkToken]
 	);
 
 	static deleteSession = apply(
@@ -130,7 +130,7 @@ export class AuthApi {
 			return data;
 		},
 		[checkToken],
-		[showErrorToast],
+		[showErrorToast]
 	);
 
 	static requestResetForgottenPassword = apply(
@@ -138,7 +138,7 @@ export class AuthApi {
 			const data = await authEmailApi.requestResetForgottenPassword({ email });
 			return data;
 		},
-		[showErrorToast],
+		[showErrorToast]
 	);
 
 	static requestResetPassword = apply(
@@ -147,7 +147,7 @@ export class AuthApi {
 			return data;
 		},
 		[showErrorToast],
-		[checkToken],
+		[checkToken]
 	);
 
 	static resetPassword = apply(
@@ -155,7 +155,7 @@ export class AuthApi {
 			const data = await authEmailApi.resetPassword({ new_password }, token);
 			return data;
 		},
-		[showErrorToast],
+		[showErrorToast]
 	);
 
 	static resetEmail = apply(
@@ -163,7 +163,7 @@ export class AuthApi {
 			const data = await authEmailApi.resetEmail({ token });
 			return data;
 		},
-		[showErrorToast],
+		[showErrorToast]
 	);
 
 	static requestResetEmail = apply(
@@ -172,6 +172,6 @@ export class AuthApi {
 			return data;
 		},
 		[checkToken],
-		[showErrorToast],
+		[showErrorToast]
 	);
 }

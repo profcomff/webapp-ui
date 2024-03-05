@@ -25,10 +25,10 @@ const save = (id: number, name: string, description: string) => {
 			<img :src="achievementApi.getPictureUrl(props.achievement.picture)" height="50" width="50" />
 		</td>
 		<td>
-			<v-text-field v-model="name" variant="underlined"></v-text-field>
+			<v-text-field v-model="name" variant="underlined" />
 		</td>
 		<td>
-			<v-text-field v-model="description" variant="underlined"></v-text-field>
+			<v-text-field v-model="description" variant="underlined" />
 		</td>
 		<td>
 			<v-btn

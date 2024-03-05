@@ -2,7 +2,6 @@
 import Placeholder from '@/assets/profile_image_placeholder.webp';
 import { computed } from 'vue';
 import { TimetableApi } from '@/api';
-// import Markdown from '@/components/MarkdownRenderer.vue';
 import { useTimetableStore } from '@/store/timetable';
 
 const timetableStore = useTimetableStore();
@@ -28,7 +27,7 @@ const fullName = computed(() => {
 const imgUrl = computed(() =>
 	lecturer.value?.avatar_link
 		? `${import.meta.env.VITE_API_URL}${lecturer.value?.avatar_link}`
-		: Placeholder,
+		: Placeholder
 );
 </script>
 
@@ -38,7 +37,6 @@ const imgUrl = computed(() =>
 	<p>
 		{{ lecturer?.description }}
 	</p>
-	<!-- <markdown class="description" :text="lecturer?.description"></markdown> -->
 </template>
 
 <style scoped>

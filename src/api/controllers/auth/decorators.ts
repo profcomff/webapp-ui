@@ -18,7 +18,7 @@ type DecoratorTuple<D extends Decorator = Decorator> = [
 
 export function scoped<F extends Func>(
 	method: F,
-	scope: string,
+	scope: string
 ): Func<ReturnType<F>, Parameters<F>> {
 	return (...args) => {
 		const { hasTokenAccess } = useProfileStore();
@@ -36,7 +36,7 @@ export function scoped<F extends Func>(
 }
 
 export function showErrorToast<F extends Func>(
-	method: F,
+	method: F
 ): Func<Promise<ReturnType<F>>, Parameters<F>> {
 	return async (...args: any[]) => {
 		const toastStore = useToastStore();
@@ -61,7 +61,7 @@ export function showErrorToast<F extends Func>(
 }
 
 export function checkToken<F extends Func<any, any>>(
-	method: F,
+	method: F
 ): Func<Promise<ReturnType<F>>, Parameters<F>> {
 	return async (...args: any[]) => {
 		try {

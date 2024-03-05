@@ -64,7 +64,7 @@ export const useAuthStore = defineStore('auth', () => {
 						scopes.value.set(s.id, s as StoreScope);
 					}
 					return [s.id, scopes.value.get(s.id)!];
-				}),
+				})
 			);
 			(group as unknown as StoreGroup).parent = null;
 			(group as unknown as StoreGroup).users = new Map(
@@ -74,7 +74,7 @@ export const useAuthStore = defineStore('auth', () => {
 						users.value.set(u.id, u as StoreUser);
 					}
 					return [u.id, users.value.get(u.id)!];
-				}),
+				})
 			);
 
 			groups.value.set(group.id, group as unknown as StoreGroup);

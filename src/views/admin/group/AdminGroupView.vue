@@ -9,7 +9,6 @@ import IrdomLayout from '@/components/IrdomLayout.vue';
 import { scopename } from '@/models/ScopeName';
 import { useAuthStore } from '@/store/auth';
 import { useProfileStore } from '@/store/profile';
-import MaterialIcon from '@/components/MaterialIcon.vue';
 
 const profileStore = useProfileStore();
 const { hasTokenAccess } = profileStore;
@@ -78,7 +77,7 @@ const addScope = async (e: Event) => {
 			class="form"
 			@submit.prevent="addScope"
 		>
-			<MaterialIcon icon="add" />
+			<v-icon icon="add" />
 
 			<label for="id">
 				id
@@ -92,7 +91,7 @@ const addScope = async (e: Event) => {
 			</label>
 
 			<button type="submit">
-				<MaterialIcon icon="done" />
+				<v-icon icon="done" />
 			</button>
 		</form>
 	</IrdomLayout>
