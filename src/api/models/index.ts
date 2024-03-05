@@ -42,7 +42,7 @@ export enum ButtonType {
 	Internal = 'internal',
 	External = 'external',
 	Inapp = 'inapp',
-	Disabled = 'disabled'
+	Disabled = 'disabled',
 }
 
 export interface AppButton {
@@ -104,7 +104,7 @@ export interface UserdataCategory extends Entity {
 export enum UserdataParamResponseType {
 	All = 'all',
 	Last = 'last',
-	MostTrusted = 'most_trusted'
+	MostTrusted = 'most_trusted',
 }
 
 export interface UserdataParam extends Entity {

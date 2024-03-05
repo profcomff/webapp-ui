@@ -16,7 +16,7 @@ onMounted(async () => {
 	if (authMethod === undefined) {
 		return router.replace({
 			path: '/auth/error',
-			query: { text: 'Метод авторизации не существует' }
+			query: { text: 'Метод авторизации не существует' },
 		});
 	}
 	if (
@@ -50,7 +50,7 @@ onMounted(async () => {
 				// TODO: Писать в маркетинг об ошибке
 				return router.replace({
 					path: '/auth/error',
-					query: { text: 'Переданы неверные данные для входа' }
+					query: { text: 'Переданы неверные данные для входа' },
 				});
 			}
 
@@ -65,7 +65,7 @@ onMounted(async () => {
 		if (e.response && e.response.status === 409) {
 			return router.replace({
 				path: '/auth/error',
-				query: { text: 'Аккаунт с такими данными уже существуют' }
+				query: { text: 'Аккаунт с такими данными уже существуют' },
 			});
 		}
 

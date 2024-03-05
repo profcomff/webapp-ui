@@ -11,7 +11,7 @@ export enum GroupInfo {
 	Children = 'child',
 	Scopes = 'scopes',
 	IndirectScopes = 'indirect_scopes',
-	Users = 'users'
+	Users = 'users',
 }
 
 type GetGroupResponse<Info extends GroupInfo> = Group & {

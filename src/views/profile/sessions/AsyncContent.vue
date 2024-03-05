@@ -24,8 +24,8 @@ data.forEach(session => {
 });
 const sortedSessions = computed(() =>
 	Array.from(sessions.value.values()).sort(
-		(a, b) => +new Date(b.last_activity) - +new Date(a.last_activity)
-	)
+		(a, b) => +new Date(b.last_activity) - +new Date(a.last_activity),
+	),
 );
 
 const formatTime = (date: string) => {
@@ -35,7 +35,7 @@ const formatTime = (date: string) => {
 		day: 'numeric',
 		month: 'long',
 		hour: 'numeric',
-		minute: 'numeric'
+		minute: 'numeric',
 	});
 };
 

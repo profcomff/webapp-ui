@@ -39,7 +39,7 @@ const submitHandler = async (event: Event) => {
 		toastStore.push({
 			title: 'Изменение пароля',
 			type: ToastType.Error,
-			description: 'Пароли не совпадают'
+			description: 'Пароли не совпадают',
 		});
 	}
 };

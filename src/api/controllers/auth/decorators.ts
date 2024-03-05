@@ -13,12 +13,12 @@ type Decorator<F extends Func = Func, DecoratorArgs extends any[] = any[]> = Fun
 >;
 type DecoratorTuple<D extends Decorator = Decorator> = [
 	D,
-	...(D extends Decorator<Func, infer DA> ? DA : never)
+	...(D extends Decorator<Func, infer DA> ? DA : never),
 ];
 
 export function scoped<F extends Func>(
 	method: F,
-	scope: string
+	scope: string,
 ): Func<ReturnType<F>, Parameters<F>> {
 	return (...args) => {
 		const { hasTokenAccess } = useProfileStore();
@@ -30,13 +30,13 @@ export function scoped<F extends Func>(
 
 		toastStore.push({
 			title: `У вас нет доступа к методу ${method.name}`,
-			type: ToastType.Error
+			type: ToastType.Error,
 		});
 	};
 }
 
 export function showErrorToast<F extends Func>(
-	method: F
+	method: F,
 ): Func<Promise<ReturnType<F>>, Parameters<F>> {
 	return async (...args: any[]) => {
 		const toastStore = useToastStore();
@@ -47,13 +47,13 @@ export function showErrorToast<F extends Func>(
 			if (axios.isAxiosError(err)) {
 				toastStore.push({
 					title: err.response?.data.message,
-					type: ToastType.Error
+					type: ToastType.Error,
 				});
 			} else {
 				toastStore.push({
 					title: 'Неизвестная ошибка',
 					description: err instanceof Error ? err.message : '',
-					type: ToastType.Error
+					type: ToastType.Error,
 				});
 			}
 		}
@@ -61,7 +61,7 @@ export function showErrorToast<F extends Func>(
 }
 
 export function checkToken<F extends Func<any, any>>(
-	method: F
+	method: F,
 ): Func<Promise<ReturnType<F>>, Parameters<F>> {
 	return async (...args: any[]) => {
 		try {

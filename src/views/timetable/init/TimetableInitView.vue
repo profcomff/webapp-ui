@@ -16,7 +16,7 @@ const sendMarketing = (e: Event) => {
 		marketingApi.writeAction({
 			action: 'timetable search group',
 			user_id: profileStore.marketingId,
-			additional_data: JSON.stringify({ query: input.value })
+			additional_data: JSON.stringify({ query: input.value }),
 		});
 	}
 };

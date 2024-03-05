@@ -7,7 +7,7 @@ interface GetNameWithInitialsArgs {
 export const getNameWithInitials = ({
 	firstName,
 	middleName,
-	lastName
+	lastName,
 }: GetNameWithInitialsArgs) => {
 	return `${lastName} ${firstName[0]}. ${middleName[0]}.`;
 };

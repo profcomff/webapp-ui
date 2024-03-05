@@ -1,8 +1,8 @@
 {
 	"folders": [
 		{
-			"path": "."
-		}
+			"path": ".",
+		},
 	],
 	"extensions": {
 		"recommendations": [
@@ -13,8 +13,8 @@
 			"formulahendry.auto-close-tag",
 			"formulahendry.auto-rename-tag",
 			"steoates.autoimport",
-			"vunguyentuan.vscode-css-variables"
-		]
+			"vunguyentuan.vscode-css-variables",
+		],
 	},
 	"tasks": {
 		"version": "2.0.0",
@@ -22,12 +22,12 @@
 			{
 				"label": "Configure",
 				"type": "shell",
-				"command": "pnpm install"
+				"command": "pnpm install",
 			},
 			{
 				"label": "Run local",
 				"type": "shell",
-				"command": "pnpm dev"
+				"command": "pnpm dev",
 			},
 			{
 				"label": "Build",
@@ -35,8 +35,8 @@
 				"command": "pnpm build",
 				"group": {
 					"kind": "build",
-					"isDefault": true
-				}
+					"isDefault": true,
+				},
 			},
 			{
 				"label": "Test",
@@ -44,10 +44,10 @@
 				"command": "pnpm test",
 				"group": {
 					"kind": "test",
-					"isDefault": true
-				}
-			}
-		]
+					"isDefault": true,
+				},
+			},
+		],
 	},
 	"launch": {
 		"version": "0.2.0",
@@ -62,13 +62,13 @@
 				"serverReadyAction": {
 					"pattern": "Local:   http://localhost:([0-9]+)/",
 					"uriFormat": "http://localhost:%s",
-					"action": "openExternally"
-				}
-			}
-		]
+					"action": "openExternally",
+				},
+			},
+		],
 	},
 	"settings": {
 		"typescript.tsdk": "node_modules/typescript/lib",
-		"css.validate": false
-	}
+		"css.validate": false,
+	},
 }

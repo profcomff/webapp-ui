@@ -2,7 +2,7 @@ export enum LocalStorageItem {
 	StudyGroup = 'timetable-group',
 	Token = 'token',
 	TokenScopes = 'token-scopes',
-	MarketingId = 'marketing-id'
+	MarketingId = 'marketing-id',
 }
 
 export class LocalStorage {

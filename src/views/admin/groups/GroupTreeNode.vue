@@ -7,7 +7,7 @@ import { ref } from 'vue';
 import { VExpansionPanel } from 'vuetify/components';
 
 const props = withDefaults(defineProps<{ node: StoreGroup | null; indentSize?: number }>(), {
-	indentSize: 32
+	indentSize: 32,
 });
 
 const profileStore = useProfileStore();

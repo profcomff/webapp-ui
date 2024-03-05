@@ -4,7 +4,7 @@ import {
 	stringifyDate,
 	getWeekdayName,
 	getDateWithDayOffset,
-	stringifyDateIso
+	stringifyDateIso,
 } from './date';
 
 describe('Convert date functions:', () => {

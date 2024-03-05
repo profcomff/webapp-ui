@@ -1,18 +1,18 @@
 import {
 	UserdataExtendedValue,
 	UserdataUpdateUser,
-	UserdataUpdateUserItem
+	UserdataUpdateUserItem,
 } from './../api/models/index';
 import {
 	UserdataArrayCategoryItem,
 	UserdataArrayDataItem,
-	UserdataParams
+	UserdataParams,
 } from './../models/index';
 import {
 	UserdataCategory,
 	UserdataParamResponseType,
 	UserdataRaw,
-	UserdataRawItem
+	UserdataRawItem,
 } from '@/api/models';
 import {
 	UserdataArray,
@@ -20,17 +20,17 @@ import {
 	UserdataCategoryName,
 	UserdataConfig,
 	UserdataTree,
-	UserdataTreeSheet
+	UserdataTreeSheet,
 } from '@/models';
 
 const categoryOrder = [
 	UserdataCategoryName.PersonalInfo,
 	UserdataCategoryName.Study,
 	UserdataCategoryName.Contacts,
-	UserdataCategoryName.Career
+	UserdataCategoryName.Career,
 ];
 const userdataConfig: Partial<UserdataConfig> = {
-	[UserdataCategoryName.PersonalInfo]: [UserdataParams.Photo, UserdataParams.FullName] as const
+	[UserdataCategoryName.PersonalInfo]: [UserdataParams.Photo, UserdataParams.FullName] as const,
 };
 
 export class UserdataConverter {
@@ -47,7 +47,7 @@ export class UserdataConverter {
 					name: item.value,
 					is_required: false,
 					changeable: true,
-					type: UserdataParamResponseType.All
+					type: UserdataParamResponseType.All,
 				};
 			} else {
 				extendedValue = item.value;
@@ -69,7 +69,7 @@ export class UserdataConverter {
 			res.data.sort(
 				(a, b) =>
 					paramOrder.indexOf(a.param as UserdataParams.FullName) -
-					paramOrder.indexOf(b.param as UserdataParams.FullName)
+					paramOrder.indexOf(b.param as UserdataParams.FullName),
 			);
 		}
 
@@ -82,7 +82,7 @@ export class UserdataConverter {
 			for (const param of sheet.keys()) {
 				if (
 					UserdataConverter.alreadyGetParams.find(
-						item => item.category === category && item.param === param
+						item => item.category === category && item.param === param,
 					)
 				) {
 					sheet.delete(param);
@@ -97,7 +97,7 @@ export class UserdataConverter {
 		res.sort(
 			(a, b) =>
 				categoryOrder.indexOf(a.name as UserdataCategoryName) -
-				categoryOrder.indexOf(b.name as UserdataCategoryName)
+				categoryOrder.indexOf(b.name as UserdataCategoryName),
 		);
 
 		return res;
@@ -118,8 +118,8 @@ export class UserdataConverter {
 						name: '',
 						is_required: param.is_required,
 						changeable: param.changeable,
-						type: param.type
-					}
+						type: param.type,
+					},
 				} as UserdataRawItem);
 			});
 		});
@@ -133,7 +133,7 @@ export class UserdataConverter {
 				const rawInfo: UserdataRawItem = {
 					category: item.name,
 					param: info.param,
-					value: info.value
+					value: info.value,
 				};
 				result.items.push(rawInfo);
 			}
@@ -143,7 +143,7 @@ export class UserdataConverter {
 
 	public static uniteWithUserCategories(
 		categories: UserdataRaw,
-		userCategories: UserdataRaw
+		userCategories: UserdataRaw,
 	): UserdataArray {
 		const result_userdata: UserdataArray = [];
 		const categoriesTree = UserdataConverter.flatToTree(categories);
@@ -153,7 +153,7 @@ export class UserdataConverter {
 			for (const [param, value] of item) {
 				if (
 					UserdataConverter.alreadyGetParams.find(
-						item => item.category === category && item.param === param
+						item => item.category === category && item.param === param,
 					)
 				) {
 					continue;
@@ -167,8 +167,8 @@ export class UserdataConverter {
 							name: userValue!.name,
 							is_required: value.is_required,
 							changeable: value.changeable || userValue!.name.trim() === '',
-							type: value.type
-						}
+							type: value.type,
+						},
 					});
 				} else {
 					category_info.push({ param: param, value: value });
@@ -179,7 +179,7 @@ export class UserdataConverter {
 		result_userdata.sort(
 			(a, b) =>
 				categoryOrder.indexOf(a.name as UserdataCategoryName) -
-				categoryOrder.indexOf(b.name as UserdataCategoryName)
+				categoryOrder.indexOf(b.name as UserdataCategoryName),
 		);
 		return result_userdata;
 	}
@@ -187,7 +187,7 @@ export class UserdataConverter {
 	public static arrayToUpdate(
 		userdata: UserdataArray,
 		source: string,
-		alreadyGetParamValue: UserdataUpdateUserItem[]
+		alreadyGetParamValue: UserdataUpdateUserItem[],
 	): UserdataUpdateUser {
 		const updateUserdata: UserdataUpdateUser = { items: [], source: '' };
 		updateUserdata.source = source;
@@ -209,13 +209,13 @@ export class UserdataConverter {
 		}
 		for (const item of alreadyGetParamValue) {
 			const update_already_get_item = UserdataConverter.alreadyGetParams.find(
-				element => element.category === item.category && element.param === item.param
+				element => element.category === item.category && element.param === item.param,
 			);
 			if (update_already_get_item) {
 				const updateItem = {
 					category: item.category,
 					param: item.param,
-					value: item.value
+					value: item.value,
 				} as UserdataUpdateUserItem;
 				updateUserdata.items.push(updateItem);
 			}
@@ -225,7 +225,7 @@ export class UserdataConverter {
 
 	public static getItem(
 		flat: UserdataRaw,
-		info: UserdataArrayCategoryItem
+		info: UserdataArrayCategoryItem,
 	): UserdataExtendedValue | null {
 		const tree = UserdataConverter.flatToTree(flat);
 		const info_tree = tree.get(info.category);
@@ -236,7 +236,7 @@ export class UserdataConverter {
 		UserdataConverter.alreadyGetParams.push({
 			category: info.category,
 			param: info.param,
-			value: itemValue
+			value: itemValue,
 		} as UserdataRawItem);
 		return itemValue;
 	}

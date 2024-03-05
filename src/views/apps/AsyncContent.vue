@@ -21,7 +21,7 @@ const sendMarketing = (url: string) => {
 			action: 'route to',
 			user_id: profileStore.marketingId,
 			path_from: '/apps',
-			path_to: url
+			path_to: url,
 		});
 	}
 };

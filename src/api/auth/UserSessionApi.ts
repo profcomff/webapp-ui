@@ -12,7 +12,7 @@ export enum MySessionInfo {
 	IndirectGroups = 'indirect_groups',
 	SessionScopes = 'session_scopes',
 	UserScopes = 'user_scopes',
-	AuthMethods = 'auth_methods'
+	AuthMethods = 'auth_methods',
 }
 
 export enum AuthMethod {
@@ -24,7 +24,7 @@ export enum AuthMethod {
 	MyMsu = 'my_msu_auth',
 	Physics = 'physics_auth',
 	Telegram = 'telegram_auth',
-	VK = 'vk_auth'
+	VK = 'vk_auth',
 }
 
 interface SessionResponse {
@@ -37,7 +37,7 @@ interface SessionResponse {
 export enum SessionInfo {
 	SessionScopes = 'session_scopes',
 	Token = 'token',
-	Expires = 'expires'
+	Expires = 'expires',
 }
 
 class UserSessionApi extends AuthBaseApi {

@@ -27,13 +27,13 @@ const toolbarAction: ToolbarActionItem[] = [
 	{
 		icon: 'edit',
 		ariaLabel: 'Редактировать профиль',
-		onClick: async () => router.push('/profile/edit')
+		onClick: async () => router.push('/profile/edit'),
 	},
 	{
 		icon: 'settings',
 		ariaLabel: 'Настройки',
-		onClick: async () => router.push('/profile/settings')
-	}
+		onClick: async () => router.push('/profile/settings'),
+	},
 ];
 
 onMounted(async () => {
@@ -48,17 +48,17 @@ onMounted(async () => {
 		MySessionInfo.Groups,
 		MySessionInfo.IndirectGroups,
 		MySessionInfo.SessionScopes,
-		MySessionInfo.UserScopes
+		MySessionInfo.UserScopes,
 	]);
 
 	const { data } = await UserdataApi.getUser(me.id);
 	fullName_item.value = UserdataConverter.getItem(data, {
 		category: UserdataCategoryName.PersonalInfo,
-		param: UserdataParams.FullName
+		param: UserdataParams.FullName,
 	});
 	photoURL_item.value = UserdataConverter.getItem(data, {
 		category: UserdataCategoryName.PersonalInfo,
-		param: UserdataParams.Photo
+		param: UserdataParams.Photo,
 	});
 	fullName.value = fullName_item.value?.name ?? '[object Object]';
 	photoURL.value = photoURL_item.value?.name ?? Placeholder;

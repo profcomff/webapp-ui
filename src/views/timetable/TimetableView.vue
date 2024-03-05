@@ -21,9 +21,9 @@ const toolbarActions = computed<ToolbarActionItem[]>(() =>
 				{
 					icon: 'today',
 					onClick: () => router.push(`/timetable/${stringifyDate(new Date())}`),
-					ariaLabel: 'Вернуться к сегодняшнему дню'
-				}
-			]
+					ariaLabel: 'Вернуться к сегодняшнему дню',
+				},
+			],
 );
 
 const toolbarMenu: ToolbarMenuItem[] = [
@@ -34,8 +34,8 @@ const toolbarMenu: ToolbarMenuItem[] = [
 			timetableStore.updateGroup();
 			timetableStore.days.clear();
 			router.push('/timetable/init');
-		}
-	}
+		},
+	},
 ];
 
 const date = computed(() => {
@@ -55,7 +55,7 @@ watch(date, () => {
 		:toolbar-menu="toolbarMenu"
 		:touch="{
 			left: () => router.push(`/timetable/${stringifyDate(getDateWithDayOffset(date, 1))}`),
-			right: () => router.push(`/timetable/${stringifyDate(getDateWithDayOffset(date, -1))}`)
+			right: () => router.push(`/timetable/${stringifyDate(getDateWithDayOffset(date, -1))}`),
 		}"
 	>
 		<template #toolbar>

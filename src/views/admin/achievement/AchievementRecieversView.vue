@@ -22,7 +22,8 @@ const revoke = (user_id: number) => {
 	achievementApi
 		.revoke(user_id, achievemetId.value)
 		.then(
-			async () => (achievement.value = (await achievementApi.getRecievers(achievemetId.value)).data)
+			async () =>
+				(achievement.value = (await achievementApi.getRecievers(achievemetId.value)).data),
 		);
 };
 const give = (user_id: number | undefined) => {

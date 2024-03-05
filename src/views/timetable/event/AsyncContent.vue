@@ -21,11 +21,11 @@ const event = computed(() => timetableStore.events.get(props.id));
 const scheduleTitle = computed(() =>
 	event.value
 		? new Date(event.value.start_ts).toLocaleString('ru-RU', { day: 'numeric', month: 'long' })
-		: ''
+		: '',
 );
 
 const scheduleInfo = computed(() =>
-	event.value ? `${formatTime(event.value.start_ts)} – ${formatTime(event.value.end_ts)}` : ''
+	event.value ? `${formatTime(event.value.start_ts)} – ${formatTime(event.value.end_ts)}` : '',
 );
 
 interface TitleArgs {
@@ -62,7 +62,7 @@ const lecturers = computed(() => {
 			arr.push({
 				id,
 				title: lecturerTitle({ first_name, middle_name, last_name }),
-				info: lecturerInfo({ first_name, last_name, middle_name })
+				info: lecturerInfo({ first_name, last_name, middle_name }),
 			});
 		}
 	}

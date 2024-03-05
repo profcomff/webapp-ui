@@ -19,7 +19,7 @@ onMounted(async () => {
 	if (profileStore.marketingId) {
 		marketingApi.writeAction({
 			action: 'app loaded',
-			user_id: profileStore.marketingId
+			user_id: profileStore.marketingId,
 		});
 	}
 });

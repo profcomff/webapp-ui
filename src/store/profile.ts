@@ -43,7 +43,7 @@ export const useProfileStore = defineStore('profile', () => {
 			groups,
 			indirectGroups,
 			userScopes,
-			sessionScopes
+			sessionScopes,
 		].forEach(i => {
 			i.value = null;
 		});
@@ -60,7 +60,7 @@ export const useProfileStore = defineStore('profile', () => {
 			marketingApi.writeAction({
 				user_id: data.id,
 				action: 'user registration',
-				additional_data: JSON.stringify(data)
+				additional_data: JSON.stringify(data),
 			});
 		} else {
 			marketingId.value = +item;
@@ -88,6 +88,6 @@ export const useProfileStore = defineStore('profile', () => {
 		id,
 		authMethods,
 		sessionScopes,
-		deleteToken
+		deleteToken,
 	};
 });

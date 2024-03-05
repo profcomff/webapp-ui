@@ -16,13 +16,13 @@ const submitHandler = async () => {
 			toastStore.push({
 				title: 'Изменение Email',
 				type: ToastType.Info,
-				description: 'Email успешно изменен'
+				description: 'Email успешно изменен',
 			});
 		} else {
 			toastStore.push({
 				title: 'Изменение Email',
 				type: ToastType.Info,
-				description: 'Что-то пошло не так'
+				description: 'Что-то пошло не так',
 			});
 		}
 	}

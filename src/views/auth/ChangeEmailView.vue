@@ -19,7 +19,7 @@ onMounted(async () => {
 		MySessionInfo.Groups,
 		MySessionInfo.IndirectGroups,
 		MySessionInfo.SessionScopes,
-		MySessionInfo.UserScopes
+		MySessionInfo.UserScopes,
 	]);
 	current_email.value = me.email;
 });
@@ -34,7 +34,7 @@ const submitHandler = async (event: Event) => {
 			toastStore.push({
 				title: 'Изменение Email',
 				type: ToastType.Info,
-				description: 'На вашу почту отправлено сообщение об изменении Email'
+				description: 'На вашу почту отправлено сообщение об изменении Email',
 			});
 			router.push('/profile');
 		}

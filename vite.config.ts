@@ -16,11 +16,11 @@ export default defineConfig({
 			plugins: [
 				postcssPresetEnv({
 					features: {
-						'nesting-rules': true
-					}
-				})
-			]
-		}
+						'nesting-rules': true,
+					},
+				}),
+			],
+		},
 	},
 	plugins: [
 		basicSsl(),
@@ -28,18 +28,16 @@ export default defineConfig({
 		vuetify(),
 		Eslint(),
 		Stylelint({
-			files: [path.resolve(__dirname, 'src/**/*.{vue,css}')]
+			files: [path.resolve(__dirname, 'src/**/*.{vue,css}')],
 		}),
-		VitePWA(vitePWAconfig)
+		VitePWA(vitePWAconfig),
 	],
 	resolve: {
-		alias: [
-			{ find: '@', replacement: fileURLToPath(new URL('./src', import.meta.url)) },
-			{
-				find: '@icons',
-				replacement: path.resolve(__dirname, 'node_modules/vue-material-design-icons')
-			}
-		]
+		alias: [{ find: '@', replacement: fileURLToPath(new URL('./src', import.meta.url)) }],
 	},
-	publicDir: 'src/public'
+	server: {
+		host: '0.0.0.0',
+		port: 443,
+	},
+	publicDir: 'src/public',
 });

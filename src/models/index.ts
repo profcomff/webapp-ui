@@ -3,7 +3,7 @@ import { UserdataExtendedValue } from '@/api/models';
 export enum ToastType {
 	Error = 'error',
 	Warn = 'warn',
-	Info = 'info'
+	Info = 'info',
 }
 
 export interface Toast {
@@ -37,12 +37,12 @@ export enum UserdataCategoryName {
 	PersonalInfo = 'Личная информация',
 	Study = 'Учёба',
 	Contacts = 'Контакты',
-	Career = 'Карьера'
+	Career = 'Карьера',
 }
 
 export enum UserdataParams {
 	FullName = 'Полное имя',
-	Photo = 'Фото'
+	Photo = 'Фото',
 }
 
 export type UserdataConfig = Readonly<Record<UserdataCategoryName, Readonly<UserdataParams[]>>>;

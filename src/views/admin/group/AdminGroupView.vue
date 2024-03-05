@@ -26,7 +26,7 @@ onMounted(async () => {
 
 	if (!group.value) {
 		const { data } = await authGroupApi.getGroup<GroupInfo.Scopes>(+route.params.id, [
-			GroupInfo.Scopes
+			GroupInfo.Scopes,
 		]);
 		authStore.setGroup(data);
 	}
@@ -52,7 +52,7 @@ const addScope = async (e: Event) => {
 
 		if (profileStore.isUserLogged && group.value && scopeId) {
 			await authGroupApi.patchGroup(groupId.value, {
-				scopes: [...group.value.scopes.keys(), scopeId]
+				scopes: [...group.value.scopes.keys(), scopeId],
 			});
 			authStore.setGroupScopeById(groupId.value, scopeId);
 			form.reset();
