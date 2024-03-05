@@ -6,18 +6,24 @@ import AccessRestricted from '@/components/AccessRestricted.vue';
 import IrdomLayout from '@/components/IrdomLayout.vue';
 import { scopename } from '@/models/ScopeName';
 import { useAuthStore } from '@/store/auth';
+import { useToolbar } from '@/store/toolbar';
+
+const toolbar = useToolbar();
+
+toolbar.setup({
+	title: 'Пользователи',
+	backUrl: '/admin',
+});
 
 onMounted(() => {
 	AuthApi.getUsers();
 });
 
 const authStore = useAuthStore();
-
-const back = history.state.back?.startsWith('/admin') ? history.state.back : '/admin';
 </script>
 
 <template>
-	<IrdomLayout title="Пользователи" backable :back-url="back">
+	<IrdomLayout>
 		<AccessRestricted :scope="scopename.auth.user.read">
 			<UsersTable :users="authStore.users.values()" delete-icon="delete_forever" />
 		</AccessRestricted>

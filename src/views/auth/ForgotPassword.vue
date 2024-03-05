@@ -3,8 +3,14 @@
 import { AuthApi } from '@/api';
 import { useRouter } from 'vue-router';
 import IrdomLayout from '@/components/IrdomLayout.vue';
+import { useToolbar } from '@/store/toolbar';
 
 const router = useRouter();
+const toolbar = useToolbar();
+
+toolbar.setup({
+	title: 'Восстановление доступа',
+});
 
 const submitHandler = async (event: Event) => {
 	const form = event.target as HTMLFormElement;
@@ -20,7 +26,7 @@ const submitHandler = async (event: Event) => {
 </script>
 
 <template>
-	<IrdomLayout title="Восстановление доступа">
+	<IrdomLayout>
 		<div class="container">
 			<div>
 				<form class="form" @submit.prevent="submitHandler">

@@ -4,10 +4,17 @@ import TelegramButon from '@/components/TelegramButon.vue';
 import IrdomAuthButton from '@/components/IrdomAuthButton.vue';
 import IrdomLayout from '@/components/IrdomLayout.vue';
 import { authButtons } from '@/constants/authButtons';
+import { useToolbar } from '@/store/toolbar';
+
+const toolbar = useToolbar();
+toolbar.setup({
+	title: 'Все способы регистрации',
+	backUrl: '/auth',
+});
 </script>
 
 <template>
-	<IrdomLayout title="Все способы регистрации" backable back-url="/auth">
+	<IrdomLayout>
 		<div class="container">
 			<div>
 				<div class="buttons">

@@ -32,7 +32,7 @@ const title = computed(() => {
 	<h2 class="h2">{{ room?.name }}</h2>
 
 	<DataRow v-if="room?.building" :title="room.building" class="row">
-		<v-icon icon="location-on" />
+		<v-icon icon="location_on" />
 	</DataRow>
 
 	<DataRow v-if="room?.direction" :title="title" class="row">

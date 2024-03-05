@@ -6,6 +6,14 @@ import { useRouter } from 'vue-router';
 import { MySessionInfo } from '@/api/auth/UserSessionApi';
 import IrdomLayout from '@/components/IrdomLayout.vue';
 import { useToastStore } from '@/store/toast';
+import { useToolbar } from '@/store/toolbar';
+
+const toolbar = useToolbar();
+
+toolbar.setup({
+	title: 'Изменение электронной почты',
+	backUrl: '/profile/settings',
+});
 
 const checkPasswords = ref(false);
 checkPasswords.value = false;
@@ -43,7 +51,7 @@ const submitHandler = async (event: Event) => {
 </script>
 
 <template>
-	<IrdomLayout title="Изменение электронной почты" backable back-url="/profile/settings">
+	<IrdomLayout>
 		<div class="email">
 			Текущий адрес электронной почты:
 			<p class="email-text">{{ current_email }}</p>

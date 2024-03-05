@@ -4,10 +4,17 @@ import { AuthApi } from '@/api';
 import { useToastStore } from '@/store/toast';
 import { ToastType } from '@/models';
 import IrdomLayout from '@/components/IrdomLayout.vue';
+import { useToolbar } from '@/store/toolbar';
 
 const route = useRoute();
 const router = useRouter();
 const toastStore = useToastStore();
+const toolbar = useToolbar();
+
+toolbar.setup({
+	title: 'Восстановление доступа',
+	backUrl: '/auth',
+});
 
 const submitHandler = async (event: Event) => {
 	const form = event.target as HTMLFormElement;
@@ -33,7 +40,7 @@ const submitHandler = async (event: Event) => {
 </script>
 
 <template>
-	<IrdomLayout title="Восстановление доступа" backable back-url="/auth">
+	<IrdomLayout>
 		<div class="container">
 			<div>
 				<form class="form" @submit.prevent="submitHandler">

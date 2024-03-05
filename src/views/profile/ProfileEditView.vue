@@ -5,18 +5,28 @@ import { AuthApi } from '@/api';
 import { MySessionInfo } from '@/api/auth';
 import { UserdataApi } from '@/api/controllers/UserdataApi';
 import { UserdataArray, UserdataCategoryName, UserdataParams } from '@/models';
-import router from '@/router';
 import { UserdataExtendedValue } from '@/api/models';
 import IrdomLayout from '@/components/IrdomLayout.vue';
 import { useProfileStore } from '@/store/profile';
 import { UserdataConverter } from '@/utils/UserdataConverter';
+import { useRouter } from 'vue-router';
+import { useToolbar } from '@/store/toolbar';
 
 const profileStore = useProfileStore();
+const router = useRouter();
+const toolbar = useToolbar();
+
+toolbar.setup({
+	title: 'Профиль',
+	backUrl: '/profile',
+});
+
 const fullName_item = ref<UserdataExtendedValue | null>();
 const photoURL_item = ref<UserdataExtendedValue | null>();
 const fullName = ref('');
 const photoURL = ref('');
 const userdata = ref<UserdataArray>([]);
+
 onMounted(async () => {
 	if (history.state.token) {
 		profileStore.updateToken(history.state.token);
@@ -69,7 +79,7 @@ async function saveEdit() {
 </script>
 
 <template>
-	<IrdomLayout title="Профиль" class-name="profile-toolbar" centered-toolbar backable>
+	<IrdomLayout>
 		<img :src="photoURL" alt="Аватар" width="400 " height="400" class="avatar" />
 		<textarea
 			v-model="fullName"

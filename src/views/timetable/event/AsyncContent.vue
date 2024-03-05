@@ -89,7 +89,7 @@ const lecturers = computed(() => {
 		:href="`/timetable/room/${roomId}`"
 		clickable
 	>
-		<v-icon icon="location-on" />
+		<v-icon icon="location_on" />
 	</DataRow>
 
 	<DataRow

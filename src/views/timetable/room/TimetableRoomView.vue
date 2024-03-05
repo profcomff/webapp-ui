@@ -1,15 +1,22 @@
 <script setup lang="ts">
+import { useToolbar } from '@/store/toolbar';
 import AsyncRoomInfo from './AsyncRoomInfo.vue';
 import AsyncRoomSchedule from './AsyncRoomSchedule.vue';
 import IrdomLayout from '@/components/IrdomLayout.vue';
 import { useRoute } from 'vue-router';
 
 const route = useRoute();
-const back = history.state.back?.startsWith('/timetable/event') ? history.state.back : '/timetable';
+const toolbar = useToolbar();
+
+toolbar.setup({
+	title: 'Аудитория',
+	backUrl: '/timetable',
+	share: true,
+});
 </script>
 
 <template>
-	<IrdomLayout backable :back-url="back" share title="Аудитория">
+	<IrdomLayout>
 		<section class="section">
 			<Suspense>
 				<AsyncRoomInfo :id="+route.params.id" />

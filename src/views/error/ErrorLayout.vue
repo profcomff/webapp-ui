@@ -1,11 +1,19 @@
 <script setup lang="ts">
 import IrdomLayout from '@/components/IrdomLayout.vue';
+import { useToolbar } from '@/store/toolbar';
 
-defineProps<{ title: string; image: string }>();
+const props = defineProps<{ title: string; image: string }>();
+
+const toolbar = useToolbar();
+
+toolbar.setup({
+	title: props.title,
+	backable: true,
+});
 </script>
 
 <template>
-	<IrdomLayout :title="title" backable class="page">
+	<IrdomLayout>
 		<img :src="image" aria-hidden="true" />
 		<div>
 			<h2>

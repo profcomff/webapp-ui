@@ -3,13 +3,20 @@ import AsyncLecturerInfo from './AsyncLecturerInfo.vue';
 import AsyncLecturerSchedule from './AsyncLecturerSchedule.vue';
 import { useRoute } from 'vue-router';
 import IrdomLayout from '@/components/IrdomLayout.vue';
+import { useToolbar } from '@/store/toolbar';
 
 const route = useRoute();
-const back = history.state.back?.startsWith('/timetable/event') ? history.state.back : '/timetable';
+const toolbar = useToolbar();
+
+toolbar.setup({
+	title: 'Преподаватель',
+	backUrl: '/timetable',
+	share: true,
+});
 </script>
 
 <template>
-	<IrdomLayout backable :back-url="back" share title="Преподаватель">
+	<IrdomLayout>
 		<Suspense>
 			<AsyncLecturerInfo :id="+route.params.id" />
 			<template #fallback> Загрузка... </template>

@@ -5,8 +5,15 @@ import EmailPasswordForm, { SubmitData } from '@/components/EmailPasswordForm.vu
 import IrdomLayout from '@/components/IrdomLayout.vue';
 import IrdomAuthButton from '@/components/IrdomAuthButton.vue';
 import { authButtons } from '@/constants/authButtons';
+import { useToolbar } from '@/store/toolbar';
 
 const router = useRouter();
+const toolbar = useToolbar();
+
+toolbar.setup({
+	title: 'Регистрация',
+	backUrl: '/auth',
+});
 
 const submitHandler = async ({ email, password }: SubmitData) => {
 	const response = await AuthApi.registerEmail(email, password);
@@ -17,7 +24,7 @@ const submitHandler = async ({ email, password }: SubmitData) => {
 </script>
 
 <template>
-	<IrdomLayout title="Регистрация" backable back-url="/auth">
+	<IrdomLayout>
 		<div class="container">
 			<div>
 				<EmailPasswordForm mode="register" @submit="submitHandler" />

@@ -6,9 +6,15 @@ import { authButtons } from '@/constants/authButtons';
 import IrdomLayout from '@/components/IrdomLayout.vue';
 import EmailPasswordForm, { SubmitData } from '@/components/EmailPasswordForm.vue';
 import IrdomAuthButton from '@/components/IrdomAuthButton.vue';
+import { useToolbar } from '@/store/toolbar';
 
 const router = useRouter();
 const route = useRoute();
+const toolbar = useToolbar();
+
+toolbar.setup({
+	title: 'Вход в профиль',
+});
 
 const submitHandler = async ({ email, password }: SubmitData) => {
 	const response = await AuthApi.loginEmail(email, password);
@@ -19,7 +25,7 @@ const submitHandler = async ({ email, password }: SubmitData) => {
 </script>
 
 <template>
-	<IrdomLayout title="Вход в профиль">
+	<IrdomLayout>
 		<div class="container">
 			<div>
 				<EmailPasswordForm mode="login" @submit="submitHandler" />

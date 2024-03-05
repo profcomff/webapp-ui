@@ -2,12 +2,18 @@
 <script setup lang="ts">
 import { useRoute } from 'vue-router';
 import IrdomLayout from '@/components/IrdomLayout.vue';
+import { useToolbar } from '@/store/toolbar';
 
 const route = useRoute();
+const toolbar = useToolbar();
+
+toolbar.setup({
+	title: 'Вход',
+});
 </script>
 
 <template>
-	<IrdomLayout title="Вход" backable back-url="/auth">
+	<IrdomLayout>
 		<p>Произошла ошибка при входе в аккаунт</p>
 		<p>{{ route.query.text }}</p>
 		<RouterLink to="/auth" class="link">Вернуться к методам входа</RouterLink>
