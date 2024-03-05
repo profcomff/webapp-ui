@@ -5,7 +5,7 @@ import { onMounted, computed } from 'vue';
 import { AuthApi } from '@/api';
 import IrdomLayout from '@/components/IrdomLayout.vue';
 import { scopename } from '@/models/ScopeName';
-import AccessAllowed from '@/components/AccessAllowed.vue';
+import AccessRestricted from '@/components/AccessRestricted.vue';
 import { useAuthStore } from '@/store/auth';
 import { useProfileStore } from '@/store/profile';
 
@@ -47,7 +47,7 @@ const createScope = async (e: Event) => {
 
 <template>
 	<IrdomLayout title="Права доступа" backable back="/admin">
-		<AccessAllowed :scope="scopename.auth.scope.read">
+		<AccessRestricted :scope="scopename.auth.scope.read">
 			<ScopesTable
 				:scopes="authStore.scopes.values()"
 				delete-icon="delete_forever"
@@ -61,7 +61,7 @@ const createScope = async (e: Event) => {
 
 				<v-btn type="submit" icon="md:done" />
 			</v-form>
-		</AccessAllowed>
+		</AccessRestricted>
 	</IrdomLayout>
 </template>
 

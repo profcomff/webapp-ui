@@ -2,7 +2,7 @@
 import { achievementApi, AchievementGet } from '@/api/achievement';
 import { computed, onMounted, ref, Ref } from 'vue';
 import { useRoute } from 'vue-router';
-import AccessAllowed from '@/components/AccessAllowed.vue';
+import AccessRestricted from '@/components/AccessRestricted.vue';
 import IrdomLayout from '@/components/IrdomLayout.vue';
 import { scopename } from '@/models/ScopeName';
 
@@ -36,7 +36,7 @@ const give = (user_id: number | undefined) => {
 
 <template>
 	<IrdomLayout title="Управление достижениями" backable :back="back">
-		<AccessAllowed :scope="scopename.achievements.achievement.create">
+		<AccessRestricted :scope="scopename.achievements.achievement.create">
 			<v-row class="row" align-content="stretch">
 				<v-card>
 					<img :src="achievementApi.getPictureUrl(achievement?.picture)" width="100" height="100" />
@@ -72,7 +72,7 @@ const give = (user_id: number | undefined) => {
 					</tbody>
 				</v-table>
 			</v-row>
-		</AccessAllowed>
+		</AccessRestricted>
 	</IrdomLayout>
 </template>
 

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import AccessAllowed from '@/components/AccessAllowed.vue';
+import AccessRestricted from '@/components/AccessRestricted.vue';
 import IrdomLayout from '@/components/IrdomLayout.vue';
 import { scopename } from '@/models/ScopeName';
 import { useProfileStore } from '@/store/profile';
@@ -25,17 +25,17 @@ const copyToken = () => {
 		</div>
 		<RouterLink to="/admin/groups" class="link">Группы пользователей</RouterLink>
 
-		<AccessAllowed :scope="scopename.auth.scope.read" no-fallback>
+		<AccessRestricted :scope="scopename.auth.scope.read" no-fallback>
 			<RouterLink to="/admin/scopes" class="link"> Права доступа </RouterLink>
-		</AccessAllowed>
+		</AccessRestricted>
 
-		<AccessAllowed :scope="scopename.auth.user.read" no-fallback>
+		<AccessRestricted :scope="scopename.auth.user.read" no-fallback>
 			<RouterLink to="/admin/users" class="link">Пользователи</RouterLink>
-		</AccessAllowed>
+		</AccessRestricted>
 
-		<AccessAllowed :scope="scopename.achievements.achievement.create" no-fallback>
+		<AccessRestricted :scope="scopename.achievements.achievement.create" no-fallback>
 			<RouterLink to="/admin/achievement" class="link">Достижения</RouterLink>
-		</AccessAllowed>
+		</AccessRestricted>
 	</IrdomLayout>
 </template>
 

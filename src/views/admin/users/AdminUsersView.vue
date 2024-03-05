@@ -2,7 +2,7 @@
 import { AuthApi } from '@/api';
 import { onMounted } from 'vue';
 import UsersTable from '../UsersTable.vue';
-import AccessAllowed from '@/components/AccessAllowed.vue';
+import AccessRestricted from '@/components/AccessRestricted.vue';
 import IrdomLayout from '@/components/IrdomLayout.vue';
 import { scopename } from '@/models/ScopeName';
 import { useAuthStore } from '@/store/auth';
@@ -18,8 +18,8 @@ const back = history.state.back?.startsWith('/admin') ? history.state.back : '/a
 
 <template>
 	<IrdomLayout title="Пользователи" backable :back="back">
-		<AccessAllowed :scope="scopename.auth.user.read">
+		<AccessRestricted :scope="scopename.auth.user.read">
 			<UsersTable :users="authStore.users.values()" delete-icon="delete_forever" />
-		</AccessAllowed>
+		</AccessRestricted>
 	</IrdomLayout>
 </template>

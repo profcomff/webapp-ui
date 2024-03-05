@@ -29,7 +29,7 @@ const clickHandler = async () => {
 		await props.button.api.unregister();
 		location.reload(); // TODO: придумать нормальное решение
 	} else if (authUrl.value) {
-		window.open(authUrl.value, '_blank');
+		window.open(authUrl.value, '_self');
 	}
 };
 </script>
