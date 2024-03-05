@@ -4,7 +4,7 @@ import ScopesTable from '../ScopesTable.vue';
 import { onMounted, computed } from 'vue';
 import { useRoute } from 'vue-router';
 import { AuthApi } from '@/api';
-import AccessAllowed from '@/components/AccessAllowed.vue';
+import AccessRestricted from '@/components/AccessRestricted.vue';
 import IrdomLayout from '@/components/IrdomLayout.vue';
 import { scopename } from '@/models/ScopeName';
 import { useAuthStore } from '@/store/auth';
@@ -63,7 +63,7 @@ const addScope = async (e: Event) => {
 
 <template>
 	<IrdomLayout title="Группа" backable :back="back">
-		<AccessAllowed :scope="scopename.auth.scope.read" no-fallback>
+		<AccessRestricted :scope="scopename.auth.scope.read" no-fallback>
 			<h2>{{ group?.name }}</h2>
 			<ScopesTable
 				:scopes="group?.scopes.values() ?? []"
@@ -71,7 +71,7 @@ const addScope = async (e: Event) => {
 				delete-icon="delete"
 				@delete="deleteScope"
 			/>
-		</AccessAllowed>
+		</AccessRestricted>
 
 		<form
 			v-if="hasTokenAccess(scopename.auth.group.update)"

@@ -2,7 +2,7 @@
 import { achievementApi, AchievementGet } from '@/api/achievement';
 import { onMounted, ref, Ref } from 'vue';
 import achievementRow from './AchievementRow.vue';
-import AccessAllowed from '@/components/AccessAllowed.vue';
+import AccessRestricted from '@/components/AccessRestricted.vue';
 import IrdomLayout from '@/components/IrdomLayout.vue';
 import { scopename } from '@/models/ScopeName';
 
@@ -39,7 +39,7 @@ const back = history.state.back?.startsWith('/admin') ? history.state.back : '/a
 
 <template>
 	<IrdomLayout title="Управление достижениями" backable :back="back">
-		<AccessAllowed :scope="scopename.achievements.achievement.create">
+		<AccessRestricted :scope="scopename.achievements.achievement.create">
 			<v-row class="row" align-content="stretch">
 				<v-card
 					title="Создание новой ачивки"
@@ -115,7 +115,7 @@ const back = history.state.back?.startsWith('/admin') ? history.state.back : '/a
 					</tbody>
 				</v-table>
 			</v-row>
-		</AccessAllowed>
+		</AccessRestricted>
 	</IrdomLayout>
 </template>
 
