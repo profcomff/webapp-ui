@@ -1,7 +1,6 @@
-FROM node:20-slim AS base
-ENV PNPM_HOME="/pnpm"
-ENV PATH="$PNPM_HOME:$PATH"
-RUN corepack enable
+# use the official Bun image
+# see all versions at https://hub.docker.com/r/oven/bun/tags
+FROM oven/bun:1 as base
 COPY . /app
 WORKDIR /app
 
@@ -13,11 +12,11 @@ ENV MODE=${LAUNCH_MODE}
 ENV VITE_APP_VERSION=${APP_VERSION}
 
 FROM base AS prod-deps
-RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --prod --frozen-lockfile
+RUN --mount=type=cache,id=bun,target=/bun/store bun install --frozen-lockfile --production
 
 FROM base AS build
-RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
-RUN pnpm run build --mode ${BUILD_MODE}
+RUN --mount=type=cache,id=bun,target=/bun/store bun install --frozen-lockfile
+RUN bun run build --mode ${BUILD_MODE}
 
 
 FROM nginx:1.21
