@@ -30,7 +30,6 @@ export const useTimetableStore = defineStore('timetable', () => {
 				(l as StoreLecturer).schedule = null;
 				lecturers.value.set(l.id, l as StoreLecturer);
 			} else if (l.avatar_link) {
-				// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 				lecturers.value.get(l.id)!.avatar_link = l.avatar_link;
 			}
 		}

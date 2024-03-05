@@ -35,7 +35,7 @@ const roots = computed(() => {
 </script>
 
 <template>
-	<IrdomLayout title="Редактирование групп пользователей" backable back="/admin">
+	<IrdomLayout title="Редактирование групп пользователей" backable back-url="/admin">
 		<v-expansion-panels>
 			<GroupTreeNode v-for="root of roots" :key="root.id" :node="root" />
 		</v-expansion-panels>

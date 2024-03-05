@@ -43,7 +43,7 @@ const icon = computed(() => {
 .toast {
 	display: flex;
 	gap: 16px;
-	box-shadow: 0 0 20px oklch(0% 0 0deg / 10%);
+	box-shadow: 0 0 20px rgb(0 0 0 / 10%);
 	background: white;
 	border-radius: 4px;
 	padding: 14px 16px;

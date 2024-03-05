@@ -48,7 +48,7 @@ const imgUrl = computed(() =>
 	width: 100%;
 	max-width: 256px;
 	border-radius: 999px;
-	box-shadow: 0 0 20px oklch(0% 0 0deg / 10%);
+	box-shadow: 0 0 20px rgb(0 0 0 / 10%);
 	object-fit: cover;
 }
 

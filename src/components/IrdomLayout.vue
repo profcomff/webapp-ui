@@ -4,14 +4,12 @@ import IrdomToolbar, { ToolbarActionItem, ToolbarMenuItem } from './IrdomToolbar
 defineProps<{
 	toolbarActions?: ToolbarActionItem[];
 	toolbarMenu?: ToolbarMenuItem[];
-	back?: string;
+	backUrl?: string;
 	title?: string;
 	share?: boolean;
 	backable?: boolean;
 	touch?: unknown;
 	height?: string;
-	className?: string;
-	centeredToolbar?: boolean;
 }>();
 </script>
 
@@ -20,37 +18,25 @@ defineProps<{
 		:actions="toolbarActions"
 		:menu-items="toolbarMenu"
 		:backable="backable"
-		:back="back"
+		:back-url="backUrl"
 		:title="title"
 		:share="share"
-		:class="className"
-		:centered="centeredToolbar"
 	>
 		<slot name="toolbar" />
 	</IrdomToolbar>
 
-	<div v-touch="touch" class="v-main-wrapper">
-		<v-main class="main">
-			<v-container class="container">
-				<slot />
-			</v-container>
-		</v-main>
-	</div>
+	<v-main class="main">
+		<v-container class="container">
+			<slot />
+		</v-container>
+	</v-main>
 </template>
 
 <style scoped>
 .main,
-.container,
-.v-main-wrapper {
-	height: 100%;
+.container {
 	width: 100%;
-}
-
-.profile-toolbar {
-	height: 165px !important;
-	z-index: 1 !important;
-	position: absolute !important;
-	text-align: center !important;
+	height: 100%;
 }
 
 .container {

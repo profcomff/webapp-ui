@@ -46,7 +46,7 @@ const createScope = async (e: Event) => {
 </script>
 
 <template>
-	<IrdomLayout title="Права доступа" backable back="/admin">
+	<IrdomLayout title="Права доступа" backable back-url="/admin">
 		<AccessRestricted :scope="scopename.auth.scope.read">
 			<ScopesTable
 				:scopes="authStore.scopes.values()"

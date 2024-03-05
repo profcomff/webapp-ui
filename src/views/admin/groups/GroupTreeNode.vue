@@ -20,7 +20,6 @@ const createGroup = async (e: Event) => {
 		const form = e.target as HTMLFormElement;
 		const formData = new FormData(form);
 
-		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 		const name = formData.get('new-group-name')!.toString();
 		const parentId = props.node.id;
 		const group = authStore.groups.get(parentId);

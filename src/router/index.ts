@@ -53,9 +53,14 @@ const router = createRouter({
 });
 
 router.beforeEach(async to => {
-	if (to.path === '/profile' && !LocalStorage.get(LocalStorageItem.Token)) {
+	const token = LocalStorage.get(LocalStorageItem.Token);
+	const isProfile = to.path.startsWith('/profile');
+	const isAuth = to.path.startsWith('/auth');
+
+	if (isProfile && !token) {
 		return { path: '/auth' };
-	} else if (to.path === '/auth' && LocalStorage.get(LocalStorageItem.Token)) {
+	}
+	if (isAuth && token) {
 		return { path: '/profile' };
 	}
 });

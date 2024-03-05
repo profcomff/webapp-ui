@@ -7,7 +7,7 @@ const route = useRoute();
 </script>
 
 <template>
-	<IrdomLayout title="Вход" backable back="/auth">
+	<IrdomLayout title="Вход" backable back-url="/auth">
 		<p>Произошла ошибка при входе в аккаунт</p>
 		<p>{{ route.query.text }}</p>
 		<RouterLink to="/auth" class="link">Вернуться к методам входа</RouterLink>

@@ -5,35 +5,31 @@ import DataRow from './DataRow.vue';
 import { getNameWithInitials } from '@/utils/personName';
 import { formatTime } from '@/utils/time';
 
-const props = defineProps<{ event: Event; info: Array<'lecturer' | 'group' | 'room'> }>();
+interface Props {
+	event: Event;
+	info: Array<'lecturer' | 'group' | 'room'>;
+}
+const props = defineProps<Props>();
 
 const info = computed(() => {
 	const arr: string[] = [];
 
 	if (props.info.includes('room')) {
-		arr.push(props.event.room?.map(r => r.name).join(', '));
+		arr.push(props.event.rooms?.map(room => room.name).join(', '));
 	}
 
 	if (props.info.includes('lecturer')) {
-		arr.push(
-			props.event.lecturer
-				?.map(({ first_name, last_name, middle_name }) =>
-					getNameWithInitials({
-						firstName: first_name,
-						lastName: last_name,
-						middleName: middle_name,
-					})
-				)
-				.join(', ')
-		);
+		arr.push(props.event.lecturers?.map(lecturer => getNameWithInitials(lecturer)).join(', '));
 	}
 
 	if (props.info.includes('group')) {
-		arr.push(props.event.group.map(g => g.number).join(', '));
+		arr.push(props.event.groups.map(group => group.number).join(', '));
 	}
 
 	return arr.filter(c => Boolean(c)).join(' • ');
 });
+const startTs = computed(() => formatTime(props.event.start_ts));
+const endTs = computed(() => formatTime(props.event.end_ts));
 </script>
 
 <template>
@@ -44,7 +40,13 @@ const info = computed(() => {
 		:href="`/timetable/event/${event.id}`"
 		clickable
 	>
-		<b>{{ formatTime(event.start_ts) }}</b>
-		<span>{{ formatTime(event.end_ts) }}</span>
+		<time :datetime="startTs" class="start-ts">{{ startTs }}</time>
+		<time :datetime="endTs">{{ endTs }}</time>
 	</DataRow>
 </template>
+
+<style scoped>
+.start-ts {
+	font-weight: bold;
+}
+</style>

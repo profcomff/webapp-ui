@@ -43,7 +43,7 @@ const submitHandler = async (event: Event) => {
 </script>
 
 <template>
-	<IrdomLayout title="Изменение пароля" backable back="/profile/settings">
+	<IrdomLayout title="Изменение пароля" backable back-url="/profile/settings">
 		<form class="form" @submit.prevent="submitHandler">
 			<v-text-field
 				variant="outlined"

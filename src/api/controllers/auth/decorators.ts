@@ -85,7 +85,6 @@ export function apply<F extends Func>(
 	...decoratorTuples: DecoratorTuple[]
 ): Func<ReturnType<F>, Parameters<F>> {
 	if (decoratorTuples.length) {
-		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 		const decoratorTuple = decoratorTuples.shift()!;
 		const decorator = decoratorTuple[0];
 		const args = decoratorTuple.slice(1) as unknown[];

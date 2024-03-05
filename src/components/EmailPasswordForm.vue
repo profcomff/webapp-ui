@@ -3,9 +3,6 @@ import { ToastType } from '@/models';
 import { useToastStore } from '@/store/toast';
 import { computed, ref } from 'vue';
 
-const checkPasswords = ref(false);
-checkPasswords.value = false;
-
 export interface SubmitData {
 	email: string;
 	password: string;
@@ -21,7 +18,10 @@ const emits = defineEmits<{
 
 const toastStore = useToastStore();
 
-const submitHandler = async (event: Event) => {
+const checkPasswords = ref(false);
+const buttonText = computed(() => (props.mode === 'login' ? 'Войти' : 'Зарегистрироваться'));
+
+async function submitHandler(event: Event) {
 	const form = event.target as HTMLFormElement;
 	const formData = new FormData(form);
 	const email = formData.get('email')?.toString();
@@ -42,9 +42,7 @@ const submitHandler = async (event: Event) => {
 			description: 'Пароли не совпадают',
 		});
 	}
-};
-
-const buttonText = computed(() => (props.mode === 'login' ? 'Войти' : 'Зарегистрироваться'));
+}
 </script>
 
 <template>
@@ -84,13 +82,10 @@ const buttonText = computed(() => (props.mode === 'login' ? 'Войти' : 'За
 			label="Повтор пароля"
 			required
 		/>
+		// TODO: проверка на совпадение паролей только при регистрации (мб вообще разделить на два
+		компонента)
 		<div v-if="checkPasswords" class="password-validate">Пароли должны совпадать</div>
-		<v-btn v-if="$props.mode === 'register'" type="submit" class="submit-register" color="#fff">{{
-			buttonText
-		}}</v-btn>
-		<v-btn v-if="$props.mode === 'login'" type="submit" class="submit-login" color="#fff">{{
-			buttonText
-		}}</v-btn>
+		<v-btn type="submit" color="#fff">{{ buttonText }}</v-btn>
 	</form>
 </template>
 
@@ -113,22 +108,6 @@ const buttonText = computed(() => (props.mode === 'login' ? 'Войти' : 'За
 	font-style: normal;
 	font-weight: 700;
 	line-height: normal;
-}
-
-.submit-login {
-	width: 100%;
-	max-width: 150px;
-	align-self: center;
-	margin: 5px auto 16px;
-	border-radius: 8px !important;
-}
-
-.submit-register {
-	width: 100%;
-	max-width: 200px;
-	align-self: center;
-	margin: 20px auto 16px;
-	border-radius: 8px !important;
 }
 
 .input {

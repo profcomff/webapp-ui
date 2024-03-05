@@ -12,7 +12,7 @@ const OnClick = async () => {
 </script>
 
 <template>
-	<IrdomLayout title="Настройки профиля" backable back="/profile">
+	<IrdomLayout title="Настройки профиля" backable back-url="/profile">
 		<div class="buttons">
 			<v-btn
 				prepend-icon="login"

@@ -107,7 +107,7 @@ button[aria-expanded='true'] .expander-icon {
 	left: 0;
 	right: 0;
 	z-index: 1000;
-	box-shadow: 0 2px 4px oklch(0% 0 0deg / 50%);
+	box-shadow: 0 2px 4px rgb(0 0 0 / 50%);
 	display: flex;
 	justify-content: center;
 	padding-bottom: 24px;

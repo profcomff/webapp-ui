@@ -14,7 +14,6 @@ const props = defineProps<{
 }>();
 
 const current = ref(props.items[route.path]);
-
 const items = computed(() => new Set(Object.values(props.items)));
 </script>
 

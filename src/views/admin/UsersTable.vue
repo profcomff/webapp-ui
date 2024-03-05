@@ -43,7 +43,7 @@ const sorted = computed(() => [...props.users].sort((a, b) => a.id - b.id));
 <style scoped>
 .row {
 	&:nth-child(even) {
-		background: oklch(0% 0 0deg / 8%);
+		background: rgb(0 0 0 / 8%);
 	}
 
 	@media screen and (width <= 575px) {

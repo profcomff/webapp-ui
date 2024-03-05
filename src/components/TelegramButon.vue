@@ -3,8 +3,9 @@ import { AuthMethod } from '@/api/auth';
 import { useProfileStore } from '@/store/profile';
 import { onMounted, ref } from 'vue';
 
-const telegram = ref<HTMLDivElement | null>(null);
 const profileStore = useProfileStore();
+
+const telegram = ref<HTMLDivElement | null>(null);
 
 onMounted(() => {
 	if (!profileStore.authMethods?.includes(AuthMethod.Telegram) && telegram.value) {

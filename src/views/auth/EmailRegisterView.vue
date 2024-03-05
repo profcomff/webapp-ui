@@ -17,7 +17,7 @@ const submitHandler = async ({ email, password }: SubmitData) => {
 </script>
 
 <template>
-	<IrdomLayout title="Регистрация" backable back="/auth">
+	<IrdomLayout title="Регистрация" backable back-url="/auth">
 		<div class="container">
 			<div>
 				<EmailPasswordForm mode="register" @submit="submitHandler" />

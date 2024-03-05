@@ -10,13 +10,11 @@ export interface AuthButton {
 	color?: string;
 }
 
-const props = withDefaults(
-	defineProps<{
-		button: AuthButton;
-		unlink?: boolean;
-	}>(),
-	{ unlink: false }
-);
+interface Props {
+	button: AuthButton;
+	unlink?: boolean;
+}
+const props = withDefaults(defineProps<Props>(), { unlink: false });
 
 const authUrl = ref<string | null>(null);
 
@@ -24,14 +22,14 @@ onMounted(async () => {
 	authUrl.value = await props.button.api.getAuthUrl();
 });
 
-const clickHandler = async () => {
+async function clickHandler() {
 	if (props.unlink) {
 		await props.button.api.unregister();
 		location.reload(); // TODO: придумать нормальное решение
 	} else if (authUrl.value) {
 		window.open(authUrl.value, '_self');
 	}
-};
+}
 </script>
 
 <template>
