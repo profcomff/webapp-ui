@@ -1,25 +1,49 @@
 <script setup lang="ts">
 import { stringifyDate } from '@/utils/date';
+import { computed, ref } from 'vue';
 
 const weekdays = ['пн', 'вт', 'ср', 'чт', 'пт', 'сб', 'вс'];
 
-const props = defineProps<{ selected: Date; modelValue: Date }>();
-const emits = defineEmits<{ 'update:modelValue': [value: Date] }>();
+const props = defineProps<{ modelValue: Date }>();
+const emit = defineEmits<{ 'update:modelValue': [value: Date] }>();
 
-const getDays = (date: Date) => new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate();
-const getItemDate = (day: number) =>
-	new Date(props.modelValue.getFullYear(), props.modelValue.getMonth(), day);
-const getItemStringDate = (day: number) => stringifyDate(getItemDate(day));
-const isCurrent = (day: number) => getItemStringDate(day) === stringifyDate(props.selected);
-const isToday = (day: number) => getItemStringDate(day) === stringifyDate(new Date());
-const getAriaLabel = (day: number) =>
-	getItemDate(day).toLocaleDateString('ru-RU', { day: 'numeric', month: 'long', year: 'numeric' });
+const date = ref(props.modelValue);
+const numberOfDays = computed(() =>
+	new Date(date.value.getFullYear(), date.value.getMonth() + 1, 0).getDate()
+);
 
-const changeMonthHandler = (offset: number) => {
-	const d = new Date(props.modelValue);
-	d.setMonth(d.getMonth() + offset);
-	emits('update:modelValue', d);
-};
+function changeMonthHandler(delta: number) {
+	date.value = new Date(
+		date.value.getFullYear(),
+		date.value.getMonth() + delta,
+		date.value.getDate()
+	);
+}
+
+function getItemDate(i: number) {
+	console.log(i, stringifyDate(new Date(date.value.getFullYear(), date.value.getMonth(), i)));
+	return new Date(date.value.getFullYear(), date.value.getMonth(), i);
+}
+
+function getItemStringDate(i: number) {
+	return stringifyDate(getItemDate(i));
+}
+
+function isToday(i: number) {
+	return stringifyDate(new Date()) === getItemStringDate(i);
+}
+
+function isCurrent(i: number) {
+	return stringifyDate(props.modelValue) === getItemStringDate(i);
+}
+
+function getAriaLabel(i: number) {
+	return getItemDate(i).toLocaleDateString('ru-RU');
+}
+
+function itemClickHandler(i: number) {
+	emit('update:modelValue', new Date(date.value.getFullYear(), date.value.getMonth(), i));
+}
 </script>
 
 <template>
@@ -36,7 +60,7 @@ const changeMonthHandler = (offset: number) => {
 			</button>
 
 			<span class="noselect">
-				{{ modelValue.toLocaleDateString('ru-RU', { month: 'long', year: 'numeric' }) }}
+				{{ date.toLocaleDateString('ru-RU', { month: 'long', year: 'numeric' }) }}
 			</span>
 
 			<button
@@ -57,18 +81,19 @@ const changeMonthHandler = (offset: number) => {
 			class="grid"
 		>
 			<span v-for="weekday of weekdays" :key="weekday" class="noselect weekday">{{ weekday }}</span>
-			<RouterLink
-				v-for="i in getDays(modelValue)"
+			<button
+				v-for="i in numberOfDays"
 				:key="i"
 				v-ripple
+				type="button"
 				class="day"
-				:to="`/timetable/${getItemStringDate(i)}`"
-				:class="['day', { current: isCurrent(i), today: isToday(i) && !isCurrent(i) }]"
+				:class="{ current: isCurrent(i), today: isToday(i) && !isCurrent(i) }"
 				:style="{ 'grid-column': i === 1 ? getItemDate(i).getDay() : 'unset' }"
 				:aria-label="getAriaLabel(i)"
+				@click="itemClickHandler(i)"
 			>
 				{{ i }}
-			</RouterLink>
+			</button>
 		</div>
 	</div>
 </template>

@@ -10,7 +10,7 @@ export const timetableRoutes: RouteRecordRaw[] = [
 		redirect: `/timetable/${stringifyDate(new Date())}`,
 	},
 	{
-		path: ':date(\\d{2}-\\d{2}-\\d{4})',
+		path: ':date(\\d{4}-\\d{2}-\\d{2})',
 		component: TimetableView,
 	},
 	{

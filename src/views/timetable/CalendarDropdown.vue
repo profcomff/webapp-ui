@@ -2,13 +2,17 @@
 import { ref } from 'vue';
 import { useTimetableStore } from '@/store/timetable';
 import IrdomCalendar from '@/components/IrdomCalendar.vue';
+import { useRouter } from 'vue-router';
+import { stringifyDate } from '@/utils/date';
+
+const props = defineProps<{ date: Date }>();
+
+const { group } = useTimetableStore();
+const router = useRouter();
 
 const show = ref(false);
 const expander = ref<HTMLButtonElement | null>(null);
 const calendar = ref<HTMLDivElement | null>(null);
-const { group } = useTimetableStore();
-
-const props = defineProps<{ date: Date }>();
 
 const innerDate = ref(props.date);
 const expanderClickHandler = () => {
@@ -28,6 +32,11 @@ const clickOutsideHandler = (e: MouseEvent) => {
 		innerDate.value = props.date;
 	}
 };
+
+function updateDateHandler(date: Date) {
+	show.value = false;
+	router.push(`/timetable/${stringifyDate(date)}`);
+}
 </script>
 
 <template>
@@ -57,7 +66,7 @@ const clickOutsideHandler = (e: MouseEvent) => {
 		:style="{ transform: `scaleY(${+show})` }"
 		class="dropdown"
 	>
-		<IrdomCalendar v-model="innerDate" :selected="date" />
+		<IrdomCalendar v-model="innerDate" :selected="date" @update:model-value="updateDateHandler" />
 	</div>
 </template>
 

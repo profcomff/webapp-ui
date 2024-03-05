@@ -5,7 +5,7 @@ import { computed, ref, watch } from 'vue';
 import AsyncEventsList from './AsyncEventsList.vue';
 import CalendarDropdown from './CalendarDropdown.vue';
 import { useTimetableStore } from '@/store/timetable';
-import { parseDate, stringifyDate, getDateWithDayOffset } from '@/utils/date';
+import { stringifyDate, getDateWithDayOffset } from '@/utils/date';
 import { LocalStorage, LocalStorageItem } from '@/models/LocalStorage';
 import { ToolbarActionItem, ToolbarMenuItem } from '@/components/IrdomToolbar.vue';
 import IrdomLayout from '@/components/IrdomLayout.vue';
@@ -39,7 +39,7 @@ const toolbarMenu: ToolbarMenuItem[] = [
 ];
 
 const date = computed(() => {
-	return parseDate(route.params.date as string);
+	return new Date(route.params.date as string);
 });
 
 // HACK: на каждое изменение даты обновляем компонент Suspense

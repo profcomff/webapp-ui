@@ -12,7 +12,7 @@ const props = defineProps<{
 	mode: 'login' | 'register';
 }>();
 
-const emits = defineEmits<{
+const emit = defineEmits<{
 	submit: [data: SubmitData];
 }>();
 
@@ -30,7 +30,7 @@ async function submitHandler(event: Event) {
 
 	if (password === repeat_password || props.mode === 'login') {
 		if (email && password) {
-			emits('submit', { email, password });
+			emit('submit', { email, password });
 		}
 	} else {
 		checkPasswords.value = true;
