@@ -59,7 +59,7 @@ export class TimetableApi {
 			lecturer_id: lecturerId,
 		});
 		if (data.items.length) {
-			setLecturers(data.items[0].lecturer);
+			setLecturers(data.items[0].lecturers);
 			setLecturerEvents(lecturerId, data.items);
 		}
 	}
@@ -72,7 +72,7 @@ export class TimetableApi {
 			room_id: roomId,
 		});
 		if (data.items.length) {
-			setRooms(data.items[0].room);
+			setRooms(data.items[0].rooms);
 			setRoomEvents(roomId, data.items);
 		}
 	}

@@ -43,7 +43,7 @@ const submitHandler = async (event: Event) => {
 </script>
 
 <template>
-	<IrdomLayout title="Изменение электронной почты" backable back="/profile/settings">
+	<IrdomLayout title="Изменение электронной почты" backable back-url="/profile/settings">
 		<div class="email">
 			Текущий адрес электронной почты:
 			<p class="email-text">{{ current_email }}</p>

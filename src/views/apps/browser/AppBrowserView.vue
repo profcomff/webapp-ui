@@ -21,7 +21,7 @@ const url = computed(() => {
 </script>
 
 <template>
-	<IrdomToolbar backable :back="back" :title="(route.query.title as string) ?? undefined" />
+	<IrdomToolbar backable :back-url="back" :title="(route.query.title as string) ?? undefined" />
 	<v-main>
 		<iframe :src="url" frameborder="0" class="iframe" allow="camera" />
 	</v-main>

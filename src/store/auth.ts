@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { GroupInfo } from './../api/auth/AuthGroupApi';
 import { Group, Scope, User } from '@/api/models';
 import { defineStore } from 'pinia';

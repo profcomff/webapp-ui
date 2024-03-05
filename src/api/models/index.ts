@@ -16,9 +16,9 @@ export interface StudyGroup extends Entity {
 
 export interface Event extends Entity {
 	name: string;
-	room: Room[];
-	group: StudyGroup[];
-	lecturer: Lecturer[];
+	rooms: Room[];
+	groups: StudyGroup[];
+	lecturers: Lecturer[];
 	start_ts: string;
 	end_ts: string;
 }

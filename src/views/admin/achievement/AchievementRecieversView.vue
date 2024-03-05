@@ -34,7 +34,7 @@ const give = (user_id: number | undefined) => {
 </script>
 
 <template>
-	<IrdomLayout title="Управление достижениями" backable :back="back">
+	<IrdomLayout title="Управление достижениями" backable :back-url="back">
 		<AccessRestricted :scope="scopename.achievements.achievement.create">
 			<v-row class="row" align-content="stretch">
 				<v-card>

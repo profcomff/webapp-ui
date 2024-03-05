@@ -9,7 +9,7 @@ const back = history.state.back?.startsWith('/timetable/event') ? history.state.
 </script>
 
 <template>
-	<IrdomLayout backable :back="back" share title="Преподаватель">
+	<IrdomLayout backable :back-url="back" share title="Преподаватель">
 		<Suspense>
 			<AsyncLecturerInfo :id="+route.params.id" />
 			<template #fallback> Загрузка... </template>

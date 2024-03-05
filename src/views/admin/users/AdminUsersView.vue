@@ -17,7 +17,7 @@ const back = history.state.back?.startsWith('/admin') ? history.state.back : '/a
 </script>
 
 <template>
-	<IrdomLayout title="Пользователи" backable :back="back">
+	<IrdomLayout title="Пользователи" backable :back-url="back">
 		<AccessRestricted :scope="scopename.auth.user.read">
 			<UsersTable :users="authStore.users.values()" delete-icon="delete_forever" />
 		</AccessRestricted>

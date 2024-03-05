@@ -10,18 +10,18 @@ defineProps<Props>();
 </script>
 
 <template>
-	<div v-ripple :class="['row', { clickable }]">
+	<div v-ripple :class="{ clickable }" class="row">
 		<div class="slot">
 			<slot />
 		</div>
 		<div class="data">
 			<div class="title">
-				<RouterLink v-if="href" :to="href" class="title-link">{{ title }}</RouterLink>
-				<template v-else>
+				<RouterLink v-if="href" :to="href" class="title-link title">{{ title }}</RouterLink>
+				<p v-else class="title">
 					{{ title }}
-				</template>
+				</p>
 			</div>
-			<div class="info">{{ info }}</div>
+			<p class="info">{{ info }}</p>
 		</div>
 	</div>
 </template>

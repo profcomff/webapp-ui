@@ -27,7 +27,7 @@ const canUnlinked = computed(() =>
 </script>
 
 <template>
-	<IrdomLayout title="Методы авторизации" backable back="/profile">
+	<IrdomLayout title="Методы авторизации" backable back-url="/profile">
 		<section v-if="profileStore.authMethods?.length !== 8" class="section">
 			<h2>Привязать аккаунт</h2>
 			<div class="buttons">

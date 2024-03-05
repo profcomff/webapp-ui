@@ -143,12 +143,12 @@ const sendMarketing = (url: string) => {
 		align-items: center;
 		font-size: 14px;
 		text-align: center;
-		box-shadow: 0 0 20px oklch(0% 0 0deg / 10%);
+		box-shadow: 0 0 20px rgb(0 0 0 / 10%);
 		transition: all 0.3s ease;
 
 		&:hover {
 			transform: translateY(-4px);
-			box-shadow: 0 0 24px oklch(0% 0 0deg / 12%);
+			box-shadow: 0 0 24px rgb(0 0 0 / 12%);
 		}
 	}
 }

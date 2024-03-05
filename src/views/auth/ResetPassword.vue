@@ -33,7 +33,7 @@ const submitHandler = async (event: Event) => {
 </script>
 
 <template>
-	<IrdomLayout title="Восстановление доступа" backable back="/auth">
+	<IrdomLayout title="Восстановление доступа" backable back-url="/auth">
 		<div class="container">
 			<div>
 				<form class="form" @submit.prevent="submitHandler">
