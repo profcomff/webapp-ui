@@ -56,8 +56,8 @@ interface Lecturer {
 const lecturers = computed(() => {
 	const arr: Lecturer[] = [];
 
-	if (event.value?.lecturers) {
-		for (const { id, first_name, middle_name, last_name } of event.value.lecturers) {
+	if (event.value?.lecturer) {
+		for (const { id, first_name, middle_name, last_name } of event.value.lecturer) {
 			arr.push({
 				id,
 				title: lecturerTitle({ first_name, middle_name, last_name }),
@@ -73,7 +73,7 @@ const lecturers = computed(() => {
 <template>
 	<h2 class="h2">{{ event?.name }}</h2>
 
-	<DataRow title="Группа" :info="event?.groups.map(g => g.number).join(', ')" class="row">
+	<DataRow title="Группа" :info="event?.group.map(g => g.number).join(', ') ?? ''" class="row">
 		<v-icon icon="group" class="icon" />
 	</DataRow>
 
@@ -82,7 +82,7 @@ const lecturers = computed(() => {
 	</DataRow>
 
 	<DataRow
-		v-for="{ name, id: roomId } of event?.rooms"
+		v-for="{ name, id: roomId } of event?.room"
 		:key="roomId"
 		:title="name"
 		class="row"

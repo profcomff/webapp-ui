@@ -10,23 +10,9 @@ export const getDateWithDayOffset = (date: Date, offset: number) => {
 	return d;
 };
 
-export const parseDate = (value: string) => {
-	const [day, month, year] = value.split('-').map(v => Number(v));
-	return new Date(year, month - 1, day);
-};
-
 export const stringifyDate = (date: Date) => {
 	const day = date.getDate();
-	const month = date.getMonth();
+	const month = date.getMonth() + 1;
 	const year = date.getFullYear();
-
-	return `${lz(day)}-${lz(month + 1)}-${year}`;
-};
-
-export const stringifyDateIso = (date: Date) => {
-	const day = date.getDate();
-	const month = date.getMonth();
-	const year = date.getFullYear();
-
-	return `${year}-${lz(month + 1)}-${lz(day)}`;
+	return `${year}-${lz(month)}-${lz(day)}`;
 };

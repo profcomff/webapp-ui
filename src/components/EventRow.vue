@@ -15,15 +15,15 @@ const info = computed(() => {
 	const arr: string[] = [];
 
 	if (props.info.includes('room')) {
-		arr.push(props.event.rooms?.map(room => room.name).join(', '));
+		arr.push(props.event.room?.map(room => room.name).join(', '));
 	}
 
 	if (props.info.includes('lecturer')) {
-		arr.push(props.event.lecturers?.map(lecturer => getNameWithInitials(lecturer)).join(', '));
+		arr.push(props.event.lecturer?.map(lecturer => getNameWithInitials(lecturer)).join(', '));
 	}
 
 	if (props.info.includes('group')) {
-		arr.push(props.event.groups.map(group => group.number).join(', '));
+		arr.push(props.event.group.map(group => group.number).join(', '));
 	}
 
 	return arr.filter(c => Boolean(c)).join(' • ');

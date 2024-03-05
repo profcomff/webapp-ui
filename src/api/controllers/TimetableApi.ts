@@ -1,4 +1,4 @@
-import { stringifyDateIso, getDateWithDayOffset } from './../../utils/date';
+import { stringifyDate, getDateWithDayOffset } from './../../utils/date';
 import { timetableEventApi, GetEventsParams } from './../timetable/TimetableEventApi';
 import { timetableRoomApi } from './../timetable/TimetableRoomApi';
 import { useTimetableStore } from './../../store/timetable';
@@ -44,8 +44,8 @@ export class TimetableApi {
 	public static async getDayEvents(date: Date, groupId: number) {
 		const { setDay } = useTimetableStore();
 		const { data } = await timetableEventApi.getAll({
-			start: stringifyDateIso(date),
-			end: stringifyDateIso(getDateWithDayOffset(date, 1)),
+			start: stringifyDate(date),
+			end: stringifyDate(getDateWithDayOffset(date, 1)),
 			group_id: groupId,
 		});
 		setDay(date, data.items);
@@ -54,12 +54,12 @@ export class TimetableApi {
 	public static async getLecturerEvents(lecturerId: number) {
 		const { setLecturerEvents, setLecturers } = useTimetableStore();
 		const { data } = await timetableEventApi.getAll({
-			start: stringifyDateIso(new Date()),
-			end: stringifyDateIso(getDateWithDayOffset(new Date(), 1)),
+			start: stringifyDate(new Date()),
+			end: stringifyDate(getDateWithDayOffset(new Date(), 1)),
 			lecturer_id: lecturerId,
 		});
 		if (data.items.length) {
-			setLecturers(data.items[0].lecturers);
+			setLecturers(data.items[0].lecturer);
 			setLecturerEvents(lecturerId, data.items);
 		}
 	}
@@ -67,12 +67,12 @@ export class TimetableApi {
 	public static async getRoomEvents(roomId: number) {
 		const { setRoomEvents, setRooms } = useTimetableStore();
 		const { data } = await timetableEventApi.getAll({
-			start: stringifyDateIso(new Date()),
-			end: stringifyDateIso(getDateWithDayOffset(new Date(), 1)),
+			start: stringifyDate(new Date()),
+			end: stringifyDate(getDateWithDayOffset(new Date(), 1)),
 			room_id: roomId,
 		});
 		if (data.items.length) {
-			setRooms(data.items[0].rooms);
+			setRooms(data.items[0].room);
 			setRoomEvents(roomId, data.items);
 		}
 	}

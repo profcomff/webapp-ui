@@ -1,21 +1,7 @@
 import { describe, it, expect } from 'vitest';
-import {
-	parseDate,
-	stringifyDate,
-	getWeekdayName,
-	getDateWithDayOffset,
-	stringifyDateIso,
-} from './date';
+import { getWeekdayName, getDateWithDayOffset } from './date';
 
 describe('Convert date functions:', () => {
-	it('should parse/stringify date by common format dd-mm-yyyy', () => {
-		expect(parseDate('01-07-2003')).toEqual(new Date(2003, 6, 1));
-		expect(stringifyDate(new Date(2003, 6, 1))).toBe('01-07-2003');
-
-		expect(parseDate(stringifyDate(new Date(2003, 6, 1)))).toEqual(new Date(2003, 6, 1));
-		expect(stringifyDate(parseDate('01-07-2003'))).toBe('01-07-2003');
-	});
-
 	it('should return correct weekday names', () => {
 		expect(getWeekdayName(new Date(2023, 2, 13)).toLowerCase()).toBe('пн');
 		expect(getWeekdayName(new Date(2023, 2, 14)).toLowerCase()).toBe('вт');
@@ -43,9 +29,5 @@ describe('Convert date functions:', () => {
 		expect(getWeekdayName(getDateWithDayOffset(date, -4))).toBe('чт');
 		expect(getWeekdayName(getDateWithDayOffset(date, -5))).toBe('ср');
 		expect(getWeekdayName(getDateWithDayOffset(date, -6))).toBe('вт');
-	});
-
-	it('should correct stringify date to ISO format', () => {
-		expect(stringifyDateIso(new Date(2023, 2, 13))).toBe('2023-03-13');
 	});
 });
