@@ -28,23 +28,23 @@ onMounted(async () => {
 		MySessionInfo.Groups,
 		MySessionInfo.IndirectGroups,
 		MySessionInfo.SessionScopes,
-		MySessionInfo.UserScopes
+		MySessionInfo.UserScopes,
 	]);
 	const { data: user } = await UserdataApi.getUser(me.id);
 	const { data } = await UserdataApi.getCategories();
 	fullName_item.value = UserdataConverter.getItem(user, {
 		category: UserdataCategoryName.PersonalInfo,
-		param: UserdataParams.FullName
+		param: UserdataParams.FullName,
 	});
 	photoURL_item.value = UserdataConverter.getItem(user, {
 		category: UserdataCategoryName.PersonalInfo,
-		param: UserdataParams.Photo
+		param: UserdataParams.Photo,
 	});
 	fullName.value = fullName_item.value?.name ?? '[object Object]';
 	photoURL.value = photoURL_item.value?.name ?? Placeholder;
 	userdata.value = UserdataConverter.uniteWithUserCategories(
 		UserdataConverter.categoryToFlat(data),
-		user
+		user,
 	);
 });
 
@@ -54,14 +54,14 @@ async function saveEdit() {
 		MySessionInfo.Groups,
 		MySessionInfo.IndirectGroups,
 		MySessionInfo.SessionScopes,
-		MySessionInfo.UserScopes
+		MySessionInfo.UserScopes,
 	]);
 	const updateBody = UserdataConverter.arrayToUpdate(userdata.value, 'user', [
 		{
 			category: UserdataCategoryName.PersonalInfo,
 			param: UserdataParams.FullName,
-			value: fullName.value
-		}
+			value: fullName.value,
+		},
 	]);
 	await UserdataApi.patchUserById(me.id, updateBody);
 	router.push('/profile');

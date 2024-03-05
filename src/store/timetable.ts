@@ -106,6 +106,6 @@ export const useTimetableStore = defineStore('timetable', () => {
 		setEvents,
 		setDay,
 		setLecturerEvents,
-		setRoomEvents
+		setRoomEvents,
 	};
 });

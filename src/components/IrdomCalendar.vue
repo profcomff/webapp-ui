@@ -53,7 +53,7 @@ const changeMonthHandler = (offset: number) => {
 		<div
 			v-touch="{
 				left: () => changeMonthHandler(1),
-				right: () => changeMonthHandler(-1)
+				right: () => changeMonthHandler(-1),
 			}"
 			class="grid"
 		>

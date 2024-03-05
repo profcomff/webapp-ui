@@ -10,10 +10,10 @@ const authStore = useAuthStore();
 onMounted(async () => {
 	if (authStore.groups.size === 0) {
 		const {
-			data: { items: groups }
+			data: { items: groups },
 		} = await authGroupApi.getGroups<GroupInfo.Children | GroupInfo.Scopes>([
 			GroupInfo.Children,
-			GroupInfo.Scopes
+			GroupInfo.Scopes,
 		]);
 
 		for (const group of groups) {

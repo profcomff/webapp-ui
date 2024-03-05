@@ -19,7 +19,7 @@ class UserdataParamApi extends UserdataBaseApi {
 	public async create(categoryId: number, body: Omit<UserdataParam, 'id' | 'category_id'>) {
 		return this.post<UserdataParam, Omit<UserdataParam, 'id' | 'category_id'>>(
 			`/${categoryId}/param`,
-			body
+			body,
 		);
 	}
 
@@ -33,11 +33,11 @@ class UserdataParamApi extends UserdataBaseApi {
 
 	public async patchById(
 		{ id, categoryId }: Args,
-		body: Omit<UserdataParam, 'id' | 'category_id'>
+		body: Omit<UserdataParam, 'id' | 'category_id'>,
 	) {
 		return this.patch<UserdataParamApi, Omit<UserdataParam, 'id' | 'category_id'>>(
 			`/${categoryId}/param/${id}`,
-			body
+			body,
 		);
 	}
 }

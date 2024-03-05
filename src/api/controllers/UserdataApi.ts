@@ -7,18 +7,18 @@ export class UserdataApi {
 	static getUser = apply(
 		async (id: number) => await userdataUserApi.getById(id),
 		[checkToken],
-		[showErrorToast]
+		[showErrorToast],
 	);
 
 	static getCategories = apply(
 		async () => await userdataCategoryApi.getAllWithParams(),
 		[checkToken],
-		[showErrorToast]
+		[showErrorToast],
 	);
 
 	static patchUserById = apply(
 		async (id: number, body: UserdataUpdateUser) => await userdataUserApi.patchById(id, body),
 		[checkToken],
-		[showErrorToast]
+		[showErrorToast],
 	);
 }

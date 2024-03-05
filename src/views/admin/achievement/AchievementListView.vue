@@ -21,7 +21,7 @@ onMounted(async () => {
 const createAchievement = async (
 	new_name: string,
 	new_description: string,
-	new_pic: File[] | undefined
+	new_pic: File[] | undefined,
 ) => {
 	if (new_pic === undefined || new_pic.length !== 1) return;
 
@@ -30,7 +30,7 @@ const createAchievement = async (
 			achiements.value.unshift(resp.data);
 			created.value = true;
 		},
-		() => (created.value = false)
+		() => (created.value = false),
 	);
 };
 
@@ -71,7 +71,7 @@ const back = history.state.back?.startsWith('/admin') ? history.state.back : '/a
 											value[0].size < 200000 ||
 											'Размер изображения не должен превышать 200 KB!'
 										);
-									}
+									},
 								]"
 							></v-file-input>
 							<v-text-field v-model="new_name" label="Названние"></v-text-field>

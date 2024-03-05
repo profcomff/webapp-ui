@@ -5,7 +5,7 @@ const props = withDefaults(defineProps<{ text: string }>(), { text: '' });
 const markdown = new Markdown({
 	breaks: true,
 	linkify: true,
-	quotes: '«»„“'
+	quotes: '«»„“',
 });
 </script>
 

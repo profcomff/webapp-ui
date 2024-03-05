@@ -27,7 +27,7 @@ async function handleAccept() {
 			if (e.response && e.response.status == 401) {
 				return {
 					path: '/auth/error',
-					query: { text: 'Переданы неверные данные для входа' }
+					query: { text: 'Переданы неверные данные для входа' },
 				};
 			}
 		}

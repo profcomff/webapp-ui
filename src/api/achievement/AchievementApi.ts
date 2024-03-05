@@ -34,7 +34,7 @@ class AchievementApi extends BaseApi {
 		form.append('picture_file', picture);
 
 		return this.post<AchievementGet, AchievementCreate>('/achievement', { name, description }).then(
-			resp => this.patch<AchievementGet, FormData>(`/achievement/${resp.data.id}/picture`, form)
+			resp => this.patch<AchievementGet, FormData>(`/achievement/${resp.data.id}/picture`, form),
 		);
 	}
 

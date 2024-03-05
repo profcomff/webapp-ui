@@ -5,7 +5,7 @@ import { computed } from 'vue';
 import GroupsListItem from './GroupsListItem.vue';
 
 const props = withDefaults(defineProps<{ query?: string }>(), {
-	query: ''
+	query: '',
 });
 
 const data = await timetableGroupApi.getAll({ limit: 1000 }).then(({ data }) => data.items);
@@ -34,9 +34,9 @@ const sorted = computed(() =>
 			'5': [],
 			'6': [],
 			'1м': [],
-			'2м': []
-		} as Record<string, StudyGroup[]>
-	)
+			'2м': [],
+		} as Record<string, StudyGroup[]>,
+	),
 );
 </script>
 

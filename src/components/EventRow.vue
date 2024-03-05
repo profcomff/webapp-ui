@@ -21,10 +21,10 @@ const info = computed(() => {
 					getNameWithInitials({
 						firstName: first_name,
 						lastName: last_name,
-						middleName: middle_name
-					})
+						middleName: middle_name,
+					}),
 				)
-				.join(', ')
+				.join(', '),
 		);
 	}
 

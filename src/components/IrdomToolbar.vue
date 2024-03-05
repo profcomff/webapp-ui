@@ -37,7 +37,7 @@ const props = withDefaults(defineProps<Props>(), {
 	share: false,
 	backable: false,
 	back: undefined,
-	centered: false
+	centered: false,
 });
 
 const invisibleButtons = computed(() => {
@@ -46,14 +46,14 @@ const invisibleButtons = computed(() => {
 		: 0;
 });
 const leftInvisibleButtons = computed(() =>
-	invisibleButtons.value > 0 ? invisibleButtons.value : 0
+	invisibleButtons.value > 0 ? invisibleButtons.value : 0,
 );
 const rightInvisibleButtons = computed(() =>
-	invisibleButtons.value < 0 ? -invisibleButtons.value : 0
+	invisibleButtons.value < 0 ? -invisibleButtons.value : 0,
 );
 
 const data = {
-	url: route.fullPath
+	url: route.fullPath,
 };
 const canShare = navigator.canShare && navigator.canShare(data);
 const shareHandler = async () => {
@@ -62,7 +62,7 @@ const shareHandler = async () => {
 		marketingApi.writeAction({
 			action: 'share',
 			user_id: profileStore.marketingId,
-			additional_data: JSON.stringify(data)
+			additional_data: JSON.stringify(data),
 		});
 	}
 };

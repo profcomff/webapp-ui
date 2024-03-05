@@ -8,14 +8,14 @@ const flatResposne: UserdataRaw = {
 		{
 			category: 'Address',
 			param: 'street',
-			value: 'Моховая'
+			value: 'Моховая',
 		},
 		{
 			category: 'Address',
 			param: 'city',
-			value: 'Москва'
-		}
-	]
+			value: 'Москва',
+		},
+	],
 };
 
 const treeSheet: UserdataTreeSheet = new Map([
@@ -25,8 +25,8 @@ const treeSheet: UserdataTreeSheet = new Map([
 			name: 'Моховая',
 			is_required: false,
 			changeable: true,
-			type: UserdataParamResponseType.All
-		}
+			type: UserdataParamResponseType.All,
+		},
 	],
 	[
 		'city',
@@ -34,9 +34,9 @@ const treeSheet: UserdataTreeSheet = new Map([
 			name: 'Москва',
 			is_required: false,
 			changeable: true,
-			type: UserdataParamResponseType.All
-		}
-	]
+			type: UserdataParamResponseType.All,
+		},
+	],
 ]);
 
 const expectedObject: UserdataTree = new Map([['Address', treeSheet]]);
@@ -50,8 +50,8 @@ const arrayItem: UserdataArrayItem = {
 				name: 'Моховая',
 				is_required: false,
 				changeable: true,
-				type: UserdataParamResponseType.All
-			}
+				type: UserdataParamResponseType.All,
+			},
 		},
 		{
 			param: 'city',
@@ -59,10 +59,10 @@ const arrayItem: UserdataArrayItem = {
 				name: 'Москва',
 				is_required: false,
 				changeable: true,
-				type: UserdataParamResponseType.All
-			}
-		}
-	]
+				type: UserdataParamResponseType.All,
+			},
+		},
+	],
 };
 
 describe('Userdata converter:', () => {

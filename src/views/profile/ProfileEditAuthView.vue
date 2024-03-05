@@ -18,11 +18,11 @@ onMounted(async () => {
 
 const canLinked = computed(() =>
 	authButtons.filter(
-		({ method }) => !profileStore.authMethods?.includes(method) && method !== AuthMethod.Telegram
-	)
+		({ method }) => !profileStore.authMethods?.includes(method) && method !== AuthMethod.Telegram,
+	),
 );
 const canUnlinked = computed(() =>
-	authButtons.filter(({ method }) => profileStore.authMethods?.includes(method))
+	authButtons.filter(({ method }) => profileStore.authMethods?.includes(method)),
 );
 </script>
 

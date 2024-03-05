@@ -17,7 +17,7 @@ const updateSW = registerSW({
 		if (isUpdate) {
 			updateSW();
 		}
-	}
+	},
 });
 
 createApp(App).use(router).use(pinia).use(vuetify).mount('#app');

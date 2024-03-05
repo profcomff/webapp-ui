@@ -28,7 +28,7 @@ const fullName = computed(() => {
 const imgUrl = computed(() =>
 	lecturer.value?.avatar_link
 		? `${import.meta.env.VITE_API_URL}${lecturer.value?.avatar_link}`
-		: Placeholder
+		: Placeholder,
 );
 </script>
 

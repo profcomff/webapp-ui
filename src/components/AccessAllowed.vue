@@ -3,7 +3,7 @@ import { useProfileStore } from '@/store/profile';
 
 const { hasTokenAccess } = useProfileStore();
 withDefaults(defineProps<{ scope: string; noFallback?: boolean }>(), {
-	noFallback: false
+	noFallback: false,
 });
 </script>
 
