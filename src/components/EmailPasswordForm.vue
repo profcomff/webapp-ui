@@ -82,10 +82,10 @@ async function submitHandler(event: Event) {
 			label="Повтор пароля"
 			required
 		/>
-		// TODO: проверка на совпадение паролей только при регистрации (мб вообще разделить на два
-		компонента)
+		<!-- TODO: проверка на совпадение паролей только при регистрации (мб вообще разделить на два компонента)-->
+
 		<div v-if="checkPasswords" class="password-validate">Пароли должны совпадать</div>
-		<v-btn type="submit" color="#fff">{{ buttonText }}</v-btn>
+		<v-btn type="submit" size="large" class="submit">{{ buttonText }}</v-btn>
 	</form>
 </template>
 
@@ -93,7 +93,6 @@ async function submitHandler(event: Event) {
 .field {
 	text-align: left;
 	width: 100%;
-	max-width: 400px;
 	align-self: center;
 }
 
@@ -114,7 +113,6 @@ async function submitHandler(event: Event) {
 	align-self: center;
 	align-items: center;
 	width: 100%;
-	max-width: 400px;
 	margin: 0 auto 5px;
 }
 
@@ -122,6 +120,7 @@ async function submitHandler(event: Event) {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
+	width: min(400px, 100%);
 }
 
 .password-validate {
@@ -132,5 +131,9 @@ async function submitHandler(event: Event) {
 	line-height: normal;
 	margin: 0 auto;
 	text-align: center;
+}
+
+.submit {
+	width: 100%;
 }
 </style>

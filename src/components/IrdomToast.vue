@@ -26,16 +26,17 @@ const icon = computed(() => {
 	<div class="toast">
 		<v-icon :icon="icon" />
 		<div class="description">
-			<div class="header">
-				<b class="title">{{ props.toast.title }}</b>
-				<div>
-					<v-btn type="button" class="close" @click="$emit('close')">
-						<v-icon icon="close" />
-					</v-btn>
-				</div>
-			</div>
+			<h6 class="title">{{ props.toast.title }}</h6>
 			<p>{{ props.toast.description }}</p>
 		</div>
+		<v-btn
+			type="button"
+			class="close"
+			icon="close"
+			size="xs"
+			variant="plain"
+			@click="$emit('close')"
+		/>
 	</div>
 </template>
 
@@ -47,25 +48,10 @@ const icon = computed(() => {
 	background: white;
 	border-radius: 4px;
 	padding: 14px 16px;
+	align-items: center;
 }
 
 .title {
-	font-size: 18px;
-	display: block;
-}
-
-.header {
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	margin-bottom: 4px;
-}
-
-.close {
-	display: flex;
-}
-
-.description {
-	flex: 1;
+	font-size: 16px;
 }
 </style>

@@ -8,9 +8,11 @@ import { useRouter } from 'vue-router';
 import IrdomLayout from '@/components/IrdomLayout.vue';
 import { useProfileStore } from '@/store/profile';
 import { useToolbar } from '@/store/toolbar';
+import { useToastStore } from '@/store/toast';
 
 const router = useRouter();
 const toolbar = useToolbar();
+const toastStore = useToastStore();
 
 toolbar.setup({
 	title: 'Вход',
@@ -40,6 +42,7 @@ onMounted(async () => {
 		if (resp.status === 200 && resp.data.token) {
 			LocalStorage.set(LocalStorageItem.Token, resp.data.token);
 			profileStore.updateToken();
+			toastStore.push({ title: 'Вы успешно вошли в аккаунт' });
 			return router.replace({ path: '/profile' });
 		}
 

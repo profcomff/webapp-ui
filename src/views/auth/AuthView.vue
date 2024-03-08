@@ -25,39 +25,44 @@ const submitHandler = async ({ email, password }: SubmitData) => {
 </script>
 
 <template>
-	<IrdomLayout>
-		<div class="container">
-			<div>
-				<EmailPasswordForm mode="login" @submit="submitHandler" />
-				<div class="buttons">
-					<IrdomAuthButton
-						v-for="i in 3"
-						:key="authButtons[i - 1].name"
-						type="button"
-						:button="authButtons[i - 1]"
-						class="button"
-					/>
-					<v-btn class="button" color="#fff" @click="router.push('/auth/all')">
-						<template #prepend>
-							<v-icon icon="more_horiz" />
-						</template>
-						Другие сервисы</v-btn
-					>
-				</div>
-				<div v-if="route.query.plan" class="restore">
-					На вашу почту отправлено письмо для восстановления доступа к аккаунту
-				</div>
+	<IrdomLayout class="container">
+		<EmailPasswordForm mode="login" @submit="submitHandler" />
+		<div class="buttons">
+			<IrdomAuthButton
+				v-for="i in 3"
+				:key="authButtons[i - 1].name"
+				type="button"
+				:button="authButtons[i - 1]"
+				variant="flat"
+				size="large"
+				class="button"
+			/>
+			<v-btn
+				variant="flat"
+				class="button"
+				size="large"
+				color="#cccccc"
+				@click="router.push('/auth/all')"
+			>
+				<template #prepend>
+					<v-icon icon="more_horiz" />
+				</template>
+				Другие сервисы</v-btn
+			>
+		</div>
+		<div v-if="route.query.plan" class="restore">
+			На вашу почту отправлено письмо для восстановления доступа к аккаунту
+		</div>
+
+		<div>
+			<div class="link-text-register">
+				Еще нет профиля? <RouterLink to="/auth/register-email">Зарегистрируйтесь</RouterLink>
 			</div>
-			<div>
-				<div class="link-text-register">
-					Еще нет профиля? <RouterLink to="/auth/register-email">Зарегистрируйтесь</RouterLink>
-				</div>
-				<div class="link-text-politics">
-					При регистрации и входе вы соглашаетесь
-					<a href="https://pages.profcomff.com/tvoy_ff_privacy_policy"
-						>с политикой обработки данных</a
-					>
-				</div>
+			<div class="link-text-politics">
+				При регистрации и входе вы соглашаетесь
+				<RouterLink to="/apps/browser#https://pages.profcomff.com/tvoy_ff_privacy_policy"
+					>с политикой обработки данных</RouterLink
+				>
 			</div>
 		</div>
 	</IrdomLayout>
@@ -107,18 +112,19 @@ const submitHandler = async ({ email, password }: SubmitData) => {
 	grid-template-columns: 1fr 1fr;
 	display: grid;
 	gap: 16px;
-	max-width: 400px;
-}
 
-.button {
-	overflow-x: hidden;
-	border-radius: 8px !important;
+	@media screen and (width <= 400px) {
+		grid-template-columns: 1fr;
+	}
 }
 
 .container {
-	height: 100%;
-	display: flex;
-	flex-direction: column;
 	justify-content: space-between;
+	align-items: center;
+}
+
+.button {
+	border-radius: 4px !important;
+	overflow: hidden;
 }
 </style>

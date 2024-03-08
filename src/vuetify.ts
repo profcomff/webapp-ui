@@ -43,7 +43,7 @@ export const vuetify = createVuetify({
 		},
 		VAppBar: {
 			style:
-				'background-color: rgb(var(--v-theme-primary)); color: rgb(var(--v-theme-on-primary)); overflow: visible;',
+				'background-color: rgb(var(--v-theme-primary)); color: rgb(var(--v-theme-on-primary));',
 		},
 		VList: {
 			style:
