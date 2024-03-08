@@ -22,8 +22,10 @@ toolbar.setup({
 					<IrdomAuthButton
 						v-for="button of authButtons.filter(({ method }) => method !== AuthMethod.Telegram)"
 						:key="button.name"
-						class="button"
 						:button="button"
+						variant="flat"
+						size="large"
+						class="button"
 					/>
 					<TelegramButon class="button" />
 					<div ref="telegram" />
@@ -68,16 +70,16 @@ toolbar.setup({
 	align-self: center !important;
 }
 
-.button {
-	border-radius: 8px !important;
-}
-
 .buttons {
 	margin: 30px auto 0;
 	grid-template-columns: 200px 200px;
 	display: grid;
 	gap: 16px;
 	max-width: 400px;
+
+	@media screen and (width <= 400px) {
+		grid-template-columns: 1fr;
+	}
 }
 
 .link-text-register {
@@ -113,5 +115,9 @@ toolbar.setup({
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
+}
+
+.button {
+	border-radius: 4px !important;
 }
 </style>

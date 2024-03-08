@@ -19,13 +19,10 @@ const toastStore = useToastStore();
 <style scoped>
 .toast-list {
 	position: fixed;
-	left: 0;
-	right: 0;
-	top: 70%;
-	z-index: 10;
-	width: min(100%, 344px);
-	margin: 0 auto;
-	padding-bottom: 16px;
+	bottom: 72px;
+	left: 50%;
+	transform: translateX(-50%);
+	z-index: 999;
 	display: flex;
 	flex-direction: column;
 	gap: 16px;

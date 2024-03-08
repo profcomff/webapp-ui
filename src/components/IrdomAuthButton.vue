@@ -34,15 +34,12 @@ async function clickHandler() {
 
 <template>
 	<v-btn type="button" :color="button.color" @click="clickHandler">
-		<svg width="24" height="24" class="icon">
-			<use :xlink:href="button.icon" />
-		</svg>
+		<template #prepend>
+			<svg width="24" height="24" class="icon">
+				<use :xlink:href="button.icon" />
+			</svg>
+		</template>
+
 		{{ button.name }}
 	</v-btn>
 </template>
-
-<style scoped>
-.icon {
-	margin-right: 11px;
-}
-</style>
