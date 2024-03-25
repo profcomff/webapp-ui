@@ -118,11 +118,21 @@ export interface UserdataParam extends Entity {
 export interface UserdataRawItem {
 	category: string;
 	param: string;
-	value: UserdataExtendedValue | string;
+	value: string;
+}
+
+export interface UserdataItem {
+	category: string;
+	param: string;
+	value: UserdataExtendedValue;
 }
 
 export interface UserdataRaw {
 	items: UserdataRawItem[];
+}
+
+export interface Userdata {
+	items: UserdataItem[];
 }
 
 export interface UserdataExtendedValue {

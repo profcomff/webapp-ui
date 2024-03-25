@@ -1,5 +1,7 @@
 import {
+	Userdata,
 	UserdataExtendedValue,
+	UserdataItem,
 	UserdataUpdateUser,
 	UserdataUpdateUserItem,
 } from './../api/models/index';
@@ -8,12 +10,7 @@ import {
 	UserdataArrayDataItem,
 	UserdataParams,
 } from './../models/index';
-import {
-	UserdataCategory,
-	UserdataParamResponseType,
-	UserdataRaw,
-	UserdataRawItem,
-} from '@/api/models';
+import { UserdataCategory, UserdataParamResponseType, UserdataRaw } from '@/api/models';
 import {
 	UserdataArray,
 	UserdataArrayItem,
@@ -34,7 +31,7 @@ const userdataConfig: Partial<UserdataConfig> = {
 };
 
 export class UserdataConverter {
-	public static alreadyGetParams: UserdataRawItem[] = [];
+	public static alreadyGetParams: UserdataItem[] = [];
 
 	public static flatToTree(flat: UserdataRaw): UserdataTree {
 		return flat.items.reduce((acc, item) => {
@@ -108,7 +105,7 @@ export class UserdataConverter {
 	}
 
 	public static categoryToFlat(categories: UserdataCategory[]) {
-		const result: UserdataRaw = { items: [] };
+		const result: Userdata = { items: [] };
 		categories.forEach(category => {
 			category.params?.forEach(param => {
 				result.items.push({
@@ -120,17 +117,17 @@ export class UserdataConverter {
 						changeable: param.changeable,
 						type: param.type,
 					},
-				} as UserdataRawItem);
+				});
 			});
 		});
 		return result;
 	}
 
-	public static arrayToFlat(userdata: UserdataArray): UserdataRaw {
-		const result: UserdataRaw = { items: [] };
+	public static arrayToFlat(userdata: UserdataArray): Userdata {
+		const result: Userdata = { items: [] };
 		for (const item of userdata) {
 			for (const info of item.data) {
-				const rawInfo: UserdataRawItem = {
+				const rawInfo: UserdataItem = {
 					category: item.name,
 					param: info.param,
 					value: info.value,
@@ -237,7 +234,7 @@ export class UserdataConverter {
 			category: info.category,
 			param: info.param,
 			value: itemValue,
-		} as UserdataRawItem);
+		});
 		return itemValue;
 	}
 }

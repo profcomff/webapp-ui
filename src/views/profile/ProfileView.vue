@@ -7,7 +7,6 @@ import { useRouter } from 'vue-router';
 import { UserdataApi } from '@/api/controllers/UserdataApi';
 import { UserdataArray, UserdataCategoryName, UserdataParams } from '@/models';
 import AchievementsSlider from './achievement/AchievementsSlider.vue';
-import { UserdataExtendedValue } from '@/api/models';
 import IrdomLayout from '@/components/IrdomLayout.vue';
 import { useProfileStore } from '@/store/profile';
 import { UserdataConverter } from '@/utils/UserdataConverter';
@@ -36,8 +35,6 @@ toolbar.setup({
 
 const userdata = ref<UserdataArray>([]);
 const userdataLoading = ref(false);
-const fullName_item = ref<UserdataExtendedValue | null>();
-const photoURL_item = ref<UserdataExtendedValue | null>();
 const fullName = ref('');
 const photoURL = ref('');
 
@@ -70,16 +67,18 @@ onMounted(async () => {
 	]);
 
 	const { data } = await UserdataApi.getUser(me.id);
-	fullName_item.value = UserdataConverter.getItem(data, {
-		category: UserdataCategoryName.PersonalInfo,
-		param: UserdataParams.FullName,
-	});
-	photoURL_item.value = UserdataConverter.getItem(data, {
-		category: UserdataCategoryName.PersonalInfo,
-		param: UserdataParams.Photo,
-	});
-	fullName.value = fullName_item.value?.name ?? '[object Object]';
-	photoURL.value = photoURL_item.value?.name ?? Placeholder;
+	fullName.value =
+		data.items.find(
+			item =>
+				item.category === UserdataCategoryName.PersonalInfo &&
+				item.param === UserdataParams.FullName
+		)?.value ?? 'Безымянный';
+	photoURL.value =
+		data.items.find(
+			item =>
+				item.category === UserdataCategoryName.PersonalInfo && item.param === UserdataParams.Photo
+		)?.value ?? Placeholder;
+
 	userdata.value = UserdataConverter.flatToArray(data);
 
 	userdataLoading.value = false;
