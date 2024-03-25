@@ -14,15 +14,20 @@ const props = defineProps<{
 	items: Record<string, NavbarItem>;
 }>();
 
-const current = computed(() => props.items[route.path]);
-const items = computed(() => new Set(Object.values(props.items)));
+const current = computed(() => route.path.match(/^\/\w+/)?.[0] ?? '');
+const buttons = computed(() => new Set(Object.values(props.items)));
 </script>
 
 <template>
-	<v-bottom-navigation v-model="current" grow elevation="4" mandatory>
-		<v-btn v-for="{ icon, name, path } of items" :key="name" @click="$router.push(path)">
-			<v-icon :icon="icon" />
-			{{ name }}
+	<v-bottom-navigation grow elevation="4" mandatory>
+		<v-btn
+			v-for="button of buttons"
+			:key="button.name"
+			:active="items[current] === button"
+			@click="$router.push(button.path)"
+		>
+			<v-icon :icon="button.icon" />
+			{{ button.name }}
 		</v-btn>
 	</v-bottom-navigation>
 </template>
