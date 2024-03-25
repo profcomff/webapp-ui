@@ -35,8 +35,8 @@ toolbar.setup({
 			<div>
 				<div class="link-text-politics">
 					При регистрации и входе вы соглашаетесь
-					<a href="https://pages.profcomff.com/tvoy_ff_privacy_policy"
-						>с политикой обработки данных</a
+					<RouterLink to="/apps/browser#https://pages.profcomff.com/tvoy_ff_privacy_policy"
+						>с политикой обработки данных</RouterLink
 					>
 				</div>
 			</div>
