@@ -41,7 +41,7 @@ onMounted(async () => {
 		MySessionInfo.UserScopes,
 	]);
 	const { data: user } = await UserdataApi.getUser(me.id);
-	const { data } = await UserdataApi.getCategories();
+	// const { data } = await UserdataApi.getCategories();
 	fullName_item.value = UserdataConverter.getItem(user, {
 		category: UserdataCategoryName.PersonalInfo,
 		param: UserdataParams.FullName,
@@ -52,10 +52,10 @@ onMounted(async () => {
 	});
 	fullName.value = fullName_item.value?.name ?? '[object Object]';
 	photoURL.value = photoURL_item.value?.name ?? Placeholder;
-	userdata.value = UserdataConverter.uniteWithUserCategories(
-		UserdataConverter.categoryToFlat(data),
-		user
-	);
+	// userdata.value = UserdataConverter.uniteWithUserCategories(
+	// 	UserdataConverter.categoryToFlat(data),
+	// 	user
+	// );
 });
 
 async function saveEdit() {

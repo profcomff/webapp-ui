@@ -20,11 +20,11 @@ const toolbar = useToolbar();
 toolbar.setup({
 	title: 'Профиль',
 	actions: [
-		{
-			icon: 'edit',
-			ariaLabel: 'Редактировать профиль',
-			onClick: () => router.push('/profile/edit'),
-		},
+		// {
+		// 	icon: 'edit',
+		// 	ariaLabel: 'Редактировать профиль',
+		// 	onClick: () => router.push('/profile/edit'),
+		// },
 		{
 			icon: 'settings',
 			ariaLabel: 'Настройки',
