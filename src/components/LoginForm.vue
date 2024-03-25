@@ -16,7 +16,7 @@ const submit = async () => {
 <template>
 	<v-sheet width="500" class="align-self-center">
 		<v-form @submit.prevent="submit">
-			<v-text-field v-model="email" label="email" type="email" />
+			<v-text-field v-model="email" label="E-mail" type="email" />
 			<v-text-field v-model="password" label="Пароль" type="password" />
 			<v-btn color="primary" type="submit" class="w-100">Войти</v-btn>
 		</v-form>

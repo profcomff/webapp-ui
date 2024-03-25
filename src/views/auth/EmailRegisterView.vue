@@ -1,11 +1,10 @@
 <script setup lang="ts">
-import { AuthApi } from '@/api';
 import { useRouter } from 'vue-router';
-import EmailPasswordForm, { SubmitData } from '@/components/EmailPasswordForm.vue';
 import IrdomLayout from '@/components/IrdomLayout.vue';
 import IrdomAuthButton from '@/components/IrdomAuthButton.vue';
 import { authButtons } from '@/constants/authButtons';
 import { useToolbar } from '@/store/toolbar';
+import RegistrationForm from '@/components/RegistrationForm.vue';
 
 const router = useRouter();
 const toolbar = useToolbar();
@@ -14,20 +13,13 @@ toolbar.setup({
 	title: 'Регистрация',
 	backUrl: '/auth',
 });
-
-const submitHandler = async ({ email, password }: SubmitData) => {
-	const response = await AuthApi.registerEmail(email, password);
-	if (response) {
-		router.push('/auth/all');
-	}
-};
 </script>
 
 <template>
 	<IrdomLayout>
 		<div class="container">
-			<div>
-				<EmailPasswordForm mode="register" @submit="submitHandler" />
+			<div class="d-flex flex-column">
+				<RegistrationForm />
 				<div class="buttons">
 					<IrdomAuthButton
 						v-for="i in 3"

@@ -96,6 +96,18 @@ export class AuthApi {
 		[showErrorToast]
 	);
 
+	static approveEmail = apply(
+		async (token: string) => {
+			const toastStore = useToastStore();
+
+			await authEmailApi.approveEmail({ token });
+			toastStore.push({
+				title: 'Вы успешно подтвердили E-mail',
+			});
+		},
+		[showErrorToast]
+	);
+
 	static registerEmail = apply(
 		async (email: string, password: string) => {
 			const toastStore = useToastStore();

@@ -52,6 +52,9 @@ export const vuetify = createVuetify({
 			style:
 				'background-color: rgb(var(--v-theme-surface)); color: rgba(var(--v-theme-on-surface))',
 		},
+		VSheet: {
+			style: 'background-color: white;',
+		},
 	},
 	theme: {
 		defaultTheme: 'profcomffLight',

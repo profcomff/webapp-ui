@@ -4,6 +4,7 @@ import { isAxiosError } from 'axios';
 import { NavigationGuard, RouteRecordRaw } from 'vue-router';
 import { useProfileStore } from '@/store/profile';
 import { useToastStore } from '@/store/toast';
+import { AuthApi } from '@/api';
 
 export const authRoutes: RouteRecordRaw[] = [
 	{
@@ -46,6 +47,10 @@ export const authRoutes: RouteRecordRaw[] = [
 		path: 'oauth-authorized/:method([a-z\\-]+)',
 		component: () => 'Hello world!',
 		name: 'oauth-login',
+	},
+	{
+		path: 'register/success',
+		component: () => 'Hello world!',
 	},
 ];
 
@@ -119,5 +124,14 @@ export const authHandler: NavigationGuard = async to => {
 
 			return { path: '/auth/error', query: { text: 'Непредвиденная ошибка' }, replace: true };
 		}
+	}
+
+	if (to.path === '/auth/register/success') {
+		const token = to.query.token as string;
+
+		if (token) {
+			await AuthApi.approveEmail(token);
+		}
+		return { path: '/auth', replace: true };
 	}
 };
