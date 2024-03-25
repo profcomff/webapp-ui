@@ -4,9 +4,11 @@ import { useRouter } from 'vue-router';
 import { isAxiosError } from 'axios';
 import IrdomLayout from '@/components/IrdomLayout.vue';
 import { useToolbar } from '@/store/toolbar';
+import { useProfileStore } from '@/store/profile';
 
 const router = useRouter();
 const toolbar = useToolbar();
+const profileStore = useProfileStore();
 
 toolbar.setup({
 	title: 'Вход',
@@ -27,6 +29,7 @@ async function handleAccept() {
 		const response = await authMethod.register({ id_token: idToken });
 		if (response.status == 200 && response.data.token) {
 			localStorage.setItem('token', response.data.token);
+			profileStore.updateToken();
 			return router.replace({ path: '/profile' });
 		}
 

@@ -2,7 +2,7 @@ import { marketingApi } from '@/api/marketing/MarketingApi';
 import { LocalStorage, LocalStorageItem } from '@/models/LocalStorage';
 import { adminRoutes, adminHandler } from './admin';
 import { profileRoutes } from './profile';
-import { authRoutes } from './auth';
+import { authHandler, authRoutes } from './auth';
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router';
 import { timetableRoutes, timetableHandler } from './timetable';
 import AppsView from '@/views/apps/AppsView.vue';
@@ -66,6 +66,7 @@ router.beforeEach(async to => {
 });
 router.beforeEach(timetableHandler);
 router.beforeEach(adminHandler);
+router.beforeEach(authHandler);
 
 router.afterEach((to, from) => {
 	const { marketingId } = useProfileStore();
