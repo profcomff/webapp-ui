@@ -1,12 +1,11 @@
 <!-- Страница со списком основных методов входа -->
 <script setup lang="ts">
-import { AuthApi } from '@/api';
 import { useRouter, useRoute } from 'vue-router';
 import { authButtons } from '@/constants/authButtons';
 import IrdomLayout from '@/components/IrdomLayout.vue';
-import EmailPasswordForm, { SubmitData } from '@/components/EmailPasswordForm.vue';
 import IrdomAuthButton from '@/components/IrdomAuthButton.vue';
 import { useToolbar } from '@/store/toolbar';
+import LoginForm from '@/components/LoginForm.vue';
 
 const router = useRouter();
 const route = useRoute();
@@ -15,18 +14,11 @@ const toolbar = useToolbar();
 toolbar.setup({
 	title: 'Вход в профиль',
 });
-
-const submitHandler = async ({ email, password }: SubmitData) => {
-	const response = await AuthApi.loginEmail(email, password);
-	if (response) {
-		router.push('/profile');
-	}
-};
 </script>
 
 <template>
 	<IrdomLayout class="container">
-		<EmailPasswordForm mode="login" class="form" @submit="submitHandler" />
+		<LoginForm />
 		<div class="buttons">
 			<IrdomAuthButton
 				v-for="i in 3"
@@ -126,9 +118,5 @@ const submitHandler = async ({ email, password }: SubmitData) => {
 .button {
 	border-radius: 4px !important;
 	overflow: hidden;
-}
-
-.form {
-	align-self: center;
 }
 </style>

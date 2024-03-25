@@ -1,4 +1,3 @@
-import { md3 } from 'vuetify/blueprints';
 import { createVuetify } from 'vuetify';
 import { aliases, md } from 'vuetify/iconsets/md';
 
@@ -54,7 +53,6 @@ export const vuetify = createVuetify({
 				'background-color: rgb(var(--v-theme-surface)); color: rgba(var(--v-theme-on-surface))',
 		},
 	},
-	blueprint: md3,
 	theme: {
 		defaultTheme: 'profcomffLight',
 		themes: {

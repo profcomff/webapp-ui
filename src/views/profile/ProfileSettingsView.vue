@@ -13,7 +13,7 @@ toolbar.setup({
 });
 
 const OnClick = async () => {
-	AuthApi.logout();
+	await AuthApi.logout();
 	router.push('/auth');
 };
 </script>
@@ -56,7 +56,6 @@ const OnClick = async () => {
 
 <style scoped>
 .button {
-	border-radius: 10px !important;
 	width: 100%;
 	max-width: 600px;
 	display: flex;
@@ -68,7 +67,6 @@ const OnClick = async () => {
 
 .buttons {
 	position: relative;
-	color: #f2f2f2 !important;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
