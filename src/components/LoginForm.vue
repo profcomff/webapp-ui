@@ -22,4 +22,3 @@ const submit = async () => {
 		</v-form>
 	</v-sheet>
 </template>
-<style module></style>
