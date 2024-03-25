@@ -26,7 +26,7 @@ const submitHandler = async ({ email, password }: SubmitData) => {
 
 <template>
 	<IrdomLayout class="container">
-		<EmailPasswordForm mode="login" @submit="submitHandler" />
+		<EmailPasswordForm mode="login" class="form" @submit="submitHandler" />
 		<div class="buttons">
 			<IrdomAuthButton
 				v-for="i in 3"
@@ -126,5 +126,9 @@ const submitHandler = async ({ email, password }: SubmitData) => {
 .button {
 	border-radius: 4px !important;
 	overflow: hidden;
+}
+
+.form {
+	align-self: center;
 }
 </style>

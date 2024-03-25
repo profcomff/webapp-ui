@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { oauth2Methods } from '@/api/auth';
 import { useRouter } from 'vue-router';
-import { AxiosResponse, isAxiosError } from 'axios';
+import { isAxiosError } from 'axios';
 import IrdomLayout from '@/components/IrdomLayout.vue';
 import { useToolbar } from '@/store/toolbar';
 
@@ -14,30 +14,36 @@ toolbar.setup({
 });
 
 async function handleAccept() {
-	const authMethod = oauth2Methods[sessionStorage.getItem('id-token-issuer') || ''];
-	const idToken = sessionStorage.getItem('id-token');
-	sessionStorage.removeItem('id-token-issuer');
-	sessionStorage.removeItem('id-token');
-
-	if (authMethod === undefined || idToken === null) {
-		router.push({ path: '/auth/error', query: { text: 'Непредвиденная ошибка' } });
-		return;
-	}
 	try {
-		const resp: AxiosResponse = await authMethod.register({ id_token: idToken });
-		if (resp.status == 200 && resp.data.token) {
-			localStorage.setItem('token', resp.data.token);
-			router.push({ path: '/profile' });
+		const idToken = sessionStorage.getItem('id-token');
+		const idTokenIssuer = sessionStorage.getItem('id-token-issuer');
+
+		if (!idToken || !idTokenIssuer) {
+			return router.replace({ path: '/auth/error', query: { text: 'Непредвиденная ошибка' } });
 		}
-	} catch (e) {
-		if (isAxiosError(e)) {
-			if (e.response && e.response.status == 401) {
-				return {
-					path: '/auth/error',
-					query: { text: 'Переданы неверные данные для входа' },
-				};
-			}
+
+		const authMethod = oauth2Methods[idTokenIssuer];
+
+		const response = await authMethod.register({ id_token: idToken });
+		if (response.status == 200 && response.data.token) {
+			localStorage.setItem('token', response.data.token);
+			return router.replace({ path: '/profile' });
 		}
+
+		return router.replace({
+			path: '/auth/error',
+			query: { text: 'Непредвиденная ошибка' },
+		});
+	} catch (error) {
+		if (isAxiosError(error) && error.response?.status == 401) {
+			return router.replace({
+				path: '/auth/error',
+				query: { text: 'Переданы неверные данные для входа' },
+			});
+		}
+	} finally {
+		sessionStorage.removeItem('id-token-issuer');
+		sessionStorage.removeItem('id-token');
 	}
 }
 </script>

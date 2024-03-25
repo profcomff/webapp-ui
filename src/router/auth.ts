@@ -38,7 +38,7 @@ export const authRoutes: RouteRecordRaw[] = [
 		component: () => import('@/views/auth/LoginErrorView.vue'),
 	},
 	{
-		path: 'oauth-authorized/:name([a-z\\-]+)',
+		path: 'oauth-authorized/:method([a-z\\-]+)',
 		component: () => import('@/views/auth/OauthLoginView.vue'),
 	},
 ];

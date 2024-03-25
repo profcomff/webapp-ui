@@ -1,6 +1,5 @@
 import { AuthBaseApi } from './AuthBaseApi';
 
-export const oauth2Methods: Record<string, AuthOauth2BaseApi> = {};
 export const UNKNOWN_DEVICE = 'unknown device';
 
 interface AuthResponse {
@@ -22,7 +21,6 @@ interface RegisterBody extends AuthBody {
 export class AuthOauth2BaseApi<LoginBody extends AuthBody = object> extends AuthBaseApi {
 	constructor(path = '') {
 		super(path);
-		oauth2Methods[`/auth/oauth-authorized${path}`] = this;
 	}
 
 	public async getAuthUrl() {

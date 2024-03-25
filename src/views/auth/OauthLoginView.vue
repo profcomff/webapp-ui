@@ -2,58 +2,62 @@
 <script setup lang="ts">
 import { LocalStorage, LocalStorageItem } from '@/models/LocalStorage';
 import { isAxiosError } from 'axios';
-import { AuthOauth2BaseApi, oauth2Methods } from '@/api/auth';
+import { oauth2Methods } from '@/api/auth';
 import { onMounted } from 'vue';
-import { useRouter } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import IrdomLayout from '@/components/IrdomLayout.vue';
 import { useProfileStore } from '@/store/profile';
 import { useToolbar } from '@/store/toolbar';
 import { useToastStore } from '@/store/toast';
 
 const router = useRouter();
+const route = useRoute();
 const toolbar = useToolbar();
 const toastStore = useToastStore();
+const profileStore = useProfileStore();
 
 toolbar.setup({
 	title: 'Вход',
 });
 
 onMounted(async () => {
-	const authMethod: AuthOauth2BaseApi | undefined = oauth2Methods[router.currentRoute.value.path];
-	const profileStore = useProfileStore();
-	if (authMethod === undefined) {
-		return router.replace({
-			path: '/auth/error',
-			query: { text: 'Метод авторизации не существует' },
-		});
-	}
-	if (
-		router.currentRoute.value.hash === '' &&
-		Object.keys(router.currentRoute.value.query).length === 0
-	) {
-		return router.replace({ path: '/auth/error', query: { text: 'Отсутствуют параметры входа' } });
-	}
-
 	try {
-		const resp = await (profileStore.isUserLogged
-			? authMethod.linkNewAccount(router.currentRoute.value.query)
-			: authMethod.login(router.currentRoute.value.query));
+		const methodName = route.params.method as string;
 
-		if (resp.status === 200 && resp.data.token) {
-			LocalStorage.set(LocalStorageItem.Token, resp.data.token);
+		if (!(methodName in oauth2Methods)) {
+			return router.replace({
+				path: '/auth/error',
+				query: { text: 'Метод авторизации не существует' },
+			});
+		}
+
+		const authMethod = oauth2Methods[methodName];
+
+		if (route.hash === '' && Object.keys(route.query).length === 0) {
+			return router.replace({
+				path: '/auth/error',
+				query: { text: 'Отсутствуют параметры входа' },
+			});
+		}
+		const action = profileStore.isUserLogged ? authMethod.linkNewAccount : authMethod.login;
+		const response = await action.call(authMethod, route.query);
+
+		if (response.status === 200 && response.data.token) {
+			LocalStorage.set(LocalStorageItem.Token, response.data.token);
 			profileStore.updateToken();
 			toastStore.push({ title: 'Вы успешно вошли в аккаунт' });
 			return router.replace({ path: '/profile' });
 		}
 
 		return router.replace({ path: '/auth/error', query: { text: 'Непредвиденная ошибка' } });
-	} catch (e) {
-		if (!isAxiosError(e)) {
+	} catch (error) {
+		console.log(error);
+		if (!isAxiosError(error)) {
 			return router.replace({ path: '/auth/error', query: { text: 'Непредвиденная ошибка' } });
 		}
 
-		if (e.response && e.response.status === 401) {
-			const id_token = e.response.data.id_token;
+		if (error.response?.status === 401) {
+			const id_token = error.response.data.id_token;
 
 			if (typeof id_token !== 'string') {
 				// TODO: Писать в маркетинг об ошибке
@@ -64,14 +68,14 @@ onMounted(async () => {
 			}
 
 			sessionStorage.setItem('id-token', id_token);
-			sessionStorage.setItem('id-token-issuer', router.currentRoute.value.path);
+			sessionStorage.setItem('id-token-issuer', route.path);
 			return router.replace({ path: '/auth/register-oauth' });
 		}
-		if (e.response && e.response.status === 422) {
+		if (error.response?.status === 422) {
 			return router.replace({ path: '/auth/error', query: { text: 'Выбран неверный аккаунт' } });
 		}
 
-		if (e.response && e.response.status === 409) {
+		if (error.response?.status === 409) {
 			return router.replace({
 				path: '/auth/error',
 				query: { text: 'Аккаунт с такими данными уже существуют' },
