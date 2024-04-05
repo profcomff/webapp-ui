@@ -52,7 +52,7 @@ const submitHandler = async (event: Event) => {
 
 <template>
 	<IrdomLayout>
-		<div class="email">
+		<div v-if="current_email" class="email">
 			Текущий адрес электронной почты:
 			<p class="email-text">{{ current_email }}</p>
 		</div>
