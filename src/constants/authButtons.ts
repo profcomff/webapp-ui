@@ -6,7 +6,6 @@ import {
 	authVkApi,
 	authGithubApi,
 	authGoogleApi,
-	authTelegramApi,
 	AuthMethod,
 } from '@/api/auth';
 import logos from '@/assets/logos.svg';
@@ -48,13 +47,6 @@ export const authButtons: AuthButton[] = [
 		icon: `${logos}#vk`,
 		color: '#0077ff0d',
 	},
-	// {
-	// 	name: 'Telegram',
-	// 	api: authTelegramApi,
-	// 	method: AuthMethod.Telegram,
-	// 	icon: `${logos}#telegram`,
-	// 	color: '#0077ff0d',
-	// },
 	{
 		name: 'Github',
 		api: authGithubApi,

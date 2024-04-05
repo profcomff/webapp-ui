@@ -115,8 +115,7 @@ async function clickShowMoreHandler() {
 
 .buttons {
 	display: flex;
-	align-content: flex-start;
-	justify-content: space-around;
+	place-content: flex-start space-around;
 	align-self: center;
 	flex-wrap: wrap;
 	flex: 1 1 100%;

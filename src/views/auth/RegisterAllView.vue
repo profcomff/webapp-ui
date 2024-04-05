@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { AuthMethod } from '@/api/auth';
 import IrdomAuthButton from '@/components/IrdomAuthButton.vue';
 import IrdomLayout from '@/components/IrdomLayout.vue';
 import { authButtons } from '@/constants/authButtons';
@@ -18,7 +17,7 @@ toolbar.setup({
 			<div>
 				<div class="buttons">
 					<IrdomAuthButton
-						v-for="button of authButtons.filter(({ method }) => method !== AuthMethod.Telegram)"
+						v-for="button of authButtons"
 						:key="button.name"
 						:button="button"
 						class="button"
