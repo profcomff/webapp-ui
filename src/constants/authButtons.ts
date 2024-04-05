@@ -48,13 +48,13 @@ export const authButtons: AuthButton[] = [
 		icon: `${logos}#vk`,
 		color: '#0077ff0d',
 	},
-	{
-		name: 'Telegram',
-		api: authTelegramApi,
-		method: AuthMethod.Telegram,
-		icon: `${logos}#telegram`,
-		color: '#0077ff0d',
-	},
+	// {
+	// 	name: 'Telegram',
+	// 	api: authTelegramApi,
+	// 	method: AuthMethod.Telegram,
+	// 	icon: `${logos}#telegram`,
+	// 	color: '#0077ff0d',
+	// },
 	{
 		name: 'Github',
 		api: authGithubApi,
@@ -67,6 +67,6 @@ export const authButtons: AuthButton[] = [
 		api: authGoogleApi,
 		method: AuthMethod.Google,
 		icon: `${logos}#google`,
-		color: '#fff',
+		color: '#58b4470d',
 	},
 ];

@@ -23,7 +23,7 @@ export enum AuthMethod {
 	LkMsu = 'lkmsu_auth',
 	MyMsu = 'my_msu_auth',
 	Physics = 'physics_auth',
-	Telegram = 'telegram_auth',
+	// Telegram = 'telegram_auth',
 	VK = 'vk_auth',
 }
 

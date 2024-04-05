@@ -3,7 +3,7 @@ import { authGithubApi } from './AuthGithubApi';
 import { authLkmsuApi } from './AuthLkmsuApi';
 import { authMymsuApi, authYandexApi } from './AuthMymsuApi';
 import { authGoogleApi, authPhysicsApi } from './AuthPhysicsApi';
-import { authTelegramApi } from './AuthTelegramApi';
+// import { authTelegramApi } from './AuthTelegramApi';
 import { authVkApi } from './AuthVkApi';
 
 export { authEmailApi } from './AuthEmailApi';
@@ -27,5 +27,5 @@ export const oauth2Methods: Record<string, AuthOauth2BaseApi> = {
 	yandex: authYandexApi,
 	'my-msu': authMymsuApi,
 	'physics-msu': authPhysicsApi,
-	telegram: authTelegramApi,
+	// telegram: authTelegramApi,
 };
