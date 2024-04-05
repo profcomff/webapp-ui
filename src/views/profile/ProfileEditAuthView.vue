@@ -3,7 +3,6 @@ import { onMounted, computed } from 'vue';
 import { AuthMethod } from '@/api/auth';
 import IrdomLayout from '@/components/IrdomLayout.vue';
 import IrdomAuthButton from '@/components/IrdomAuthButton.vue';
-import TelegramButton from '@/components/TelegramButon.vue';
 import { useProfileStore } from '@/store/profile';
 import { authButtons } from '@/constants/authButtons';
 import { useToolbar } from '@/store/toolbar';

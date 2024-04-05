@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { AuthMethod } from '@/api/auth';
-import TelegramButon from '@/components/TelegramButon.vue';
 import IrdomAuthButton from '@/components/IrdomAuthButton.vue';
 import IrdomLayout from '@/components/IrdomLayout.vue';
 import { authButtons } from '@/constants/authButtons';
@@ -24,7 +23,6 @@ toolbar.setup({
 						:button="button"
 						class="button"
 					/>
-					<TelegramButon class="button" />
 					<div ref="telegram" />
 				</div>
 				<hr class="line" />
