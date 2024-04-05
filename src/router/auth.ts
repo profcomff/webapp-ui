@@ -28,10 +28,6 @@ export const authRoutes: RouteRecordRaw[] = [
 		component: () => import('@/views/auth/ResetEmail.vue'),
 	},
 	{
-		path: 'all',
-		component: () => import('@/views/auth/AuthAllView.vue'),
-	},
-	{
 		path: 'register-email',
 		component: () => import('@/views/auth/EmailRegisterView.vue'),
 	},
