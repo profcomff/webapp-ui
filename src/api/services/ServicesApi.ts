@@ -1,5 +1,5 @@
 import { BaseApi } from '../BaseApi';
-import { AppButton, AppButtonCategory } from '../models';
+import { AppButton, AppButtonCategory, ServiceData } from '../models';
 
 type GetButtonsResponse = AppButtonCategory & {
 	buttons: AppButton[];
@@ -27,6 +27,10 @@ class ServicesApi extends BaseApi {
 
 	public getButtons(categoryId: number) {
 		return this.get<GetButtonsResponse>(`/category/${categoryId}/button/`);
+	}
+
+	public getService(serviceId: number) {
+		return this.get<ServiceData>(`/service/${serviceId}`);
 	}
 }
 

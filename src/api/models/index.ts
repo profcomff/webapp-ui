@@ -54,6 +54,15 @@ export interface AppButton {
 	type: ButtonType;
 }
 
+export interface ServiceData {
+	id: number;
+	order: number;
+	icon: string;
+	name: string;
+	link: string;
+	type: ButtonType;
+}
+
 export interface AppButtonCategory {
 	id: number;
 	order: number;

@@ -18,8 +18,8 @@ const routes: RouteRecordRaw[] = [
 		component: AppsView,
 	},
 	{
-		path: '/apps/browser',
-		component: () => import('@/views/apps/browser/AppBrowserView.vue'),
+		path: '/apps/:id(\\d+)',
+		component: () => import('@/views/apps/ApplicationFrame.vue'),
 	},
 	{
 		path: '/timetable',

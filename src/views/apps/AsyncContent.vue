@@ -71,7 +71,7 @@ const sendMarketing = (url: string) => {
 
 				<RouterLink
 					v-else-if="type === ButtonType.Internal"
-					:to="`/apps/browser/?title=${buttonName}#${link}`"
+					:to="`/apps/${buttonId}`"
 					class="app-link"
 				>
 					{{ buttonName }}
