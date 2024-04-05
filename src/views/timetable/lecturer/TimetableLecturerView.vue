@@ -4,6 +4,7 @@ import AsyncLecturerSchedule from './AsyncLecturerSchedule.vue';
 import { useRoute } from 'vue-router';
 import IrdomLayout from '@/components/IrdomLayout.vue';
 import { useToolbar } from '@/store/toolbar';
+import FullscreenLoader from '@/components/FullscreenLoader.vue';
 
 const route = useRoute();
 const toolbar = useToolbar();
@@ -19,7 +20,7 @@ toolbar.setup({
 	<IrdomLayout>
 		<Suspense>
 			<AsyncLecturerInfo :id="+route.params.id" />
-			<template #fallback> Загрузка... </template>
+			<template #fallback> <FullscreenLoader /> </template>
 		</Suspense>
 
 		<b class="date"
@@ -27,7 +28,7 @@ toolbar.setup({
 		>
 		<Suspense>
 			<AsyncLecturerSchedule :id="+route.params.id" />
-			<template #fallback>Загрузка...</template>
+			<template #fallback><FullscreenLoader /></template>
 		</Suspense>
 	</IrdomLayout>
 </template>

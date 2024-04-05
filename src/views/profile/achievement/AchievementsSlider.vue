@@ -26,7 +26,7 @@ onMounted(async () => {
 		</v-slide-group-item>
 	</v-slide-group>
 	<div v-else-if="!isLoaded">
-		<p>Загрузка...</p>
+		<p><FullscreenLoader /></p>
 	</div>
 	<div v-else>
 		<p>У тебя еще нет достижений в приложении :(</p>

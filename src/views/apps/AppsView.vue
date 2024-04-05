@@ -3,6 +3,7 @@ import AsyncContent from './AsyncContent.vue';
 import { computed } from 'vue';
 import IrdomLayout from '@/components/IrdomLayout.vue';
 import { useToolbar } from '@/store/toolbar';
+import FullscreenLoader from '@/components/FullscreenLoader.vue';
 
 const toolbar = useToolbar();
 
@@ -18,7 +19,7 @@ const version = computed(() => import.meta.env.VITE_APP_VERSION);
 		<Suspense>
 			<AsyncContent />
 
-			<template #fallback> Загрузка... </template>
+			<template #fallback> <FullscreenLoader /> </template>
 		</Suspense>
 		<span v-if="version" class="version">Версия приложения: {{ version }}</span>
 	</IrdomLayout>

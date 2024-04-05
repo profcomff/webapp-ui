@@ -2,6 +2,7 @@
 import { useToolbar } from '@/store/toolbar';
 import AsyncContent from './AsyncContent.vue';
 import IrdomLayout from '@/components/IrdomLayout.vue';
+import FullscreenLoader from '@/components/FullscreenLoader.vue';
 
 const toolbar = useToolbar();
 
@@ -15,7 +16,7 @@ toolbar.setup({
 	<IrdomLayout>
 		<Suspense>
 			<AsyncContent />
-			<template #fallback> Загрузка... </template>
+			<template #fallback> <FullscreenLoader /> </template>
 		</Suspense>
 	</IrdomLayout>
 </template>

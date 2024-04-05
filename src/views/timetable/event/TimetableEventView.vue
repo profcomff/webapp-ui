@@ -3,6 +3,7 @@ import AsyncContent from './AsyncContent.vue';
 import { useRoute } from 'vue-router';
 import IrdomLayout from '@/components/IrdomLayout.vue';
 import { useToolbar } from '@/store/toolbar';
+import FullscreenLoader from '@/components/FullscreenLoader.vue';
 
 const route = useRoute();
 const toolbar = useToolbar();
@@ -19,7 +20,7 @@ toolbar.setup({
 		<Suspense>
 			<AsyncContent :id="+route.params.id" />
 
-			<template #fallback> Загрузка... </template>
+			<template #fallback> <FullscreenLoader /> </template>
 		</Suspense>
 	</IrdomLayout>
 </template>

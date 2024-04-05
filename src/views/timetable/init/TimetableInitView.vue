@@ -50,7 +50,7 @@ const sendMarketing = (e: Event) => {
 		<Suspense>
 			<AsyncGroupsList :query="query" />
 
-			<template #fallback> Загрузка... </template>
+			<template #fallback> <FullscreenLoader /> </template>
 		</Suspense>
 	</IrdomLayout>
 </template>

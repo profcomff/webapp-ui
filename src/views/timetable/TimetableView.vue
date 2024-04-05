@@ -9,6 +9,7 @@ import { stringifyDate, getDateWithDayOffset } from '@/utils/date';
 import { LocalStorage, LocalStorageItem } from '@/models/LocalStorage';
 import IrdomLayout from '@/components/IrdomLayout.vue';
 import { useToolbar } from '@/store/toolbar';
+import FullscreenLoader from '@/components/FullscreenLoader.vue';
 
 const router = useRouter();
 const route = useRoute();
@@ -62,7 +63,7 @@ watch(date, () => {
 		<Suspense :key="key">
 			<AsyncEventsList :date="date" />
 
-			<template #fallback> Загрузка... </template>
+			<template #fallback> <FullscreenLoader /> </template>
 		</Suspense>
 	</IrdomLayout>
 </template>

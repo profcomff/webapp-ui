@@ -12,6 +12,7 @@ import { useProfileStore } from '@/store/profile';
 import { UserdataConverter } from '@/utils/UserdataConverter';
 import { ToolbarActionItem } from '@/components/IrdomToolbar.vue';
 import { useToolbar } from '@/store/toolbar';
+import FullscreenLoader from '@/components/FullscreenLoader.vue';
 
 const profileStore = useProfileStore();
 const router = useRouter();
@@ -102,7 +103,7 @@ onMounted(async () => {
 		</section>
 		<section class="section">
 			<h2>Основная информация</h2>
-			<div v-if="userdataLoading">Загрузка...</div>
+			<FullscreenLoader v-if="userdataLoading" />
 			<div v-else>
 				<div v-for="{ name, data } of userdata" :key="name" class="userdata-section">
 					<div class="userdata-category">

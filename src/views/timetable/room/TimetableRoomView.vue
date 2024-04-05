@@ -4,6 +4,7 @@ import AsyncRoomInfo from './AsyncRoomInfo.vue';
 import AsyncRoomSchedule from './AsyncRoomSchedule.vue';
 import IrdomLayout from '@/components/IrdomLayout.vue';
 import { useRoute } from 'vue-router';
+import FullscreenLoader from '@/components/FullscreenLoader.vue';
 
 const route = useRoute();
 const toolbar = useToolbar();
@@ -21,7 +22,7 @@ toolbar.setup({
 			<Suspense>
 				<AsyncRoomInfo :id="+route.params.id" />
 
-				<template #fallback> Загрузка... </template>
+				<template #fallback> <FullscreenLoader /> </template>
 			</Suspense>
 		</section>
 
@@ -42,7 +43,7 @@ toolbar.setup({
 			</p>
 			<Suspense>
 				<AsyncRoomSchedule :id="+route.params.id" />
-				<template #fallback>Загрузка...</template>
+				<template #fallback><FullscreenLoader /></template>
 			</Suspense>
 		</section>
 	</IrdomLayout>
