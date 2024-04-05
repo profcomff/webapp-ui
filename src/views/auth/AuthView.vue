@@ -1,27 +1,35 @@
 <!-- Страница со списком основных методов входа -->
 <script setup lang="ts">
-import { useRouter, useRoute } from 'vue-router';
+import { useRoute } from 'vue-router';
 import { authButtons } from '@/constants/authButtons';
 import IrdomLayout from '@/components/IrdomLayout.vue';
 import IrdomAuthButton from '@/components/IrdomAuthButton.vue';
 import { useToolbar } from '@/store/toolbar';
 import LoginForm from '@/components/LoginForm.vue';
+import { ref } from 'vue';
 
-const router = useRouter();
 const route = useRoute();
 const toolbar = useToolbar();
+
+const showButtonsCnt = ref(3);
+const showMoreButton = ref(true);
 
 toolbar.setup({
 	title: 'Вход в профиль',
 });
+
+async function clickShowMoreHandler() {
+	showMoreButton.value = false;
+	showButtonsCnt.value = authButtons.length;
+}
 </script>
 
 <template>
 	<IrdomLayout class="container">
-		<LoginForm />
+		<LoginForm class="loginform" />
 		<div class="buttons">
 			<IrdomAuthButton
-				v-for="i in 3"
+				v-for="i in showButtonsCnt"
 				:key="authButtons[i - 1].name"
 				type="button"
 				:button="authButtons[i - 1]"
@@ -30,11 +38,12 @@ toolbar.setup({
 				class="button"
 			/>
 			<v-btn
+				v-if="showMoreButton"
 				variant="flat"
 				class="button"
 				size="large"
 				color="#cccccc"
-				@click="router.push('/auth/all')"
+				@click="clickShowMoreHandler"
 			>
 				<template #prepend>
 					<v-icon icon="more_horiz" />
@@ -99,15 +108,22 @@ toolbar.setup({
 	}
 }
 
-.buttons {
-	margin: 30px auto;
-	grid-template-columns: 1fr 1fr;
-	display: grid;
-	gap: 16px;
+.loginform {
+	width: 100%;
+	max-width: 700px;
+}
 
-	@media screen and (width <= 400px) {
-		grid-template-columns: 1fr;
-	}
+.buttons {
+	display: flex;
+	align-content: flex-start;
+	justify-content: space-around;
+	align-self: center;
+	flex-wrap: wrap;
+	flex: 1 1 100%;
+	gap: 16px;
+	margin: 32px;
+	width: 100%;
+	max-width: 700px;
 }
 
 .container {
@@ -116,6 +132,8 @@ toolbar.setup({
 }
 
 .button {
+	min-width: 250px;
+	width: 40%;
 	border-radius: 4px !important;
 	overflow: hidden;
 }
