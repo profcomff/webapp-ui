@@ -5,6 +5,8 @@ import IrdomAuthButton from '@/components/IrdomAuthButton.vue';
 import { useProfileStore } from '@/store/profile';
 import { authButtons } from '@/constants/authButtons';
 import { useToolbar } from '@/store/toolbar';
+import { AuthApi } from '@/api';
+import { MySessionInfo } from '@/api/auth';
 
 const profileStore = useProfileStore();
 const toolbar = useToolbar();
@@ -18,6 +20,9 @@ onMounted(async () => {
 	if (history.state.token) {
 		profileStore.updateToken(history.state.token);
 		delete history.state.token;
+	}
+	if (!profileStore.authMethods) {
+		AuthApi.getMe([MySessionInfo.AuthMethods]);
 	}
 });
 
