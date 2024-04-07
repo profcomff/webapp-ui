@@ -30,13 +30,20 @@ const submit = async () => {
 </script>
 <template>
 	<v-form class="d-flex flex-column w-100 align-self-center ga-4" @submit.prevent="submit">
-		<v-text-field v-model="email" label="E-mail" type="email" />
-		<v-text-field v-model="password" label="Пароль" type="password" autocomplete="new-password" />
+		<v-text-field v-model="email" label="E-mail" type="email" required />
+		<v-text-field
+			v-model="password"
+			label="Пароль"
+			type="password"
+			autocomplete="new-password"
+			required
+		/>
 		<v-text-field
 			v-model="repeatedPassword"
 			label="Повторите пароль"
 			type="password"
 			autocomplete="repeat-password"
+			required
 		/>
 		<v-btn color="primary" type="submit" class="w-100" size="large">Зарегистрироваться</v-btn>
 	</v-form>

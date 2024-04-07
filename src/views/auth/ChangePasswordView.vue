@@ -16,16 +16,13 @@ toolbar.setup({
 
 const router = useRouter();
 const toastStore = useToastStore();
+const old_password = ref('');
+const new_password = ref('');
+const repeat_password = ref('');
 
-const submitHandler = async (event: Event) => {
-	const form = event.target as HTMLFormElement;
-	const formData = new FormData(form);
-	const old_password = formData.get('old-password')?.toString();
-	const password = formData.get('password')?.toString();
-	const repeat_password = formData.get('repeat-password')?.toString();
-
-	if (password === repeat_password && old_password && password) {
-		const response = await AuthApi.requestResetPassword(old_password, password);
+const submitHandler = async () => {
+	if (new_password.value === repeat_password.value && old_password.value && new_password.value) {
+		const response = await AuthApi.requestResetPassword(old_password.value, new_password.value);
 		if (response) {
 			toastStore.push({
 				title: 'Изменение пароля',
@@ -36,7 +33,7 @@ const submitHandler = async (event: Event) => {
 		}
 	}
 
-	if (repeat_password !== password) {
+	if (repeat_password.value !== new_password.value) {
 		toastStore.push({ title: 'Пароли не совпадают' });
 	}
 };
@@ -48,9 +45,16 @@ const submitHandler = async (event: Event) => {
 			class="loginform d-flex flex-column w-100 align-self-center ga-4"
 			@submit.prevent="submitHandler"
 		>
-			<v-text-field type="password" name="old-password" label="Старый пароль" required />
+			<v-text-field
+				v-model="old_password"
+				type="password"
+				name="old-password"
+				label="Старый пароль"
+				required
+			/>
 
 			<v-text-field
+				v-model="new_password"
 				type="password"
 				name="password"
 				label="Новый пароль"
@@ -59,6 +63,7 @@ const submitHandler = async (event: Event) => {
 			/>
 
 			<v-text-field
+				v-model="repeat_password"
 				type="password"
 				name="repeat-password"
 				label="Повтор пароля"
