@@ -68,6 +68,10 @@ const createScope = async (e: Event) => {
 
 				<v-btn type="submit" icon="md:done" />
 			</v-form>
+
+			<template #fallback>
+				<h2>Access restricted</h2>
+			</template>
 		</AccessRestricted>
 	</IrdomLayout>
 </template>

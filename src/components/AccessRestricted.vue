@@ -10,6 +10,6 @@ const { hasTokenAccess } = useProfileStore();
 	<slot v-if="hasTokenAccess(scope)" />
 
 	<slot v-else name="fallback">
-		<h2>403 Forbidden</h2>
+		<!-- No access -->
 	</slot>
 </template>

@@ -26,6 +26,10 @@ const authStore = useAuthStore();
 	<IrdomLayout>
 		<AccessRestricted :scope="scopename.auth.user.read">
 			<UsersTable :users="authStore.users.values()" delete-icon="delete_forever" />
+
+			<template #fallback>
+				<h2>Access restricted</h2>
+			</template>
 		</AccessRestricted>
 	</IrdomLayout>
 </template>

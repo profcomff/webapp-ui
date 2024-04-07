@@ -66,7 +66,7 @@ const addScope = async (e: Event) => {
 
 <template>
 	<IrdomLayout>
-		<AccessRestricted :scope="scopename.auth.scope.read" no-fallback>
+		<AccessRestricted :scope="scopename.auth.scope.read">
 			<h2>{{ group?.name }}</h2>
 			<ScopesTable
 				:scopes="group?.scopes.values() ?? []"

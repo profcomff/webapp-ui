@@ -57,16 +57,26 @@ export class AuthApi {
 			const { data } = await promise;
 
 			profileStore.id = data.id;
-			profileStore.groups = data.groups ?? null;
-			profileStore.indirectGroups = data.indirect_groups ?? null;
-			profileStore.sessionScopes = data.session_scopes?.map(s => s.name) ?? null;
-			profileStore.userScopes = data.user_scopes?.map(s => s.name) ?? null;
-			profileStore.authMethods = data.auth_methods ?? null;
+			if (data.groups) {
+				profileStore.groups = data.groups ?? null;
+			}
+			if (data.indirect_groups) {
+				profileStore.indirectGroups = data.indirect_groups;
+			}
+			if (data.session_scopes) {
+				profileStore.sessionScopes = data.session_scopes.map(s => s.name);
+				LocalStorage.set<string[]>(
+					LocalStorageItem.TokenScopes,
+					data.session_scopes.map(s => s.name)
+				);
+			}
+			if (data.user_scopes) {
+				profileStore.userScopes = data.user_scopes.map(s => s.name);
+			}
+			if (data.auth_methods) {
+				profileStore.authMethods = data.auth_methods ?? null;
+			}
 
-			LocalStorage.set<string[]>(
-				LocalStorageItem.TokenScopes,
-				data.session_scopes.map(s => s.name)
-			);
 			profileStore.updateTokenScopes();
 
 			return promise;

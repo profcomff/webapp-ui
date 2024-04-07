@@ -117,6 +117,10 @@ async function createAchievement(
 					</tbody>
 				</v-table>
 			</v-row>
+
+			<template #fallback>
+				<h2>Access restricted</h2>
+			</template>
 		</AccessRestricted>
 	</IrdomLayout>
 </template>

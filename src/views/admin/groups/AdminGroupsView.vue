@@ -11,7 +11,7 @@ const toolbar = useToolbar();
 
 toolbar.setup({
 	title: 'Редактирование групп пользователей',
-	backUrl: '/amdin',
+	backUrl: '/admin',
 });
 
 onMounted(async () => {
