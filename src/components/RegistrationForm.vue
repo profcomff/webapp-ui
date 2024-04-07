@@ -36,7 +36,7 @@ const submit = async () => {
 			v-model="repeatedPassword"
 			label="Повторите пароль"
 			type="password"
-			autocomplete="new-password"
+			autocomplete="repeat-password"
 		/>
 		<v-btn color="primary" type="submit" class="w-100">Зарегистрироваться</v-btn>
 	</v-form>
