@@ -16,6 +16,9 @@ import Iphone from '@/assets/logo/Iphone.svg';
 import Yandex from '@/assets/logo/Yandex.svg';
 import { AuthApi } from '@/api';
 import { computed, ref } from 'vue';
+import { useProfileStore } from '@/store/profile';
+
+const profileStore = useProfileStore();
 
 const { data } = await AuthApi.getSessions([SessionInfo.Token]);
 const sessions = ref<Map<string, typeof data extends Array<infer X> ? X : never>>(new Map());
@@ -100,7 +103,11 @@ const deleteHandler = async (token: string) => {
 		</div>
 
 		<v-card-actions>
-			<v-btn @click="deleteHandler(token)">Завершить сессию</v-btn>
+			<v-btn
+				:disabled="profileStore.token?.endsWith(token)"
+				:text="profileStore.token?.endsWith(token) ? 'Текущая сессия' : 'Завершить сессию'"
+				@click="deleteHandler(token)"
+			/>
 		</v-card-actions>
 	</v-card>
 </template>
