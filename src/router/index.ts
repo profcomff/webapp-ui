@@ -61,7 +61,12 @@ router.beforeEach(async to => {
 		return { path: '/auth' };
 	}
 	// TODO: Убрать костыль с to.path
-	if (isAuth && token && to.path !== '/auth/reset/email') {
+	if (
+		isAuth &&
+		token &&
+		to.path !== '/auth/reset/email' &&
+		!to.path.startsWith('/auth/oauth-authorized')
+	) {
 		return { path: '/profile' };
 	}
 });
