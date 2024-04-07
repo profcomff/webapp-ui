@@ -1,33 +1,42 @@
 <!-- Страница со списком основных методов входа -->
 <script setup lang="ts">
-import { useRoute } from 'vue-router';
-import { authButtons } from '@/constants/authButtons';
 import IrdomLayout from '@/components/IrdomLayout.vue';
-import IrdomAuthButton from '@/components/IrdomAuthButton.vue';
 import { useToolbar } from '@/store/toolbar';
 import LoginForm from '@/components/LoginForm.vue';
+import RegistrationForm from '@/components/RegistrationForm.vue';
+import IrdomAuthButton from '@/components/IrdomAuthButton.vue';
+import { authButtons } from '@/constants/authButtons';
 import { ref } from 'vue';
 
-const route = useRoute();
 const toolbar = useToolbar();
 
+const registerStep = ref(false);
 const showButtonsCnt = ref(3);
 const showMoreButton = ref(true);
-
-toolbar.setup({
-	title: 'Вход в профиль',
-});
 
 async function clickShowMoreHandler() {
 	showMoreButton.value = false;
 	showButtonsCnt.value = authButtons.length;
 }
+
+const switchState = async (to?: boolean) => {
+	registerStep.value = to ?? !registerStep.value;
+	if (registerStep.value) {
+		toolbar.setup({ title: 'Регистрация' });
+	} else {
+		toolbar.setup({ title: 'Вход в профиль' });
+	}
+};
+
+toolbar.setup({ title: 'Вход в профиль' });
 </script>
 
 <template>
 	<IrdomLayout class="container">
-		<LoginForm class="loginform" />
-		<div class="buttons">
+		<RegistrationForm v-if="registerStep" class="loginform" @success="switchState(false)" />
+		<LoginForm v-else class="loginform" />
+
+		<div class="oauth-button-list">
 			<IrdomAuthButton
 				v-for="i in showButtonsCnt"
 				:key="authButtons[i - 1].name"
@@ -35,51 +44,41 @@ async function clickShowMoreHandler() {
 				:button="authButtons[i - 1]"
 				variant="flat"
 				size="large"
-				class="button"
+				class="oauth-button"
 			/>
 			<v-btn
 				v-if="showMoreButton"
 				variant="flat"
-				class="button"
+				class="oauth-button"
 				size="large"
 				color="#cccccc"
+				prepend-icon="more_horiz"
 				@click="clickShowMoreHandler"
 			>
-				<template #prepend>
-					<v-icon icon="more_horiz" />
-				</template>
-				Другие сервисы</v-btn
-			>
-		</div>
-		<div v-if="route.query.plan" class="restore">
-			На вашу почту отправлено письмо для восстановления доступа к аккаунту
+				Другие сервисы
+			</v-btn>
 		</div>
 
 		<div>
-			<div class="link-text-register">
-				Еще нет профиля? <RouterLink to="/auth/register-email">Зарегистрируйтесь</RouterLink>
+			<div v-if="registerStep" class="link-text-register">
+				Уже есть профиль?
+				<v-btn variant="plain" @click="switchState()">Перейти к входу</v-btn>
+			</div>
+			<div v-else class="link-text-register">
+				Еще нет профиля?
+				<v-btn variant="plain" @click="switchState()">Зарегистрируйтесь</v-btn>
 			</div>
 			<div class="link-text-politics">
 				При регистрации и входе вы соглашаетесь
-				<RouterLink to="/apps/browser#https://pages.profcomff.com/tvoy_ff_privacy_policy"
-					>с политикой обработки данных</RouterLink
-				>
+				<a href="https://pages.profcomff.com/tvoy_ff_privacy_policy" target="_blank">
+					с политикой обработки данных
+				</a>
 			</div>
 		</div>
 	</IrdomLayout>
 </template>
 
 <style scoped>
-.restore {
-	color: #f19035;
-	font-size: 14px;
-	font-style: normal;
-	font-weight: 700;
-	line-height: normal;
-	margin: 0 auto;
-	text-align: center;
-}
-
 .link-text-register {
 	color: #18185c;
 	margin: 0 auto;
@@ -113,7 +112,12 @@ async function clickShowMoreHandler() {
 	max-width: 700px;
 }
 
-.buttons {
+.container {
+	justify-content: space-between;
+	align-items: center;
+}
+
+.oauth-button-list {
 	display: flex;
 	place-content: flex-start space-around;
 	align-self: center;
@@ -125,12 +129,7 @@ async function clickShowMoreHandler() {
 	max-width: 700px;
 }
 
-.container {
-	justify-content: space-between;
-	align-items: center;
-}
-
-.button {
+.oauth-button {
 	min-width: 250px;
 	width: 40%;
 	border-radius: 4px !important;

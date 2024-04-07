@@ -12,10 +12,6 @@ export const authRoutes: RouteRecordRaw[] = [
 		component: () => import('@/views/auth/AuthView.vue'),
 	},
 	{
-		path: 'register-all',
-		component: () => import('@/views/auth/RegisterAllView.vue'),
-	},
-	{
 		path: 'forgot-password',
 		component: () => import('@/views/auth/ForgotPassword.vue'),
 	},
@@ -29,7 +25,7 @@ export const authRoutes: RouteRecordRaw[] = [
 	},
 	{
 		path: 'register-email',
-		component: () => import('@/views/auth/EmailRegisterView.vue'),
+		component: () => import('@/views/auth/RegisterView.vue'),
 	},
 	{
 		path: 'register-oauth',
