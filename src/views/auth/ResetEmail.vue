@@ -38,17 +38,17 @@ const submitHandler = async () => {
 
 <template>
 	<IrdomLayout>
-		<v-btn type="submit" class="submit" color="#fff" @click="submitHandler"> Сменить Email </v-btn>
+		<v-form class="loginform">
+			<h2>Внимание!</h2>
+			<p>Нажимая эту кнопку вы подтверждаете смену Email адреса</p>
+			<v-btn type="submit" color="primary" @click="submitHandler"> Сменить Email </v-btn>
+		</v-form>
 	</IrdomLayout>
 </template>
 
 <style scoped>
-.submit {
-	position: absolute !important;
-	width: 100%;
-	max-width: 220px;
-	align-self: center !important;
-	margin: 30px auto !important;
-	border-radius: 8px !important;
+.loginform {
+	max-width: 700px;
+	align-self: center;
 }
 </style>
