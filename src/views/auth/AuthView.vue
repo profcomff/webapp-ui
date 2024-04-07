@@ -4,13 +4,20 @@ import IrdomLayout from '@/components/IrdomLayout.vue';
 import { useToolbar } from '@/store/toolbar';
 import LoginForm from '@/components/LoginForm.vue';
 import RegistrationForm from '@/components/RegistrationForm.vue';
+import ForgotPassordForm from '@/components/ForgotPassordForm.vue';
 import IrdomAuthButton from '@/components/IrdomAuthButton.vue';
 import { authButtons } from '@/constants/authButtons';
 import { ref } from 'vue';
 
 const toolbar = useToolbar();
 
-const registerStep = ref(false);
+enum Step {
+	Login = 1,
+	Register = 2,
+	ResetPassword = 3,
+}
+
+const registerStep = ref(Step.Login);
 const showButtonsCnt = ref(3);
 const showMoreButton = ref(true);
 
@@ -19,12 +26,15 @@ async function clickShowMoreHandler() {
 	showButtonsCnt.value = authButtons.length;
 }
 
-const switchState = async (to?: boolean) => {
-	registerStep.value = to ?? !registerStep.value;
-	if (registerStep.value) {
-		toolbar.setup({ title: 'Регистрация' });
-	} else {
+// TODO: Разделить на 3 экрана
+const switchState = async (to: Step) => {
+	registerStep.value = to;
+	if (registerStep.value == Step.Login) {
 		toolbar.setup({ title: 'Вход в профиль' });
+	} else if (registerStep.value == Step.Register) {
+		toolbar.setup({ title: 'Регистрация' });
+	} else if (registerStep.value == Step.ResetPassword) {
+		toolbar.setup({ title: 'Восстановление пароля' });
 	}
 };
 
@@ -33,8 +43,21 @@ toolbar.setup({ title: 'Вход в профиль' });
 
 <template>
 	<IrdomLayout class="container">
-		<RegistrationForm v-if="registerStep" class="loginform" @success="switchState(false)" />
-		<LoginForm v-else class="loginform" />
+		<RegistrationForm
+			v-if="registerStep == Step.Register"
+			class="loginform"
+			@success="switchState(Step.Login)"
+		/>
+		<LoginForm
+			v-if="registerStep == Step.Login"
+			class="loginform"
+			@reset-password="switchState(Step.ResetPassword)"
+		/>
+		<ForgotPassordForm
+			v-if="registerStep == Step.ResetPassword"
+			class="loginform"
+			@success="switchState(Step.Login)"
+		/>
 
 		<div class="oauth-button-list">
 			<IrdomAuthButton
@@ -60,13 +83,13 @@ toolbar.setup({ title: 'Вход в профиль' });
 		</div>
 
 		<div>
-			<div v-if="registerStep" class="link-text-register">
-				Уже есть профиль?
-				<v-btn variant="plain" @click="switchState()">Перейти к входу</v-btn>
+			<div v-if="registerStep == Step.Login" class="link-text-register">
+				Еще нет профиля?
+				<v-btn variant="plain" @click="switchState(Step.Register)">Зарегистрируйтесь</v-btn>
 			</div>
 			<div v-else class="link-text-register">
-				Еще нет профиля?
-				<v-btn variant="plain" @click="switchState()">Зарегистрируйтесь</v-btn>
+				Уже есть профиль?
+				<v-btn variant="plain" @click="switchState(Step.Login)">Перейти к входу</v-btn>
 			</div>
 			<div class="link-text-politics">
 				При регистрации и входе вы соглашаетесь
