@@ -2,6 +2,7 @@
 import { achievementApi, AchievementGet } from '@/api/achievement';
 import { onMounted, ref, Ref } from 'vue';
 import AchievementElement from './AchievementsElement.vue';
+import FullscreenLoader from '@/components/FullscreenLoader.vue';
 
 const props = defineProps<{ userId: number }>();
 const achievements: Ref<AchievementGet[]> = ref([]);

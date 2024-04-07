@@ -6,6 +6,7 @@ import { marketingApi } from '@/api/marketing';
 import IrdomLayout from '@/components/IrdomLayout.vue';
 import { useProfileStore } from '@/store/profile';
 import { useToolbar } from '@/store/toolbar';
+import FullscreenLoader from '@/components/FullscreenLoader.vue';
 
 const query = ref('');
 const profileStore = useProfileStore();
