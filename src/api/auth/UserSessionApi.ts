@@ -4,7 +4,7 @@ import { AuthBaseApi } from './AuthBaseApi';
 
 interface CreateBody {
 	scopes: string[];
-	expires: string;
+	expires?: string;
 }
 
 export enum MySessionInfo {
@@ -31,6 +31,15 @@ interface SessionResponse {
 	user_id: number;
 	session_name: string;
 	last_activity: string;
+}
+
+interface SessionCreateResponse {
+	id: number;
+	user_id: number;
+	session_name: string;
+	last_activity: string;
+	token: string;
+	expires: string;
 }
 
 export enum SessionInfo {
@@ -75,7 +84,7 @@ class UserSessionApi extends AuthBaseApi {
 		>('/session', { info });
 	}
 	public async createSession(body: CreateBody) {
-		return this.post<SessionResponse, CreateBody>('/session', body);
+		return this.post<SessionCreateResponse, CreateBody>('/session', body);
 	}
 	public async deleteSessions(delete_current?: boolean) {
 		return this.delete<string, { delete_current?: boolean }>('/session', { delete_current });

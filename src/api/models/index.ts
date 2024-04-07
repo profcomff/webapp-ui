@@ -1,3 +1,4 @@
+import { ButtonType, ButtonView } from './index';
 export interface Entity {
 	id: number;
 }
@@ -45,6 +46,11 @@ export enum ButtonType {
 	Disabled = 'disabled',
 }
 
+export enum ButtonView {
+	Active = 'active',
+	Blocked = 'blocked',
+}
+
 export interface AppButton {
 	id: number;
 	order: number;
@@ -52,6 +58,10 @@ export interface AppButton {
 	name: string;
 	link: string;
 	type: ButtonType;
+	view: ButtonView;
+	required_scopes?: string[];
+	optional_scopes?: string[];
+	scopes?: string[];
 }
 
 export interface ServiceData {
@@ -61,6 +71,10 @@ export interface ServiceData {
 	name: string;
 	link: string;
 	type: ButtonType;
+	view: ButtonView;
+	required_scopes?: string[];
+	optional_scopes?: string[];
+	scopes?: string[];
 }
 
 export interface AppButtonCategory {
