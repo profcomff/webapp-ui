@@ -120,19 +120,7 @@ export class AuthApi {
 
 	static registerEmail = apply(
 		async (email: string, password: string) => {
-			const toastStore = useToastStore();
-
-			const promise = authEmailApi.register({ email, password });
-			const { data } = await promise;
-
-			toastStore.push(
-				{
-					title: data.ru ?? data.message,
-				},
-				null
-			);
-
-			return promise;
+			return authEmailApi.register({ email, password });
 		},
 		[showErrorToast]
 	);

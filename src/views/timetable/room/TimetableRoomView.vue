@@ -29,7 +29,7 @@ toolbar.setup({
 		<section class="section">
 			<h3 class="h3">Карта этажа</h3>
 
-			<RouterLink to="/apps/browser#https://cdn.profcomff.com/app/map/" class="map">
+			<RouterLink to="/apps/2" class="map">
 				<span class="text">
 					Посмотреть на карте
 					<v-icon icon="open_in_new" />

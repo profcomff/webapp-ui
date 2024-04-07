@@ -42,42 +42,34 @@ const submitHandler = async (event: Event) => {
 <template>
 	<IrdomLayout>
 		<div class="container">
-			<div>
-				<form class="form" @submit.prevent="submitHandler">
-					<div class="container">
-						<v-text-field
-							type="password"
-							name="new-password"
-							autocomplete="new-password"
-							class="input"
-							density="compact"
-							required
-							variant="outlined"
-							label="Новый пароль"
-						/>
-						<v-text-field
-							type="password"
-							name="repeat-password"
-							autocomplete="repeat-password"
-							class="input"
-							density="compact"
-							required
-							variant="outlined"
-							label="Повторите пароль"
-						/>
-						<v-btn type="submit" class="submit" color="#fff"> Восстановить аккаунт </v-btn>
-					</div>
-				</form>
+			<div class="loginform">
+				<v-form
+					class="d-flex flex-column w-100 align-self-center ga-4"
+					@submit.prevent="submitHandler"
+				>
+					<v-text-field
+						type="password"
+						name="new-password"
+						autocomplete="new-password"
+						required
+						label="Новый пароль"
+					/>
+					<v-text-field
+						type="password"
+						name="repeat-password"
+						autocomplete="repeat-password"
+						required
+						label="Повторите пароль"
+					/>
+					<v-btn color="primary" type="submit" class="w-100"> Восстановить аккаунт </v-btn>
+				</v-form>
 			</div>
 			<div>
-				<div class="link-text-register">
-					Еще нет профиля? <RouterLink to="/auth/register-email">Зарегистрируйтесь</RouterLink>
-				</div>
 				<div class="link-text-politics">
 					При регистрации и входе вы соглашаетесь
-					<a href="https://pages.profcomff.com/tvoy_ff_privacy_policy"
-						>с политикой обработки данных</a
-					>
+					<a href="https://pages.profcomff.com/tvoy_ff_privacy_policy">
+						с политикой обработки данных
+					</a>
 				</div>
 			</div>
 		</div>
@@ -93,27 +85,6 @@ const submitHandler = async (event: Event) => {
 	border-radius: 8px !important;
 }
 
-.input {
-	align-self: center;
-	width: 100%;
-	max-width: 400px;
-	margin: 0 auto 5px;
-}
-
-.link-text-register {
-	color: #18185c;
-	margin: 0 auto;
-	text-align: center;
-	font-size: 15px;
-	font-style: normal;
-	font-weight: 400;
-	line-height: normal;
-
-	& a {
-		font-weight: 700;
-	}
-}
-
 .link-text-politics {
 	margin: 0 auto;
 	color: #807ea4;
@@ -126,6 +97,12 @@ const submitHandler = async (event: Event) => {
 	& a {
 		text-decoration-line: underline;
 	}
+}
+
+.loginform {
+	width: 100%;
+	max-width: 700px;
+	align-self: center;
 }
 
 .container {
