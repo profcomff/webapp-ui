@@ -38,6 +38,6 @@ const submit = async () => {
 			type="password"
 			autocomplete="repeat-password"
 		/>
-		<v-btn color="primary" type="submit" class="w-100">Зарегистрироваться</v-btn>
+		<v-btn color="primary" type="submit" class="w-100" size="large">Зарегистрироваться</v-btn>
 	</v-form>
 </template>

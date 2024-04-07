@@ -25,6 +25,6 @@ const submit = async () => {
 <template>
 	<v-form class="d-flex flex-column w-100 align-self-center ga-4" @submit.prevent="submit">
 		<v-text-field v-model="email" label="E-mail" type="email" />
-		<v-btn color="primary" type="submit" class="w-100">Восстановить пароль</v-btn>
+		<v-btn color="primary" type="submit" class="w-100" size="large">Восстановить пароль</v-btn>
 	</v-form>
 </template>

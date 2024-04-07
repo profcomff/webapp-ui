@@ -67,7 +67,7 @@ const submitHandler = async (event: Event) => {
 				required
 				hide-details
 			/>
-			<v-btn type="submit" color="primary" class="w-100">Изменить Email</v-btn>
+			<v-btn type="submit" color="primary" class="w-100" size="large">Изменить Email</v-btn>
 		</v-form>
 	</IrdomLayout>
 </template>
