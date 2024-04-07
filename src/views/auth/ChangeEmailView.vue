@@ -51,24 +51,24 @@ const submitHandler = async (event: Event) => {
 </script>
 
 <template>
-	<IrdomLayout>
-		<div v-if="current_email" class="email">
-			Текущий адрес электронной почты:
-			<p class="email-text">{{ current_email }}</p>
-		</div>
-		<form class="form" @submit.prevent="submitHandler">
+	<IrdomLayout class="container">
+		<v-form
+			class="loginform d-flex flex-column w-100 align-self-center ga-4"
+			@submit.prevent="submitHandler"
+		>
+			<div v-if="current_email" class="email">
+				Текущий адрес электронной почты: <b>{{ current_email }}</b>
+			</div>
 			<v-text-field
 				type="email"
 				name="email"
 				autocomplete="email"
-				class="input"
-				density="compact"
+				label="Новый адрес электронной почты"
 				required
-				variant="outlined"
-				label="Новый Email"
+				hide-details
 			/>
-			<v-btn type="submit" class="submit-register" color="#fff">Изменить Email</v-btn>
-		</form>
+			<v-btn type="submit" color="primary" class="w-100">Изменить Email</v-btn>
+		</v-form>
 	</IrdomLayout>
 </template>
 
@@ -81,33 +81,14 @@ const submitHandler = async (event: Event) => {
 	line-height: normal;
 }
 
-.email-text {
-	color: #18185c;
-	font-size: 18px;
-	font-style: normal;
-	font-weight: 700;
-	line-height: normal;
-}
-
-.submit-register {
-	width: 100%;
-	max-width: 200px;
+.loginform {
+	max-width: 700px;
 	align-self: center;
-	margin: 20px auto 16px;
-	border-radius: 8px !important;
 }
 
-.input {
-	align-self: center;
-	align-items: center;
-	width: 100%;
-	max-width: 400px;
-	margin: 0 auto 5px;
-}
-
-.form {
+.container {
 	display: flex;
 	flex-direction: column;
-	align-items: center;
+	justify-content: space-between;
 }
 </style>

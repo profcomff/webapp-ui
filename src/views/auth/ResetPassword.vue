@@ -85,27 +85,6 @@ const submitHandler = async (event: Event) => {
 	border-radius: 8px !important;
 }
 
-.input {
-	align-self: center;
-	width: 100%;
-	max-width: 400px;
-	margin: 0 auto 5px;
-}
-
-.link-text-register {
-	color: #18185c;
-	margin: 0 auto;
-	text-align: center;
-	font-size: 15px;
-	font-style: normal;
-	font-weight: 400;
-	line-height: normal;
-
-	& a {
-		font-weight: 700;
-	}
-}
-
 .link-text-politics {
 	margin: 0 auto;
 	color: #807ea4;
