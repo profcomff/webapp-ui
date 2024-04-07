@@ -46,7 +46,7 @@ export function showErrorToast<F extends Func>(
 		} catch (err) {
 			if (axios.isAxiosError(err)) {
 				toastStore.push({
-					title: err.response?.data.message,
+					title: err.response?.data.ru ?? err.response?.data.message,
 					type: ToastType.Error,
 				});
 			} else {

@@ -127,7 +127,7 @@ export class AuthApi {
 
 			toastStore.push(
 				{
-					title: data.message,
+					title: data.ru ?? data.message,
 				},
 				null
 			);

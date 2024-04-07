@@ -4,6 +4,7 @@ import queryString from 'query-string';
 export interface DefaultResponse {
 	status: string;
 	message: string;
+	ru?: string;
 }
 
 export class BaseApi {
