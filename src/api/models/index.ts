@@ -1,4 +1,3 @@
-import { ButtonType, ButtonView } from './index';
 export interface Entity {
 	id: number;
 }

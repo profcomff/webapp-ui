@@ -1,14 +1,17 @@
 <script setup lang="ts">
 import { ServicesApi } from '@/api';
 import { marketingApi } from '@/api/marketing';
-import { ButtonType } from '@/api/models';
+import { ButtonType, ButtonView } from '@/api/models';
 import { CategoryInfo } from '@/api/services';
+import { ToastType } from '@/models';
 import { useAppsStore } from '@/store/apps';
 import { useProfileStore } from '@/store/profile';
+import { useToastStore } from '@/store/toast';
 import { RouterLink } from 'vue-router';
 
 const appsStore = useAppsStore();
 const profileStore = useProfileStore();
+const toastStore = useToastStore();
 
 if (!appsStore.categories) {
 	await ServicesApi.getCategories([CategoryInfo.Buttons]);
@@ -24,6 +27,14 @@ const sendMarketing = (url: string) => {
 		});
 	}
 };
+
+const showRestrictedAccessWarning = () => {
+	toastStore.push({
+		title: 'Недостаточно прав',
+		type: ToastType.Info,
+		description: 'Приложение требует дополнительные права для работы, которых у вас нет',
+	});
+};
 </script>
 
 <template>
@@ -38,11 +49,13 @@ const sendMarketing = (url: string) => {
 
 		<div :class="{ grid3: sectionType === 'grid3', list: sectionType === 'list' }">
 			<div
-				v-for="{ icon, link, name: buttonName, type, id: buttonId } of buttons"
+				v-for="{ icon, link, name: buttonName, type, id: buttonId, view } of buttons"
 				:key="buttonId"
-				v-ripple
 				class="app"
-				:aria-disabled="type === ButtonType.Disabled"
+				:v-ripple="view !== ButtonView.Blocked"
+				:class="{ disabled: view == ButtonView.Blocked }"
+				:aria-disabled="view === ButtonView.Blocked"
+				@click="if (view === ButtonView.Blocked) showRestrictedAccessWarning();"
 			>
 				<img
 					v-if="icon.startsWith('http')"
@@ -59,8 +72,12 @@ const sendMarketing = (url: string) => {
 					:size="sectionType === 'grid3' ? 40 : 24"
 				/>
 
+				<p v-if="view === ButtonView.Blocked" class="app-link">
+					{{ buttonName }}
+				</p>
+
 				<a
-					v-if="type === ButtonType.External"
+					v-else-if="type === ButtonType.External"
 					:href="link"
 					class="app-link"
 					target="_blank"
@@ -98,7 +115,6 @@ const sendMarketing = (url: string) => {
 
 	&[aria-disabled='true'] {
 		filter: grayscale(1);
-		pointer-events: none;
 		opacity: 0.6;
 	}
 }
@@ -146,14 +162,14 @@ const sendMarketing = (url: string) => {
 		box-shadow: 0 0 20px rgb(0 0 0 / 10%);
 		transition: all 0.3s ease;
 
-		&:hover {
+		&:hover:not([aria-disabled='true']) {
 			transform: translateY(-4px);
 			box-shadow: 0 0 24px rgb(0 0 0 / 12%);
 		}
 	}
 }
 
-.list .app:hover {
+.list .app:hover:not([aria-disabled='true']) {
 	filter: brightness(90%);
 }
 
