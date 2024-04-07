@@ -51,7 +51,7 @@ const submitHandler = async (event: Event) => {
 </script>
 
 <template>
-	<IrdomLayout class="container">
+	<IrdomLayout>
 		<v-form
 			class="loginform d-flex flex-column w-100 align-self-center ga-4"
 			@submit.prevent="submitHandler"
@@ -84,11 +84,5 @@ const submitHandler = async (event: Event) => {
 .loginform {
 	max-width: 700px;
 	align-self: center;
-}
-
-.container {
-	display: flex;
-	flex-direction: column;
-	justify-content: space-between;
 }
 </style>

@@ -14,8 +14,6 @@ toolbar.setup({
 	backUrl: '/profile/settings',
 });
 
-const checkPasswords = ref(false);
-checkPasswords.value = false;
 const router = useRouter();
 const toastStore = useToastStore();
 
@@ -36,79 +34,46 @@ const submitHandler = async (event: Event) => {
 			});
 			router.push('/profile');
 		}
-	} else {
-		checkPasswords.value = true;
 	}
 
 	if (repeat_password !== password) {
-		toastStore.push({
-			title: 'Изменение пароля',
-			type: ToastType.Error,
-			description: 'Пароли не совпадают',
-		});
+		toastStore.push({ title: 'Пароли не совпадают' });
 	}
 };
 </script>
 
 <template>
 	<IrdomLayout>
-		<form class="form" @submit.prevent="submitHandler">
-			<v-text-field
-				variant="outlined"
-				type="password"
-				name="old-password"
-				class="input"
-				density="compact"
-				label="Старый пароль"
-				required
-			/>
+		<form
+			class="loginform d-flex flex-column w-100 align-self-center ga-4"
+			@submit.prevent="submitHandler"
+		>
+			<v-text-field type="password" name="old-password" label="Старый пароль" required />
 
 			<v-text-field
-				variant="outlined"
 				type="password"
 				name="password"
-				class="input"
-				density="compact"
 				label="Новый пароль"
+				autocomplete="new-password"
 				required
 			/>
 
 			<v-text-field
-				variant="outlined"
 				type="password"
 				name="repeat-password"
-				class="input"
-				density="compact"
 				label="Повтор пароля"
+				autocomplete="repeat-password"
 				required
 			/>
-			<div v-if="checkPasswords" class="password-validate">Пароли должны совпадать</div>
-			<v-btn type="submit" class="submit-register" color="#fff">Изменить пароль</v-btn>
+			<v-btn type="submit" size="large" class="w-100" color="primary"> Изменить пароль </v-btn>
 		</form>
 	</IrdomLayout>
 </template>
 
 <style scoped>
-.submit-register {
+.loginform {
 	width: 100%;
-	max-width: 200px;
-	align-self: center;
-	margin: 20px auto 16px;
-	border-radius: 8px !important;
-}
-
-.input {
-	align-self: center;
-	align-items: center;
-	width: 100%;
-	max-width: 400px;
-	margin: 0 auto 5px;
-}
-
-.form {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
+	max-width: 700px;
 }
 
 .password-validate {
