@@ -1,2 +1,2 @@
 format:
-	bun run format
+	pnpm run format

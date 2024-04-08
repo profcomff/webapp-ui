@@ -16,8 +16,8 @@
     "prettier:write": "prettier . --write",
     "stylelint": "stylelint \"**/*.{vue,css}\"",
     "stylelint:fix": "stylelint \"**/*.{vue,css}\" --fix",
-    "format": "bun run lint:fix && bun run prettier:write && bun run stylelint:fix",
-    "check": "vue-tsc && bun run lint && bun run prettier && bun run stylelint"
+    "format": "pnpm run lint:fix && pnpm run prettier:write && pnpm run stylelint:fix",
+    "check": "vue-tsc && pnpm run lint && pnpm run prettier && pnpm run stylelint"
   },
   "dependencies": {
     "axios": "^1.6.7",
