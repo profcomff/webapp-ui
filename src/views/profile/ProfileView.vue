@@ -2,9 +2,9 @@
 import { onMounted, ref } from 'vue';
 import Placeholder from '@/assets/profile_image_placeholder.webp';
 import { AuthApi } from '@/api';
-import { MySessionInfo } from '@/api/auth';
+import { MySessionInfo, userSessionApi } from '@/api/auth';
 import { useRouter } from 'vue-router';
-import { UserdataApi } from '@/api/controllers/UserdataApi';
+import { userdataUserApi } from '@/api/userdata/UserdataUserApi';
 import { UserdataArray, UserdataCategoryName, UserdataParams } from '@/models';
 import AchievementsSlider from './achievement/AchievementsSlider.vue';
 import IrdomLayout from '@/components/IrdomLayout.vue';
@@ -34,8 +34,14 @@ toolbar.setup({
 	],
 });
 
+enum UserdataLoadingState {
+	Loading = 1,
+	Ready = 2,
+	Error = 3,
+}
+
 const userdata = ref<UserdataArray>([]);
-const userdataLoading = ref(false);
+const userdataLoadingState = ref<UserdataLoadingState>(UserdataLoadingState.Loading);
 const fullName = ref('');
 const photoURL = ref('');
 
@@ -52,13 +58,12 @@ const toolbarAction: ToolbarActionItem[] = [
 	},
 ];
 
-onMounted(async () => {
-	if (history.state.token) {
-		profileStore.updateToken(history.state.token);
-		delete history.state.token;
+const loadUserdata = async () => {
+	if (!profileStore.token) {
+		await userSessionApi.getMe();
 	}
 
-	userdataLoading.value = true;
+	userdataLoadingState.value = UserdataLoadingState.Loading;
 	const { data: me } = await AuthApi.getMe([
 		MySessionInfo.AuthMethods,
 		MySessionInfo.Groups,
@@ -67,7 +72,7 @@ onMounted(async () => {
 		MySessionInfo.UserScopes,
 	]);
 
-	const { data } = await UserdataApi.getUser(me.id);
+	const { data } = await userdataUserApi.getById(me.id);
 	fullName.value =
 		data.items.find(
 			item =>
@@ -82,7 +87,16 @@ onMounted(async () => {
 
 	userdata.value = UserdataConverter.flatToArray(data);
 
-	userdataLoading.value = false;
+	userdataLoadingState.value = UserdataLoadingState.Ready;
+};
+
+onMounted(async () => {
+	if (history.state.token) {
+		profileStore.updateToken(history.state.token);
+		delete history.state.token;
+	}
+
+	loadUserdata();
 });
 </script>
 
@@ -93,7 +107,16 @@ onMounted(async () => {
 		class-name="profile-toolbar"
 		centered-toolbar
 	>
-		<img :src="photoURL" alt="Аватар" width="400 " height="400" class="avatar" />
+		<img
+			v-if="userdataLoadingState == UserdataLoadingState.Ready"
+			:src="photoURL"
+			alt="Аватар"
+			width="400 "
+			height="400"
+			class="avatar"
+		/>
+		<img v-else :src="Placeholder" alt="Аватар" width="400 " height="400" class="avatar" />
+
 		<span class="user-name">
 			{{ fullName }}
 		</span>
@@ -103,8 +126,8 @@ onMounted(async () => {
 		</section>
 		<section class="section">
 			<h2>Основная информация</h2>
-			<FullscreenLoader v-if="userdataLoading" />
-			<div v-else>
+			<FullscreenLoader v-if="userdataLoadingState == UserdataLoadingState.Loading" />
+			<div v-else-if="userdataLoadingState == UserdataLoadingState.Ready">
 				<div v-for="{ name, data } of userdata" :key="name" class="userdata-section">
 					<div class="userdata-category">
 						{{ name }}
@@ -118,6 +141,10 @@ onMounted(async () => {
 						</div>
 					</div>
 				</div>
+			</div>
+			<div v-else>
+				<p>Не удалось загрузить информацию профиля</p>
+				<v-btn prepend-icon="refresh" class="my-4" @click="loadUserdata"> Попробовать снова </v-btn>
 			</div>
 		</section>
 	</IrdomLayout>
