@@ -2,7 +2,7 @@ name: Тесты и раскатка в тестовую среду
 
 on:
   push:
-    branches: ['main']
+    branches: ["main"]
 
 env:
   REGISTRY: ghcr.io
@@ -16,13 +16,20 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - uses: oven-sh/setup-bun@v1
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 7.26.3
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: "18"
+          cache: "pnpm"
 
       - name: Install
-        run: bun install
+        run: pnpm install
 
       - name: Check
-        run: bun run check
+        run: pnpm run check
 
   test-format:
     name: Выполняем тесты
@@ -31,13 +38,20 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - uses: oven-sh/setup-bun@v1
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 7.26.3
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: "18"
+          cache: "pnpm"
 
       - name: Install
-        run: bun install
+        run: pnpm install
 
       - name: Check
-        run: bun test
+        run: pnpm test
 
   build-test-image:
     name: Собираем тестовый Docker
