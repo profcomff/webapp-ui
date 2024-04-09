@@ -99,7 +99,7 @@ onMounted(() => {
 	</IrdomLayout>
 </template>
 
-<style>
+<style scoped>
 .info {
 	opacity: 0.7;
 	display: flex;

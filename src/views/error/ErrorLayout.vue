@@ -26,7 +26,7 @@ toolbar.setup({
 	</IrdomLayout>
 </template>
 
-<style>
+<style scoped>
 .page {
 	align-items: center;
 }

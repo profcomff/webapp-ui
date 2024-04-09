@@ -124,15 +124,6 @@ async function saveEdit() {
 </template>
 
 <style scoped>
-/* /deep/ .v-field {
-	--v-field-input-padding-top: 0 !important;
-	--v-field-input-padding-bottom: 0 !important;
-}
-
-/deep/ .v-text-field input {
-	margin-top: 0 !important;
-} */
-
 .edit-username {
 	align-self: center;
 }

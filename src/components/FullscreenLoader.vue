@@ -6,7 +6,7 @@
 	</div>
 </template>
 
-<style>
+<style scoped>
 .loader-container {
 	display: flex;
 	flex-direction: column;
