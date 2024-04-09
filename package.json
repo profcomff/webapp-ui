@@ -20,7 +20,9 @@
     "check": "vue-tsc && pnpm run lint && pnpm run prettier && pnpm run stylelint"
   },
   "dependencies": {
+    "@types/markdown-it": "^14.0.0",
     "axios": "^1.6.7",
+    "markdown-it": "^14.1.0",
     "pinia": "^2.1.7",
     "query-string": "^9.0.0",
     "ua-parser-js": "^1.0.37",
