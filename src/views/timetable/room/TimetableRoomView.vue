@@ -5,13 +5,19 @@ import AsyncRoomSchedule from './AsyncRoomSchedule.vue';
 import IrdomLayout from '@/components/IrdomLayout.vue';
 import { useRoute } from 'vue-router';
 import FullscreenLoader from '@/components/FullscreenLoader.vue';
+import router from '@/router';
 
 const route = useRoute();
 const toolbar = useToolbar();
 
 toolbar.setup({
 	title: 'Аудитория',
-	backUrl: '/timetable',
+	backUrl:
+		router.options.history.state.back &&
+		router.options.history.state.back.toString().startsWith('/timetable/event')
+			? undefined
+			: '/timetable',
+	backable: true,
 	share: true,
 });
 </script>

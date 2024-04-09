@@ -4,13 +4,21 @@ import { useRoute } from 'vue-router';
 import IrdomLayout from '@/components/IrdomLayout.vue';
 import { useToolbar } from '@/store/toolbar';
 import FullscreenLoader from '@/components/FullscreenLoader.vue';
+import router from '@/router';
 
 const route = useRoute();
 const toolbar = useToolbar();
 
+const allowedPrevPath = new RegExp('^/timetable/\\d');
+
 toolbar.setup({
 	title: 'Событие',
-	backUrl: '/timetable',
+	backUrl:
+		router.options.history.state.back &&
+		allowedPrevPath.test(router.options.history.state.back.toString())
+			? undefined
+			: '/timetable',
+	backable: true,
 	share: true,
 });
 </script>
