@@ -21,6 +21,6 @@ const submit = async () => {
 		<v-text-field v-model="email" label="E-mail" type="email" required />
 		<v-text-field v-model="password" label="Пароль" type="password" required />
 		<v-btn color="primary" type="submit" class="w-100" size="large">Войти</v-btn>
-		<v-btn variant="plain" class="w-100" @click="emit('reset-password')"> Забыли пароль </v-btn>
+		<v-btn variant="plain" class="w-100" @click="emit('reset-password')"> Забыли пароль? </v-btn>
 	</v-form>
 </template>
