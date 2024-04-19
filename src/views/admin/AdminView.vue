@@ -4,7 +4,7 @@ import IrdomLayout from '@/components/IrdomLayout.vue';
 import { scopename } from '@/models/ScopeName';
 import { useProfileStore } from '@/store/profile';
 import { useToolbar } from '@/store/toolbar';
-import { onMounted, ref } from 'vue';
+import { onMounted, ref, computed } from 'vue';
 import { AuthApi } from '@/api/controllers/auth/AuthApi';
 import { MySessionInfo } from '@/api/auth';
 import { useToastStore } from '@/store/toast';
@@ -31,6 +31,11 @@ const copyText = (text: string) => {
 			console.error(err);
 		});
 };
+
+const paramsString = computed(() => {
+	const scopes_str = profileStore.tokenScopes.join(',');
+	return `?token=${profileStore.token}&scopes=${scopes_str}&user_id=${profileStore.id}`;
+});
 
 onMounted(() => {
 	if (!profileStore.id) {
@@ -74,8 +79,15 @@ onMounted(() => {
 					</v-expansion-panel-text>
 				</v-expansion-panel>
 			</v-expansion-panels>
-			<v-btn prepend-icon="md:refresh" variant="plain" @click:abort="console.log('123')">
+			<v-btn
+				prepend-icon="md:refresh"
+				variant="plain"
+				@click="AuthApi.getMe([MySessionInfo.SessionScopes])"
+			>
 				Обновить сессию
+			</v-btn>
+			<v-btn prepend-icon="md:content_copy" variant="plain" @click="copyText(paramsString)">
+				Cкопировать параметры приложения
 			</v-btn>
 		</div>
 
