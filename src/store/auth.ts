@@ -83,6 +83,7 @@ export const useAuthStore = defineStore('auth', () => {
 		}
 
 		const g = groups.value.get(group.id)!;
+		g.name = group.name || g.name;
 		for (const c of group.child) {
 			g.children.set(c.id, groups.value.get(c.id)!);
 		}
