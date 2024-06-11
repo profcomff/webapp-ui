@@ -97,6 +97,7 @@ const roots = computed(() => {
 	margin-bottom: 4px;
 	display: inline;
 }
+
 .new-group {
 	gap: 16px;
 	margin: 16px 0;
