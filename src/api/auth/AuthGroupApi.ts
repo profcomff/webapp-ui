@@ -3,7 +3,7 @@ import { AuthBaseApi } from './AuthBaseApi';
 
 interface CreateGroupBody {
 	name: string;
-	parent_id: number;
+	parent_id: number | null;
 	scopes: number[];
 }
 

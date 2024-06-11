@@ -5,9 +5,13 @@ import GroupTreeNode from './GroupTreeNode.vue';
 import { StoreGroup, useAuthStore } from '@/store/auth';
 import IrdomLayout from '@/components/IrdomLayout.vue';
 import { useToolbar } from '@/store/toolbar';
+import { useProfileStore } from '@/store/profile';
+import { scopename } from '@/models/ScopeName';
 
 const authStore = useAuthStore();
 const toolbar = useToolbar();
+const profileStore = useProfileStore();
+const { hasTokenAccess } = profileStore;
 
 toolbar.setup({
 	title: 'Редактирование групп пользователей',
@@ -30,6 +34,22 @@ onMounted(async () => {
 	}
 });
 
+const createGroup = async (e: Event) => {
+	if (hasTokenAccess(scopename.auth.group.create)) {
+		const form = e.target as HTMLFormElement;
+		const formData = new FormData(form);
+
+		const name = formData.get('new-group-name')!.toString();
+
+		if (profileStore.isUserLogged) {
+			const { data } = await authGroupApi.createGroup({ name, parent_id: null, scopes: [] });
+			authStore.setGroup(data);
+
+			form.reset();
+		}
+	}
+};
+
 const roots = computed(() => {
 	const arr: StoreGroup[] = [];
 	for (const group of authStore.groups.values()) {
@@ -46,6 +66,10 @@ const roots = computed(() => {
 		<v-expansion-panels>
 			<GroupTreeNode v-for="root of roots" :key="root.id" :node="root" />
 		</v-expansion-panels>
+		<v-form class="d-flex new-group" @submit.prevent="createGroup">
+			<v-text-field label="name" name="new-group-name" prepend-icon="md:add" required />
+			<v-btn type="submit" icon="md:done" />
+		</v-form>
 	</IrdomLayout>
 </template>
 
@@ -72,5 +96,9 @@ const roots = computed(() => {
 .group-section-title {
 	margin-bottom: 4px;
 	display: inline;
+}
+.new-group {
+	gap: 16px;
+	margin: 16px 0;
 }
 </style>
