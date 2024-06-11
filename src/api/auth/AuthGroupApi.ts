@@ -7,6 +7,12 @@ interface CreateGroupBody {
 	scopes: number[];
 }
 
+interface PatchGroupBody {
+	name: string | undefined;
+	parent_id: number | null | undefined;
+	scopes: number[] | undefined;
+}
+
 export enum GroupInfo {
 	Children = 'child',
 	Scopes = 'scopes',
@@ -34,8 +40,12 @@ class AuthGroupApi extends AuthBaseApi {
 		return this.delete<string>(`/${id}`, undefined);
 	}
 
-	public async patchGroup(id: number, body: Partial<CreateGroupBody>) {
-		return this.patch<Group, Partial<CreateGroupBody>>(`/${id}`, body);
+	public async patchGroup(id: number, body: Partial<PatchGroupBody>) {
+		return this.patch<Group, Partial<PatchGroupBody>>(`/${id}`, body);
+	}
+
+	public async renameGroup(id: number, name: string) {
+		return this.patchGroup(id, { name });
 	}
 
 	public async getGroups<Info extends GroupInfo>(info: Info[]) {

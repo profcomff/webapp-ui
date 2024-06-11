@@ -33,6 +33,21 @@ const createGroup = async (e: Event) => {
 	}
 };
 
+const renameGroup = async (groupId?: number) => {
+	if (hasTokenAccess(scopename.auth.group.delete) && groupId) {
+		const g = authStore.groups.get(groupId);
+
+		const oldName = g?.name || '';
+		const newName = prompt('Новое название для группы', oldName);
+		if (!newName) return;
+
+		await authGroupApi.renameGroup(groupId, newName);
+		if (g) {
+			g.name = newName;
+		}
+	}
+};
+
 const deleteGroup = async (groupId?: number) => {
 	if (hasTokenAccess(scopename.auth.group.delete) && groupId) {
 		await authGroupApi.deleteGroup(groupId);
@@ -58,12 +73,14 @@ const deleteGroup = async (groupId?: number) => {
 					<v-btn icon="md:more_horiz" v-bind="menuProps" variant="text" />
 				</template>
 				<v-list>
-					<v-list-item v-if="hasTokenAccess(scopename.auth.group.create)">
-						Добавить группу
+					<v-list-item
+						v-if="hasTokenAccess(scopename.auth.group.update)"
+						@click="renameGroup(node?.id)"
+					>
+						Переименовать
 					</v-list-item>
 					<v-list-item
-						v-if="node.parent_id && hasTokenAccess(scopename.auth.group.delete)"
-						color="var(--v-theme-error)"
+						v-if="hasTokenAccess(scopename.auth.group.delete)"
 						@click="deleteGroup(node?.id)"
 					>
 						Удалить
