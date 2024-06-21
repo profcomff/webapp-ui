@@ -97,7 +97,7 @@ jobs:
 
   deploy-test:
     name: Раскатываем тестовый Docker
-    runs-on: [self-hosted, Linux]
+    runs-on: [ self-hosted, Linux, testing ]
     needs: build-test-image
     environment:
       name: Testing

@@ -92,7 +92,7 @@ jobs:
 
   deploy-preprod:
     name: Раскатываем pre-prod среду
-    runs-on: [self-hosted, Linux]
+    runs-on: [ self-hosted, Linux, testing ]
     needs: build-preprod-image
     environment:
       name: Preprod
@@ -115,7 +115,7 @@ jobs:
 
   undeploy-preprod:
     name: Останавливаем pre-prod среду
-    runs-on: [self-hosted, Linux]
+    runs-on: [ self-hosted, Linux, testing ]
     needs: deploy-preprod
     environment:
       name: Preprod
@@ -130,7 +130,7 @@ jobs:
 
   deploy-production:
     name: Раскатываем production среду
-    runs-on: [self-hosted, Linux]
+    runs-on: [ self-hosted, Linux, production ]
     needs: [deploy-preprod, build-prod-image]
     environment:
       name: Production
