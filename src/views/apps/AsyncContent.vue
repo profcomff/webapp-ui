@@ -61,8 +61,8 @@ const showRestrictedAccessWarning = () => {
 					v-if="icon.startsWith('http')"
 					:src="icon"
 					:alt="buttonName"
-					width="400"
-					height="400"
+					:width="sectionType === 'grid3' ? 128 : 24"
+					:height="sectionType === 'grid3' ? 128 : 24"
 					class="icon"
 				/>
 				<v-icon
