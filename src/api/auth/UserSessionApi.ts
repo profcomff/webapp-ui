@@ -12,6 +12,7 @@ export enum MySessionInfo {
 	IndirectGroups = 'indirect_groups',
 	SessionScopes = 'session_scopes',
 	UserScopes = 'user_scopes',
+	Scopes = 'scopes',
 	AuthMethods = 'auth_methods',
 }
 
@@ -52,9 +53,11 @@ class UserSessionApi extends AuthBaseApi {
 	constructor() {
 		super('');
 	}
+
 	public async logout() {
 		return this.post<DefaultResponse>('/logout');
 	}
+
 	public async getMe<Info extends MySessionInfo = never>(info?: Info[]) {
 		return this.get<
 			Session & {
@@ -71,6 +74,24 @@ class UserSessionApi extends AuthBaseApi {
 			{ info?: Info[] }
 		>('/me', { info });
 	}
+
+	public async getById<Info extends MySessionInfo = never>(id: number, info?: Info[]) {
+		return this.get<
+			Session & {
+				[MySessionInfo.Groups]: MySessionInfo.Groups extends Info ? number[] : never;
+				[MySessionInfo.IndirectGroups]: MySessionInfo.IndirectGroups extends Info
+					? number[]
+					: never;
+				[MySessionInfo.SessionScopes]: MySessionInfo.SessionScopes extends Info
+					? SessionScope[]
+					: never;
+				[MySessionInfo.UserScopes]: MySessionInfo.UserScopes extends Info ? UserScope[] : never;
+				[MySessionInfo.AuthMethods]: MySessionInfo.AuthMethods extends Info ? AuthMethod[] : never;
+			},
+			{ info?: Info[] }
+		>(`/user/${id}`, { info });
+	}
+
 	public async getSessions<Info extends SessionInfo = never>(info?: Info[]) {
 		return this.get<
 			Array<
@@ -83,12 +104,15 @@ class UserSessionApi extends AuthBaseApi {
 			{ info?: Info[] }
 		>('/session', { info });
 	}
+
 	public async createSession(body: CreateBody) {
 		return this.post<SessionCreateResponse, CreateBody>('/session', body);
 	}
+
 	public async deleteSessions(delete_current?: boolean) {
 		return this.delete<string, { delete_current?: boolean }>('/session', { delete_current });
 	}
+
 	public async deleteSession(token: string) {
 		return this.delete<string>(`/session/${token}`);
 	}

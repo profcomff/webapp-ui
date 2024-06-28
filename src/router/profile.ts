@@ -11,7 +11,7 @@ export const profileRoutes: RouteRecordRaw[] = [
 	},
 	{
 		path: ':id(\\d+)',
-		component: () => import('@/views/user/UserView.vue'),
+		component: () => import('@/views/profile/ProfileView.vue'),
 	},
 	{
 		path: 'edit',

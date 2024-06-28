@@ -86,6 +86,16 @@ export class AuthApi {
 		[checkToken]
 	);
 
+	static getById = apply(
+		async (id: number, info?: MySessionInfo[]) => {
+			const promise = userSessionApi.getById(id, info);
+			return promise;
+		},
+
+		[showErrorToast],
+		[checkToken]
+	);
+
 	static loginEmail = apply(
 		async (email: string, password: string) => {
 			const profileStore = useProfileStore();

@@ -2,8 +2,8 @@
 import { onMounted, ref } from 'vue';
 import Placeholder from '@/assets/profile_image_placeholder.webp';
 import { AuthApi } from '@/api';
-import { MySessionInfo, userSessionApi } from '@/api/auth';
-import { useRouter } from 'vue-router';
+import { AuthMethod, MySessionInfo, userSessionApi } from '@/api/auth';
+import { useRouter, useRoute } from 'vue-router';
 import { userdataUserApi } from '@/api/userdata/UserdataUserApi';
 import { UserdataArray, UserdataCategoryName, UserdataParams } from '@/models';
 import AchievementsSlider from './achievement/AchievementsSlider.vue';
@@ -13,9 +13,11 @@ import { UserdataConverter } from '@/utils/UserdataConverter';
 import { ToolbarActionItem } from '@/components/IrdomToolbar.vue';
 import { useToolbar } from '@/store/toolbar';
 import FullscreenLoader from '@/components/FullscreenLoader.vue';
+import { Session, SessionScope, UserScope } from '@/api/models';
 
 const profileStore = useProfileStore();
 const router = useRouter();
+const route = useRoute();
 const toolbar = useToolbar();
 
 toolbar.setup({
@@ -64,13 +66,36 @@ const loadUserdata = async () => {
 	}
 
 	userdataLoadingState.value = UserdataLoadingState.Loading;
-	const { data: me } = await AuthApi.getMe([
-		MySessionInfo.AuthMethods,
-		MySessionInfo.Groups,
-		MySessionInfo.IndirectGroups,
-		MySessionInfo.SessionScopes,
-		MySessionInfo.UserScopes,
-	]);
+
+	let me: Session & {
+		groups: number[];
+		indirect_groups: number[];
+		session_scopes: SessionScope[];
+		user_scopes: UserScope[];
+		auth_methods: AuthMethod[];
+	};
+
+	if (!('id' in route.params) || route.params.id === undefined) {
+		me = (
+			await AuthApi.getMe([
+				MySessionInfo.AuthMethods,
+				MySessionInfo.Groups,
+				MySessionInfo.IndirectGroups,
+				MySessionInfo.SessionScopes,
+				MySessionInfo.UserScopes,
+			])
+		).data;
+	} else {
+		const id = Number(route.params.id);
+		me = (
+			await AuthApi.getById(id, [
+				MySessionInfo.AuthMethods,
+				MySessionInfo.Groups,
+				MySessionInfo.IndirectGroups,
+				MySessionInfo.Scopes,
+			])
+		).data;
+	}
 
 	const { data } = await userdataUserApi.getById(me.id);
 	fullName.value =
