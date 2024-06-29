@@ -66,7 +66,7 @@ async function createAchievement(
 								prepend-icon="md:image"
 								accept="image/png"
 								:rules="[
-									(value: File) => {
+									(value: File[]) => {
 										return (
 											!value ||
 											value.length == 1 ||
