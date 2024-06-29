@@ -3,7 +3,7 @@ import { onMounted, ref } from 'vue';
 import Placeholder from '@/assets/profile_image_placeholder.webp';
 import { AuthApi } from '@/api';
 import { MySessionInfo, userSessionApi } from '@/api/auth';
-import { useRouter } from 'vue-router';
+import { useRouter, useRoute } from 'vue-router';
 import { userdataUserApi } from '@/api/userdata/UserdataUserApi';
 import { UserdataArray, UserdataCategoryName, UserdataParams } from '@/models';
 import AchievementsSlider from './achievement/AchievementsSlider.vue';
@@ -16,22 +16,28 @@ import FullscreenLoader from '@/components/FullscreenLoader.vue';
 
 const profileStore = useProfileStore();
 const router = useRouter();
+const route = useRoute();
 const toolbar = useToolbar();
+
+const isOwnProfile = !('id' in route.params) || route.params.id === undefined;
+
+const buttons: ToolbarActionItem[] = [];
+// buttons.push({
+// 	icon: 'edit',
+// 	ariaLabel: 'Редактировать профиль',
+// 	onClick: () => router.push('/profile/edit'),
+// });
+if (isOwnProfile) {
+	buttons.push({
+		icon: 'settings',
+		ariaLabel: 'Настройки',
+		onClick: () => router.push('/profile/settings'),
+	});
+}
 
 toolbar.setup({
 	title: 'Профиль',
-	actions: [
-		// {
-		// 	icon: 'edit',
-		// 	ariaLabel: 'Редактировать профиль',
-		// 	onClick: () => router.push('/profile/edit'),
-		// },
-		{
-			icon: 'settings',
-			ariaLabel: 'Настройки',
-			onClick: () => router.push('/profile/settings'),
-		},
-	],
+	actions: buttons,
 });
 
 enum UserdataLoadingState {
@@ -64,13 +70,21 @@ const loadUserdata = async () => {
 	}
 
 	userdataLoadingState.value = UserdataLoadingState.Loading;
-	const { data: me } = await AuthApi.getMe([
-		MySessionInfo.AuthMethods,
-		MySessionInfo.Groups,
-		MySessionInfo.IndirectGroups,
-		MySessionInfo.SessionScopes,
-		MySessionInfo.UserScopes,
-	]);
+
+	const { data: me } = await (isOwnProfile
+		? AuthApi.getMe([
+				MySessionInfo.AuthMethods,
+				MySessionInfo.Groups,
+				MySessionInfo.IndirectGroups,
+				MySessionInfo.SessionScopes,
+				MySessionInfo.UserScopes,
+			])
+		: AuthApi.getById(Number(route.params.id), [
+				MySessionInfo.AuthMethods,
+				MySessionInfo.Groups,
+				MySessionInfo.IndirectGroups,
+				MySessionInfo.Scopes,
+			]));
 
 	const { data } = await userdataUserApi.getById(me.id);
 	fullName.value =
