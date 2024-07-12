@@ -131,7 +131,7 @@ const openApp = async (data: ServiceData) => {
 		return;
 	}
 	// Приложения открываем только по https
-	if (!data.link.startsWith('https://')) {
+	if (data.link === undefined || !data.link.startsWith('https://')) {
 		appState.value = AppState.Error;
 		return;
 	}
