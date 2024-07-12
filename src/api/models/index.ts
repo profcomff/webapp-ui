@@ -68,7 +68,7 @@ export interface ServiceData {
 	order: number;
 	icon: string;
 	name: string;
-	link: string;
+	link?: string;
 	type: ButtonType;
 	view: ButtonView;
 	required_scopes?: string[];
