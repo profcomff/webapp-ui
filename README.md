@@ -1,5 +1,7 @@
 # Фронтенд приложения "Твой Физфак!"
 
+[<img src="https://cdn.profcomff.com/easycode/easycode.svg" width="200"></img>](https://easycode.profcomff.com/templates/docker-node/workspace?mode=manual&param.Repository+URL=https://github.com/profcomff/webapp-ui.git&param.Working+directory=webapp-ui)
+
 ## Как начать\*
 
 1. [Установите](https://git-scm.com/book/ru/v2/Введение-Установка-Git) систему контроля версий `git`;
