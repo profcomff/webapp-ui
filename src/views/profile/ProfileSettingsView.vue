@@ -53,6 +53,16 @@ const OnClick = async () => {
 				Изменение почты
 			</v-btn>
 			<v-btn
+				prepend-icon="mail"
+				variant="tonal"
+				class="button"
+				color="blue"
+				:disabled="current_email"
+				@click="$router.push('/profile/add-email')"
+			>
+				Добавление почты
+			</v-btn>
+			<v-btn
 				prepend-icon="key"
 				variant="tonal"
 				class="button"
