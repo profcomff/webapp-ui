@@ -1,9 +1,7 @@
 <script setup lang="ts">
 import { AuthApi } from '@/api';
 import { ToastType } from '@/models';
-// import { onMounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
-// import { MySessionInfo } from '@/api/auth/UserSessionApi';
 import IrdomLayout from '@/components/IrdomLayout.vue';
 import { useToastStore } from '@/store/toast';
 import { useToolbar } from '@/store/toolbar';
@@ -19,20 +17,8 @@ const emit = defineEmits<{
 	success: [];
 }>();
 
-// const checkPasswords = ref(false);
-// checkPasswords.value = false;
 const router = useRouter();
 const toastStore = useToastStore();
-
-// onMounted(async () => {
-// 	const { data: me } = await AuthApi.getMe([
-// 		MySessionInfo.AuthMethods,
-// 		MySessionInfo.Groups,
-// 		MySessionInfo.IndirectGroups,
-// 		MySessionInfo.SessionScopes,
-// 		MySessionInfo.UserScopes,
-// 	]);
-// });
 
 const submitHandler = async (event: Event) => {
 	const form = event.target as HTMLFormElement;
