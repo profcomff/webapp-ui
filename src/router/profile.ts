@@ -33,4 +33,8 @@ export const profileRoutes: RouteRecordRaw[] = [
 		path: 'change-email',
 		component: () => import('@/views/auth/ChangeEmailView.vue'),
 	},
+	{
+		path: 'add-email',
+		component: () => import('@/views/auth/AddEmailView.vue'),
+	},
 ];
