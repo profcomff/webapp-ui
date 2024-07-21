@@ -43,7 +43,6 @@ toolbar.setup({
 enum UserdataLoadingState {
 	Loading = 1,
 	Ready = 2,
-	Error = 3,
 }
 
 const userdata = ref<UserdataArray>([]);
@@ -155,10 +154,6 @@ onMounted(async () => {
 						</div>
 					</div>
 				</div>
-			</div>
-			<div v-else>
-				<p>Не удалось загрузить информацию профиля</p>
-				<v-btn prepend-icon="refresh" class="my-4" @click="loadUserdata"> Попробовать снова </v-btn>
 			</div>
 		</section>
 	</IrdomLayout>
