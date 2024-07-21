@@ -56,7 +56,6 @@ const OnClick = async () => {
 				prepend-icon="mail"
 				variant="tonal"
 				class="button"
-				color="blue"
 				:disabled="current_email"
 				@click="$router.push('/profile/add-email')"
 			>
