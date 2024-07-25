@@ -1,5 +1,9 @@
 import axios, { AxiosResponse } from 'axios';
 import queryString from 'query-string';
+import { createClient } from '@profcomff/api-uilib';
+
+const apiClient = createClient(import.meta.env.VITE_API_URL);
+export default apiClient;
 
 export interface DefaultResponse {
 	status: string;

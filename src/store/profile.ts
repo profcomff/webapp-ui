@@ -1,3 +1,4 @@
+import { setupAuth } from '@profcomff/api-uilib';
 import { scopename } from './../models/ScopeName';
 import { marketingApi } from '@/api/marketing';
 import { LocalStorage, LocalStorageItem } from '@/models/LocalStorage';
@@ -18,6 +19,7 @@ export const useProfileStore = defineStore('profile', () => {
 
 	function updateToken(newToken?: string) {
 		token.value = newToken ?? LocalStorage.get(LocalStorageItem.Token);
+		setupAuth(token.value);
 	}
 
 	function hasTokenAccess(scopeName: string) {
