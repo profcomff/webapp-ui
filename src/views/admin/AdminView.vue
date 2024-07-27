@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import AccessRestricted from '@/components/AccessRestricted.vue';
 import IrdomLayout from '@/components/IrdomLayout.vue';
-import { scopename } from '@/models/ScopeName';
+import { scopename } from '@/api/auth/ScopeName';
 import { useProfileStore } from '@/store/profile';
 import { useToolbar } from '@/store/toolbar';
 import { onMounted, ref, computed } from 'vue';

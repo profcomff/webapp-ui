@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { authGroupApi } from '@/api/auth';
-import { scopename } from '@/models/ScopeName';
+import { scopename } from '@/api/auth/ScopeName';
 import { StoreGroup, useAuthStore } from '@/store/auth';
 import { useProfileStore } from '@/store/profile';
 import { ref } from 'vue';
