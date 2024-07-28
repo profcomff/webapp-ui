@@ -7,54 +7,59 @@ enum PropertySource {
 
 export class Property<type> {
 	// Читаемое название
-	private _name: string;
+	public readonly name: string;
+
+	// Источник параметра
+	public readonly source: PropertySource;
+
+	// Ссылка на пользователя
+	public readonly user: UserModel;
 
 	// Значение параметра
 	private _value?: type;
-
-	// Источник параметра
-	private _source: PropertySource;
-
-	// Ссылка на пользователя
-	private _user: UserModel;
-
-	// Есть изменения, не отправленные в API
-	protected _changed: boolean = false;
-
-	constructor(name: string, from: PropertySource, user: UserModel, value?: type) {
-		this._name = name;
-		this._value = value;
-		this._source = from;
-		this._user = user;
-	}
-
-	public get name(): string {
-		return this._name;
-	}
-
+	readonly readonly: boolean;
 	public get value(): type | undefined {
-		if ((this._value === undefined && this.user.autoPull) || this.user.alwaysRefresh) {
-			this.user.pull([this]);
-		}
 		return this._value;
 	}
 	public set value(v: type) {
+		if (this.readonly) {
+			throw Error("Value can't be assigned");
+		}
 		this._value = v;
 		this._changed = true;
-		if ((this._value !== undefined && this.user.autoPush) || this.user.alwaysRefresh) {
-			this.user.push([this]);
-		}
 	}
 	public setValueNoAction(v: type) {
 		this._value = v;
 	}
 
-	public get source() {
-		return this._source;
+	// Есть изменения, не отправленные в API
+	protected _changed: boolean = false;
+	public get changed() {
+		return this._changed;
 	}
 
-	public get user() {
-		return this._user;
+	constructor(
+		name: string,
+		from: PropertySource,
+		user: UserModel,
+		readonly: boolean = false,
+		value?: type
+	) {
+		this._value = value;
+		this.name = name;
+		this.source = from;
+		this.user = user;
+		this.readonly = readonly;
+	}
+
+	public async pull() {
+		await this.user.pull([this]);
+		return this;
+	}
+
+	public async push() {
+		await this.user.push([this]);
+		return this;
 	}
 }
 
@@ -97,33 +102,18 @@ class UserdataApiProperty<type> extends Property<type> {
 }
 
 export class UserModel {
-	constructor(id: number, client?: typeof apiClient) {
-		this._id = id;
+	constructor(id: number, client?: typeof apiClient, editor_user_id?: number) {
+		this.id = id;
 		this._client = client ?? apiClient;
+		this.edit_source = editor_user_id === id ? 'user' : 'admin';
 	}
 
 	// Идентификатор пользователя
-	private _id: number;
-	public get id() {
-		return this._id;
-	}
+	public readonly id: number;
+	public edit_source: 'user' | 'admin';
 
 	// Настройки инстанса модели
-	private _client;
-	private _autoPull = true;
-	public get autoPull() {
-		return this._autoPull;
-	}
-
-	private _autoPush = true;
-	public get autoPush() {
-		return this._autoPush;
-	}
-
-	private _alwaysRefresh = false;
-	public get alwaysRefresh() {
-		return this._alwaysRefresh;
-	}
+	private readonly _client;
 
 	// Свойства
 	public auth = {
@@ -163,41 +153,56 @@ export class UserModel {
 		},
 	};
 
+	public get properties() {
+		let properties: Property<unknown>[] = [];
+		properties = properties.concat(Object.values(this.auth));
+		properties = properties.concat(
+			Object.values(this.userdata.career),
+			Object.values(this.userdata.study),
+			Object.values(this.userdata.contacts),
+			Object.values(this.userdata.personal)
+		);
+		return properties;
+	}
+
 	/**
-	 * makeAuthRequest
+	 * pullAuth
 	 * Получаем данные из Auth API, раскидываем их на нужные поля
 	 * @returns Чтобы не ждать возвращаем Promise
 	 */
-	private pullAuth = (authApiParams: authApiRequestParamTypes[]) => {
+	private pullAuth(authApiParams: authApiRequestParamTypes[]) {
 		return this._client
 			.GET('/auth/user/{user_id}', {
 				params: { path: { user_id: this.id }, query: { info: authApiParams } },
 			})
 			.then(v => {
-				if (v.data && v.data.email) {
-					this.auth.email.setValueNoAction(v.data.email);
+				if (!v.data) {
+					return;
 				}
-				if (v.data && v.data.auth_methods) {
+				if (v.data.email) {
+					this.auth.email.setValueNoAction(v.data.email ?? null); // Null валидное значение, undefined невозможен
+				}
+				if (v.data.auth_methods) {
 					this.auth.auth_methods.setValueNoAction(v.data.auth_methods);
 				}
-				if (v.data && v.data.groups) {
+				if (v.data.groups) {
 					this.auth.groups.setValueNoAction(v.data.groups);
 				}
-				if (v.data && v.data.indirect_groups) {
+				if (v.data.indirect_groups) {
 					this.auth.indirect_groups.setValueNoAction(v.data.indirect_groups);
 				}
-				if (v.data && v.data.user_scopes) {
+				if (v.data.user_scopes) {
 					this.auth.user_scopes.setValueNoAction(v.data.user_scopes);
 				}
 			});
-	};
+	}
 
 	/**
-	 * makeUserdataRequest
+	 * pullUserdata
 	 * Получаем данные из Userdata API, раскидываем их на нужные поля
 	 * @returns Чтобы не ждать возвращаем Promise
 	 */
-	private pullUserdata = () => {
+	private pullUserdata() {
 		// Строим словарь вида {[Категория, Поле]: Проперти}
 		const userdataCategoryMapping: Map<[string, string], UserdataApiProperty<unknown>> = new Map();
 		Object.values(this.userdata).map(v => {
@@ -221,13 +226,13 @@ export class UserModel {
 					});
 				}
 			});
-	};
+	}
 
 	/**
 	 * pull
 	 * Получает множество свойств пользователя из различных API
 	 */
-	public pull = (properties: Property<unknown>[]) => {
+	public pull(properties: Property<unknown>[]) {
 		let authApiRequest = false;
 		const authApiParams: authApiRequestParamTypes[] = [];
 
@@ -245,7 +250,7 @@ export class UserModel {
 			}
 		});
 
-		const requests: Promise<void>[] = [];
+		const requests: Promise<unknown>[] = [];
 		if (authApiRequest) {
 			requests.push(this.pullAuth(authApiParams));
 		}
@@ -254,45 +259,49 @@ export class UserModel {
 		}
 
 		return Promise.all(requests);
-	};
+	}
 
-	private pushAuth = () => {};
-	private pushUserdata = () => {};
+	private pushAuth(properties: AuthApiProperty<unknown>[]) {
+		return this._client.PATCH('/auth/user/{user_id}', {
+			params: { path: { user_id: this.id } },
+			body: { groups: [] },
+		});
+	}
+	private pushUserdata(properties: UserdataApiProperty<unknown>[]) {
+		return this._client.POST('/userdata/user/{id}', {
+			params: { path: { id: this.id } },
+			body: { items: [], source: this.edit_source },
+		});
+	}
 
 	/**
 	 * push
 	 * Засылает изменения множества свойств пользователя в различные API
 	 */
-	public push = async (properties?: Property<unknown>[]) => {
-		// let authApiRequest: AuthApiProperty<unknown>[] = [];
-		// let userdataApiRequest: UserdataApiProperty<unknown>[] = [];
+	public async push(properties?: Property<unknown>[]) {
+		const authApiProps: AuthApiProperty<unknown>[] = [];
+		const userdataApiProps: UserdataApiProperty<unknown>[] = [];
 
 		if (!properties) {
-			// Собираем все неизмененные проперти
-		} else {
-			// Сортируем только перечисленные
+			properties = this.properties.filter(v => v.changed);
 		}
-	};
+		properties.map(v => {
+			if (v instanceof AuthApiProperty) {
+				authApiProps.push(v);
+			}
+			if (v instanceof UserdataApiProperty) {
+				userdataApiProps.push(v);
+			}
+		});
 
-	/**
-	 * lazyLoadSetup
-	 * Устанавливает настройки ленивой загрузки и отправки данных
-	 * Позволяет установить с какой частотой будут получаться/отправляться изменения на сервер
-	 * @param autoPull Разрешить получать данные при образении к параметрам.
-	 * 	Если false – получение только через `User.pull(...)`.
-	 * @param autoPush Разрешить сохранять данные при образении к параметрам.
-	 * 	Если false – сохранение только через `User.push(...)`.
-	 * @param alwaysRefresh – не кэшировать значения и делать запросы на сервер каждый раз.
-	 */
-	public lazyLoadSetup = async (
-		autoPull: boolean = true,
-		autoPush: boolean = true,
-		alwaysRefresh: boolean = false
-	) => {
-		this._autoPull = autoPull;
-		this._autoPush = autoPush;
-		this._alwaysRefresh = alwaysRefresh;
-	};
+		const requests: Promise<unknown>[] = [];
+		if (authApiProps.length > 0) {
+			requests.push(this.pushAuth(authApiProps));
+		}
+		if (userdataApiProps.length > 0) {
+			requests.push(this.pushUserdata(userdataApiProps));
+		}
+	}
 }
 
 export default UserModel;
