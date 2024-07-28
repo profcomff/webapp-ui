@@ -3,7 +3,7 @@ import { LocalStorage, LocalStorageItem } from '@/models/LocalStorage';
 import { adminRoutes, adminHandler } from './admin';
 import { profileRoutes } from './profile';
 import { authHandler, authRoutes } from './auth';
-import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router';
+import { createMemoryHistory, createRouter, createWebHistory, RouteRecordRaw } from 'vue-router';
 import { timetableRoutes, timetableHandler } from './timetable';
 import AppsView from '@/views/apps/AppsView.vue';
 import { useProfileStore } from '@/store/profile';
@@ -48,7 +48,10 @@ const routes: RouteRecordRaw[] = [
 ];
 
 const router = createRouter({
-	history: createWebHistory(import.meta.env.BASE_URL),
+	history:
+		typeof window === 'undefined'
+			? createMemoryHistory(import.meta.env.BASE_URL)
+			: createWebHistory(import.meta.env.BASE_URL),
 	routes,
 });
 

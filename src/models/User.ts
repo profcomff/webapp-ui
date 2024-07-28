@@ -33,7 +33,7 @@ export class Property<type> {
 	}
 
 	public get value(): type | undefined {
-		if ((this.value === undefined && this.user.autoPull) || this.user.alwaysRefresh) {
+		if ((this._value === undefined && this.user.autoPull) || this.user.alwaysRefresh) {
 			this.user.pull([this]);
 		}
 		return this._value;
@@ -41,7 +41,7 @@ export class Property<type> {
 	public set value(v: type) {
 		this._value = v;
 		this._changed = true;
-		if ((this.value !== undefined && this.user.autoPush) || this.user.alwaysRefresh) {
+		if ((this._value !== undefined && this.user.autoPush) || this.user.alwaysRefresh) {
 			this.user.push([this]);
 		}
 	}
