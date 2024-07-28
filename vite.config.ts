@@ -25,12 +25,7 @@ export default defineConfig({
 	},
 	publicDir: 'src/public',
 	test: {
-		include: [
-			'tests/*/**/*.ts',
-
-			// Default, TODO: drop later
-			'**/*.{test,spec}.?(c|m)[jt]s?(x)',
-		],
+		include: ['tests/*/**/*.ts'],
 		globalSetup: 'tests/globalSetup.ts',
 		server: {
 			deps: {

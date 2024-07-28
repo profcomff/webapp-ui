@@ -1,4 +1,4 @@
-import { formatTime } from './time';
+import { formatTime } from 'src/utils/time';
 import { describe, it, expect } from 'vitest';
 
 describe('Time format function:', () => {
