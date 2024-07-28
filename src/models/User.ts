@@ -97,8 +97,9 @@ class UserdataApiProperty<type> extends Property<type> {
 }
 
 export class UserModel {
-	constructor(id: number) {
+	constructor(id: number, client?: typeof apiClient) {
 		this._id = id;
+		this._client = client ?? apiClient;
 	}
 
 	// Идентификатор пользователя
@@ -108,6 +109,7 @@ export class UserModel {
 	}
 
 	// Настройки инстанса модели
+	private _client;
 	private _autoPull = true;
 	public get autoPull() {
 		return this._autoPull;
@@ -167,7 +169,7 @@ export class UserModel {
 	 * @returns Чтобы не ждать возвращаем Promise
 	 */
 	private pullAuth = (authApiParams: authApiRequestParamTypes[]) => {
-		return apiClient
+		return this._client
 			.GET('/auth/user/{user_id}', {
 				params: { path: { user_id: this.id }, query: { info: authApiParams } },
 			})
@@ -205,7 +207,7 @@ export class UserModel {
 		});
 
 		// Делаем запрос в userdata API
-		return apiClient
+		return this._client
 			.GET('/userdata/user/{id}', {
 				params: { path: { id: this.id } },
 			})
