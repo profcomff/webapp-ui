@@ -71,9 +71,10 @@ class AuthApiProperty<type> extends Property<type> {
 		name: string,
 		request_param: authApiRequestParamTypes | null,
 		user: UserModel,
+		readonly: boolean = false,
 		value?: type
 	) {
-		super(name, PropertySource.authApi, user, value);
+		super(name, PropertySource.authApi, user, readonly, value);
 		this._source_request_param = request_param ?? null;
 	}
 
@@ -90,9 +91,10 @@ class UserdataApiProperty<type> extends Property<type> {
 		name: string,
 		request_param: userdataApiRequestParamTypes,
 		user: UserModel,
+		readonly: boolean = false,
 		value?: type
 	) {
-		super(name, PropertySource.userdataApi, user, value);
+		super(name, PropertySource.userdataApi, user, readonly, value);
 		this._source_request_param = request_param;
 	}
 
@@ -117,15 +119,16 @@ export class UserModel {
 
 	// Свойства
 	public auth = {
-		id: new AuthApiProperty<number>('id', null, this),
-		email: new AuthApiProperty<string | null>('Электронная почта', null, this),
-		auth_methods: new AuthApiProperty<string[]>('Методы авторизации', 'auth_methods', this),
+		id: new AuthApiProperty<number>('id', null, this, true),
+		email: new AuthApiProperty<string | null>('Электронная почта', null, this, true),
+		auth_methods: new AuthApiProperty<string[]>('Методы авторизации', 'auth_methods', this, true),
 		groups: new AuthApiProperty<number[]>('Группы', 'groups', this),
-		indirect_groups: new AuthApiProperty<number[]>('Все группы', 'indirect_groups', this),
+		indirect_groups: new AuthApiProperty<number[]>('Все группы', 'indirect_groups', this, true),
 		user_scopes: new AuthApiProperty<{ id: number; name: string }[]>(
 			'Права доступа',
 			'scopes',
-			this
+			this,
+			true
 		),
 	};
 	public userdata = {
