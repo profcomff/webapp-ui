@@ -6,7 +6,7 @@ import { useRoute } from 'vue-router';
 import { AuthApi } from '@/api';
 import AccessRestricted from '@/components/AccessRestricted.vue';
 import IrdomLayout from '@/components/IrdomLayout.vue';
-import { scopename } from '@/models/ScopeName';
+import { scopename } from '@/api/auth/ScopeName';
 import { useAuthStore } from '@/store/auth';
 import { useProfileStore } from '@/store/profile';
 import { useToolbar } from '@/store/toolbar';

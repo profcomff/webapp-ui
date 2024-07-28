@@ -4,7 +4,7 @@ import ScopesTable from '../ScopesTable.vue';
 import { onMounted, computed } from 'vue';
 import { AuthApi } from '@/api';
 import IrdomLayout from '@/components/IrdomLayout.vue';
-import { scopename } from '@/models/ScopeName';
+import { scopename } from '@/api/auth/ScopeName';
 import AccessRestricted from '@/components/AccessRestricted.vue';
 import { useAuthStore } from '@/store/auth';
 import { useProfileStore } from '@/store/profile';

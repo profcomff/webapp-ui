@@ -6,7 +6,7 @@ import { StoreGroup, useAuthStore } from '@/store/auth';
 import IrdomLayout from '@/components/IrdomLayout.vue';
 import { useToolbar } from '@/store/toolbar';
 import { useProfileStore } from '@/store/profile';
-import { scopename } from '@/models/ScopeName';
+import { scopename } from '@/api/auth/ScopeName';
 
 const authStore = useAuthStore();
 const toolbar = useToolbar();

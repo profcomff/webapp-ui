@@ -7,8 +7,7 @@ import { userSessionApi } from '@/api/auth/UserSessionApi';
 import { servicesApi } from '@/api/services/ServicesApi';
 import { ServiceData, ButtonType, ButtonView } from '@/api/models';
 import { useProfileStore } from '@/store/profile';
-import { LocalStorage, LocalStorageItem } from '@/models/LocalStorage';
-import { SuperappAuthItem } from '@/models/SuperappData';
+import { LocalStorage, LocalStorageItem, ServiceAuthInfo } from '@/models/LocalStorage';
 import FullscreenLoader from '@/components/FullscreenLoader.vue';
 import { AuthApi } from '@/api/controllers/auth/AuthApi';
 
@@ -70,9 +69,9 @@ function showApproveScopesScreen() {
 }
 
 const getToken = async () => {
-	const appsData = LocalStorage.getObject<SuperappAuthItem[]>(LocalStorageItem.SuperappAuth) || [];
+	const appsData = LocalStorage.getObject<ServiceAuthInfo[]>(LocalStorageItem.SuperappAuth) || [];
 	const authItemIndex = appsData.findIndex(value => value.service_id == appId);
-	const authItem: SuperappAuthItem =
+	const authItem: ServiceAuthInfo =
 		authItemIndex != -1 ? appsData[authItemIndex] : { service_id: appId };
 
 	// Если раньше уже получали токен с нужными правами – возвращаем его

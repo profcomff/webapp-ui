@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { getWeekdayName, getDateWithDayOffset } from './date';
+import { getWeekdayName, getDateWithDayOffset } from 'src/utils/date';
 
 describe('Convert date functions:', () => {
 	it('should return correct weekday names', () => {

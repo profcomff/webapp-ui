@@ -1,5 +1,5 @@
 import { setupAuth } from '@profcomff/api-uilib';
-import { scopename } from './../models/ScopeName';
+import { scopename } from '../api/auth/ScopeName';
 import { marketingApi } from '@/api/marketing';
 import { LocalStorage, LocalStorageItem } from '@/models/LocalStorage';
 import { defineStore } from 'pinia';

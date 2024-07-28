@@ -4,7 +4,7 @@ import { onMounted } from 'vue';
 import UsersTable from '../UsersTable.vue';
 import AccessRestricted from '@/components/AccessRestricted.vue';
 import IrdomLayout from '@/components/IrdomLayout.vue';
-import { scopename } from '@/models/ScopeName';
+import { scopename } from '@/api/auth/ScopeName';
 import { useAuthStore } from '@/store/auth';
 import { useToolbar } from '@/store/toolbar';
 

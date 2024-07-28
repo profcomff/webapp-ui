@@ -1,4 +1,4 @@
-import { getNameWithInitials } from './personName';
+import { getNameWithInitials } from 'src/utils/personName';
 import { describe, expect, it } from 'vitest';
 
 describe('Format person name function: ', () => {
