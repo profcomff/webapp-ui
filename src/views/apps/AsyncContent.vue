@@ -17,6 +17,12 @@ if (!appsStore.categories) {
 	await ServicesApi.getCategories([CategoryInfo.Buttons]);
 }
 
+for (let categoryIndex = 0; categoryIndex < appsStore.categories.length; categoryIndex++) {
+	appsStore.categories[categoryIndex].buttons = appsStore.categories[categoryIndex].buttons.filter(
+		button => button.view !== ButtonView.Hidden
+	);
+}
+
 const sendMarketing = (url: string) => {
 	if (profileStore.marketingId) {
 		marketingApi.writeAction({
