@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { useTimetableStore } from '@/store/timetable';
-import IrdomCalendar from '@/components/IrdomCalendar.vue';
 import { useRouter } from 'vue-router';
 import { stringifyDate } from '@/utils/date';
 
@@ -61,12 +60,18 @@ function updateDateHandler(date: Date) {
 	</button>
 	<div
 		id="calendar"
-		ref="calendar"
 		v-click-outside="clickOutsideHandler"
-		:style="{ transform: `scaleY(${+show})` }"
 		class="dropdown"
+		:style="{ transform: `scaleY(${+show})` }"
 	>
-		<IrdomCalendar v-model="innerDate" :selected="date" @update:model-value="updateDateHandler" />
+		<v-date-picker
+			v-model="innerDate"
+			landscape
+			theme="datePicker"
+			bg-color="primary"
+			hide-header
+			@update:model-value="updateDateHandler"
+		/>
 	</div>
 </template>
 

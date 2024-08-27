@@ -21,6 +21,23 @@ const profcomffLight = {
 	},
 };
 
+const datePicker = {
+	dark: false,
+	colors: {
+		primary: 'rgb(0, 1, 76)',
+		'on-primary': 'rgb(255, 255, 255)',
+
+		secondary: 'rgb(255, 139, 0)',
+		'on-secondary': 'rgb(0, 0, 0)',
+
+		surface: 'rgb(0, 1, 76)',
+		'on-surface': 'rgb(255, 255, 255)',
+
+		'surface-variant': 'rgb(255, 139, 0)',
+		'on-surface-variant': 'rgb(0, 0, 0)',
+	},
+};
+
 export const vuetify = createVuetify({
 	icons: {
 		defaultSet: 'md',
@@ -60,6 +77,10 @@ export const vuetify = createVuetify({
 		defaultTheme: 'profcomffLight',
 		themes: {
 			profcomffLight,
+			datePicker,
 		},
+	},
+	locale: {
+		locale: 'ru',
 	},
 });
