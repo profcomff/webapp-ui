@@ -71,7 +71,7 @@
 		"typescript.tsdk": "node_modules/typescript/lib",
 		"css.validate": false,
 		"[vue]": {
-        "editor.defaultFormatter": "esbenp.prettier-vscode"
-    	},
+			"editor.defaultFormatter": "esbenp.prettier-vscode",
+		},
 	},
 }

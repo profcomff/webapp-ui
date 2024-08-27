@@ -116,7 +116,7 @@ importers:
         version: 2.0.29(typescript@5.3.3)
       vuetify:
         specifier: ^3.6.13
-        version: 3.6.13(typescript@5.3.3)(vite-plugin-vuetify@2.0.3)(vue-i18n@9.14.0(vue@3.4.34(typescript@5.3.3)))(vue@3.4.34(typescript@5.3.3))
+        version: 3.6.13(typescript@5.3.3)(vite-plugin-vuetify@2.0.3)(vue@3.4.34(typescript@5.3.3))
 
 packages:
 
@@ -1117,18 +1117,6 @@ packages:
   '@humanwhocodes/object-schema@2.0.3':
     resolution: {integrity: sha512-93zYdMES/c1D69yZiKDBj0V24vqNzB/koF26KPaagAfd3P/4gUlh3Dys5ogAK+Exi9QyzlD8x/08Zt7wIKcDcA==}
     deprecated: Use @eslint/object-schema instead
-
-  '@intlify/core-base@9.14.0':
-    resolution: {integrity: sha512-zJn0imh9HIsZZUtt9v8T16PeVstPv6bP2YzlrYJwoF8F30gs4brZBwW2KK6EI5WYKFi3NeqX6+UU4gniz5TkGg==}
-    engines: {node: '>= 16'}
-
-  '@intlify/message-compiler@9.14.0':
-    resolution: {integrity: sha512-sXNsoMI0YsipSXW8SR75drmVK56tnJHoYbPXUv2Cf9lz6FzvwsosFm6JtC1oQZI/kU+n7qx0qRrEWkeYFTgETA==}
-    engines: {node: '>= 16'}
-
-  '@intlify/shared@9.14.0':
-    resolution: {integrity: sha512-r+N8KRQL7LgN1TMTs1A2svfuAU0J94Wu9wWdJVJqYsoMMLIeJxrPjazihfHpmJqfgZq0ah3Y9Q4pgWV2O90Fyg==}
-    engines: {node: '>= 16'}
 
   '@jest/schemas@29.6.3':
     resolution: {integrity: sha512-mo5j5X+jIZmJQveBKeS/clAueipV7KgiX1vMgCxam1RNYiqE1w62n0/tJJnHtjW8ZHcQco5gY85jA3mi0L+nSA==}
@@ -3461,12 +3449,6 @@ packages:
     peerDependencies:
       eslint: '>=6.0.0'
 
-  vue-i18n@9.14.0:
-    resolution: {integrity: sha512-LxmpRuCt2rI8gqU+kxeflRZMQn4D5+4M3oP3PWZdowW/ePJraHqhF7p4CuaME52mUxdw3Mmy2yAUKgfZYgCRjA==}
-    engines: {node: '>= 16'}
-    peerDependencies:
-      vue: ^3.0.0
-
   vue-router@4.4.0:
     resolution: {integrity: sha512-HB+t2p611aIZraV2aPSRNXf0Z/oLZFrlygJm+sZbdJaW6lcFqEDQwnzUBXn+DApw+/QzDU/I9TeWx9izEjTmsA==}
     peerDependencies:
@@ -4740,21 +4722,6 @@ snapshots:
 
   '@humanwhocodes/object-schema@2.0.3': {}
 
-  '@intlify/core-base@9.14.0':
-    dependencies:
-      '@intlify/message-compiler': 9.14.0
-      '@intlify/shared': 9.14.0
-    optional: true
-
-  '@intlify/message-compiler@9.14.0':
-    dependencies:
-      '@intlify/shared': 9.14.0
-      source-map-js: 1.2.0
-    optional: true
-
-  '@intlify/shared@9.14.0':
-    optional: true
-
   '@jest/schemas@29.6.3':
     dependencies:
       '@sinclair/typebox': 0.27.8
@@ -5236,11 +5203,11 @@ snapshots:
 
   '@vue/shared@3.4.34': {}
 
-  '@vuetify/loader-shared@2.0.3(vue@3.4.34(typescript@5.3.3))(vuetify@3.6.13(typescript@5.3.3)(vite-plugin-vuetify@2.0.3)(vue-i18n@9.14.0(vue@3.4.34(typescript@5.3.3)))(vue@3.4.34(typescript@5.3.3)))':
+  '@vuetify/loader-shared@2.0.3(vue@3.4.34(typescript@5.3.3))(vuetify@3.6.13(typescript@5.3.3)(vite-plugin-vuetify@2.0.3)(vue@3.4.34(typescript@5.3.3)))':
     dependencies:
       upath: 2.0.1
       vue: 3.4.34(typescript@5.3.3)
-      vuetify: 3.6.13(typescript@5.3.3)(vite-plugin-vuetify@2.0.3)(vue-i18n@9.14.0(vue@3.4.34(typescript@5.3.3)))(vue@3.4.34(typescript@5.3.3))
+      vuetify: 3.6.13(typescript@5.3.3)(vite-plugin-vuetify@2.0.3)(vue@3.4.34(typescript@5.3.3))
 
   acorn-jsx@5.3.2(acorn@8.12.1):
     dependencies:
@@ -7241,12 +7208,12 @@ snapshots:
 
   vite-plugin-vuetify@2.0.3(vite@5.3.5(@types/node@20.14.12)(terser@5.31.3))(vue@3.4.34(typescript@5.3.3))(vuetify@3.6.13):
     dependencies:
-      '@vuetify/loader-shared': 2.0.3(vue@3.4.34(typescript@5.3.3))(vuetify@3.6.13(typescript@5.3.3)(vite-plugin-vuetify@2.0.3)(vue-i18n@9.14.0(vue@3.4.34(typescript@5.3.3)))(vue@3.4.34(typescript@5.3.3)))
+      '@vuetify/loader-shared': 2.0.3(vue@3.4.34(typescript@5.3.3))(vuetify@3.6.13(typescript@5.3.3)(vite-plugin-vuetify@2.0.3)(vue@3.4.34(typescript@5.3.3)))
       debug: 4.3.5
       upath: 2.0.1
       vite: 5.3.5(@types/node@20.14.12)(terser@5.31.3)
       vue: 3.4.34(typescript@5.3.3)
-      vuetify: 3.6.13(typescript@5.3.3)(vite-plugin-vuetify@2.0.3)(vue-i18n@9.14.0(vue@3.4.34(typescript@5.3.3)))(vue@3.4.34(typescript@5.3.3))
+      vuetify: 3.6.13(typescript@5.3.3)(vite-plugin-vuetify@2.0.3)(vue@3.4.34(typescript@5.3.3))
     transitivePeerDependencies:
       - supports-color
 
@@ -7312,14 +7279,6 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  vue-i18n@9.14.0(vue@3.4.34(typescript@5.3.3)):
-    dependencies:
-      '@intlify/core-base': 9.14.0
-      '@intlify/shared': 9.14.0
-      '@vue/devtools-api': 6.6.3
-      vue: 3.4.34(typescript@5.3.3)
-    optional: true
-
   vue-router@4.4.0(vue@3.4.34(typescript@5.3.3)):
     dependencies:
       '@vue/devtools-api': 6.6.3
@@ -7342,13 +7301,12 @@ snapshots:
     optionalDependencies:
       typescript: 5.3.3
 
-  vuetify@3.6.13(typescript@5.3.3)(vite-plugin-vuetify@2.0.3)(vue-i18n@9.14.0(vue@3.4.34(typescript@5.3.3)))(vue@3.4.34(typescript@5.3.3)):
+  vuetify@3.6.13(typescript@5.3.3)(vite-plugin-vuetify@2.0.3)(vue@3.4.34(typescript@5.3.3)):
     dependencies:
       vue: 3.4.34(typescript@5.3.3)
     optionalDependencies:
       typescript: 5.3.3
       vite-plugin-vuetify: 2.0.3(vite@5.3.5(@types/node@20.14.12)(terser@5.31.3))(vue@3.4.34(typescript@5.3.3))(vuetify@3.6.13)
-      vue-i18n: 9.14.0(vue@3.4.34(typescript@5.3.3))
 
   webidl-conversions@4.0.2: {}
 
