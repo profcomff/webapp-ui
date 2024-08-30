@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { achievementApi, AchievementGet } from '@/api/achievement';
+import { AchievementGet } from '@/models';
 import { onMounted, ref } from 'vue';
 import achievementRow from './AchievementRow.vue';
 import AccessRestricted from '@/components/AccessRestricted.vue';
@@ -7,19 +7,23 @@ import IrdomLayout from '@/components/IrdomLayout.vue';
 import { scopename } from '@/models/ScopeName';
 import { useToolbar } from '@/store/toolbar';
 
+import apiClient from '@/api/';
+
 const toolbar = useToolbar();
 
 toolbar.setup({ title: 'Управление достижениями', backUrl: '/admin' });
 
-const achiements = ref<AchievementGet[]>([]);
+const achievements = ref<AchievementGet[]>([]);
 const newName = ref('');
 const newDescription = ref('');
 const newPic = ref<File[] | undefined>(undefined);
 const created = ref<boolean | undefined>(undefined);
 
 onMounted(async () => {
-	const { data } = await achievementApi.getAll();
-	achiements.value = data;
+	const { data } = await apiClient.GET('/achievement/achievement');
+	if (data) {
+		achievements.value = data;
+	}
 });
 
 async function createAchievement(
@@ -28,11 +32,28 @@ async function createAchievement(
 	new_pic: File[] | undefined
 ) {
 	if (new_pic === undefined || new_pic.length !== 1) return;
+	const new_pic_str = new_pic.toString();
 
-	achievementApi.create(new_name, new_description, new_pic[0]).then(
+	const promise = apiClient.POST('/achievement/achievement', {
+		body: {
+			name: new_name,
+			description: new_description,
+		},
+	});
+	promise.then(resp => {
+		if (resp.data) {
+			apiClient.PATCH('/achievement/achievement/{id}/picture', {
+				params: { path: { id: resp.data?.id } },
+				body: { picture_file: new_pic_str },
+			});
+		}
+	});
+	promise.then(
 		async resp => {
-			achiements.value.unshift(resp.data);
-			created.value = true;
+			if (resp.data) {
+				achievements.value.unshift(resp.data);
+				created.value = true;
+			}
 		},
 		() => (created.value = false)
 	);
@@ -113,7 +134,7 @@ async function createAchievement(
 						</tr>
 					</thead>
 					<tbody>
-						<achievementRow v-for="a in achiements" :key="a.id" :achievement="a" />
+						<achievementRow v-for="a in achievements" :key="a.id" :achievement="a" />
 					</tbody>
 				</v-table>
 			</v-row>

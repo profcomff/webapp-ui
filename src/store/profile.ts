@@ -1,9 +1,9 @@
 import { setupAuth } from '@profcomff/api-uilib';
 import { scopename } from './../models/ScopeName';
-import { marketingApi } from '@/api/marketing';
 import { LocalStorage, LocalStorageItem } from '@/models/LocalStorage';
 import { defineStore } from 'pinia';
 import { computed, ref } from 'vue';
+import apiClient from '@/api/';
 
 export const useProfileStore = defineStore('profile', () => {
 	const id = ref<number | null>(null);
@@ -56,14 +56,18 @@ export const useProfileStore = defineStore('profile', () => {
 		if (newMarketingId) {
 			marketingId.value = newMarketingId;
 		} else if (item === null) {
-			const { data } = await marketingApi.createUser();
-			LocalStorage.set(LocalStorageItem.MarketingId, data.id);
-			marketingId.value = data.id;
-			marketingApi.writeAction({
-				user_id: data.id,
-				action: 'user registration',
-				additional_data: JSON.stringify(data),
-			});
+			const { data } = await apiClient.POST('/marketing/v1/user');
+			if (data) {
+				LocalStorage.set(LocalStorageItem.MarketingId, data.id);
+				marketingId.value = data.id;
+				apiClient.POST('/marketing/v1/action', {
+					body: {
+						user_id: data.id,
+						action: 'user registration',
+						additional_data: JSON.stringify(data),
+					},
+				});
+			}
 		} else {
 			marketingId.value = +item;
 		}

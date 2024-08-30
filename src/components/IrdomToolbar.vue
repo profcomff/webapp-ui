@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useRoute, useRouter } from 'vue-router';
-import { marketingApi } from '@/api/marketing';
 import { useProfileStore } from '@/store/profile';
+import apiClient from '@/api/';
 
 export interface ToolbarMenuItem {
 	name: string;
@@ -43,10 +43,12 @@ const canShare = navigator.canShare && navigator.canShare(data);
 const shareHandler = async () => {
 	await navigator.share(data);
 	if (profileStore.marketingId) {
-		marketingApi.writeAction({
-			action: 'share',
-			user_id: profileStore.marketingId,
-			additional_data: JSON.stringify(data),
+		apiClient.POST('/marketing/v1/action', {
+			body: {
+				action: 'share',
+				user_id: profileStore.marketingId,
+				additional_data: JSON.stringify(data),
+			},
 		});
 	}
 };

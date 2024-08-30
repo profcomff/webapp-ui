@@ -1,10 +1,12 @@
-import { oauth2Methods } from '@/api/auth';
 import { LocalStorage, LocalStorageItem } from '@/models/LocalStorage';
-import { isAxiosError } from 'axios';
 import { NavigationGuard, RouteRecordRaw } from 'vue-router';
 import { useProfileStore } from '@/store/profile';
 import { useToastStore } from '@/store/toast';
 import { AuthApi } from '@/api';
+import { UNKNOWN_DEVICE } from '@/models';
+
+import apiClient from '@/api/';
+import { isAuthMethod } from '@/utils/authMethodName';
 
 export const authRoutes: RouteRecordRaw[] = [
 	{
@@ -43,46 +45,43 @@ export const authHandler: NavigationGuard = async to => {
 	const toastStore = useToastStore();
 
 	if (to.path.startsWith('/auth/oauth-authorized')) {
-		const methodName = to.params.method as string;
-		try {
-			if (!(methodName in oauth2Methods)) {
-				return {
-					path: '/auth/error',
-					query: { text: 'Метод авторизации не существует' },
-					replace: true,
-				};
-			}
+		const methodName = to.params.method;
+		if (!isAuthMethod(methodName)) {
+			return {
+				path: '/auth/error',
+				query: { text: 'Метод авторизации не существует' },
+				replace: true,
+			};
+		}
 
-			const authMethod = oauth2Methods[methodName];
+		if (to.hash === '' && Object.keys(to.query).length === 0) {
+			return {
+				path: '/auth/error',
+				query: { text: 'Отсутствуют параметры входа' },
+				replace: true,
+			};
+		}
 
-			if (to.hash === '' && Object.keys(to.query).length === 0) {
-				return {
-					path: '/auth/error',
-					query: { text: 'Отсутствуют параметры входа' },
-					replace: true,
-				};
-			}
-			const action = profileStore.isUserLogged ? authMethod.linkNewAccount : authMethod.login;
-			const response = await action.call(authMethod, to.query);
+		const { data, response } = await apiClient.POST(`/auth/${methodName}/registration`, {
+			body: {
+				...to.query,
+				session_name: navigator.userAgent ?? UNKNOWN_DEVICE,
+			},
+		});
 
-			if (response.status === 200 && response.data.token) {
-				LocalStorage.set(LocalStorageItem.Token, response.data.token);
-				profileStore.updateToken();
-				toastStore.push({ title: 'Вы успешно вошли в аккаунт' });
-				return { path: '/profile', replace: true };
-			}
-
-			return { path: '/auth/error', query: { text: 'Непредвиденная ошибка' }, replace: true };
-		} catch (error) {
-			if (!isAxiosError(error)) {
-				return { path: '/auth/error', query: { text: 'Непредвиденная ошибка' }, replace: true };
-			}
-
-			if (error.response?.status === 401) {
-				const id_token = error.response.data.id_token;
+		console.log(data, response);
+		if (response.ok && data?.token) {
+			LocalStorage.set(LocalStorageItem.Token, data.token);
+			profileStore.updateToken();
+			toastStore.push({ title: 'Вы успешно вошли в аккаунт' });
+			return { path: '/profile', replace: true };
+		} else {
+			if (response.status === 401) {
+				//Это сработает или можно проще/правильнее?
+				const responseBody = await response.json();
+				const id_token = responseBody['id_token'];
 
 				if (typeof id_token !== 'string') {
-					// TODO: Писать в маркетинг об ошибке
 					return {
 						path: '/auth/error',
 						query: { text: 'Переданы неверные данные для входа' },
@@ -94,20 +93,21 @@ export const authHandler: NavigationGuard = async to => {
 				sessionStorage.setItem('id-token-issuer', methodName);
 				return { path: '/auth/register-oauth', replace: true };
 			}
-			if (error.response?.status === 422) {
+
+			if (response.status === 422) {
 				return { path: '/auth/error', query: { text: 'Выбран неверный аккаунт' }, replace: true };
 			}
 
-			if (error.response?.status === 409) {
+			if (response.status === 409) {
 				return {
 					path: '/auth/error',
 					query: { text: 'Аккаунт с такими данными уже существуют' },
 					replace: true,
 				};
 			}
-
-			return { path: '/auth/error', query: { text: 'Непредвиденная ошибка' }, replace: true };
 		}
+
+		return { path: '/auth/error', query: { text: 'Непредвиденная ошибка' }, replace: true };
 	}
 
 	if (to.path === '/auth/register/success') {
