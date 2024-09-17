@@ -17,14 +17,6 @@ if (!appsStore.categories) {
 	await ServicesApi.getCategories([CategoryInfo.Buttons]);
 }
 
-if (appsStore.categories) {
-	for (let categoryIndex = 0; categoryIndex < appsStore.categories.length; categoryIndex++) {
-		appsStore.categories[categoryIndex].buttons = appsStore.categories[
-			categoryIndex
-		].buttons.filter(button => button.view !== ButtonView.Hidden);
-	}
-}
-
 const sendMarketing = (url: string) => {
 	if (profileStore.marketingId) {
 		marketingApi.writeAction({
@@ -57,7 +49,9 @@ const showRestrictedAccessWarning = () => {
 
 		<div :class="{ grid3: sectionType === 'grid3', list: sectionType === 'list' }">
 			<div
-				v-for="{ icon, link, name: buttonName, type, id: buttonId, view } of buttons"
+				v-for="{ icon, link, name: buttonName, type, id: buttonId, view } of buttons.filter(
+					button => button.view != ButtonView.Hidden
+				)"
 				:key="buttonId"
 				class="app"
 				:v-ripple="view !== ButtonView.Blocked"
