@@ -48,6 +48,7 @@ export enum ButtonType {
 export enum ButtonView {
 	Active = 'active',
 	Blocked = 'blocked',
+	Hidden = 'hidden',
 }
 
 export interface AppButton {

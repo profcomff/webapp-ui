@@ -49,7 +49,9 @@ const showRestrictedAccessWarning = () => {
 
 		<div :class="{ grid3: sectionType === 'grid3', list: sectionType === 'list' }">
 			<div
-				v-for="{ icon, link, name: buttonName, type, id: buttonId, view } of buttons"
+				v-for="{ icon, link, name: buttonName, type, id: buttonId, view } of buttons.filter(
+					button => button.view != ButtonView.Hidden
+				)"
 				:key="buttonId"
 				class="app"
 				:v-ripple="view !== ButtonView.Blocked"
