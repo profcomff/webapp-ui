@@ -75,8 +75,13 @@ const getToken = async () => {
 	const authItem: SuperappAuthItem =
 		authItemIndex != -1 ? appsData[authItemIndex] : { service_id: appId };
 
-	// Если раньше уже получали токен с нужными правами – возвращаем его
-	if (authItem && authItem.current_scopes && compareLists(authItem.current_scopes, scopes.value)) {
+	// Если раньше уже получали токен с нужными правами и он не устарел (исходя из данных в лок. хранилище) – возвращаем его
+	if (
+		authItem &&
+		authItem.current_scopes &&
+		compareLists(authItem.current_scopes, scopes.value) &&
+		(!authItem.expires || new Date(authItem.expires + 'Z') > new Date())
+	) {
 		return authItem.token;
 	}
 
@@ -99,14 +104,20 @@ const getToken = async () => {
 			scopeNamesToRequest.value.push(item.comment);
 		}
 	});
-	// 2. Показываем пользователю список прав, которые приложение запрашивает, и кнопки "разрешить"/"запретить"
-	const scopesApproved = await showApproveScopesScreen();
 
-	// 3. Если пользователь не разрешает – возваращаем undefined
-	if (!scopesApproved) return undefined;
+	// 2. Если нужен токен без скоупов, то пропускаем запрос на разрешение у пользователя
+	if (scopes.value.length != 0) {
+		// 2.1 Показываем пользователю список прав, которые приложение запрашивает, и кнопки "разрешить"/"запретить"
+		const scopesApproved = await showApproveScopesScreen();
 
-	// 4. Если пользователь разрешает – запрашиваем токен на Auth api и возвращаем его
-	const session = (await userSessionApi.createSession({ scopes: scopes.value })).data;
+		// 2.2 Если пользователь не разрешает – возваращаем undefined
+		if (!scopesApproved) return undefined;
+	}
+
+	// 3. Если пользователь разрешает – запрашиваем токен на Auth api и возвращаем его
+	const session = (
+		await userSessionApi.createSession(scopes.value.length == 0 ? {} : { scopes: scopes.value })
+	).data;
 	if (!session) {
 		appState.value = AppState.Error;
 		return;
@@ -146,8 +157,8 @@ const openApp = async (data: ServiceData) => {
 		return;
 	}
 
-	// Не нужны скоупы => Кнопка разблокирована и не требует авторизации => Показываем приложение
-	if (data.view == ButtonView.Active && scopes.value.length == 0) {
+	// Пользователь не авторизован => Кнопка разблокирована и не требует авторизации => Показываем приложение
+	if (data.view == ButtonView.Active && !profileStore.id) {
 		appState.value = AppState.Show;
 		return;
 	}
