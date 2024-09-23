@@ -6,6 +6,13 @@ export enum LocalStorageItem {
 	SuperappAuth = 'superapp-auth',
 }
 
+export interface ServiceAuthInfo {
+	service_id: number;
+	current_scopes?: string[];
+	token?: string;
+	expires?: string;
+}
+
 export class LocalStorage {
 	static set<T>(name: LocalStorageItem, body: T) {
 		if (typeof body === 'object') {

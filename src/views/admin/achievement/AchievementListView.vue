@@ -4,7 +4,7 @@ import { onMounted, ref } from 'vue';
 import achievementRow from './AchievementRow.vue';
 import AccessRestricted from '@/components/AccessRestricted.vue';
 import IrdomLayout from '@/components/IrdomLayout.vue';
-import { scopename } from '@/models/ScopeName';
+import { scopename } from '@/api/auth/ScopeName';
 import { useToolbar } from '@/store/toolbar';
 
 const toolbar = useToolbar();

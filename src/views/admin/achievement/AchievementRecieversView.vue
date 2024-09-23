@@ -4,7 +4,7 @@ import { computed, onMounted, ref } from 'vue';
 import { useRoute } from 'vue-router';
 import AccessRestricted from '@/components/AccessRestricted.vue';
 import IrdomLayout from '@/components/IrdomLayout.vue';
-import { scopename } from '@/models/ScopeName';
+import { scopename } from '@/api/auth/ScopeName';
 import { useToolbar } from '@/store/toolbar';
 
 const route = useRoute();

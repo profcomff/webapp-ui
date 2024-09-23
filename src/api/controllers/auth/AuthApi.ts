@@ -11,7 +11,7 @@ import {
 	userSessionApi,
 } from '@/api/auth';
 import router from '@/router';
-import { scopename } from '@/models/ScopeName';
+import { scopename } from '@/api/auth/ScopeName';
 import { useProfileStore } from '@/store/profile';
 import { LocalStorage, LocalStorageItem } from '@/models/LocalStorage';
 

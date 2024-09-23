@@ -1,4 +1,4 @@
-import { lz } from './utils';
+import { lz } from 'src/utils/utils';
 import { describe, it, expect } from 'vitest';
 
 describe('Leading-zero add function:', () => {
