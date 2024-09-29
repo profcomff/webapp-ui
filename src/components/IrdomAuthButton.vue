@@ -30,6 +30,7 @@ onMounted(async () => {
 async function clickHandler() {
 	if (props.unlink) {
 		await apiClient.DELETE(`/auth/${props.button.link}`);
+		console.log('deleted', props.button.link);
 		location.reload(); // TODO: придумать нормальное решение
 	} else if (authUrl.value) {
 		window.open(authUrl.value, '_self');
