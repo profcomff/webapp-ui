@@ -20,9 +20,9 @@ onMounted(async () => {
 		profileStore.updateToken(history.state.token);
 		delete history.state.token;
 	}
-	if (!profileStore.authMethods) {
-		AuthApi.getMe(['auth_methods']);
-	}
+	console.log(profileStore.authMethods);
+	AuthApi.getMe(['auth_methods']);
+	console.log(profileStore.authMethods);
 });
 
 const canLinked = computed(() =>
