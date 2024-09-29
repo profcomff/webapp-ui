@@ -45,7 +45,7 @@ export const authHandler: NavigationGuard = async to => {
 	const toastStore = useToastStore();
 
 	if (to.path.startsWith('/auth/oauth-authorized')) {
-		const methodLink = to.params.link;
+		const methodLink = to.params.method;
 		console.log(methodLink);
 		if (!isAuthMethod(methodLink)) {
 			console.log('failed', methodLink);
