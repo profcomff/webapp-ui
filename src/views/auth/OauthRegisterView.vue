@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { useRouter } from 'vue-router';
-import { isAxiosError } from 'axios';
 import IrdomLayout from '@/components/IrdomLayout.vue';
 import { useToolbar } from '@/store/toolbar';
 import { useProfileStore } from '@/store/profile';
@@ -25,19 +24,17 @@ async function handleAccept() {
 			return router.replace({ path: '/auth/error', query: { text: 'Непредвиденная ошибка' } });
 		}
 
-		const { data } = await apiClient.POST(`/auth/${idTokenIssuer}/registration`, {
+		const { response, data } = await apiClient.POST(`/auth/${idTokenIssuer}/registration`, {
 			body: {
 				id_token: idToken,
 				session_name: navigator.userAgent ?? UNKNOWN_DEVICE,
 			},
 		});
-		if (data?.token) {
+		if (data && data?.token) {
 			localStorage.setItem('token', data.token);
 			profileStore.updateToken();
 			return router.replace({ path: '/profile' });
-		}
-	} catch (error) {
-		if (isAxiosError(error) && error.response?.status == 401) {
+		} else if (response.status == 401) {
 			return router.replace({
 				path: '/auth/error',
 				query: { text: 'Переданы неверные данные для входа' },

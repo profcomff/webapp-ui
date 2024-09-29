@@ -20,8 +20,7 @@
     "check": "vue-tsc && pnpm run lint && pnpm run prettier && pnpm run stylelint"
   },
   "dependencies": {
-    "@profcomff/api-uilib": "2024.7.28",
-    "axios": "^1.7.7",
+    "@profcomff/api-uilib": "2024.9.29",
     "markdown-it": "^14.1.0",
     "openapi-fetch": "^0.12.2",
     "pinia": "^2.2.2",

@@ -54,7 +54,7 @@ const showRestrictedAccessWarning = () => {
 
 		<div :class="{ grid3: sectionType === 'grid3', list: sectionType === 'list' }">
 			<div
-				v-for="{ icon, link, name: buttonName, type, id: buttonId, view } of buttons.filter(
+				v-for="{ icon, link, name: buttonName, type, id: buttonId, view } of (buttons ?? []).filter(
 					button => button.view != 'hidden'
 				)"
 				:key="buttonId"
