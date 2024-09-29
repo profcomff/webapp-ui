@@ -69,7 +69,6 @@ export const authHandler: NavigationGuard = async to => {
 			},
 		});
 
-		console.log(data, response);
 		if (response.ok && data?.token) {
 			LocalStorage.set(LocalStorageItem.Token, data.token);
 			profileStore.updateToken();
