@@ -3,7 +3,7 @@ import { useRouter } from 'vue-router';
 import IrdomLayout from '@/components/IrdomLayout.vue';
 import { useToolbar } from '@/store/toolbar';
 import { useProfileStore } from '@/store/profile';
-import { AuthMethodName, UNKNOWN_DEVICE } from '@/models';
+import { AuthMethodLink, UNKNOWN_DEVICE } from '@/models';
 import apiClient from '@/api/';
 
 const router = useRouter();
@@ -18,7 +18,7 @@ toolbar.setup({
 async function handleAccept() {
 	try {
 		const idToken = sessionStorage.getItem('id-token');
-		const idTokenIssuer = sessionStorage.getItem('id-token-issuer') as AuthMethodName;
+		const idTokenIssuer = sessionStorage.getItem('id-token-issuer') as AuthMethodLink;
 
 		if (!idToken || !idTokenIssuer) {
 			return router.replace({ path: '/auth/error', query: { text: 'Непредвиденная ошибка' } });
