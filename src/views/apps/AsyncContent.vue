@@ -11,7 +11,7 @@ const appsStore = useAppsStore();
 const profileStore = useProfileStore();
 const toastStore = useToastStore();
 
-if (!appsStore.categories) {
+if (appsStore.categories.length == 0) {
 	const { data } = await apiClient.GET('/services/category', {
 		params: { query: { info: ['buttons'] } },
 	});
