@@ -22,7 +22,7 @@ export enum AuthMethod {
 	VK = 'vk',
 }
 
-export const AuthMethodNameList = [
+export const AuthMethodLinkList = [
 	'github',
 	'google',
 	'vk',
@@ -30,6 +30,18 @@ export const AuthMethodNameList = [
 	'yandex',
 	'my-msu',
 	'physics-msu',
+] as const;
+export type AuthMethodLink = (typeof AuthMethodLinkList)[number];
+
+export const AuthMethodNameList = [
+	'email',
+	'github_auth',
+	'google_auth',
+	'vk_auth',
+	'lkmsu_auth',
+	'yandex_auth',
+	'mymsu_auth',
+	'physics_auth',
 ] as const;
 export type AuthMethodName = (typeof AuthMethodNameList)[number];
 

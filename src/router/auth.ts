@@ -45,8 +45,8 @@ export const authHandler: NavigationGuard = async to => {
 	const toastStore = useToastStore();
 
 	if (to.path.startsWith('/auth/oauth-authorized')) {
-		const methodName = to.params.method;
-		if (!isAuthMethod(methodName)) {
+		const methodLink = to.params.link;
+		if (!isAuthMethod(methodLink)) {
 			return {
 				path: '/auth/error',
 				query: { text: 'Метод авторизации не существует' },
@@ -62,7 +62,7 @@ export const authHandler: NavigationGuard = async to => {
 			};
 		}
 
-		const { data, response } = await apiClient.POST(`/auth/${methodName}/registration`, {
+		const { data, response } = await apiClient.POST(`/auth/${methodLink}/registration`, {
 			body: {
 				...to.query,
 				session_name: navigator.userAgent ?? UNKNOWN_DEVICE,
@@ -89,7 +89,7 @@ export const authHandler: NavigationGuard = async to => {
 				}
 
 				sessionStorage.setItem('id-token', id_token);
-				sessionStorage.setItem('id-token-issuer', methodName);
+				sessionStorage.setItem('id-token-issuer', methodLink);
 				return { path: '/auth/register-oauth', replace: true };
 			}
 

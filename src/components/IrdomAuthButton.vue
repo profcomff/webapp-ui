@@ -1,11 +1,12 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
-import { AuthMethodName } from '@/models';
+import { AuthMethodLink, AuthMethodName } from '@/models';
 
 import apiClient from '@/api/';
 
 export interface AuthButton {
 	name: string;
+	link: AuthMethodLink;
 	method: AuthMethodName;
 	icon?: string;
 	color?: string;
@@ -20,7 +21,7 @@ const props = withDefaults(defineProps<Props>(), { unlink: false });
 const authUrl = ref<string | null>(null);
 
 onMounted(async () => {
-	const { data } = await apiClient.GET(`/auth/${props.button.method}/auth_url`);
+	const { data } = await apiClient.GET(`/auth/${props.button.link}/auth_url`);
 	if (data) {
 		authUrl.value = data.url;
 	}
@@ -28,7 +29,7 @@ onMounted(async () => {
 
 async function clickHandler() {
 	if (props.unlink) {
-		await apiClient.DELETE(`/auth/${props.button.method}`);
+		await apiClient.DELETE(`/auth/${props.button.link}`);
 		location.reload(); // TODO: придумать нормальное решение
 	} else if (authUrl.value) {
 		window.open(authUrl.value, '_self');
