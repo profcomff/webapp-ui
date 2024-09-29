@@ -46,7 +46,9 @@ export const authHandler: NavigationGuard = async to => {
 
 	if (to.path.startsWith('/auth/oauth-authorized')) {
 		const methodLink = to.params.link;
+		console.log(methodLink);
 		if (!isAuthMethod(methodLink)) {
+			console.log('failed', methodLink);
 			return {
 				path: '/auth/error',
 				query: { text: 'Метод авторизации не существует' },
@@ -55,6 +57,7 @@ export const authHandler: NavigationGuard = async to => {
 		}
 
 		if (to.hash === '' && Object.keys(to.query).length === 0) {
+			console.log('Нет параметров входа', methodLink);
 			return {
 				path: '/auth/error',
 				query: { text: 'Отсутствуют параметры входа' },
@@ -70,12 +73,14 @@ export const authHandler: NavigationGuard = async to => {
 		});
 
 		if (response.ok && data?.token) {
+			console.log('Успешно вошел', methodLink);
 			LocalStorage.set(LocalStorageItem.Token, data.token);
 			profileStore.updateToken();
 			toastStore.push({ title: 'Вы успешно вошли в аккаунт' });
 			return { path: '/profile', replace: true };
 		} else {
 			if (response.status === 401) {
+				console.log('401 произошла', response);
 				//Это сработает или можно проще/правильнее?
 				const responseBody = await response.json();
 				const id_token = responseBody['id_token'];
@@ -94,10 +99,12 @@ export const authHandler: NavigationGuard = async to => {
 			}
 
 			if (response.status === 422) {
+				console.log('422 произошла');
 				return { path: '/auth/error', query: { text: 'Выбран неверный аккаунт' }, replace: true };
 			}
 
 			if (response.status === 409) {
+				console.log('409 произошла');
 				return {
 					path: '/auth/error',
 					query: { text: 'Аккаунт с такими данными уже существуют' },

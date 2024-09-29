@@ -28,6 +28,7 @@ onMounted(async () => {
 });
 
 async function clickHandler() {
+	console.log('кликнул', props.button.link, props.unlink);
 	if (props.unlink) {
 		await apiClient.DELETE(`/auth/${props.button.link}`);
 		console.log('deleted', props.button.link);
