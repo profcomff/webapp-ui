@@ -20,7 +20,7 @@ onMounted(async () => {
 		profileStore.updateToken(history.state.token);
 		delete history.state.token;
 	}
-	if (!profileStore.authMethods) {
+	if (profileStore.authMethods?.length == 0) {
 		AuthApi.getMe(['auth_methods']);
 	}
 });
