@@ -1,4 +1,4 @@
-import { StudyGroup } from './../api/models/index';
+import { StudyGroup } from '@/models';
 import { NavigationGuard, RouteRecordRaw } from 'vue-router';
 import TimetableView from '@/views/timetable/TimetableView.vue';
 import { stringifyDate } from '@/utils/date';

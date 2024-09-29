@@ -1,63 +1,46 @@
-import {
-	authLkmsuApi,
-	authPhysicsApi,
-	authMymsuApi,
-	authYandexApi,
-	authVkApi,
-	authGithubApi,
-	authGoogleApi,
-	AuthMethod,
-} from '@/api/auth';
 import logos from '@/assets/logos.svg';
 import { AuthButton } from '@/components/IrdomAuthButton.vue';
 
 export const authButtons: AuthButton[] = [
 	{
 		name: 'ЛК МГУ',
-		api: authLkmsuApi,
-		method: AuthMethod.LkMsu,
+		method: 'lk-msu',
 		icon: `${logos}#msu`,
 		color: '#58b4470d',
 	},
 	{
 		name: '@physics.msu.ru',
-		api: authPhysicsApi,
-		method: AuthMethod.Physics,
+		method: 'physics-msu',
 		icon: `${logos}#ff`,
 		color: '#00014c0d',
 	},
 	{
 		name: '@my.msu.ru',
-		api: authMymsuApi,
-		method: AuthMethod.MyMsu,
+		method: 'my-msu',
 		icon: `${logos}#msu`,
 		color: '#2f39500d',
 	},
 	{
 		name: 'Yandex',
-		api: authYandexApi,
-		method: AuthMethod.Yandex,
+		method: 'yandex',
 		icon: `${logos}#yandex`,
 		color: '#e94c000d',
 	},
 	{
 		name: 'ВК',
-		api: authVkApi,
-		method: AuthMethod.VK,
+		method: 'vk',
 		icon: `${logos}#vk`,
 		color: '#0077ff0d',
 	},
 	{
 		name: 'Github',
-		api: authGithubApi,
-		method: AuthMethod.Github,
+		method: 'github',
 		icon: `${logos}#github`,
 		color: '#24292f0d',
 	},
 	{
 		name: 'Google',
-		api: authGoogleApi,
-		method: AuthMethod.Google,
+		method: 'google',
 		icon: `${logos}#google`,
 		color: '#58b4470d',
 	},

@@ -6,7 +6,6 @@ import { useProfileStore } from '@/store/profile';
 import { authButtons } from '@/constants/authButtons';
 import { useToolbar } from '@/store/toolbar';
 import { AuthApi } from '@/api';
-import { MySessionInfo } from '@/api/auth';
 
 const profileStore = useProfileStore();
 const toolbar = useToolbar();
@@ -22,7 +21,7 @@ onMounted(async () => {
 		delete history.state.token;
 	}
 	if (!profileStore.authMethods) {
-		AuthApi.getMe([MySessionInfo.AuthMethods]);
+		AuthApi.getMe(['auth_methods']);
 	}
 });
 

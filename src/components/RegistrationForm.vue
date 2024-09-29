@@ -19,7 +19,7 @@ const submit = async () => {
 		});
 	}
 	const { data } = await AuthApi.registerEmail(email.value, password.value);
-	if (data.status == 'Success') {
+	if (data && data.status == 'Success') {
 		toastStore.push({
 			title: 'Успех!',
 			description: 'Мы отправили письмо с инструкциями по активации аккаунта на электронную почту',
