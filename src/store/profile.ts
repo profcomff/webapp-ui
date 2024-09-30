@@ -73,7 +73,7 @@ export const useProfileStore = defineStore('profile', () => {
 		}
 	}
 
-	const isUserLogged = computed(() => token.value !== null);
+	const isUserLogged = computed(() => !!token.value);
 
 	const isAdmin = computed(() => tokenScopes.value?.includes(scopename.webapp.admin.show));
 
