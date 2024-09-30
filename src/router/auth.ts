@@ -46,7 +46,7 @@ export const authHandler: NavigationGuard = async to => {
 
 	if (to.path.startsWith('/auth/oauth-authorized')) {
 		const methodLink = to.params.method;
-		console.log(methodLink);
+		console.log(methodLink, profileStore.isUserLogged);
 		if (!isAuthMethod(methodLink)) {
 			console.log('failed', methodLink);
 			return {
@@ -65,12 +65,14 @@ export const authHandler: NavigationGuard = async to => {
 			};
 		}
 
-		const { data, response } = await apiClient.POST(`/auth/${methodLink}/registration`, {
-			body: {
-				...to.query,
-				session_name: navigator.userAgent ?? UNKNOWN_DEVICE,
-			},
-		});
+		const { data, response } = profileStore.isUserLogged
+			? await apiClient.POST(`/auth/${methodLink}/registration`, {
+					body: {
+						...to.query,
+						session_name: navigator.userAgent ?? UNKNOWN_DEVICE,
+					},
+				})
+			: await apiClient.POST(`/auth/${methodLink}/login`, { body: { ...to.query } });
 
 		if (response.ok && data?.token) {
 			console.log('Успешно вошел', methodLink);
