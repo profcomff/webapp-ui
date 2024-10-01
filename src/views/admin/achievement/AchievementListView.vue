@@ -31,6 +31,7 @@ async function createAchievement(
 	new_description: string,
 	new_pic: File[] | undefined
 ) {
+	console.log(new_pic, new_pic?.length);
 	if (new_pic === undefined || new_pic.length !== 1) return;
 	const new_pic_str = new_pic.toString();
 
