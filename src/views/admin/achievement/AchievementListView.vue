@@ -16,7 +16,7 @@ toolbar.setup({ title: 'Управление достижениями', backUrl:
 const achievements = ref<AchievementGet[]>([]);
 const newName = ref('');
 const newDescription = ref('');
-const newPic = ref<File[] | undefined>(undefined);
+const newPic = ref<File | undefined>(undefined);
 const created = ref<boolean | undefined>(undefined);
 
 onMounted(async () => {
@@ -29,11 +29,12 @@ onMounted(async () => {
 async function createAchievement(
 	new_name: string,
 	new_description: string,
-	new_pic: File[] | undefined
+	new_pic: File | undefined
 ) {
-	console.log(new_pic, new_pic?.length);
-	if (new_pic === undefined || new_pic.length !== 1) return;
+	console.log(new_pic);
+	if (new_pic === undefined) return;
 	const new_pic_str = new_pic.toString();
+	console.log(new_pic_str);
 
 	const promise = apiClient.POST('/achievement/achievement', {
 		body: {
@@ -88,11 +89,10 @@ async function createAchievement(
 								prepend-icon="md:image"
 								accept="image/png"
 								:rules="[
-									(value: File[]) => {
+									(value: File) => {
 										return (
 											!value ||
-											value.length == 1 ||
-											value[0].size < 200000 ||
+											value.size < 200000 ||
 											'Размер изображения не должен превышать 200 KB!'
 										);
 									},
