@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { GetUser } from '@/models';
+import { User } from '@/api/models';
 import { computed } from 'vue';
 
 const props = defineProps<{
-	users: Iterable<GetUser>;
+	users: Iterable<User>;
 	deleteIcon: string;
 }>();
 

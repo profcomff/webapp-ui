@@ -1,25 +1,20 @@
 <script setup lang="ts">
-import { StudyGroup } from '@/models';
+import { StudyGroup } from '@/api/models';
+import { timetableGroupApi } from '@/api/timetable';
 import { computed } from 'vue';
 import GroupsListItem from './GroupsListItem.vue';
-import apiClient from '@/api/';
 
 const props = withDefaults(defineProps<{ query?: string }>(), {
 	query: '',
 });
 
-const { data: responseData } = await apiClient.GET('/timetable/group/', {
-	params: { query: { limit: 1000 } },
-});
-const data = responseData?.items;
+const data = await timetableGroupApi.getAll({ limit: 1000 }).then(({ data }) => data.items);
 
-const groups = computed(() =>
-	data?.filter((g: StudyGroup) => g.number.includes(props.query.trim()))
-);
+const groups = computed(() => data?.filter(g => g.number.includes(props.query.trim())));
 
 const sorted = computed(() =>
-	groups.value?.reduce(
-		(acc, group: StudyGroup) => {
+	groups.value.reduce(
+		(acc, group) => {
 			for (let i = 1; i <= 6; ++i) {
 				if (group.number[0] === `${i}`) {
 					if (group.number.slice(-2).includes('м')) {
@@ -46,16 +41,12 @@ const sorted = computed(() =>
 </script>
 
 <template>
-	<div v-if="sorted" class="grid">
+	<div class="grid">
 		<template v-for="course in Object.keys(sorted)" :key="course">
 			<GroupsListItem
 				v-show="sorted[course].length"
 				:course="course"
-				:groups="
-					sorted[course].sort(
-						(a: StudyGroup, b: StudyGroup) => parseInt(a.number) - parseInt(b.number)
-					)
-				"
+				:groups="sorted[course].sort((a, b) => parseInt(a.number) - parseInt(b.number))"
 			/>
 		</template>
 	</div>

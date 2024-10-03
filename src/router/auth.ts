@@ -1,12 +1,10 @@
+import { oauth2Methods } from '@/api/auth';
 import { LocalStorage, LocalStorageItem } from '@/models/LocalStorage';
+import { isAxiosError } from 'axios';
 import { NavigationGuard, RouteRecordRaw } from 'vue-router';
 import { useProfileStore } from '@/store/profile';
 import { useToastStore } from '@/store/toast';
 import { AuthApi } from '@/api';
-import { UNKNOWN_DEVICE } from '@/models';
-
-import apiClient from '@/api/';
-import { isAuthMethod } from '@/utils/authMethodName';
 
 export const authRoutes: RouteRecordRaw[] = [
 	{
@@ -45,47 +43,46 @@ export const authHandler: NavigationGuard = async to => {
 	const toastStore = useToastStore();
 
 	if (to.path.startsWith('/auth/oauth-authorized')) {
-		const methodLink = to.params.method;
-		console.log(methodLink, profileStore.isUserLogged);
-		if (!isAuthMethod(methodLink)) {
-			console.log('failed', methodLink);
-			return {
-				path: '/auth/error',
-				query: { text: 'Метод авторизации не существует' },
-				replace: true,
-			};
-		}
+		const methodName = to.params.method as string;
+		try {
+			if (!(methodName in oauth2Methods)) {
+				return {
+					path: '/auth/error',
+					query: { text: 'Метод авторизации не существует' },
+					replace: true,
+				};
+			}
 
-		if (to.hash === '' && Object.keys(to.query).length === 0) {
-			console.log('Нет параметров входа', methodLink);
-			return {
-				path: '/auth/error',
-				query: { text: 'Отсутствуют параметры входа' },
-				replace: true,
-			};
-		}
+			const authMethod = oauth2Methods[methodName];
 
-		const { data, response, error } = profileStore.isUserLogged
-			? await apiClient.POST(`/auth/${methodLink}/registration`, {
-					body: {
-						...to.query,
-						session_name: navigator.userAgent ?? UNKNOWN_DEVICE,
-					},
-				})
-			: await apiClient.POST(`/auth/${methodLink}/login`, { body: { ...to.query } });
+			if (to.hash === '' && Object.keys(to.query).length === 0) {
+				return {
+					path: '/auth/error',
+					query: { text: 'Отсутствуют параметры входа' },
+					replace: true,
+				};
+			}
+			const action = profileStore.isUserLogged ? authMethod.linkNewAccount : authMethod.login;
+			const response = await action.call(authMethod, to.query);
 
-		if (response.ok && data?.token) {
-			console.log('Успешно вошел', methodLink);
-			LocalStorage.set(LocalStorageItem.Token, data.token);
-			profileStore.updateToken();
-			toastStore.push({ title: 'Вы успешно вошли в аккаунт' });
-			return { path: '/profile', replace: true };
-		} else {
-			if (response.status === 401) {
-				console.log('401 произошла', response, data, error);
-				const id_token = data?.token;
+			if (response.status === 200 && response.data.token) {
+				LocalStorage.set(LocalStorageItem.Token, response.data.token);
+				profileStore.updateToken();
+				toastStore.push({ title: 'Вы успешно вошли в аккаунт' });
+				return { path: '/profile', replace: true };
+			}
+
+			return { path: '/auth/error', query: { text: 'Непредвиденная ошибка' }, replace: true };
+		} catch (error) {
+			if (!isAxiosError(error)) {
+				return { path: '/auth/error', query: { text: 'Непредвиденная ошибка' }, replace: true };
+			}
+
+			if (error.response?.status === 401) {
+				const id_token = error.response.data.id_token;
 
 				if (typeof id_token !== 'string') {
+					// TODO: Писать в маркетинг об ошибке
 					return {
 						path: '/auth/error',
 						query: { text: 'Переданы неверные данные для входа' },
@@ -94,26 +91,23 @@ export const authHandler: NavigationGuard = async to => {
 				}
 
 				sessionStorage.setItem('id-token', id_token);
-				sessionStorage.setItem('id-token-issuer', methodLink);
+				sessionStorage.setItem('id-token-issuer', methodName);
 				return { path: '/auth/register-oauth', replace: true };
 			}
-
-			if (response.status === 422) {
-				console.log('422 произошла');
+			if (error.response?.status === 422) {
 				return { path: '/auth/error', query: { text: 'Выбран неверный аккаунт' }, replace: true };
 			}
 
-			if (response.status === 409) {
-				console.log('409 произошла');
+			if (error.response?.status === 409) {
 				return {
 					path: '/auth/error',
 					query: { text: 'Аккаунт с такими данными уже существуют' },
 					replace: true,
 				};
 			}
-		}
 
-		return { path: '/auth/error', query: { text: 'Непредвиденная ошибка' }, replace: true };
+			return { path: '/auth/error', query: { text: 'Непредвиденная ошибка' }, replace: true };
+		}
 	}
 
 	if (to.path === '/auth/register/success') {

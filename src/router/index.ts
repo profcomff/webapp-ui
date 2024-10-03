@@ -1,3 +1,4 @@
+import { marketingApi } from '@/api/marketing/MarketingApi';
 import { LocalStorage, LocalStorageItem } from '@/models/LocalStorage';
 import { adminRoutes, adminHandler } from './admin';
 import { profileRoutes } from './profile';
@@ -6,7 +7,6 @@ import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router';
 import { timetableRoutes, timetableHandler } from './timetable';
 import AppsView from '@/views/apps/AppsView.vue';
 import { useProfileStore } from '@/store/profile';
-import apiClient from '@/api/';
 
 const routes: RouteRecordRaw[] = [
 	{
@@ -77,13 +77,11 @@ router.beforeEach(authHandler);
 router.afterEach((to, from) => {
 	const { marketingId } = useProfileStore();
 	if (marketingId) {
-		apiClient.POST('/marketing/v1/action', {
-			body: {
-				action: 'route to',
-				path_from: from.fullPath,
-				path_to: to.fullPath,
-				user_id: marketingId,
-			},
+		marketingApi.writeAction({
+			action: 'route to',
+			path_from: from.fullPath,
+			path_to: to.fullPath,
+			user_id: marketingId,
 		});
 	}
 });

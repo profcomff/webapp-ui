@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import apiClient from '@/api/';
+import { authGroupApi } from '@/api/auth';
 import { scopename } from '@/models/ScopeName';
 import { StoreGroup, useAuthStore } from '@/store/auth';
 import { useProfileStore } from '@/store/profile';
@@ -25,16 +25,8 @@ const createGroup = async (e: Event) => {
 		const group = authStore.groups.get(parentId);
 
 		if (profileStore.isUserLogged && group) {
-			const { data } = await apiClient.POST('/auth/group', {
-				body: {
-					name,
-					parent_id: group.id,
-					scopes: [],
-				},
-			});
-			if (data) {
-				authStore.setGroup(data);
-			}
+			const { data } = await authGroupApi.createGroup({ name, parent_id: group.id, scopes: [] });
+			authStore.setGroup(data);
 
 			form.reset();
 		}
@@ -49,10 +41,7 @@ const renameGroup = async (groupId?: number) => {
 		const newName = prompt('Новое название для группы', oldName);
 		if (!newName) return;
 
-		await apiClient.PATCH('/auth/group/{id}', {
-			params: { path: { id: groupId } },
-			body: { name: newName },
-		});
+		await authGroupApi.renameGroup(groupId, newName);
 		if (g) {
 			g.name = newName;
 		}
@@ -61,9 +50,7 @@ const renameGroup = async (groupId?: number) => {
 
 const deleteGroup = async (groupId?: number) => {
 	if (hasTokenAccess(scopename.auth.group.delete) && groupId) {
-		await apiClient.DELETE('/auth/group/{id}', {
-			params: { path: { id: groupId } },
-		});
+		await authGroupApi.deleteGroup(groupId);
 		authStore.deleteGroup(groupId);
 	}
 };

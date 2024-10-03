@@ -1,9 +1,7 @@
 <script setup lang="ts">
-import { AchievementGet } from '@/models';
-import apiClient from '@/api/';
+import { achievementApi, AchievementGet } from '@/api/achievement';
 import { ref, watch } from 'vue';
 import { useRouter } from 'vue-router';
-import { getPictureUrl } from '@/utils/achievement';
 
 const props = defineProps<{ achievement: AchievementGet }>();
 const router = useRouter();
@@ -16,12 +14,7 @@ watch(name, () => (formUpdatedValue.value = true));
 watch(description, () => (formUpdatedValue.value = true));
 
 const save = (id: number, name: string, description: string) => {
-	apiClient
-		.PATCH('/achievement/achievement/{id}', {
-			params: { path: { id } },
-			body: { name, description },
-		})
-		.then(() => (formUpdatedValue.value = false));
+	achievementApi.edit(id, { name, description }).then(() => (formUpdatedValue.value = false));
 };
 </script>
 
@@ -29,7 +22,7 @@ const save = (id: number, name: string, description: string) => {
 	<tr key="id" class="row">
 		<td>{{ props.achievement.id }}</td>
 		<td>
-			<img :src="getPictureUrl(props.achievement.picture)" height="50" width="50" />
+			<img :src="achievementApi.getPictureUrl(props.achievement.picture)" height="50" width="50" />
 		</td>
 		<td>
 			<v-text-field v-model="name" variant="underlined" />

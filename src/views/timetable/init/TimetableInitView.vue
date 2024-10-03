@@ -2,11 +2,11 @@
 import Logo from '/icon.svg';
 import { ref } from 'vue';
 import AsyncGroupsList from './AsyncGroupsList.vue';
+import { marketingApi } from '@/api/marketing';
 import IrdomLayout from '@/components/IrdomLayout.vue';
 import { useProfileStore } from '@/store/profile';
 import { useToolbar } from '@/store/toolbar';
 import FullscreenLoader from '@/components/FullscreenLoader.vue';
-import apiClient from '@/api/';
 
 const query = ref('');
 const profileStore = useProfileStore();
@@ -18,12 +18,10 @@ const sendMarketing = (e: Event) => {
 	const input = e.target as HTMLInputElement;
 
 	if (profileStore.marketingId) {
-		apiClient.POST('/marketing/v1/action', {
-			body: {
-				action: 'timetable search group',
-				user_id: profileStore.marketingId,
-				additional_data: JSON.stringify({ query: input.value }),
-			},
+		marketingApi.writeAction({
+			action: 'timetable search group',
+			user_id: profileStore.marketingId,
+			additional_data: JSON.stringify({ query: input.value }),
 		});
 	}
 };

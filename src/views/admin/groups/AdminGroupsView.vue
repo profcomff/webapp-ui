@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { GroupInfo, authGroupApi } from '@/api/auth';
 import { onMounted, computed } from 'vue';
 import GroupTreeNode from './GroupTreeNode.vue';
 import { StoreGroup, useAuthStore } from '@/store/auth';
@@ -6,8 +7,6 @@ import IrdomLayout from '@/components/IrdomLayout.vue';
 import { useToolbar } from '@/store/toolbar';
 import { useProfileStore } from '@/store/profile';
 import { scopename } from '@/models/ScopeName';
-
-import apiClient from '@/api/';
 
 const authStore = useAuthStore();
 const toolbar = useToolbar();
@@ -21,16 +20,16 @@ toolbar.setup({
 
 onMounted(async () => {
 	if (authStore.groups.size === 0) {
-		const { data } = await apiClient.GET('/auth/group', {
-			params: { query: { info: ['scopes', 'child'] } },
-		});
-		if (data) {
-			for (const group of data.items) {
-				if (group.scopes) {
-					authStore.setScopes(group.scopes);
-				}
-				authStore.setGroup(group);
-			}
+		const {
+			data: { items: groups },
+		} = await authGroupApi.getGroups<GroupInfo.Children | GroupInfo.Scopes>([
+			GroupInfo.Children,
+			GroupInfo.Scopes,
+		]);
+
+		for (const group of groups) {
+			authStore.setScopes(group.scopes);
+			authStore.setGroup(group);
 		}
 	}
 });
@@ -43,16 +42,8 @@ const createGroup = async (e: Event) => {
 		const name = formData.get('new-group-name')!.toString();
 
 		if (profileStore.isUserLogged) {
-			const { data } = await apiClient.POST('/auth/group', {
-				body: {
-					name,
-					parent_id: null,
-					scopes: [],
-				},
-			});
-			if (data) {
-				authStore.setGroup(data);
-			}
+			const { data } = await authGroupApi.createGroup({ name, parent_id: null, scopes: [] });
+			authStore.setGroup(data);
 
 			form.reset();
 		}
