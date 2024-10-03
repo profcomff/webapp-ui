@@ -65,7 +65,7 @@ export const authHandler: NavigationGuard = async to => {
 			};
 		}
 
-		const { data, response, error } = profileStore.isUserLogged
+		const { data, response } = profileStore.isUserLogged
 			? await apiClient.POST(`/auth/${methodLink}/registration`, {
 					body: {
 						...to.query,
@@ -82,8 +82,10 @@ export const authHandler: NavigationGuard = async to => {
 			return { path: '/profile', replace: true };
 		} else {
 			if (response.status === 401) {
-				console.log('401 произошла', response, data, error);
-				const id_token = data?.token;
+				console.log('401 произошла', response);
+				//Это сработает или можно проще/правильнее?
+				const responseBody = await response.json();
+				const id_token = responseBody['id_token'];
 
 				if (typeof id_token !== 'string') {
 					return {
