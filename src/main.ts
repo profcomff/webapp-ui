@@ -8,7 +8,6 @@ import { createApp } from 'vue';
 import { createPinia } from 'pinia';
 import { registerSW } from 'virtual:pwa-register';
 import { vuetify } from './vuetify';
-
 const pinia = createPinia();
 
 const updateSW = registerSW({

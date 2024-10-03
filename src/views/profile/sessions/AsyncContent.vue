@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import UAParser from 'ua-parser-js';
 
-import { SessionInfo, userSessionApi } from '@/api/auth';
+import { SessionInfo, Session } from '@/models';
+
+import apiClient from '@/api/';
 
 import Apple from '@/assets/logo/Apple.svg';
 import Desktop from '@/assets/logo/Desktop.svg';
@@ -20,11 +22,17 @@ import { useProfileStore } from '@/store/profile';
 
 const profileStore = useProfileStore();
 
-const { data } = await AuthApi.getSessions([SessionInfo.Token]);
-const sessions = ref<Map<string, typeof data extends Array<infer X> ? X : never>>(new Map());
-data.forEach(session => {
-	sessions.value.set(session.token, session);
-});
+const data = await AuthApi.getSessions([SessionInfo.Token]);
+const sessions = ref<Map<string | null | undefined, Session[] extends Array<infer X> ? X : never>>(
+	new Map()
+);
+
+if (data) {
+	data.forEach(session => {
+		sessions.value.set(session.token, session);
+	});
+}
+
 const sortedSessions = computed(() =>
 	Array.from(sessions.value.values()).sort(
 		(a, b) => +new Date(b.last_activity) - +new Date(a.last_activity)
@@ -78,7 +86,7 @@ const getIcon = (name: string) => {
 
 const deleteHandler = async (token: string) => {
 	sessions.value.delete(token);
-	await userSessionApi.deleteSession(token);
+	await apiClient.DELETE('/auth/session/{token}', { params: { path: { token } } });
 };
 </script>
 
@@ -88,7 +96,7 @@ const deleteHandler = async (token: string) => {
 		:key="id"
 		class="card"
 	>
-		<div class="d-flex">
+		<div v-if="session_name" class="d-flex">
 			<div>
 				<v-img :src="getIcon(session_name)" alt="" width="64" height="64" />
 			</div>
@@ -102,7 +110,7 @@ const deleteHandler = async (token: string) => {
 			</div>
 		</div>
 
-		<v-card-actions>
+		<v-card-actions v-if="token">
 			<v-btn
 				:disabled="profileStore.token?.endsWith(token)"
 				:text="profileStore.token?.endsWith(token) ? 'Текущая сессия' : 'Завершить сессию'"

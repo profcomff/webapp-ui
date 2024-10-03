@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { userSessionApi } from '@/api/auth';
+import apiClient from '@/api/';
 import { ToastType } from '@/models';
 import router from '@/router';
 import { useProfileStore } from '@/store/profile';
 import { useToastStore } from '@/store/toast';
-import axios from 'axios';
+import { apiError } from '@/utils/errorHandler';
 
 export type Func<R = any, FuncArgs extends any[] = any[]> = (...args: FuncArgs) => R;
 type Decorator<F extends Func = Func, DecoratorArgs extends any[] = any[]> = Func<
@@ -44,15 +44,16 @@ export function showErrorToast<F extends Func>(
 			const response = await method(...args);
 			return response;
 		} catch (err) {
-			if (axios.isAxiosError(err)) {
+			const error = err as apiError;
+			if (error) {
 				toastStore.push({
-					title: err.response?.data.ru ?? err.response?.data.message,
+					title: error.ru ?? error.message,
 					type: ToastType.Error,
 				});
 			} else {
 				toastStore.push({
 					title: 'Неизвестная ошибка',
-					description: err instanceof Error ? err.message : '',
+					description: '',
 					type: ToastType.Error,
 				});
 			}
@@ -65,9 +66,11 @@ export function checkToken<F extends Func<any, any>>(
 ): Func<Promise<ReturnType<F>>, Parameters<F>> {
 	return async (...args: any[]) => {
 		try {
-			await userSessionApi.getMe();
-		} catch (error) {
-			if (axios.isAxiosError(error) && error.response?.status === 403) {
+			const { error } = await apiClient.GET('/auth/me');
+			throw error;
+		} catch (err) {
+			const error = err as apiError;
+			if (error && error.message === 'Forbidden') {
 				const { deleteToken } = useProfileStore();
 				const toastStore = useToastStore();
 				deleteToken();

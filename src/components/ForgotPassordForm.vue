@@ -11,14 +11,19 @@ const emit = defineEmits<{
 }>();
 
 const submit = async () => {
-	const { data } = await AuthApi.requestResetForgottenPassword(email.value);
-	if (data.status == 'Success') {
+	const data = await AuthApi.requestResetForgottenPassword(email.value);
+	if (data && data.status == 'Success') {
 		toastStore.push({
 			title: 'Успех!',
 			description:
 				'Мы отправили письмо с инструкциями по восстановлению пароля на электронную почту',
 		});
 		emit('success');
+	} else {
+		toastStore.push({
+			title: 'Что-то пошло не так',
+			description: 'Возможно, указана неверная электронная почта',
+		});
 	}
 };
 </script>

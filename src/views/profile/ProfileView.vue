@@ -1,10 +1,8 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
 import Placeholder from '@/assets/profile_image_placeholder.webp';
-import { AuthApi } from '@/api';
-import { MySessionInfo, userSessionApi } from '@/api/auth';
+import apiClient, { AuthApi, UserdataApi } from '@/api';
 import { useRouter, useRoute } from 'vue-router';
-import { userdataUserApi } from '@/api/userdata/UserdataUserApi';
 import { UserdataArray, UserdataCategoryName, UserdataParams } from '@/models';
 import AchievementsSlider from './achievement/AchievementsSlider.vue';
 import IrdomLayout from '@/components/IrdomLayout.vue';
@@ -22,11 +20,7 @@ const toolbar = useToolbar();
 const isOwnProfile = !('id' in route.params) || route.params.id === undefined;
 
 const buttons: ToolbarActionItem[] = [];
-// buttons.push({
-// 	icon: 'edit',
-// 	ariaLabel: 'Редактировать профиль',
-// 	onClick: () => router.push('/profile/edit'),
-// });
+
 if (isOwnProfile) {
 	buttons.push({
 		icon: 'settings',
@@ -65,42 +59,41 @@ const toolbarAction: ToolbarActionItem[] = [
 
 const loadUserdata = async () => {
 	if (!profileStore.token) {
-		await userSessionApi.getMe();
+		await apiClient.GET('/auth/me');
 	}
 
 	userdataLoadingState.value = UserdataLoadingState.Loading;
 
 	const { data: me } = await (isOwnProfile
-		? AuthApi.getMe([
-				MySessionInfo.AuthMethods,
-				MySessionInfo.Groups,
-				MySessionInfo.IndirectGroups,
-				MySessionInfo.SessionScopes,
-				MySessionInfo.UserScopes,
-			])
+		? AuthApi.getMe(['auth_methods', 'groups', 'indirect_groups', 'session_scopes', 'user_scopes'])
 		: AuthApi.getById(Number(route.params.id), [
-				MySessionInfo.AuthMethods,
-				MySessionInfo.Groups,
-				MySessionInfo.IndirectGroups,
-				MySessionInfo.Scopes,
+				'auth_methods',
+				'groups',
+				'indirect_groups',
+				'scopes',
 			]));
 
-	const { data } = await userdataUserApi.getById(me.id);
-	fullName.value =
-		data.items.find(
-			item =>
-				item.category === UserdataCategoryName.PersonalInfo &&
-				item.param === UserdataParams.FullName
-		)?.value ?? 'Безымянный';
-	photoURL.value =
-		data.items.find(
-			item =>
-				item.category === UserdataCategoryName.PersonalInfo && item.param === UserdataParams.Photo
-		)?.value ?? Placeholder;
+	if (me) {
+		const { data } = await UserdataApi.getUser(me.id);
+		if (data) {
+			fullName.value =
+				data.items.find(
+					item =>
+						item.category === UserdataCategoryName.PersonalInfo &&
+						item.param === UserdataParams.FullName
+				)?.value ?? 'Безымянный';
+			photoURL.value =
+				data.items.find(
+					item =>
+						item.category === UserdataCategoryName.PersonalInfo &&
+						item.param === UserdataParams.Photo
+				)?.value ?? Placeholder;
 
-	userdata.value = UserdataConverter.flatToArray(data);
+			userdata.value = UserdataConverter.flatToArray(data);
 
-	userdataLoadingState.value = UserdataLoadingState.Ready;
+			userdataLoadingState.value = UserdataLoadingState.Ready;
+		}
+	}
 };
 
 onMounted(async () => {

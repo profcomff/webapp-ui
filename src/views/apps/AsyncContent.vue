@@ -1,29 +1,34 @@
 <script setup lang="ts">
-import { ServicesApi } from '@/api';
-import { marketingApi } from '@/api/marketing';
-import { ButtonType, ButtonView } from '@/api/models';
-import { CategoryInfo } from '@/api/services';
 import { ToastType } from '@/models';
 import { useAppsStore } from '@/store/apps';
 import { useProfileStore } from '@/store/profile';
 import { useToastStore } from '@/store/toast';
 import { RouterLink } from 'vue-router';
 
+import apiClient from '@/api/';
+
 const appsStore = useAppsStore();
 const profileStore = useProfileStore();
 const toastStore = useToastStore();
 
-if (!appsStore.categories) {
-	await ServicesApi.getCategories([CategoryInfo.Buttons]);
+if (appsStore.categories.length == 0) {
+	const { data } = await apiClient.GET('/services/category', {
+		params: { query: { info: ['buttons'] } },
+	});
+	if (data) {
+		useAppsStore().categories = data;
+	}
 }
 
 const sendMarketing = (url: string) => {
 	if (profileStore.marketingId) {
-		marketingApi.writeAction({
-			action: 'route to',
-			user_id: profileStore.marketingId,
-			path_from: '/apps',
-			path_to: url,
+		apiClient.POST('/marketing/v1/action', {
+			body: {
+				action: 'route to',
+				user_id: profileStore.marketingId,
+				path_from: '/apps',
+				path_to: url,
+			},
 		});
 	}
 };
@@ -49,37 +54,37 @@ const showRestrictedAccessWarning = () => {
 
 		<div :class="{ grid3: sectionType === 'grid3', list: sectionType === 'list' }">
 			<div
-				v-for="{ icon, link, name: buttonName, type, id: buttonId, view } of buttons.filter(
-					button => button.view != ButtonView.Hidden
+				v-for="{ icon, link, name: buttonName, type, id: buttonId, view } of (buttons ?? []).filter(
+					button => button.view != 'hidden'
 				)"
 				:key="buttonId"
 				class="app"
-				:v-ripple="view !== ButtonView.Blocked"
-				:class="{ disabled: view == ButtonView.Blocked }"
-				:aria-disabled="view === ButtonView.Blocked"
-				@click="if (view === ButtonView.Blocked) showRestrictedAccessWarning();"
+				:v-ripple="view !== 'blocked'"
+				:class="{ disabled: view == 'blocked' }"
+				:aria-disabled="view === 'blocked'"
+				@click="if (view === 'blocked') showRestrictedAccessWarning();"
 			>
 				<img
-					v-if="icon.startsWith('http')"
+					v-if="icon?.startsWith('http')"
 					:src="icon"
-					:alt="buttonName"
+					:alt="buttonName ?? 'ошибка'"
 					:width="sectionType === 'grid3' ? 128 : 24"
 					:height="sectionType === 'grid3' ? 128 : 24"
 					class="icon"
 				/>
 				<v-icon
 					v-else
-					:icon="icon"
+					:icon="icon ?? 'mdi-square-outline'"
 					class="material-icon"
 					:size="sectionType === 'grid3' ? 40 : 24"
 				/>
 
-				<p v-if="view === ButtonView.Blocked" class="app-link">
+				<p v-if="view === 'blocked'" class="app-link">
 					{{ buttonName }}
 				</p>
 
 				<a
-					v-else-if="type === ButtonType.External"
+					v-else-if="type === 'external' && link !== null"
 					:href="link"
 					class="app-link"
 					target="_blank"
@@ -88,15 +93,11 @@ const showRestrictedAccessWarning = () => {
 					{{ buttonName }}
 				</a>
 
-				<RouterLink
-					v-else-if="type === ButtonType.Internal"
-					:to="`/apps/${buttonId}`"
-					class="app-link"
-				>
+				<RouterLink v-else-if="type === 'internal'" :to="`/apps/${buttonId}`" class="app-link">
 					{{ buttonName }}
 				</RouterLink>
 
-				<RouterLink v-else-if="type === ButtonType.Inapp" :to="link" class="app-link">
+				<RouterLink v-else-if="type === 'inapp' && link !== null" :to="link" class="app-link">
 					{{ buttonName }}
 				</RouterLink>
 			</div>
