@@ -2,13 +2,15 @@
 import { Ref, onMounted, ref, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useToolbar } from '@/store/toolbar';
+import { authScopeApi } from '@/api/auth';
+import { userSessionApi } from '@/api/auth/UserSessionApi';
+import { servicesApi } from '@/api/services/ServicesApi';
+import { ServiceData, ButtonType, ButtonView } from '@/api/models';
 import { useProfileStore } from '@/store/profile';
 import { LocalStorage, LocalStorageItem } from '@/models/LocalStorage';
 import { SuperappAuthItem } from '@/models/SuperappData';
 import FullscreenLoader from '@/components/FullscreenLoader.vue';
 import { AuthApi } from '@/api/controllers/auth/AuthApi';
-import { ServiceData } from '@/models';
-import apiClient from '@/api/';
 
 const route = useRoute();
 const toolbar = useToolbar();
@@ -34,10 +36,8 @@ toolbar.setup({
 	backUrl: '/apps',
 });
 
-const composeUrl = async (url: URL, token: string | null, scopes: string[]) => {
-	if (token !== null) {
-		url.searchParams.set('token', token);
-	}
+const composeUrl = async (url: URL, token: string, scopes: string[]) => {
+	url.searchParams.set('token', token);
 	url.searchParams.set('scopes', scopes.join(','));
 	if (!profileStore.id) {
 		await AuthApi.getMe();
@@ -83,7 +83,7 @@ const getToken = async () => {
 	// Если токена с нужными правами нет, то нужно запросить токен. Для этого
 	// 1. Получаем весь список скоупов для получения оттуда названий на русском
 	authItem.current_scopes = scopes.value;
-	const allScopes = (await apiClient.GET('/auth/scope')).data;
+	const allScopes = (await authScopeApi.getScopes()).data;
 	if (!allScopes) {
 		appState.value = AppState.Error;
 		return;
@@ -96,9 +96,7 @@ const getToken = async () => {
 		console.log(item);
 		if (valuesToSearch.has(item.name)) {
 			console.log('    found');
-			if (item.comment !== undefined && item.comment !== null) {
-				scopeNamesToRequest.value.push(item.comment);
-			}
+			scopeNamesToRequest.value.push(item.comment);
 		}
 	});
 	// 2. Показываем пользователю список прав, которые приложение запрашивает, и кнопки "разрешить"/"запретить"
@@ -108,7 +106,7 @@ const getToken = async () => {
 	if (!scopesApproved) return undefined;
 
 	// 4. Если пользователь разрешает – запрашиваем токен на Auth api и возвращаем его
-	const session = (await apiClient.POST('/auth/session', { body: { scopes: scopes.value } })).data;
+	const session = (await userSessionApi.createSession({ scopes: scopes.value })).data;
 	if (!session) {
 		appState.value = AppState.Error;
 		return;
@@ -128,28 +126,28 @@ const getToken = async () => {
 
 const openApp = async (data: ServiceData) => {
 	// Приложения открываем только Internal типа
-	if (data.type !== 'internal') {
+	if (data.type !== ButtonType.Internal) {
 		appState.value = AppState.Error;
 		return;
 	}
 	// Приложения открываем только по https
-	if (data.link === undefined || !data.link?.startsWith('https://')) {
+	if (data.link === undefined || !data.link.startsWith('https://')) {
 		appState.value = AppState.Error;
 		return;
 	}
 	url.value = new URL(data.link);
-	toolbar.title = data.name ?? 'Ошибка';
+	toolbar.title = data.name;
 
 	scopes.value = data.scopes ? data.scopes : [];
 
 	// Не хватает скоупов => Кнопка заблокирована => Показываем ошибку
-	if (data.view == 'blocked') {
+	if (data.view == ButtonView.Blocked) {
 		appState.value = AppState.Blocked;
 		return;
 	}
 
 	// Не нужны скоупы => Кнопка разблокирована и не требует авторизации => Показываем приложение
-	if (data.view == 'active' && scopes.value.length == 0) {
+	if (data.view == ButtonView.Active && scopes.value.length == 0) {
 		appState.value = AppState.Show;
 		return;
 	}
@@ -167,14 +165,18 @@ const openApp = async (data: ServiceData) => {
 };
 
 onMounted(async () => {
-	const { data } = await apiClient.GET('/services/service/{button_id}', {
-		params: { path: { button_id: appId } },
-	});
-	if (data) {
-		openApp(data);
-	} else {
-		appState.value = AppState.Error;
-	}
+	servicesApi
+		.getService(appId)
+		.then(async response => {
+			if (response.status == 200) {
+				openApp(response.data);
+			} else {
+				appState.value = AppState.Error;
+			}
+		})
+		.catch(() => {
+			appState.value = AppState.Error;
+		});
 });
 </script>
 

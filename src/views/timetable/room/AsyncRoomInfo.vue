@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { TimetableApi } from '@/api';
+import { TimetableApi } from '@/api/controllers/TimetableApi';
 import { computed } from 'vue';
 import DataRow from '@/components/DataRow.vue';
 import { useTimetableStore } from '@/store/timetable';

@@ -13,11 +13,10 @@ export const profileRoutes: RouteRecordRaw[] = [
 		path: ':id(\\d+)',
 		component: () => import('@/views/profile/ProfileView.vue'),
 	},
-	// Раскомментируйте, если починили; удалите, если решили дропнуть
-	// {
-	// 	path: 'edit',
-	// 	component: () => import('@/views/profile/ProfileEditView.vue'),
-	// },
+	{
+		path: 'edit',
+		component: () => import('@/views/profile/ProfileEditView.vue'),
+	},
 	{
 		path: 'edit-auth',
 		component: () => import('@/views/profile/ProfileEditAuthView.vue'),

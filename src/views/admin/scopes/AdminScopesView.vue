@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { authScopeApi } from '@/api/auth/AuthScopeApi';
 import ScopesTable from '../ScopesTable.vue';
 import { onMounted, computed } from 'vue';
 import { AuthApi } from '@/api';
@@ -8,7 +9,6 @@ import AccessRestricted from '@/components/AccessRestricted.vue';
 import { useAuthStore } from '@/store/auth';
 import { useProfileStore } from '@/store/profile';
 import { useToolbar } from '@/store/toolbar';
-import apiClient from '@/api/';
 
 const authStore = useAuthStore();
 const profileStore = useProfileStore();
@@ -30,7 +30,7 @@ onMounted(async () => {
 
 const deleteScope = async (scopeId: number) => {
 	if (profileStore.isUserLogged) {
-		await apiClient.DELETE('/auth/scope/{id}', { params: { path: { id: scopeId } } });
+		await authScopeApi.deleteScope(scopeId);
 		authStore.scopes.delete(scopeId);
 	}
 };
@@ -43,14 +43,10 @@ const createScope = async (e: Event) => {
 		const name = formData.get('name')?.toString();
 
 		if (name && profileStore.isUserLogged) {
-			const { data } = await apiClient.POST('/auth/scope', {
-				body: { comment, name },
-			});
-			form.reset();
+			const { data } = await authScopeApi.createScope({ comment, name });
 
-			if (data) {
-				authStore.setScopes([data]);
-			}
+			form.reset();
+			authStore.setScopes([data]);
 		}
 	}
 };

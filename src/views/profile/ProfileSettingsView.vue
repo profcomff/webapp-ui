@@ -4,22 +4,21 @@ import { useRouter } from 'vue-router';
 import IrdomLayout from '@/components/IrdomLayout.vue';
 import { useToolbar } from '@/store/toolbar';
 import { onMounted, ref } from 'vue';
+import { MySessionInfo } from '@/api/auth';
 
 const router = useRouter();
 const toolbar = useToolbar();
 const current_email = ref();
 
 onMounted(async () => {
-	const { data } = await AuthApi.getMe([
-		'auth_methods',
-		'groups',
-		'indirect_groups',
-		'session_scopes',
-		'user_scopes',
+	const { data: me } = await AuthApi.getMe([
+		MySessionInfo.AuthMethods,
+		MySessionInfo.Groups,
+		MySessionInfo.IndirectGroups,
+		MySessionInfo.SessionScopes,
+		MySessionInfo.UserScopes,
 	]);
-	if (data) {
-		current_email.value = data.email;
-	}
+	current_email.value = me.email;
 });
 
 toolbar.setup({

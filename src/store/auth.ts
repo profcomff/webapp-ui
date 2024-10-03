@@ -1,26 +1,26 @@
-import { Scope, User, AuthGroup } from '@/models';
-import { components } from '@profcomff/api-uilib/src/openapi/auth';
+import { GroupInfo } from './../api/auth/AuthGroupApi';
+import { Group, Scope, User } from '@/api/models';
 import { defineStore } from 'pinia';
 import { ref } from 'vue';
 
 interface StoreUser extends User {
-	groups?: number[];
-	indirectGroups?: AuthGroup[];
+	groups?: Group[];
+	indirectGroups?: Group[];
 	scopes?: Scope[];
 	deleted: boolean;
 }
 
-export interface StoreGroup extends AuthGroup {
+export interface StoreGroup extends Group {
 	scopes: Map<number, Scope>;
 	children: Map<number, StoreGroup>;
 	parent: StoreGroup | null;
 	users: Map<number, StoreUser>;
 }
 
-interface SetGroupArgs extends AuthGroup {
-	['scopes']?: components['schemas']['PinchedScope'][] | null;
-	['child']?: AuthGroup[] | null;
-	['users']?: number[] | null;
+interface SetGroupArgs extends Group {
+	[GroupInfo.Scopes]?: Scope[];
+	[GroupInfo.Children]?: Group[];
+	[GroupInfo.Users]?: User[];
 }
 
 interface StoreScope extends Scope {
@@ -68,26 +68,18 @@ export const useAuthStore = defineStore('auth', () => {
 			(group as unknown as StoreGroup).parent = null;
 			(group as unknown as StoreGroup).users = new Map(
 				group.users.map(u => {
-					const user: StoreUser = { id: u, deleted: true };
-					if (!users.value.has(u)) {
-						user.deleted = false;
-						users.value.set(u, user);
+					if (!users.value.has(u.id)) {
+						(u as StoreUser).deleted = false;
+						users.value.set(u.id, u as StoreUser);
 					}
-					return [u, users.value.get(u)!];
+					return [u.id, users.value.get(u.id)!];
 				})
 			);
 
 			groups.value.set(group.id, group as unknown as StoreGroup);
 		} else {
 			setGroupScopes(group.id, group.scopes);
-			setGroupUsers(
-				group.id,
-				group.users.map(u => {
-					return {
-						id: u,
-					};
-				})
-			);
+			setGroupUsers(group.id, group.users);
 		}
 
 		const g = groups.value.get(group.id)!;

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Event } from '@/models';
+import { Event } from '@/api/models';
 import { computed } from 'vue';
 import DataRow from './DataRow.vue';
 import { getNameWithInitials } from '@/utils/personName';

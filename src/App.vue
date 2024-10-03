@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { onMounted } from 'vue';
+import { marketingApi } from './api/marketing';
 import { useProfileStore } from './store/profile';
 import { useTimetableStore } from './store/timetable';
 import { navbarItems } from './constants/navbarItems';
@@ -8,7 +9,6 @@ import IrdomToastList from './components/IrdomToastList.vue';
 import { useToolbar } from './store/toolbar';
 import IrdomToolbar from './components/IrdomToolbar.vue';
 import CalendarDropdown from './views/timetable/CalendarDropdown.vue';
-import apiClient from '@/api/';
 
 const profileStore = useProfileStore();
 const toolbar = useToolbar();
@@ -22,11 +22,9 @@ onMounted(async () => {
 	updateTokenScopes();
 	await updateMarketingId();
 	if (profileStore.marketingId) {
-		apiClient.POST('/marketing/v1/action', {
-			body: {
-				action: 'app loaded',
-				user_id: profileStore.marketingId,
-			},
+		marketingApi.writeAction({
+			action: 'app loaded',
+			user_id: profileStore.marketingId,
 		});
 	}
 });

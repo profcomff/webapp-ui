@@ -35,17 +35,15 @@ const submitHandler = async (event: Event) => {
 	}
 	if (email && newPassword && newPassword == repeatPassword) {
 		const { data } = await AuthApi.registerEmail(email, newPassword);
-		if (data) {
-			if (data.status == 'Success') {
-				toastStore.push({
-					title: 'Успех!',
-					description:
-						'Мы отправили письмо с инструкциями по активации аккаунта на электронную почту',
-				});
-				emit('success');
-			}
-			router.push('/profile');
+		if (data.status == 'Success') {
+			toastStore.push({
+				title: 'Успех!',
+				description:
+					'Мы отправили письмо с инструкциями по активации аккаунта на электронную почту',
+			});
+			emit('success');
 		}
+		router.push('/profile');
 	}
 };
 </script>
