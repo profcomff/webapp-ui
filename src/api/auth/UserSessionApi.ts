@@ -3,7 +3,7 @@ import { SessionScope, UserScope, Session } from './../models/index';
 import { AuthBaseApi } from './AuthBaseApi';
 
 interface CreateBody {
-	scopes: string[];
+	scopes?: string[];
 	expires?: string;
 }
 
