@@ -7,7 +7,7 @@ import { computed, ref } from 'vue';
 
 export const useProfileStore = defineStore('profile', () => {
 	const id = ref<number | null>(null);
-	const token = ref<string | null>(null);
+	const token = ref<string | undefined>(undefined);
 	const tokenScopes = ref<string[]>([]);
 	const marketingId = ref<number | null>(null);
 	const authMethods = ref<string[] | null>(null);
@@ -18,7 +18,7 @@ export const useProfileStore = defineStore('profile', () => {
 	const sessionScopes = ref<string[] | null>(null);
 
 	function updateToken(newToken?: string) {
-		token.value = newToken ?? LocalStorage.get(LocalStorageItem.Token);
+		token.value = newToken ?? LocalStorage.get(LocalStorageItem.Token) ?? undefined;
 		setupAuth(token.value);
 	}
 

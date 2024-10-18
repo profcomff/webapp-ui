@@ -20,7 +20,6 @@
     "check": "vue-tsc && pnpm run lint && pnpm run prettier && pnpm run stylelint"
   },
   "dependencies": {
-    "@profcomff/api-uilib": "2024.7.2-5.2",
     "markdown-it": "^14.1.0",
     "pinia": "^2.2.4",
     "query-string": "^9.1.1",
@@ -30,6 +29,7 @@
     "workbox-window": "^7.1.0"
   },
   "devDependencies": {
+    "@profcomff/api-uilib": "^2024.9.29",
     "@types/markdown-it": "^14.1.2",
     "@types/node": "^20.16.12",
     "@types/ua-parser-js": "^0.7.39",

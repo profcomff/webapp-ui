@@ -8,9 +8,6 @@ importers:
 
   .:
     dependencies:
-      '@profcomff/api-uilib':
-        specifier: 2024.7.2-5.2
-        version: 2024.7.2-5.2
       markdown-it:
         specifier: ^14.1.0
         version: 14.1.0
@@ -33,6 +30,9 @@ importers:
         specifier: ^7.1.0
         version: 7.1.0
     devDependencies:
+      '@profcomff/api-uilib':
+        specifier: ^2024.9.29
+        version: 2024.9.29
       '@types/markdown-it':
         specifier: ^14.1.2
         version: 14.1.2
@@ -1097,8 +1097,8 @@ packages:
     resolution: {integrity: sha512-cq8o4cWH0ibXh9VGi5P20Tu9XF/0fFXl9EUinr9QfTM7a7p0oTA4iJRCQWppXR1Pg8dSM0UCItCkPwsk9qWWYA==}
     engines: {node: ^12.20.0 || ^14.18.0 || >=16.0.0}
 
-  '@profcomff/api-uilib@2024.7.2-5.2':
-    resolution: {integrity: sha512-qmAtgNuDDHmzNJtSx8d5VoSaUKW0/1xXD0w75vhYF/AgLmbedf8HHl9CB6TyMOhbLwXO4qkCcmrCVdR/w7Cr4w==}
+  '@profcomff/api-uilib@2024.9.29':
+    resolution: {integrity: sha512-BJi/7S0oE0lre4KZlzwTjzU7K3NKLA/Zpr9EV7Kk+DfsB69uLeDxH7J5EnphWvRtaupjP4A+qkEwQCOlJg6RZQ==}
 
   '@rollup/plugin-babel@5.3.1':
     resolution: {integrity: sha512-WFfdLWU/xVWKeRQnKmIAQULUI7Il0gZnBIH/ZFO069wYIfPu+8zrfp/KMW0atmELoRDq8FbiP3VCss9MhCut7Q==}
@@ -4601,7 +4601,7 @@ snapshots:
 
   '@pkgr/core@0.1.1': {}
 
-  '@profcomff/api-uilib@2024.7.2-5.2':
+  '@profcomff/api-uilib@2024.9.29':
     dependencies:
       openapi-fetch: 0.10.6
 

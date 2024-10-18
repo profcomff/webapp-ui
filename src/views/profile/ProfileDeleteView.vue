@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import IrdomLayout from '@/components/IrdomLayout.vue';
 import apiClient from '@/api/BaseApi';
-import { useToastStore } from '@/store/toast.ts';
+import { useToastStore } from '@/store/toast';
 import { ToastType } from '@/models';
 import { useToolbar } from '@/store/toolbar';
+import router from '@/router';
 
 const toastStore = useToastStore();
 const toolbar = useToolbar();
@@ -29,9 +30,15 @@ async function deleteAccount() {
 		} else {
 			toastStore.push({
 				title: 'Не удалось удалить аккаунт',
-
+				type: ToastType.Error,
 			});
 		}
+	} else {
+		toastStore.push({
+			title: 'Возникла проблема',
+			type: ToastType.Error,
+			description: 'Что-то пошло не так на сервере',
+		});
 	}
 }
 </script>
