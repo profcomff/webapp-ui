@@ -79,6 +79,15 @@ const OnClick = async () => {
 			>
 				Текущие сессии
 			</v-btn>
+			<v-btn
+				prepend-icon="delete"
+				color="red"
+				variant="tonal"
+				class="button"
+				@click="$router.push('/profile/delete-profile')"
+			>
+				Удалить аккаунт
+			</v-btn>
 			<v-btn variant="tonal" class="button" color="red" @click="OnClick">Выход</v-btn>
 		</div>
 	</IrdomLayout>

@@ -38,4 +38,8 @@ export const profileRoutes: RouteRecordRaw[] = [
 		path: 'add-email',
 		component: () => import('@/views/auth/AddEmailView.vue'),
 	},
+	{
+		path: 'delete-profile',
+		component: () => import('@/views/profile/ProfileDeleteView.vue'),
+	},
 ];
