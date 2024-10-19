@@ -4,9 +4,11 @@ import apiClient from '@/api/BaseApi';
 import { useToastStore } from '@/store/toast';
 import { ToastType } from '@/models';
 import { useToolbar } from '@/store/toolbar';
+import { useProfileStore } from '@/store/profile';
 import router from '@/router';
 import { AuthApi } from '@/api';
 
+const profileStore = useProfileStore();
 const toastStore = useToastStore();
 const toolbar = useToolbar();
 
@@ -27,7 +29,8 @@ async function deleteAccount() {
 				title: 'Аккаунт успешно удален',
 				type: ToastType.Info,
 			});
-			AuthApi.logout();
+			profileStore.deleteToken();
+			router.push('/auth');
 		} else {
 			toastStore.push({
 				title: 'Не удалось удалить аккаунт',
