@@ -6,7 +6,6 @@ import { ToastType } from '@/models';
 import { useToolbar } from '@/store/toolbar';
 import { useProfileStore } from '@/store/profile';
 import router from '@/router';
-import { AuthApi } from '@/api';
 
 const profileStore = useProfileStore();
 const toastStore = useToastStore();
