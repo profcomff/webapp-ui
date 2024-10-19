@@ -36,6 +36,9 @@ importers:
         specifier: ^7.1.0
         version: 7.1.0
     devDependencies:
+      '@profcomff/api-uilib':
+        specifier: ^2024.9.29
+        version: 2024.9.29
       '@types/markdown-it':
         specifier: ^14.1.2
         version: 14.1.2

@@ -31,6 +31,7 @@
     "workbox-window": "^7.1.0"
   },
   "devDependencies": {
+    "@profcomff/api-uilib": "^2024.9.29",
     "@types/markdown-it": "^14.1.2",
     "@types/node": "^20.17.0",
     "@types/ua-parser-js": "^0.7.39",
