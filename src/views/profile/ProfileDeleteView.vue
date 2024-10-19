@@ -5,6 +5,7 @@ import { useToastStore } from '@/store/toast';
 import { ToastType } from '@/models';
 import { useToolbar } from '@/store/toolbar';
 import router from '@/router';
+import { AuthApi } from '@/api';
 
 const toastStore = useToastStore();
 const toolbar = useToolbar();
@@ -26,7 +27,7 @@ async function deleteAccount() {
 				title: 'Аккаунт успешно удален',
 				type: ToastType.Info,
 			});
-			router.push('/auth');
+			AuthApi.logout();
 		} else {
 			toastStore.push({
 				title: 'Не удалось удалить аккаунт',
