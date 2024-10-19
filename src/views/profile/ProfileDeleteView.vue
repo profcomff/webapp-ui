@@ -18,7 +18,7 @@ async function deleteAccount() {
 	const { data } = await apiClient.GET('/auth/me');
 	if (data) {
 		const { response } = await apiClient.DELETE('/auth/user/{user_id}', {
-			params: { path: { user_id: 1 } },
+			params: { path: { user_id: data.id } },
 		});
 
 		if (response.ok) {
