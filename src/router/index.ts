@@ -65,6 +65,7 @@ router.beforeEach(async to => {
 		isAuth &&
 		token &&
 		to.path !== '/auth/reset/email' &&
+		to.path !== '/auth/error' &&
 		!to.path.startsWith('/auth/oauth-authorized')
 	) {
 		return { path: '/profile' };

@@ -51,7 +51,7 @@ export const authHandler: NavigationGuard = async to => {
 			console.log('failed', methodLink);
 			return {
 				path: '/auth/error',
-				query: { text: 'Метод авторизации не существует' },
+				query: { text: 'Метод авторизации не существует', from: 'oauth' },
 				replace: true,
 			};
 		}
@@ -60,7 +60,7 @@ export const authHandler: NavigationGuard = async to => {
 			console.log('Нет параметров входа', methodLink);
 			return {
 				path: '/auth/error',
-				query: { text: 'Отсутствуют параметры входа' },
+				query: { text: 'Отсутствуют параметры входа', from: 'oauth' },
 				replace: true,
 			};
 		}
@@ -88,7 +88,7 @@ export const authHandler: NavigationGuard = async to => {
 				if (typeof id_token !== 'string') {
 					return {
 						path: '/auth/error',
-						query: { text: 'Переданы неверные данные для входа' },
+						query: { text: 'Переданы неверные данные для входа', from: 'oauth' },
 						replace: true,
 					};
 				}
@@ -100,20 +100,28 @@ export const authHandler: NavigationGuard = async to => {
 
 			if (response.status === 422) {
 				console.log('422 произошла');
-				return { path: '/auth/error', query: { text: 'Выбран неверный аккаунт' }, replace: true };
+				return {
+					path: '/auth/error',
+					query: { text: 'Выбран неверный аккаунт', from: 'oauth' },
+					replace: true,
+				};
 			}
 
 			if (response.status === 409) {
 				console.log('409 произошла');
 				return {
 					path: '/auth/error',
-					query: { text: 'Аккаунт с такими данными уже существуют' },
+					query: { text: 'Аккаунт с такими данными уже существуют', from: 'oauth' },
 					replace: true,
 				};
 			}
 		}
 
-		return { path: '/auth/error', query: { text: 'Непредвиденная ошибка' }, replace: true };
+		return {
+			path: '/auth/error',
+			query: { text: 'Непредвиденная ошибка', from: 'oauth' },
+			replace: true,
+		};
 	}
 
 	if (to.path === '/auth/register/success') {
