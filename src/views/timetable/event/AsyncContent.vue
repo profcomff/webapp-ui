@@ -4,6 +4,7 @@ import { computed } from 'vue';
 import DataRow from '@/components/DataRow.vue';
 import { useTimetableStore } from '@/store/timetable';
 import { formatTime } from '@/utils/time';
+import { StudyGroup } from '@/models';
 
 const props = defineProps<{ id: number }>();
 
@@ -73,7 +74,11 @@ const lecturers = computed(() => {
 <template>
 	<h2 class="h2">{{ event?.name }}</h2>
 
-	<DataRow title="Группа" :info="event?.group.map(g => g.number).join(', ') ?? ''" class="row">
+	<DataRow
+		title="Группа"
+		:info="event?.group.map((g: StudyGroup) => g.number).join(', ') ?? ''"
+		class="row"
+	>
 		<v-icon icon="group" class="icon" />
 	</DataRow>
 

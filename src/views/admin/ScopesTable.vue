@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Scope } from '@/api/models';
+import { Scope } from '@/models';
 import { computed } from 'vue';
 
 const props = defineProps<{

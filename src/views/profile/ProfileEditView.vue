@@ -1,11 +1,17 @@
-<script setup lang="ts">
+<!-- TODO: почините или дропните насовсем -->
+<!-- Чтобы починить, как минимум нужно починить типы в UserdataConverter -->
+<!-- Если почИните, то раскомментриуйте в роутере, если дропнете, то удалите там же  -->
+<!-- <script setup lang="ts">
 import { onMounted, ref } from 'vue';
 import Placeholder from '@/assets/profile_image_placeholder.webp';
 import { AuthApi } from '@/api';
-import { MySessionInfo } from '@/api/auth';
 import { UserdataApi } from '@/api/controllers/UserdataApi';
-import { UserdataArray, UserdataCategoryName, UserdataParams } from '@/models';
-import { UserdataExtendedValue } from '@/api/models';
+import {
+	UserdataArray,
+	UserdataCategoryName,
+	UserdataParams,
+	UserdataExtendedValue,
+} from '@/models';
 import IrdomLayout from '@/components/IrdomLayout.vue';
 import { useProfileStore } from '@/store/profile';
 import { UserdataConverter } from '@/utils/UserdataConverter';
@@ -34,37 +40,41 @@ onMounted(async () => {
 	}
 
 	const { data: me } = await AuthApi.getMe([
-		MySessionInfo.AuthMethods,
-		MySessionInfo.Groups,
-		MySessionInfo.IndirectGroups,
-		MySessionInfo.SessionScopes,
-		MySessionInfo.UserScopes,
+		'auth_methods',
+		'groups',
+		'indirect_groups',
+		'session_scopes',
+		'user_scopes',
 	]);
-	const { data: user } = await UserdataApi.getUser(me.id);
-	// const { data } = await UserdataApi.getCategories();
-	fullName_item.value = UserdataConverter.getItem(user, {
-		category: UserdataCategoryName.PersonalInfo,
-		param: UserdataParams.FullName,
-	});
-	photoURL_item.value = UserdataConverter.getItem(user, {
-		category: UserdataCategoryName.PersonalInfo,
-		param: UserdataParams.Photo,
-	});
-	fullName.value = fullName_item.value?.name ?? '[object Object]';
-	photoURL.value = photoURL_item.value?.name ?? Placeholder;
-	// userdata.value = UserdataConverter.uniteWithUserCategories(
-	// 	UserdataConverter.categoryToFlat(data),
-	// 	user
-	// );
+	if (me) {
+		const { data: user } = await UserdataApi.getUser(me.id);
+		const { data } = await UserdataApi.getCategories();
+		if (user) {
+			fullName_item.value = UserdataConverter.getItem(user, {
+				category: UserdataCategoryName.PersonalInfo,
+				param: UserdataParams.FullName,
+			});
+			photoURL_item.value = UserdataConverter.getItem(user, {
+				category: UserdataCategoryName.PersonalInfo,
+				param: UserdataParams.Photo,
+			});
+			fullName.value = fullName_item.value?.name ?? '[object Object]';
+			photoURL.value = photoURL_item.value?.name ?? Placeholder;
+		}
+		userdata.value = UserdataConverter.uniteWithUserCategories(
+			UserdataConverter.categoryToFlat(data),
+			user
+		);
+	}
 });
 
 async function saveEdit() {
-	const { data: me } = await AuthApi.getMe([
-		MySessionInfo.AuthMethods,
-		MySessionInfo.Groups,
-		MySessionInfo.IndirectGroups,
-		MySessionInfo.SessionScopes,
-		MySessionInfo.UserScopes,
+	const { data } = await AuthApi.getMe([
+		'auth_methods',
+		'groups',
+		'indirect_groups',
+		'session_scopes',
+		'user_scopes',
 	]);
 	const updateBody = UserdataConverter.arrayToUpdate(userdata.value, 'user', [
 		{
@@ -73,8 +83,10 @@ async function saveEdit() {
 			value: fullName.value,
 		},
 	]);
-	await UserdataApi.patchUserById(me.id, updateBody);
-	router.push('/profile');
+	if (data) {
+		await UserdataApi.patchUserById(data.id, updateBody);
+		router.push('/profile');
+	}
 }
 </script>
 
@@ -229,4 +241,4 @@ async function saveEdit() {
 	width: 356px;
 	text-align: center;
 }
-</style>
+</style> -->

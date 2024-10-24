@@ -6,7 +6,6 @@ import { useProfileStore } from '@/store/profile';
 import { useToolbar } from '@/store/toolbar';
 import { onMounted, ref, computed } from 'vue';
 import { AuthApi } from '@/api/controllers/auth/AuthApi';
-import { MySessionInfo } from '@/api/auth';
 import { useToastStore } from '@/store/toast';
 
 const profileStore = useProfileStore();
@@ -39,7 +38,7 @@ const paramsString = computed(() => {
 
 onMounted(() => {
 	if (!profileStore.id) {
-		AuthApi.getMe([MySessionInfo.SessionScopes]);
+		AuthApi.getMe(['session_scopes']);
 	}
 });
 </script>
@@ -79,13 +78,6 @@ onMounted(() => {
 					</v-expansion-panel-text>
 				</v-expansion-panel>
 			</v-expansion-panels>
-			<v-btn
-				prepend-icon="md:refresh"
-				variant="plain"
-				@click="AuthApi.getMe([MySessionInfo.SessionScopes])"
-			>
-				Обновить сессию
-			</v-btn>
 			<v-btn prepend-icon="md:content_copy" variant="plain" @click="copyText(paramsString)">
 				Cкопировать параметры приложения
 			</v-btn>

@@ -3,7 +3,6 @@ import { AuthApi } from '@/api';
 import { ToastType } from '@/models';
 import { onMounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
-import { MySessionInfo } from '@/api/auth/UserSessionApi';
 import IrdomLayout from '@/components/IrdomLayout.vue';
 import { useToastStore } from '@/store/toast';
 import { useToolbar } from '@/store/toolbar';
@@ -19,17 +18,19 @@ const checkPasswords = ref(false);
 checkPasswords.value = false;
 const router = useRouter();
 const toastStore = useToastStore();
-const current_email = ref('');
+const current_email = ref<string>('');
 
 onMounted(async () => {
-	const { data: me } = await AuthApi.getMe([
-		MySessionInfo.AuthMethods,
-		MySessionInfo.Groups,
-		MySessionInfo.IndirectGroups,
-		MySessionInfo.SessionScopes,
-		MySessionInfo.UserScopes,
+	const { data } = await AuthApi.getMe([
+		'auth_methods',
+		'groups',
+		'indirect_groups',
+		'session_scopes',
+		'user_scopes',
 	]);
-	current_email.value = me.email;
+	if (data?.email) {
+		current_email.value = data.email;
+	}
 });
 
 const submitHandler = async (event: Event) => {
