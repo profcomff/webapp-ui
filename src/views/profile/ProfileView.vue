@@ -18,6 +18,7 @@ const route = useRoute();
 const toolbar = useToolbar();
 
 const isOwnProfile = !('id' in route.params) || route.params.id === undefined;
+console.log(isOwnProfile);
 
 const buttons: ToolbarActionItem[] = [];
 
@@ -37,6 +38,7 @@ toolbar.setup({
 enum UserdataLoadingState {
 	Loading = 1,
 	Ready = 2,
+	Error = 3,
 }
 
 const userdata = ref<UserdataArray>([]);
@@ -92,6 +94,10 @@ const loadUserdata = async () => {
 			userdata.value = UserdataConverter.flatToArray(data);
 
 			userdataLoadingState.value = UserdataLoadingState.Ready;
+		} else {
+			fullName.value = 'Безымянный';
+			photoURL.value = Placeholder;
+			userdataLoadingState.value = UserdataLoadingState.Error;
 		}
 	}
 };
@@ -147,6 +153,9 @@ onMounted(async () => {
 						</div>
 					</div>
 				</div>
+			</div>
+			<div v-else>
+				<div class="userdata-category">Не удалось загрузить информацию</div>
 			</div>
 		</section>
 	</IrdomLayout>
