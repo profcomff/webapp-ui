@@ -40,7 +40,7 @@ export const AuthMethodNameList = [
 	'vk_auth',
 	'lkmsu_auth',
 	'yandex_auth',
-	'mymsu_auth',
+	'my_msu_auth',
 	'physics_auth',
 ] as const;
 export type AuthMethodName = (typeof AuthMethodNameList)[number];

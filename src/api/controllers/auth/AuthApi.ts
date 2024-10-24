@@ -106,7 +106,7 @@ export class AuthApi {
 					profileStore.userScopes = data.user_scopes.map(s => s.name);
 				}
 				if (data.auth_methods) {
-					profileStore.authMethods = data.auth_methods ?? null;
+					profileStore.authMethods = data.auth_methods;
 				}
 
 				profileStore.updateTokenScopes();

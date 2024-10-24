@@ -19,7 +19,7 @@ export const authButtons: AuthButton[] = [
 	{
 		name: '@my.msu.ru',
 		link: 'my-msu',
-		method: 'mymsu_auth',
+		method: 'my_msu_auth',
 		icon: `${logos}#msu`,
 		color: '#2f39500d',
 	},
