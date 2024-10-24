@@ -2,9 +2,14 @@
 import apiClient from '@/api';
 import IrdomLayout from '@/components/IrdomLayout.vue';
 import router from '@/router';
+import { useProfileStore } from '@/store/profile';
+import { useToastStore } from '@/store/toast';
 import { useToolbar } from '@/store/toolbar';
+import { ToastType } from '@/models';
 
 const toolbar = useToolbar();
+const toastStore = useToastStore();
+const profileStore = useProfileStore();
 
 toolbar.setup({
 	title: 'Удаление аккаунта',
@@ -14,8 +19,29 @@ toolbar.setup({
 async function deleteUser() {
 	const { data } = await apiClient.GET('/auth/me');
 	if (data) {
-		apiClient.DELETE('/auth/user/{user_id}', { params: { path: { user_id: data.id } } });
-		router.push('/auth');
+		const { response } = await apiClient.DELETE('/auth/user/{user_id}', {
+			params: { path: { user_id: data.id } },
+		});
+
+		if (response.ok) {
+			toastStore.push({
+				title: 'Аккаунт успешно удален',
+				type: ToastType.Info,
+			});
+			profileStore.deleteToken();
+			router.push('/auth');
+		} else {
+			toastStore.push({
+				title: 'Не удалось удалить аккаунт',
+				type: ToastType.Error,
+			});
+		}
+	} else {
+		toastStore.push({
+			title: 'Возникла проблема',
+			type: ToastType.Error,
+			description: 'Что-то пошло не так на сервере',
+		});
 	}
 }
 </script>

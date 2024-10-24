@@ -84,7 +84,7 @@ const OnClick = async () => {
 				color="red"
 				variant="tonal"
 				class="button"
-				@click="$router.push('/profile/delete-profile')"
+				@click="$router.push('/profile/delete-account')"
 			>
 				Удалить аккаунт
 			</v-btn>
