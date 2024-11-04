@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { GroupInfo, authGroupApi } from '@/api/auth';
 import ScopesTable from '../ScopesTable.vue';
 import { onMounted, computed } from 'vue';
 import { useRoute } from 'vue-router';
 import { AuthApi } from '@/api';
+import apiClient from '@/api/';
 import AccessRestricted from '@/components/AccessRestricted.vue';
 import IrdomLayout from '@/components/IrdomLayout.vue';
 import { scopename } from '@/models/ScopeName';
@@ -30,10 +30,15 @@ onMounted(async () => {
 	AuthApi.getScopes();
 
 	if (!group.value) {
-		const { data } = await authGroupApi.getGroup<GroupInfo.Scopes>(+route.params.id, [
-			GroupInfo.Scopes,
-		]);
-		authStore.setGroup(data);
+		const { data } = await apiClient.GET('/auth/group/{id}', {
+			params: {
+				path: { id: groupId.value },
+				query: { info: ['scopes'] },
+			},
+		});
+		if (data) {
+			authStore.setGroup(data);
+		}
 	}
 });
 
@@ -41,7 +46,10 @@ const deleteScope = async (scopeId: number) => {
 	if (hasTokenAccess(scopename.auth.group.update) && group.value) {
 		const ids = [...group.value.scopes.keys()].filter(id => id !== scopeId);
 
-		await authGroupApi.patchGroup(group.value.id, { scopes: ids });
+		await apiClient.PATCH('/auth/group/{id}', {
+			params: { path: { id: group.value.id } },
+			body: { scopes: ids },
+		});
 		authStore.groups.get(groupId.value)!.scopes.delete(scopeId);
 	}
 };
@@ -54,8 +62,9 @@ const addScope = async (e: Event) => {
 		const scopeId = +formData.get('id')!.toString();
 
 		if (profileStore.isUserLogged && group.value && scopeId) {
-			await authGroupApi.patchGroup(groupId.value, {
-				scopes: [...group.value.scopes.keys(), scopeId],
+			await apiClient.PATCH('/auth/group/{id}', {
+				params: { path: { id: groupId.value } },
+				body: { scopes: [...group.value.scopes.keys(), scopeId] },
 			});
 			authStore.setGroupScopeById(groupId.value, scopeId);
 			form.reset();

@@ -1,11 +1,14 @@
 <script setup lang="ts">
-import { achievementApi, AchievementGet } from '@/api/achievement';
+import { AchievementGet } from '@/models';
 import { computed, onMounted, ref } from 'vue';
 import { useRoute } from 'vue-router';
 import AccessRestricted from '@/components/AccessRestricted.vue';
 import IrdomLayout from '@/components/IrdomLayout.vue';
 import { scopename } from '@/models/ScopeName';
 import { useToolbar } from '@/store/toolbar';
+import { getPictureUrl } from '@/utils/achievement';
+
+import apiClient from '@/api/';
 
 const route = useRoute();
 const toolbar = useToolbar();
@@ -15,25 +18,43 @@ toolbar.setup({
 	backUrl: '/admin',
 });
 
-const achievemetId = computed(() => Number(route.params.id));
-const achievement = ref<AchievementGet | undefined>(undefined);
+const achievementId = computed(() => Number(route.params.id));
+const achievement = ref<AchievementGet>();
 const giveTo = ref<number | undefined>();
 
 onMounted(async () => {
-	achievement.value = (await achievementApi.getRecievers(achievemetId.value)).data;
+	const { data } = await apiClient.GET('/achievement/achievement/{achievement_id}/reciever', {
+		params: { path: { achievement_id: achievementId.value } },
+	});
+	if (data) {
+		achievement.value = data;
+	}
 });
 
 const revoke = (user_id: number) => {
-	achievementApi
-		.revoke(user_id, achievemetId.value)
-		.then(
-			async () => (achievement.value = (await achievementApi.getRecievers(achievemetId.value)).data)
-		);
+	apiClient.DELETE('/achievement/achievement/{achievement_id}/reciever/{user_id}', {
+		params: {
+			path: {
+				achievement_id: achievementId.value,
+				user_id,
+			},
+		},
+	});
+	apiClient.GET('/achievement/achievement/{achievement_id}/reciever', {
+		params: { path: { achievement_id: achievementId.value } },
+	});
 };
 const give = (user_id: number | undefined) => {
 	if (user_id === undefined) return;
-	achievementApi
-		.give(user_id, achievemetId.value)
+	apiClient
+		.POST('/achievement/achievement/{achievement_id}/reciever/{user_id}', {
+			params: {
+				path: {
+					user_id,
+					achievement_id: achievementId.value,
+				},
+			},
+		})
 		.then(async () => achievement.value?.recievers?.unshift({ user_id }));
 };
 </script>
@@ -42,11 +63,11 @@ const give = (user_id: number | undefined) => {
 	<IrdomLayout>
 		<AccessRestricted :scope="scopename.achievements.achievement.create">
 			<v-row class="row" align-content="stretch">
-				<v-card>
-					<img :src="achievementApi.getPictureUrl(achievement?.picture)" width="100" height="100" />
+				<v-card v-if="achievement">
+					<img :src="getPictureUrl(achievement.picture)" width="100" height="100" />
 					<div>
-						<h2>{{ achievement?.name }}</h2>
-						<p>{{ achievement?.description }}</p>
+						<h2>{{ achievement.name }}</h2>
+						<p>{{ achievement.description }}</p>
 					</div>
 				</v-card>
 			</v-row>

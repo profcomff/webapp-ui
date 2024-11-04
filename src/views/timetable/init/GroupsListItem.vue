@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { StudyGroup } from '@/api/models';
+import { StudyGroup } from '@/models';
 import { LocalStorage, LocalStorageItem } from '@/models/LocalStorage';
 import { useTimetableStore } from '@/store/timetable';
 import { useRouter } from 'vue-router';

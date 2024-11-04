@@ -4,21 +4,22 @@ import { useRouter } from 'vue-router';
 import IrdomLayout from '@/components/IrdomLayout.vue';
 import { useToolbar } from '@/store/toolbar';
 import { onMounted, ref } from 'vue';
-import { MySessionInfo } from '@/api/auth';
 
 const router = useRouter();
 const toolbar = useToolbar();
 const current_email = ref();
 
 onMounted(async () => {
-	const { data: me } = await AuthApi.getMe([
-		MySessionInfo.AuthMethods,
-		MySessionInfo.Groups,
-		MySessionInfo.IndirectGroups,
-		MySessionInfo.SessionScopes,
-		MySessionInfo.UserScopes,
+	const { data } = await AuthApi.getMe([
+		'auth_methods',
+		'groups',
+		'indirect_groups',
+		'session_scopes',
+		'user_scopes',
 	]);
-	current_email.value = me.email;
+	if (data) {
+		current_email.value = data.email;
+	}
 });
 
 toolbar.setup({
@@ -77,6 +78,15 @@ const OnClick = async () => {
 				@click="$router.push('/profile/sessions')"
 			>
 				Текущие сессии
+			</v-btn>
+			<v-btn
+				prepend-icon="delete"
+				color="red"
+				variant="tonal"
+				class="button"
+				@click="$router.push('/profile/delete-account')"
+			>
+				Удалить аккаунт
 			</v-btn>
 			<v-btn variant="tonal" class="button" color="red" @click="OnClick">Выход</v-btn>
 		</div>
