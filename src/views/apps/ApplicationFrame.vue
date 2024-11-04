@@ -117,16 +117,16 @@ const getToken = async () => {
 	}
 
 	// 3. Если пользователь разрешает – запрашиваем токен на Auth api и возвращаем его
-	const session = (
-		await userSessionApi.createSession(scopes.value.length == 0 ? {} : { scopes: scopes.value })
-	).data;
-	if (!session) {
+	const { data } = await apiClient.POST('/auth/session', {
+		body: { scopes: scopes.value.length == 0 ? [] : scopes.value },
+	});
+	if (!data) {
 		appState.value = AppState.Error;
 		return;
 	}
-	authItem.token = session.token;
-	authItem.expires = session.expires;
-	profileStore.id = session.user_id;
+	authItem.token = data.token;
+	authItem.expires = data.expires;
+	profileStore.id = data.user_id;
 	if (authItemIndex != -1) {
 		appsData[authItemIndex] = authItem;
 	} else {
@@ -134,7 +134,7 @@ const getToken = async () => {
 	}
 	LocalStorage.set(LocalStorageItem.SuperappAuth, appsData);
 
-	return session.token;
+	return data.token;
 };
 
 const openApp = async (data: ServiceData) => {
@@ -160,7 +160,7 @@ const openApp = async (data: ServiceData) => {
 	}
 
 	// Пользователь не авторизован => Кнопка разблокирована и не требует авторизации => Показываем приложение
-	if (data.view == ButtonView.Active && !profileStore.id) {
+	if (data.view == 'active' && !profileStore.id) {
 		appState.value = AppState.Show;
 		return;
 	}
