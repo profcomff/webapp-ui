@@ -46,8 +46,25 @@
    pnpm run dev
    ```
 
-8. Введите в адресной строке браузера `http://localhost:9000`. Откроется главная страница приложения "Твой ФФ!".
+8. Введите в адресной строке браузера [https://localhost](https://localhost). Откроется главная страница приложения "Твой ФФ!".
    <img src="timetable_init.jpg" alt="Скриншот главной страницы приложения" style="max-width: 700px">
+
+9. Для возможности работать с OAuth-авторизацией на локальной машине необходимо добавить строку
+
+```
+127.0.0.1 app.test.profcomff.com
+```
+
+в файл `hosts`. Инструкцию по изменению файла `hosts` можно найти по ссылке: [Файл hosts: где находится и как его изменить](https://help.reg.ru/support/dns-servery-i-nastroyka-zony/rabota-s-dns-serverami/fayl-hosts-gde-nakhoditsya-i-kak-yego-izmenit)
+
+10. После сохранения изменений в файле `hosts` выполняем
+
+```bash
+sudo pnpm run dev # для Mac OS и Linux
+pnpm run dev # для Windows
+```
+
+и открываем адрес [app.test.profcomff.com](https://app.test.profcomff.com) в браузере. При появлении предупреждения о незащищенном сайте нажимаем "Дополнительно" > "Перейти (небезопасно)".
 
 \* при возникновении проблем пишите в наш телеграм-чат или [@physphile](t.me/physphile).
 

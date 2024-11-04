@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite --host",
+    "dev": "vite --port 443 --host",
     "build": "vite build",
     "build:development": "vite build --mode development",
     "build:testing": "vite build --mode testing",
@@ -22,22 +22,19 @@
   "dependencies": {
     "@profcomff/api-uilib": "^2024.10.22",
     "markdown-it": "^14.1.0",
-    "openapi-fetch": "^0.12.2",
-    "pinia": "^2.2.4",
+    "openapi-fetch": "^0.12.5",
+    "pinia": "^2.2.6",
     "query-string": "^9.1.1",
     "ua-parser-js": "^1.0.39",
     "vue": "^3.5.12",
     "vue-router": "^4.4.5",
-    "workbox-window": "^7.1.0"
+    "workbox-window": "^7.3.0"
   },
   "devDependencies": {
     "@profcomff/api-uilib": "^2024.9.29",
     "@types/markdown-it": "^14.1.2",
-    "@types/node": "^20.17.0",
+    "@types/node": "^20.17.6",
     "@types/ua-parser-js": "^0.7.39",
-    "@typescript-eslint/eslint-plugin": "^7.18.0",
-    "@typescript-eslint/parser": "^7.18.0",
-    "@vitejs/plugin-vue": "^5.1.4",
     "@typescript-eslint/eslint-plugin": "^7.18.0",
     "@typescript-eslint/parser": "^7.18.0",
     "@vitejs/plugin-vue": "^5.1.4",
@@ -45,8 +42,8 @@
     "eslint": "^8.57.1",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-prettier": "^5.2.1",
-    "eslint-plugin-vue": "^9.29.1",
-    "openapi-typescript": "^7.4.1",
+    "eslint-plugin-vue": "^9.30.0",
+    "openapi-typescript": "^7.4.2",
     "postcss": "^8.4.47",
     "postcss-html": "^1.7.0",
     "postcss-preset-env": "^9.6.0",
@@ -57,12 +54,12 @@
     "typescript": "5.3.3",
     "vite": "^5.4.10",
     "vite-plugin-eslint": "^1.8.1",
+    "vite-plugin-mkcert": "^1.17.6",
     "vite-plugin-pwa": "^0.19.8",
     "vite-plugin-stylelint": "^5.3.1",
     "vite-plugin-vuetify": "^2.0.4",
-    "vite-plugin-vuetify": "^2.0.4",
     "vitest": "^1.6.0",
-    "vue-tsc": "^2.1.6",
+    "vue-tsc": "^2.1.10",
     "vuetify": "^3.7.3"
   }
 }

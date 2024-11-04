@@ -5,6 +5,7 @@ import { VitePWA } from 'vite-plugin-pwa';
 import Vue from '@vitejs/plugin-vue';
 import postcssPresetEnv from 'postcss-preset-env';
 import vuetify from 'vite-plugin-vuetify';
+import mkcert from 'vite-plugin-mkcert';
 
 export default defineConfig({
 	css: {
@@ -18,7 +19,7 @@ export default defineConfig({
 			],
 		},
 	},
-	plugins: [Vue(), vuetify(), VitePWA(vitePWAconfig)],
+	plugins: [mkcert(), Vue(), vuetify(), VitePWA(vitePWAconfig)],
 	resolve: {
 		alias: [{ find: '@', replacement: fileURLToPath(new URL('./src', import.meta.url)) }],
 	},
