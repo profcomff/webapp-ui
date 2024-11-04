@@ -1,7 +1,12 @@
-import { UserdataParamResponseType, UserdataRaw } from '@/api/models';
 import { describe, it, expect } from 'vitest';
 import { UserdataConverter } from './UserdataConverter';
-import { UserdataArrayItem, UserdataTree, UserdataTreeSheet } from '@/models';
+import {
+	UserdataParamResponseType,
+	UserdataRaw,
+	UserdataArrayItem,
+	UserdataTree,
+	UserdataTreeSheet,
+} from '@/models';
 
 const flatResposne: UserdataRaw = {
 	items: [

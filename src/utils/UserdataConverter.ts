@@ -4,20 +4,18 @@ import {
 	UserdataItem,
 	UserdataUpdateUser,
 	UserdataUpdateUserItem,
-} from './../api/models/index';
-import {
-	UserdataArrayCategoryItem,
-	UserdataArrayDataItem,
-	UserdataParams,
-} from './../models/index';
-import { UserdataCategory, UserdataParamResponseType, UserdataRaw } from '@/api/models';
-import {
+	UserdataCategory,
+	UserdataParamResponseType,
+	UserdataRaw,
 	UserdataArray,
 	UserdataArrayItem,
 	UserdataCategoryName,
 	UserdataConfig,
 	UserdataTree,
 	UserdataTreeSheet,
+	UserdataArrayCategoryItem,
+	UserdataArrayDataItem,
+	UserdataParams,
 } from '@/models';
 
 const categoryOrder = [
@@ -46,10 +44,12 @@ export class UserdataConverter {
 					changeable: true,
 					type: UserdataParamResponseType.All,
 				};
-			} else {
+			} else if (item.value !== null) {
 				extendedValue = item.value;
 			}
-			acc.get(item.category)!.set(item.param, extendedValue);
+			if (extendedValue) {
+				acc.get(item.category)!.set(item.param, extendedValue);
+			}
 			return acc;
 		}, new Map() as UserdataTree);
 	}

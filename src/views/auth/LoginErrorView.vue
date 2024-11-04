@@ -16,7 +16,9 @@ toolbar.setup({
 	<IrdomLayout>
 		<p>Произошла ошибка при входе в аккаунт</p>
 		<p>{{ route.query.text }}</p>
-		<RouterLink to="/auth" class="link">Вернуться к методам входа</RouterLink>
+		<RouterLink :to="route.query.from == 'oauth' ? '/profile/edit-auth' : '/auth'" class="link"
+			>Вернуться к методам входа</RouterLink
+		>
 	</IrdomLayout>
 </template>
 

@@ -2,15 +2,13 @@
 import { Ref, onMounted, ref, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useToolbar } from '@/store/toolbar';
-import { authScopeApi } from '@/api/auth';
-import { userSessionApi } from '@/api/auth/UserSessionApi';
-import { servicesApi } from '@/api/services/ServicesApi';
-import { ServiceData, ButtonType, ButtonView } from '@/api/models';
 import { useProfileStore } from '@/store/profile';
 import { LocalStorage, LocalStorageItem } from '@/models/LocalStorage';
 import { SuperappAuthItem } from '@/models/SuperappData';
 import FullscreenLoader from '@/components/FullscreenLoader.vue';
 import { AuthApi } from '@/api/controllers/auth/AuthApi';
+import { ServiceData } from '@/models';
+import apiClient from '@/api/';
 
 const route = useRoute();
 const toolbar = useToolbar();
@@ -36,8 +34,10 @@ toolbar.setup({
 	backUrl: '/apps',
 });
 
-const composeUrl = async (url: URL, token: string, scopes: string[]) => {
-	url.searchParams.set('token', token);
+const composeUrl = async (url: URL, token: string | null, scopes: string[]) => {
+	if (token !== null) {
+		url.searchParams.set('token', token);
+	}
 	url.searchParams.set('scopes', scopes.join(','));
 	if (!profileStore.id) {
 		await AuthApi.getMe();
@@ -88,7 +88,7 @@ const getToken = async () => {
 	// Если токена с нужными правами нет, то нужно запросить токен. Для этого
 	// 1. Получаем весь список скоупов для получения оттуда названий на русском
 	authItem.current_scopes = scopes.value;
-	const allScopes = (await authScopeApi.getScopes()).data;
+	const allScopes = (await apiClient.GET('/auth/scope')).data;
 	if (!allScopes) {
 		appState.value = AppState.Error;
 		return;
@@ -101,7 +101,9 @@ const getToken = async () => {
 		console.log(item);
 		if (valuesToSearch.has(item.name)) {
 			console.log('    found');
-			scopeNamesToRequest.value.push(item.comment);
+			if (item.comment !== undefined && item.comment !== null) {
+				scopeNamesToRequest.value.push(item.comment);
+			}
 		}
 	});
 
@@ -115,16 +117,16 @@ const getToken = async () => {
 	}
 
 	// 3. Если пользователь разрешает – запрашиваем токен на Auth api и возвращаем его
-	const session = (
-		await userSessionApi.createSession(scopes.value.length == 0 ? {} : { scopes: scopes.value })
-	).data;
-	if (!session) {
+	const { data } = await apiClient.POST('/auth/session', {
+		body: { scopes: scopes.value.length == 0 ? [] : scopes.value },
+	});
+	if (!data) {
 		appState.value = AppState.Error;
 		return;
 	}
-	authItem.token = session.token;
-	authItem.expires = session.expires;
-	profileStore.id = session.user_id;
+	authItem.token = data.token;
+	authItem.expires = data.expires;
+	profileStore.id = data.user_id;
 	if (authItemIndex != -1) {
 		appsData[authItemIndex] = authItem;
 	} else {
@@ -132,33 +134,33 @@ const getToken = async () => {
 	}
 	LocalStorage.set(LocalStorageItem.SuperappAuth, appsData);
 
-	return session.token;
+	return data.token;
 };
 
 const openApp = async (data: ServiceData) => {
 	// Приложения открываем только Internal типа
-	if (data.type !== ButtonType.Internal) {
+	if (data.type !== 'internal') {
 		appState.value = AppState.Error;
 		return;
 	}
 	// Приложения открываем только по https
-	if (data.link === undefined || !data.link.startsWith('https://')) {
+	if (data.link === undefined || !data.link?.startsWith('https://')) {
 		appState.value = AppState.Error;
 		return;
 	}
 	url.value = new URL(data.link);
-	toolbar.title = data.name;
+	toolbar.title = data.name ?? 'Ошибка';
 
 	scopes.value = data.scopes ? data.scopes : [];
 
 	// Не хватает скоупов => Кнопка заблокирована => Показываем ошибку
-	if (data.view == ButtonView.Blocked) {
+	if (data.view == 'blocked') {
 		appState.value = AppState.Blocked;
 		return;
 	}
 
 	// Пользователь не авторизован => Кнопка разблокирована и не требует авторизации => Показываем приложение
-	if (data.view == ButtonView.Active && !profileStore.id) {
+	if (data.view == 'active' && !profileStore.id) {
 		appState.value = AppState.Show;
 		return;
 	}
@@ -176,18 +178,14 @@ const openApp = async (data: ServiceData) => {
 };
 
 onMounted(async () => {
-	servicesApi
-		.getService(appId)
-		.then(async response => {
-			if (response.status == 200) {
-				openApp(response.data);
-			} else {
-				appState.value = AppState.Error;
-			}
-		})
-		.catch(() => {
-			appState.value = AppState.Error;
-		});
+	const { data } = await apiClient.GET('/services/service/{button_id}', {
+		params: { path: { button_id: appId } },
+	});
+	if (data) {
+		openApp(data);
+	} else {
+		appState.value = AppState.Error;
+	}
 });
 </script>
 
