@@ -83,9 +83,9 @@ const getToken = async () => {
 		compareLists(authItem.current_scopes, scopes.value) &&
 		(!authItem.expires || new Date(authItem.expires + 'Z') > new Date())
 	) {
-		setupAuth(authItem.token);
+		setupAuth(authItem.token ?? undefined);
 		const response = await apiClient.GET('/auth/me');
-		setupAuth(LocalStorage.get(LocalStorageItem.Token));
+		setupAuth(LocalStorage.get(LocalStorageItem.Token) ?? undefined);
 		if (response.response.status === 200) {
 			return authItem.token;
 		}
