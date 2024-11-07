@@ -9,6 +9,7 @@ import FullscreenLoader from '@/components/FullscreenLoader.vue';
 import { AuthApi } from '@/api/controllers/auth/AuthApi';
 import { ServiceData } from '@/models';
 import apiClient from '@/api/';
+import { setupAuth } from '@profcomff/api-uilib';
 
 const route = useRoute();
 const toolbar = useToolbar();
@@ -82,7 +83,12 @@ const getToken = async () => {
 		compareLists(authItem.current_scopes, scopes.value) &&
 		(!authItem.expires || new Date(authItem.expires + 'Z') > new Date())
 	) {
-		return authItem.token;
+		setupAuth(authItem.token);
+		const response = await apiClient.GET('/auth/me');
+		setupAuth(LocalStorage.get(LocalStorageItem.Token));
+		if (response.response.status === 200) {
+			return authItem.token;
+		}
 	}
 
 	// Если токена с нужными правами нет, то нужно запросить токен. Для этого
