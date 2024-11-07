@@ -9,6 +9,7 @@ import FullscreenLoader from '@/components/FullscreenLoader.vue';
 import { AuthApi } from '@/api/controllers/auth/AuthApi';
 import { ServiceData } from '@/models';
 import apiClient from '@/api/';
+import { setupAuth } from '@profcomff/api-uilib';
 
 const route = useRoute();
 const toolbar = useToolbar();
@@ -75,9 +76,19 @@ const getToken = async () => {
 	const authItem: SuperappAuthItem =
 		authItemIndex != -1 ? appsData[authItemIndex] : { service_id: appId };
 
-	// Если раньше уже получали токен с нужными правами – возвращаем его
-	if (authItem && authItem.current_scopes && compareLists(authItem.current_scopes, scopes.value)) {
-		return authItem.token;
+	// Если раньше уже получали токен с нужными правами и он не устарел (исходя из данных в лок. хранилище) – возвращаем его
+	if (
+		authItem &&
+		authItem.current_scopes &&
+		compareLists(authItem.current_scopes, scopes.value) &&
+		(!authItem.expires || new Date(authItem.expires + 'Z') > new Date())
+	) {
+		setupAuth(authItem.token ?? undefined);
+		const response = await apiClient.GET('/auth/me');
+		setupAuth(LocalStorage.get(LocalStorageItem.Token) ?? undefined);
+		if (response.response.status === 200) {
+			return authItem.token;
+		}
 	}
 
 	// Если токена с нужными правами нет, то нужно запросить токен. Для этого
@@ -101,21 +112,27 @@ const getToken = async () => {
 			}
 		}
 	});
-	// 2. Показываем пользователю список прав, которые приложение запрашивает, и кнопки "разрешить"/"запретить"
-	const scopesApproved = await showApproveScopesScreen();
 
-	// 3. Если пользователь не разрешает – возваращаем undefined
-	if (!scopesApproved) return undefined;
+	// 2. Если нужен токен без скоупов, то пропускаем запрос на разрешение у пользователя
+	if (scopes.value.length != 0) {
+		// 2.1 Показываем пользователю список прав, которые приложение запрашивает, и кнопки "разрешить"/"запретить"
+		const scopesApproved = await showApproveScopesScreen();
 
-	// 4. Если пользователь разрешает – запрашиваем токен на Auth api и возвращаем его
-	const session = (await apiClient.POST('/auth/session', { body: { scopes: scopes.value } })).data;
-	if (!session) {
+		// 2.2 Если пользователь не разрешает – возваращаем undefined
+		if (!scopesApproved) return undefined;
+	}
+
+	// 3. Если пользователь разрешает – запрашиваем токен на Auth api и возвращаем его
+	const { data } = await apiClient.POST('/auth/session', {
+		body: { scopes: scopes.value.length == 0 ? [] : scopes.value },
+	});
+	if (!data) {
 		appState.value = AppState.Error;
 		return;
 	}
-	authItem.token = session.token;
-	authItem.expires = session.expires;
-	profileStore.id = session.user_id;
+	authItem.token = data.token;
+	authItem.expires = data.expires;
+	profileStore.id = data.user_id;
 	if (authItemIndex != -1) {
 		appsData[authItemIndex] = authItem;
 	} else {
@@ -123,7 +140,7 @@ const getToken = async () => {
 	}
 	LocalStorage.set(LocalStorageItem.SuperappAuth, appsData);
 
-	return session.token;
+	return data.token;
 };
 
 const openApp = async (data: ServiceData) => {
@@ -148,8 +165,8 @@ const openApp = async (data: ServiceData) => {
 		return;
 	}
 
-	// Не нужны скоупы => Кнопка разблокирована и не требует авторизации => Показываем приложение
-	if (data.view == 'active' && scopes.value.length == 0) {
+	// Пользователь не авторизован => Кнопка разблокирована и не требует авторизации => Показываем приложение
+	if (data.view == 'active' && !profileStore.id) {
 		appState.value = AppState.Show;
 		return;
 	}
