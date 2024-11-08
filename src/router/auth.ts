@@ -46,9 +46,7 @@ export const authHandler: NavigationGuard = async to => {
 
 	if (to.path.startsWith('/auth/oauth-authorized')) {
 		const methodLink = to.params.method;
-		console.log(methodLink, profileStore.isUserLogged);
 		if (!isAuthMethod(methodLink)) {
-			console.log('failed', methodLink);
 			return {
 				path: '/auth/error',
 				query: { text: 'Метод авторизации не существует', from: 'oauth' },
@@ -57,7 +55,6 @@ export const authHandler: NavigationGuard = async to => {
 		}
 
 		if (to.hash === '' && Object.keys(to.query).length === 0) {
-			console.log('Нет параметров входа', methodLink);
 			return {
 				path: '/auth/error',
 				query: { text: 'Отсутствуют параметры входа', from: 'oauth' },
@@ -65,24 +62,22 @@ export const authHandler: NavigationGuard = async to => {
 			};
 		}
 
-		const { data, response, error } = profileStore.isUserLogged
-			? await apiClient.POST(`/auth/${methodLink}/registration`, {
+		const { data, response } = profileStore.isUserLogged
+			? await apiClient.POST(`/auth/${methodLink}/login`, { body: { ...to.query } })
+			: await apiClient.POST(`/auth/${methodLink}/registration`, {
 					body: {
 						...to.query,
 						session_name: navigator.userAgent ?? UNKNOWN_DEVICE,
 					},
-				})
-			: await apiClient.POST(`/auth/${methodLink}/login`, { body: { ...to.query } });
+				});
 
 		if (response.ok && data?.token) {
-			console.log('Успешно вошел', methodLink);
 			LocalStorage.set(LocalStorageItem.Token, data.token);
 			profileStore.updateToken();
 			toastStore.push({ title: 'Вы успешно вошли в аккаунт' });
 			return { path: '/profile', replace: true };
 		} else {
 			if (response.status === 401) {
-				console.log('401 произошла', response, data, error);
 				const id_token = data?.token;
 
 				if (typeof id_token !== 'string') {
@@ -99,7 +94,6 @@ export const authHandler: NavigationGuard = async to => {
 			}
 
 			if (response.status === 422) {
-				console.log('422 произошла');
 				return {
 					path: '/auth/error',
 					query: { text: 'Выбран неверный аккаунт', from: 'oauth' },
@@ -108,7 +102,6 @@ export const authHandler: NavigationGuard = async to => {
 			}
 
 			if (response.status === 409) {
-				console.log('409 произошла');
 				return {
 					path: '/auth/error',
 					query: { text: 'Аккаунт с такими данными уже существуют', from: 'oauth' },
