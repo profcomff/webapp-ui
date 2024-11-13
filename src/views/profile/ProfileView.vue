@@ -18,7 +18,6 @@ const route = useRoute();
 const toolbar = useToolbar();
 
 const isOwnProfile = !('id' in route.params) || route.params.id === undefined;
-console.log(isOwnProfile);
 
 const buttons: ToolbarActionItem[] = [];
 
