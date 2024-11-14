@@ -3,13 +3,11 @@ import { Ref, onMounted, ref, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useToolbar } from '@/store/toolbar';
 import { useProfileStore } from '@/store/profile';
-import { LocalStorage, LocalStorageItem } from '@/models/LocalStorage';
-import { SuperappAuthItem } from '@/models/SuperappData';
 import FullscreenLoader from '@/components/FullscreenLoader.vue';
 import { AuthApi } from '@/api/controllers/auth/AuthApi';
 import { ServiceData } from '@/models';
 import apiClient from '@/api/';
-import { setupAuth } from '@profcomff/api-uilib';
+import { msInHour } from '@/utils/time';
 
 const route = useRoute();
 const toolbar = useToolbar();
@@ -49,19 +47,6 @@ const composeUrl = async (url: URL, token: string | null, scopes: string[]) => {
 	return url;
 };
 
-const compareLists = (array1: string[], array2: string[]) => {
-	const array2Sorted = array2.slice().sort();
-	return (
-		array1.length === array2.length &&
-		array1
-			.slice()
-			.sort()
-			.every(function (value, index) {
-				return value === array2Sorted[index];
-			})
-	);
-};
-
 function showApproveScopesScreen() {
 	appState.value = AppState.WaitApprove;
 	// immediately return a Promise
@@ -71,44 +56,27 @@ function showApproveScopesScreen() {
 }
 
 const getToken = async () => {
-	const appsData = LocalStorage.getObject<SuperappAuthItem[]>(LocalStorageItem.SuperappAuth) || [];
-	const authItemIndex = appsData.findIndex(value => value.service_id == appId);
-	const authItem: SuperappAuthItem =
-		authItemIndex != -1 ? appsData[authItemIndex] : { service_id: appId };
-
-	// Если раньше уже получали токен с нужными правами и он не устарел (исходя из данных в лок. хранилище) – возвращаем его
-	if (
-		authItem &&
-		authItem.current_scopes &&
-		compareLists(authItem.current_scopes, scopes.value) &&
-		(!authItem.expires || new Date(authItem.expires + 'Z') > new Date())
-	) {
-		setupAuth(authItem.token ?? undefined);
-		const response = await apiClient.GET('/auth/me');
-		setupAuth(LocalStorage.get(LocalStorageItem.Token) ?? undefined);
-		if (response.response.status === 200) {
-			return authItem.token;
-		}
-	}
-
-	// Если токена с нужными правами нет, то нужно запросить токен. Для этого
+	// Запрашиваем токен. Для этого:
 	// 1. Получаем весь список скоупов для получения оттуда названий на русском
-	authItem.current_scopes = scopes.value;
-	const allScopes = (await apiClient.GET('/auth/scope')).data;
-	if (!allScopes) {
+	const userInfo = (
+		await apiClient.GET('/auth/me', { params: { query: { info: ['user_scopes'] } } })
+	).data;
+	if (!userInfo || !userInfo.user_scopes) {
 		appState.value = AppState.Error;
 		return;
 	}
+
 	console.log(scopes.value);
 	const valuesToSearch = new Set(scopes.value);
 	console.log(valuesToSearch);
 
-	allScopes.forEach(item => {
+	userInfo.user_scopes.forEach(item => {
 		console.log(item);
 		if (valuesToSearch.has(item.name)) {
 			console.log('    found');
-			if (item.comment !== undefined && item.comment !== null) {
-				scopeNamesToRequest.value.push(item.comment);
+			// TODO: Поменять name на comment, когда допилю ручку me (и, возможно, поменять /me на /scope)
+			if (item.name !== undefined && item.name !== null) {
+				scopeNamesToRequest.value.push(item.name);
 			}
 		}
 	});
@@ -123,22 +91,18 @@ const getToken = async () => {
 	}
 
 	// 3. Если пользователь разрешает – запрашиваем токен на Auth api и возвращаем его
+	const expiresDate = new Date(Date.now() + msInHour);
 	const { data } = await apiClient.POST('/auth/session', {
-		body: { scopes: scopes.value.length == 0 ? [] : scopes.value },
+		body: {
+			scopes: scopes.value.length == 0 ? [] : scopes.value,
+			expires: expiresDate.toISOString(),
+		},
 	});
 	if (!data) {
 		appState.value = AppState.Error;
 		return;
 	}
-	authItem.token = data.token;
-	authItem.expires = data.expires;
 	profileStore.id = data.user_id;
-	if (authItemIndex != -1) {
-		appsData[authItemIndex] = authItem;
-	} else {
-		appsData.push(authItem);
-	}
-	LocalStorage.set(LocalStorageItem.SuperappAuth, appsData);
 
 	return data.token;
 };
