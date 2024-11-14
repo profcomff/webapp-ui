@@ -3,7 +3,7 @@ import { useRouter } from 'vue-router';
 import IrdomLayout from '@/components/IrdomLayout.vue';
 import { useToolbar } from '@/store/toolbar';
 import { useProfileStore } from '@/store/profile';
-import { AuthMethodLink, UNKNOWN_DEVICE } from '@/models';
+import { AuthMethodLink } from '@/models';
 import apiClient from '@/api/';
 
 const router = useRouter();
