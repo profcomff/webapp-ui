@@ -16,49 +16,49 @@ const markdown = new Markdown({
 </template>
 
 <style scoped>
-.md >>> h1 {
+.md :deep(h1) {
 	margin-top: 0.67em;
 	margin-bottom: 4px;
 }
 
-.md >>> h2 {
+.md :deep(h2) {
 	margin-top: 0.83em;
 	margin-bottom: 4px;
 }
 
-.md >>> h3 {
+.md :deep(h3) {
 	margin-top: 1em;
 	margin-bottom: 4px;
 }
 
-.md >>> h4 {
+.md :deep(h4) {
 	margin-top: 1.33em;
 	margin-bottom: 4px;
 }
 
-.md >>> h5 {
+.md :deep(h5) {
 	margin-top: 1.67em;
 	margin-bottom: 4px;
 }
 
-.md >>> h6 {
+.md :deep(h6) {
 	margin-top: 2.33em;
 	margin-bottom: 4px;
 }
 
-.md >>> ul ul,
-.md >>> ol ul,
-.md >>> ol ol,
-.md >>> ul ol {
+.md :deep(ul) ul,
+.md :deep(ol) ul,
+.md :deep(ol) ol,
+.md :deep(ul) ol {
 	margin-left: 15px;
 }
 
-.md >>> a {
+.md :deep(a) {
 	color: #1a0dab;
 	text-decoration: none;
 }
 
-.md >>> a:hover {
+.md :deep(a):hover {
 	text-decoration: underline;
 }
 </style>
