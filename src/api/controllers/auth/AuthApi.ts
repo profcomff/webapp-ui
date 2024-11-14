@@ -73,6 +73,7 @@ export class AuthApi {
 		const toastStore = useToastStore();
 		profileStore.deleteToken();
 		await apiClient.POST('/auth/logout');
+		profileStore.updateToken();
 		router.push('/auth');
 		toastStore.push({
 			title: 'Вы успешно вышли из аккаунта',

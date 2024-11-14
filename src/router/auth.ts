@@ -63,13 +63,13 @@ export const authHandler: NavigationGuard = async to => {
 		}
 
 		const { data, response } = profileStore.isUserLogged
-			? await apiClient.POST(`/auth/${methodLink}/login`, { body: { ...to.query } })
-			: await apiClient.POST(`/auth/${methodLink}/registration`, {
+			? await apiClient.POST(`/auth/${methodLink}/registration`, {
 					body: {
 						...to.query,
 						session_name: navigator.userAgent ?? UNKNOWN_DEVICE,
 					},
-				});
+				})
+			: await apiClient.POST(`/auth/${methodLink}/login`, { body: { ...to.query } });
 
 		if (response.ok && data?.token) {
 			LocalStorage.set(LocalStorageItem.Token, data.token);
@@ -78,7 +78,7 @@ export const authHandler: NavigationGuard = async to => {
 			return { path: '/profile', replace: true };
 		} else {
 			if (response.status === 401) {
-				const id_token = data?.token;
+				const id_token = to.query.code;
 
 				if (typeof id_token !== 'string') {
 					return {
