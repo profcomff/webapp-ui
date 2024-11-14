@@ -25,10 +25,7 @@ async function handleAccept() {
 		}
 
 		const { response, data } = await apiClient.POST(`/auth/${idTokenIssuer}/registration`, {
-			body: {
-				id_token: idToken,
-				session_name: navigator.userAgent ?? UNKNOWN_DEVICE,
-			},
+			body: { id_token: idToken },
 		});
 		if (data && data?.token) {
 			localStorage.setItem('token', data.token);
