@@ -65,19 +65,15 @@ export function checkToken<F extends Func<any, any>>(
 	method: F
 ): Func<Promise<ReturnType<F>>, Parameters<F>> {
 	return async (...args: any[]) => {
-		try {
-			const { error } = await apiClient.GET('/auth/me');
-			throw error;
-		} catch (err) {
-			const error = err as apiError;
-			if (error && error.message === 'Forbidden') {
-				const { deleteToken } = useProfileStore();
-				const toastStore = useToastStore();
-				deleteToken();
-				router.push('/auth');
-				toastStore.push({ title: 'Сессия истекла' });
-			}
+		const { response: checkResponse } = await apiClient.GET('/auth/me');
+		if (!checkResponse.ok && checkResponse.status === 403) {
+			const { deleteToken } = useProfileStore();
+			const toastStore = useToastStore();
+			deleteToken();
+			router.push('/auth');
+			toastStore.push({ title: 'Сессия истекла' });
 		}
+
 		const response = await method(...args);
 		return response;
 	};

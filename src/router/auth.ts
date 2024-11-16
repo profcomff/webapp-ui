@@ -69,7 +69,12 @@ export const authHandler: NavigationGuard = async to => {
 						session_name: navigator.userAgent ?? UNKNOWN_DEVICE,
 					},
 				})
-			: await apiClient.POST(`/auth/${methodLink}/login`, { body: { ...to.query } });
+			: await apiClient.POST(`/auth/${methodLink}/login`, {
+					body: {
+						...to.query,
+						session_name: navigator.userAgent ?? UNKNOWN_DEVICE,
+					},
+				});
 
 		if (response.ok && data?.token) {
 			LocalStorage.set(LocalStorageItem.Token, data.token);
