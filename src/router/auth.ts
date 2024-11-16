@@ -3,7 +3,7 @@ import { NavigationGuard, RouteRecordRaw } from 'vue-router';
 import { useProfileStore } from '@/store/profile';
 import { useToastStore } from '@/store/toast';
 import { AuthApi } from '@/api';
-import { UNKNOWN_DEVICE } from '@/models';
+import { UNKNOWN_DEVICE, LoginError } from '@/models';
 
 import apiClient from '@/api/';
 import { isAuthMethod } from '@/utils/authMethodName';
@@ -62,7 +62,7 @@ export const authHandler: NavigationGuard = async to => {
 			};
 		}
 
-		const { data, response } = profileStore.isUserLogged
+		const { response, data, error } = profileStore.isUserLogged
 			? await apiClient.POST(`/auth/${methodLink}/registration`, {
 					body: {
 						...to.query,
@@ -81,9 +81,10 @@ export const authHandler: NavigationGuard = async to => {
 			profileStore.updateToken();
 			toastStore.push({ title: 'Вы успешно вошли в аккаунт' });
 			return { path: '/profile', replace: true };
-		} else {
+		} else if (error) {
 			if (response.status === 401) {
-				const id_token = to.query.code;
+				const loginError = error as LoginError;
+				const id_token = loginError.id_token;
 
 				if (typeof id_token !== 'string') {
 					return {

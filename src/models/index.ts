@@ -59,6 +59,13 @@ export enum SessionInfo {
 	Expires = 'expires',
 }
 
+export interface LoginError {
+	status: string;
+	message: string;
+	ru: string;
+	id_token: string;
+}
+
 // achievement models
 export type Reciever = achievementComponents['schemas']['RecieverGet'];
 export interface AchievementGet {
