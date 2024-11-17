@@ -35,9 +35,14 @@ export const timetableHandler: NavigationGuard = to => {
 	const group = LocalStorage.getObject<StudyGroup>(LocalStorageItem.StudyGroup);
 	const isTimetableInit = to.path === '/timetable/init';
 	const isTimetable = to.path.startsWith('/timetable');
+	const isLecturer = to.path.startsWith('/timetable/lecturer/');
 
 	if (isTimetableInit && group) {
 		return { path: '/timetable' };
+	}
+
+	if (isLecturer) {
+		return true;
 	}
 
 	if (!isTimetableInit && isTimetable && !group) {
