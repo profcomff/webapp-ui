@@ -20,6 +20,7 @@ export enum AuthMethod {
 	MyMsu = 'my-msu',
 	Physics = 'physics-msu',
 	VK = 'vk',
+	Authentic = 'authentic',
 }
 
 export const AuthMethodLinkList = [
@@ -30,6 +31,7 @@ export const AuthMethodLinkList = [
 	'yandex',
 	'my-msu',
 	'physics-msu',
+	'authentic',
 ] as const;
 export type AuthMethodLink = (typeof AuthMethodLinkList)[number];
 
@@ -42,6 +44,7 @@ export const AuthMethodNameList = [
 	'yandex_auth',
 	'my_msu_auth',
 	'physics_auth',
+	'authentic_auth',
 ] as const;
 export type AuthMethodName = (typeof AuthMethodNameList)[number];
 
