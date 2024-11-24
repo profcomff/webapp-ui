@@ -40,13 +40,14 @@ const canUnlinked = computed(() =>
 			</div>
 		</section>
 
-		<section v-if="profileStore.authMethods && profileStore.authMethods.length > 1" class="section">
+		<section v-if="profileStore.authMethods && profileStore.authMethods.length > 0" class="section">
 			<h2>Отвязать аккаунт</h2>
 			<div class="buttons">
 				<IrdomAuthButton
 					v-for="button of canUnlinked"
 					:key="button.method"
 					:button="button"
+					:disabled="canUnlinked.length === 1"
 					unlink
 				/>
 			</div>
