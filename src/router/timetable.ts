@@ -34,18 +34,15 @@ export const timetableRoutes: RouteRecordRaw[] = [
 export const timetableHandler: NavigationGuard = to => {
 	const group = LocalStorage.getObject<StudyGroup>(LocalStorageItem.StudyGroup);
 	const isTimetableInit = to.path === '/timetable/init';
-	const isTimetable = to.path.startsWith('/timetable');
-	const isLecturer = to.path.startsWith('/timetable/lecturer/');
+	const isTimetable = to.path.match('[0-9]{4}-[0-9]{2}-[0-9]{2}');
 
 	if (isTimetableInit && group) {
 		return { path: '/timetable' };
 	}
 
-	if (isLecturer) {
-		return true;
-	}
-
-	if (!isTimetableInit && isTimetable && !group) {
+	if (isTimetable && !group) {
 		return { path: '/timetable/init' };
 	}
+
+	return true;
 };
