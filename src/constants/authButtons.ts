@@ -51,4 +51,11 @@ export const authButtons: AuthButton[] = [
 		icon: `${logos}#google`,
 		color: '#58b4470d',
 	},
+	{
+		name: 'Profcomff ID',
+		link: 'authentic',
+		method: 'authentic_auth',
+		icon: `${logos}#pkffid`,
+		color: '#f8ac0e',
+	},
 ];
