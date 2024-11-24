@@ -56,6 +56,6 @@ export const authButtons: AuthButton[] = [
 		link: 'authentic',
 		method: 'authentic_auth',
 		icon: `${logos}#pkffid`,
-		color: '#f8ac0e',
+		color: '#f8ac0e0d',
 	},
 ];
