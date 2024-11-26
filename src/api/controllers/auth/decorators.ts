@@ -4,7 +4,6 @@ import { ToastType } from '@/models';
 import router from '@/router';
 import { useProfileStore } from '@/store/profile';
 import { useToastStore } from '@/store/toast';
-import { apiError } from '@/utils/errorHandler';
 
 export type Func<R = any, FuncArgs extends any[] = any[]> = (...args: FuncArgs) => R;
 type Decorator<F extends Func = Func, DecoratorArgs extends any[] = any[]> = Func<
@@ -40,11 +39,12 @@ export function showErrorToast<F extends Func>(
 ): Func<Promise<ReturnType<F>>, Parameters<F>> {
 	return async (...args: any[]) => {
 		const toastStore = useToastStore();
-		try {
-			const response = await method(...args);
+		const response = await method(...args);
+		console.log(response);
+		if (response.ok) {
 			return response;
-		} catch (err) {
-			const error = err as apiError;
+		} else {
+			const error = response.error;
 			if (error) {
 				toastStore.push({
 					title: error.ru ?? error.message,
