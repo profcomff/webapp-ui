@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Ref, onMounted, ref, watch } from 'vue';
+import { Ref, onMounted, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useToolbar } from '@/store/toolbar';
 import { useProfileStore } from '@/store/profile';
@@ -27,7 +27,7 @@ const appState = ref(AppState.WaitLoad);
 const scopes: Ref<string[]> = ref([]);
 
 const scopeNamesToRequest: Ref<string[]> = ref([]);
-const userScopeApproved: Ref<boolean | undefined> = ref();
+// const userScopeApproved: Ref<boolean | undefined> = ref();
 
 toolbar.setup({
 	backUrl: '/apps',
@@ -50,9 +50,10 @@ const composeUrl = async (url: URL, token: string | null, scopes: string[]) => {
 function showApproveScopesScreen() {
 	appState.value = AppState.WaitApprove;
 	// immediately return a Promise
-	return new Promise(resolve => {
-		watch(userScopeApproved, value => resolve(value));
-	});
+	// return new Promise(resolve => {
+	// 	watch(userScopeApproved, value => resolve(value));
+	// });
+	return true;
 }
 
 const getToken = async () => {
