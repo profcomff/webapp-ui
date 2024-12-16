@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Ref, onMounted, ref, watch } from 'vue';
+import { Ref, onMounted, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useToolbar } from '@/store/toolbar';
 import { useProfileStore } from '@/store/profile';
@@ -8,11 +8,15 @@ import { AuthApi } from '@/api/controllers/auth/AuthApi';
 import { ServiceData } from '@/models';
 import apiClient from '@/api/';
 import { msInHour } from '@/utils/time';
+import { useAppsStore } from '@/store/apps';
 
 const route = useRoute();
 const toolbar = useToolbar();
 const router = useRouter();
 const profileStore = useProfileStore();
+const appStore = useAppsStore();
+appStore.getTokensFromStorage();
+console.log(appStore.appTokens);
 
 enum AppState {
 	WaitLoad = 1,
@@ -27,7 +31,7 @@ const appState = ref(AppState.WaitLoad);
 const scopes: Ref<string[]> = ref([]);
 
 const scopeNamesToRequest: Ref<string[]> = ref([]);
-const userScopeApproved: Ref<boolean | undefined> = ref();
+// const userScopeApproved: Ref<boolean | undefined> = ref();
 
 toolbar.setup({
 	backUrl: '/apps',
@@ -50,9 +54,11 @@ const composeUrl = async (url: URL, token: string | null, scopes: string[]) => {
 function showApproveScopesScreen() {
 	appState.value = AppState.WaitApprove;
 	// immediately return a Promise
-	return new Promise(resolve => {
-		watch(userScopeApproved, value => resolve(value));
-	});
+	// Раскомментить, если появятся сторонние приложения
+	// return new Promise(resolve => {
+	// 	watch(userScopeApproved, value => resolve(value));
+	// });
+	return true;
 }
 
 const getToken = async () => {
@@ -66,14 +72,14 @@ const getToken = async () => {
 		return;
 	}
 
-	console.log(scopes.value);
+	// console.log(scopes.value);
 	const valuesToSearch = new Set(scopes.value);
-	console.log(valuesToSearch);
+	// console.log(valuesToSearch);
 
 	userInfo.user_scopes.forEach(item => {
-		console.log(item);
+		// console.log(item);
 		if (valuesToSearch.has(item.name)) {
-			console.log('    found');
+			// console.log('    found');
 			// TODO: Поменять name на comment, когда допилю ручку me (и, возможно, поменять /me на /scope)
 			if (item.name !== undefined && item.name !== null) {
 				scopeNamesToRequest.value.push(item.name);
@@ -91,20 +97,28 @@ const getToken = async () => {
 	}
 
 	// 3. Если пользователь разрешает – запрашиваем токен на Auth api и возвращаем его
-	const expiresDate = new Date(Date.now() + msInHour);
-	const { data } = await apiClient.POST('/auth/session', {
-		body: {
-			scopes: scopes.value.length == 0 ? [] : scopes.value,
-			expires: expiresDate.toISOString(),
-		},
-	});
-	if (!data) {
-		appState.value = AppState.Error;
-		return;
-	}
-	profileStore.id = data.user_id;
+	const storageToken = appStore.checkAppToken(appId);
+	console.log(storageToken);
+	if (storageToken) {
+		return storageToken;
+	} else {
+		const expiresDate = new Date(Date.now() + msInHour);
+		const { data } = await apiClient.POST('/auth/session', {
+			body: {
+				scopes: scopes.value.length == 0 ? [] : scopes.value,
+				expires: expiresDate.toISOString(),
+			},
+		});
+		if (!data) {
+			appState.value = AppState.Error;
+			return;
+		}
+		profileStore.id = data.user_id;
+		console.log(data.token);
+		appStore.addAppToken(appId, data.token ?? undefined, expiresDate);
 
-	return data.token;
+		return data.token;
+	}
 };
 
 const openApp = async (data: ServiceData) => {

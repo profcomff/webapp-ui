@@ -4,6 +4,7 @@ export enum LocalStorageItem {
 	TokenScopes = 'token-scopes',
 	MarketingId = 'marketing-id',
 	SuperappAuth = 'superapp-auth',
+	AppToken = 'app-token',
 }
 
 export class LocalStorage {

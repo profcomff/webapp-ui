@@ -90,6 +90,13 @@ export type Lecturer = timetableComponents['schemas']['LecturerGet'];
 export type Room = timetableComponents['schemas']['RoomGet'];
 export type StudyGroup = timetableComponents['schemas']['GroupGet'];
 
+// app models
+export interface AppToken {
+	appId: number;
+	token: string | undefined;
+	expire: Date;
+}
+
 // general models
 export interface Entity {
 	id: number;
