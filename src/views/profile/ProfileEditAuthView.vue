@@ -47,7 +47,7 @@ const canUnlinked = computed(() =>
 					v-for="button of canUnlinked"
 					:key="button.method"
 					:button="button"
-					:disabled="canUnlinked.length === 1"
+					:disabled="profileStore.authMethods === 1"
 					unlink
 				/>
 			</div>
