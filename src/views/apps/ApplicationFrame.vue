@@ -169,7 +169,8 @@ onMounted(async () => {
 			allow="camera"
 		/>
 		<FullscreenLoader v-else-if="appState == AppState.WaitLoad" />
-		<div v-else-if="appState == AppState.WaitApprove" class="deligate-container">
+		<!-- Раскомментить, если появятся приложения от сторонних разработчиков -->
+		<!-- <div v-else-if="appState == AppState.WaitApprove" class="deligate-container">
 			<h2>Приложение запрашивает права на доступ к вашему аккаунту</h2>
 			<p>Для работы будут делегированы следующие права:</p>
 			<ul>
@@ -177,7 +178,7 @@ onMounted(async () => {
 			</ul>
 			<v-btn color="primary" @click="userScopeApproved = true">Разрешить</v-btn>
 			<v-btn variant="plain" @click="userScopeApproved = false">Запретить</v-btn>
-		</div>
+		</div> -->
 		<div v-else-if="appState == AppState.Blocked" class="exception-container">
 			<h2>У вас недостаточно прав для использования этого приложения</h2>
 			<v-btn @click="router.push('/apps')">Вернуться к списку приложений</v-btn>
