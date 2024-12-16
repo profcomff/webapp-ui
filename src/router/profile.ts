@@ -1,3 +1,4 @@
+import apiClient from '@/api';
 import { RouteRecordRaw } from 'vue-router';
 
 export const profileRoutes: RouteRecordRaw[] = [
@@ -12,6 +13,16 @@ export const profileRoutes: RouteRecordRaw[] = [
 	{
 		path: ':id(\\d+)',
 		component: () => import('@/views/profile/ProfileView.vue'),
+		beforeEnter: async to => {
+			const { response } = await apiClient.GET('/auth/user/{user_id}', {
+				params: { path: { user_id: Number(to.params.id) } },
+			});
+			if (response.ok) {
+				return true;
+			} else {
+				return { path: '/error' };
+			}
+		},
 	},
 	// Раскомментируйте, если починили; удалите, если решили дропнуть
 	// {

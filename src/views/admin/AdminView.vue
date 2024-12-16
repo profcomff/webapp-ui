@@ -45,7 +45,7 @@ onMounted(() => {
 
 <template>
 	<IrdomLayout>
-		<h3>Информаця о пользователе</h3>
+		<h3>Информация о пользователе</h3>
 		<div class="info">
 			<h4>Ваш id: {{ profileStore.id }}</h4>
 			<h4>Токен:</h4>
@@ -83,7 +83,7 @@ onMounted(() => {
 			</v-btn>
 		</div>
 
-		<h3>Инструменты администратора</h3>
+		<h3 v-if="profileStore.hasTokenAccess('webapp.admin.show')">Инструменты администратора</h3>
 
 		<AccessRestricted :scope="scopename.auth.group.create">
 			<RouterLink to="/admin/groups" class="link">Группы пользователей</RouterLink>
