@@ -65,7 +65,7 @@ const loadUserdata = async () => {
 
 	userdataLoadingState.value = UserdataLoadingState.Loading;
 
-	const response = await (isOwnProfile
+	const { data: me } = await (isOwnProfile
 		? AuthApi.getMe(['auth_methods', 'groups', 'indirect_groups', 'session_scopes', 'user_scopes'])
 		: AuthApi.getById(Number(route.params.id), [
 				'auth_methods',
@@ -73,7 +73,7 @@ const loadUserdata = async () => {
 				'indirect_groups',
 				'scopes',
 			]));
-	console.log(response);
+
 	if (me) {
 		const { data } = await UserdataApi.getUser(me.id);
 		if (data) {

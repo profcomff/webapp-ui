@@ -145,7 +145,7 @@ export class AuthApi {
 					session_name: navigator.userAgent ?? UNKNOWN_DEVICE,
 				},
 			});
-			const { data } = await promise;
+			const { data, error } = await promise;
 
 			if (data) {
 				LocalStorage.set(LocalStorageItem.Token, data.token);
@@ -154,6 +154,8 @@ export class AuthApi {
 				toastStore.push({
 					title: 'Вы успешно вошли в аккаунт',
 				});
+			} else {
+				throw error;
 			}
 
 			return promise;
@@ -164,16 +166,12 @@ export class AuthApi {
 	static approveEmail = apply(
 		async (token: string) => {
 			const toastStore = useToastStore();
-			const promise = apiClient.GET('/auth/email/approve', { params: { query: { token } } });
-			const data = await promise;
+			const promise = await apiClient.GET('/auth/email/approve', { params: { query: { token } } });
+			toastStore.push({
+				title: 'Вы успешно подтвердили E-mail',
+			});
 
-			if (data) {
-				toastStore.push({
-					title: 'Вы успешно подтвердили E-mail',
-				});
-			}
-
-			return promise;
+			if (promise.error) throw promise.error;
 		},
 		[showErrorToast]
 	);
@@ -187,9 +185,10 @@ export class AuthApi {
 
 	static getSessions = apply(
 		async (info?: SessionInfo[]) => {
-			const promise = apiClient.GET('/auth/session', { params: { query: { info } } });
+			const { data, error } = await apiClient.GET('/auth/session', { params: { query: { info } } });
+			if (error) throw error;
 
-			return promise;
+			return data;
 		},
 		[showErrorToast],
 		[checkToken]
@@ -197,11 +196,12 @@ export class AuthApi {
 
 	static deleteSession = apply(
 		async (token: string) => {
-			const promise = apiClient.DELETE('/auth/session/{token}', {
+			const { data, error } = await apiClient.DELETE('/auth/session/{token}', {
 				params: { path: { token } },
 			});
+			if (error) throw error;
 
-			return promise;
+			return data;
 		},
 		[checkToken],
 		[showErrorToast]
@@ -209,25 +209,27 @@ export class AuthApi {
 
 	static requestResetForgottenPassword = apply(
 		async (email: string) => {
-			const promise = apiClient.POST('/auth/email/reset/password/restore', {
+			const { data, error } = await apiClient.POST('/auth/email/reset/password/restore', {
 				body: { email },
 			});
+			if (error) throw error;
 
-			return promise;
+			return data;
 		},
 		[showErrorToast]
 	);
 
 	static requestResetPassword = apply(
 		async (password: string, new_password: string) => {
-			const promise = apiClient.POST('/auth/email/reset/password/request', {
+			const { data, error } = await apiClient.POST('/auth/email/reset/password/request', {
 				body: {
 					password,
 					new_password,
 				},
 			});
+			if (error) throw error;
 
-			return promise;
+			return data;
 		},
 		[showErrorToast],
 		[checkToken]
@@ -235,34 +237,36 @@ export class AuthApi {
 
 	static resetPassword = apply(
 		async (new_password: string, token: string) => {
-			const promise = apiClient.POST('/auth/email/reset/password', {
+			const { data, error } = await apiClient.POST('/auth/email/reset/password', {
 				params: { header: { 'reset-token': token } },
 				body: { new_password },
 			});
-
-			return promise;
+			if (error) throw error;
+			return data;
 		},
 		[showErrorToast]
 	);
 
 	static resetEmail = apply(
 		async (token: string) => {
-			const promise = apiClient.GET('/auth/email/reset/email', {
+			const { data, error } = await apiClient.GET('/auth/email/reset/email', {
 				params: { query: { token } },
 			});
+			if (error) throw error;
 
-			return promise;
+			return data;
 		},
 		[showErrorToast]
 	);
 
 	static requestResetEmail = apply(
 		async (email: string) => {
-			const promise = apiClient.POST('/auth/email/reset/email/request', {
+			const { data, error } = await apiClient.POST('/auth/email/reset/email/request', {
 				body: { email },
 			});
+			if (error) throw error;
 
-			return promise;
+			return data;
 		},
 		[checkToken],
 		[showErrorToast]
