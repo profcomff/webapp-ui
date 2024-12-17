@@ -51,15 +51,15 @@ const composeUrl = async (url: URL, token: string | null, scopes: string[]) => {
 	return url;
 };
 
-function showApproveScopesScreen() {
-	appState.value = AppState.WaitApprove;
-	// immediately return a Promise
-	// Раскомментить, если появятся сторонние приложения
-	// return new Promise(resolve => {
-	// 	watch(userScopeApproved, value => resolve(value));
-	// });
-	return true;
-}
+// function showApproveScopesScreen() {
+// 	appState.value = AppState.WaitApprove;
+// 	// immediately return a Promise
+// 	// Раскомментить, если появятся сторонние приложения
+// 	// return new Promise(resolve => {
+// 	// 	watch(userScopeApproved, value => resolve(value));
+// 	// });
+// 	return true;
+// }
 
 const getToken = async () => {
 	// Запрашиваем токен. Для этого:
@@ -90,7 +90,7 @@ const getToken = async () => {
 	// 2. Если нужен токен без скоупов, то пропускаем запрос на разрешение у пользователя
 	if (scopes.value.length != 0) {
 		// 2.1 Показываем пользователю список прав, которые приложение запрашивает, и кнопки "разрешить"/"запретить"
-		const scopesApproved = await showApproveScopesScreen();
+		const scopesApproved = true; // await showApproveScopesScreen();
 
 		// 2.2 Если пользователь не разрешает – возваращаем undefined
 		if (!scopesApproved) return undefined;
