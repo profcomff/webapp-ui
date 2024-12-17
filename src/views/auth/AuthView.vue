@@ -8,9 +8,6 @@ import ForgotPassordForm from '@/components/ForgotPassordForm.vue';
 import IrdomAuthButton from '@/components/IrdomAuthButton.vue';
 import { authButtons } from '@/constants/authButtons';
 import { ref } from 'vue';
-import { useProfileStore } from '@/store/profile';
-
-const profileStore = useProfileStore();
 
 const toolbar = useToolbar();
 
@@ -41,7 +38,6 @@ const switchState = async (to: Step) => {
 	}
 };
 
-console.log(profileStore.token);
 toolbar.setup({ title: 'Вход в профиль' });
 </script>
 

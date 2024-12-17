@@ -8,11 +8,14 @@ import { AuthApi } from '@/api/controllers/auth/AuthApi';
 import { ServiceData } from '@/models';
 import apiClient from '@/api/';
 import { msInHour } from '@/utils/time';
+import { useAppsStore } from '@/store/apps';
 
 const route = useRoute();
 const toolbar = useToolbar();
 const router = useRouter();
 const profileStore = useProfileStore();
+const appStore = useAppsStore();
+appStore.getTokensFromStorage();
 
 enum AppState {
 	WaitLoad = 1,
@@ -47,14 +50,15 @@ const composeUrl = async (url: URL, token: string | null, scopes: string[]) => {
 	return url;
 };
 
-function showApproveScopesScreen() {
-	appState.value = AppState.WaitApprove;
-	// immediately return a Promise
-	// return new Promise(resolve => {
-	// 	watch(userScopeApproved, value => resolve(value));
-	// });
-	return true;
-}
+// function showApproveScopesScreen() {
+// 	appState.value = AppState.WaitApprove;
+// 	// immediately return a Promise
+// 	// Раскомментить, если появятся сторонние приложения
+// 	// return new Promise(resolve => {
+// 	// 	watch(userScopeApproved, value => resolve(value));
+// 	// });
+// 	return true;
+// }
 
 const getToken = async () => {
 	// Запрашиваем токен. Для этого:
@@ -67,14 +71,10 @@ const getToken = async () => {
 		return;
 	}
 
-	console.log(scopes.value);
 	const valuesToSearch = new Set(scopes.value);
-	console.log(valuesToSearch);
 
 	userInfo.user_scopes.forEach(item => {
-		console.log(item);
 		if (valuesToSearch.has(item.name)) {
-			console.log('    found');
 			// TODO: Поменять name на comment, когда допилю ручку me (и, возможно, поменять /me на /scope)
 			if (item.name !== undefined && item.name !== null) {
 				scopeNamesToRequest.value.push(item.name);
@@ -85,27 +85,33 @@ const getToken = async () => {
 	// 2. Если нужен токен без скоупов, то пропускаем запрос на разрешение у пользователя
 	if (scopes.value.length != 0) {
 		// 2.1 Показываем пользователю список прав, которые приложение запрашивает, и кнопки "разрешить"/"запретить"
-		const scopesApproved = await showApproveScopesScreen();
+		const scopesApproved = true; // await showApproveScopesScreen();
 
 		// 2.2 Если пользователь не разрешает – возваращаем undefined
 		if (!scopesApproved) return undefined;
 	}
 
 	// 3. Если пользователь разрешает – запрашиваем токен на Auth api и возвращаем его
-	const expiresDate = new Date(Date.now() + msInHour);
-	const { data } = await apiClient.POST('/auth/session', {
-		body: {
-			scopes: scopes.value.length == 0 ? [] : scopes.value,
-			expires: expiresDate.toISOString(),
-		},
-	});
-	if (!data) {
-		appState.value = AppState.Error;
-		return;
-	}
-	profileStore.id = data.user_id;
+	const storageToken = appStore.checkAppToken(appId);
+	if (storageToken) {
+		return storageToken;
+	} else {
+		const expiresDate = new Date(Date.now() + msInHour / 60);
+		const { data } = await apiClient.POST('/auth/session', {
+			body: {
+				scopes: scopes.value.length == 0 ? [] : scopes.value,
+				expires: expiresDate.toISOString(),
+			},
+		});
+		if (!data) {
+			appState.value = AppState.Error;
+			return;
+		}
+		profileStore.id = data.user_id;
+		appStore.addAppToken(appId, data.token ?? undefined, expiresDate.getTime());
 
-	return data.token;
+		return data.token;
+	}
 };
 
 const openApp = async (data: ServiceData) => {
@@ -114,6 +120,7 @@ const openApp = async (data: ServiceData) => {
 		appState.value = AppState.Error;
 		return;
 	}
+
 	// Приложения открываем только по https
 	if (data.link === undefined || !data.link?.startsWith('https://')) {
 		appState.value = AppState.Error;
