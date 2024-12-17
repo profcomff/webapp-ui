@@ -94,7 +94,7 @@ export type StudyGroup = timetableComponents['schemas']['GroupGet'];
 export interface AppToken {
 	appId: number;
 	token: string | undefined;
-	expire: Date;
+	expire: number;
 }
 
 // general models

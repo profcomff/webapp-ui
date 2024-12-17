@@ -7,7 +7,7 @@ export const useAppsStore = defineStore('apps', () => {
 	const categories = ref<Category[]>([]);
 	const appTokens = ref<AppToken[]>([]);
 
-	const addAppToken = (appId: number, token: string | undefined, expire: Date) => {
+	const addAppToken = (appId: number, token: string | undefined, expire: number) => {
 		appTokens.value.push({
 			appId,
 			token,
@@ -19,10 +19,11 @@ export const useAppsStore = defineStore('apps', () => {
 	const checkAppToken = (appId: number) => {
 		const appToken = appTokens.value.find(item => item.appId === appId);
 		const currentDate = new Date();
+
 		if (!appToken) {
 			return undefined;
 		} else {
-			if (appToken.expire < currentDate) {
+			if (appToken.expire < currentDate.getTime()) {
 				appTokens.value.splice(appTokens.value.indexOf(appToken), 1);
 				LocalStorage.set(LocalStorageItem.AppToken, appTokens.value);
 				return undefined;
