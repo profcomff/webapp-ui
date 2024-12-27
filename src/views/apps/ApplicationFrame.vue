@@ -96,7 +96,7 @@ const getToken = async () => {
 	if (storageToken) {
 		return storageToken;
 	} else {
-		const expiresDate = new Date(Date.now() + msInHour / 60);
+		const expiresDate = new Date(Date.now() + msInHour);
 		const { data } = await apiClient.POST('/auth/session', {
 			body: {
 				scopes: scopes.value.length == 0 ? [] : scopes.value,
@@ -156,6 +156,11 @@ const openApp = async (data: ServiceData) => {
 };
 
 onMounted(async () => {
+	if (history.state.token) {
+		profileStore.updateToken(history.state.token);
+		delete history.state.token;
+	}
+
 	const { data } = await apiClient.GET('/services/service/{button_id}', {
 		params: { path: { button_id: appId } },
 	});
