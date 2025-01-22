@@ -55,7 +55,7 @@
 		"stylelint-config-recommended-vue": "^1.5.0",
 		"stylelint-config-standard": "^36.0.1",
 		"typescript": "5.6.3",
-		"vite": "^5.4.11",
+		"vite": "^5.4.12",
 		"vite-plugin-eslint": "^1.8.1",
 		"vite-plugin-pwa": "^0.21.0",
 		"vite-plugin-stylelint": "^5.3.1",
