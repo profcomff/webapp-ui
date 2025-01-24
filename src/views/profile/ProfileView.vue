@@ -102,11 +102,6 @@ const loadUserdata = async () => {
 };
 
 onMounted(async () => {
-	if (history.state.token) {
-		profileStore.updateToken(history.state.token);
-		delete history.state.token;
-	}
-
 	loadUserdata();
 });
 </script>

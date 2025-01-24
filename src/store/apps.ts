@@ -37,6 +37,10 @@ export const useAppsStore = defineStore('apps', () => {
 		appTokens.value = LocalStorage.getObject(LocalStorageItem.AppToken) ?? [];
 	};
 
+	const clearTokensFromStorage = () => {
+		LocalStorage.delete(LocalStorageItem.AppToken);
+	};
+
 	return {
 		categories,
 		appTokens,
@@ -44,5 +48,6 @@ export const useAppsStore = defineStore('apps', () => {
 		addAppToken,
 		checkAppToken,
 		getTokensFromStorage,
+		clearTokensFromStorage,
 	};
 });

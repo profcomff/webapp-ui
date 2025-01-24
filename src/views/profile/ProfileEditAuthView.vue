@@ -16,10 +16,6 @@ toolbar.setup({
 });
 
 onMounted(async () => {
-	if (history.state.token) {
-		profileStore.updateToken(history.state.token);
-		delete history.state.token;
-	}
 	AuthApi.getMe(['auth_methods']);
 });
 

@@ -34,11 +34,6 @@ const photoURL = ref('');
 const userdata = ref<UserdataArray>([]);
 
 onMounted(async () => {
-	if (history.state.token) {
-		profileStore.updateToken(history.state.token);
-		delete history.state.token;
-	}
-
 	const { data: me } = await AuthApi.getMe([
 		'auth_methods',
 		'groups',

@@ -15,7 +15,6 @@ const toolbar = useToolbar();
 const router = useRouter();
 const profileStore = useProfileStore();
 const appStore = useAppsStore();
-appStore.getTokensFromStorage();
 
 enum AppState {
 	WaitLoad = 1,
@@ -156,9 +155,8 @@ const openApp = async (data: ServiceData) => {
 };
 
 onMounted(async () => {
-	if (history.state.token) {
-		profileStore.updateToken(history.state.token);
-		delete history.state.token;
+	if (profileStore.token && !profileStore.id) {
+		await AuthApi.getMe(['session_scopes', 'user_scopes']);
 	}
 
 	const { data } = await apiClient.GET('/services/service/{button_id}', {
