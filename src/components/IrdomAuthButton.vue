@@ -20,6 +20,8 @@ const props = withDefaults(defineProps<Props>(), { unlink: false });
 
 const authUrl = ref<string | null>(null);
 
+const dialogVisible = ref(false);
+
 onMounted(async () => {
 	const { data } = await apiClient.GET(`/auth/${props.button.link}/auth_url`);
 	if (data) {
@@ -29,11 +31,19 @@ onMounted(async () => {
 
 async function clickHandler() {
 	if (props.unlink) {
-		await apiClient.DELETE(`/auth/${props.button.link}`);
-		location.reload(); // TODO: придумать нормальное решение
+		dialogVisible.value = true;
 	} else if (authUrl.value) {
 		window.open(authUrl.value, '_self');
 	}
+}
+
+async function confirmUnlink() {
+	await apiClient.DELETE(`/auth/${props.button.link}`);
+	location.reload(); // TODO: придумать нормальное решение
+}
+
+function cancelUnlink() {
+	dialogVisible.value = false;
 }
 </script>
 
@@ -47,4 +57,16 @@ async function clickHandler() {
 
 		{{ button.name }}
 	</v-btn>
+
+	<!-- Модальное окно для подтверждения отвязки -->
+	<v-dialog v-model="dialogVisible" max-width="400">
+		<v-card>
+			<v-card-title class="headline">Вы точно хотите отвязать аккаунт?</v-card-title>
+			<v-card-actions>
+				<v-spacer />
+				<v-btn text @click="cancelUnlink">Не отвязывать</v-btn>
+				<v-btn color="red" @click="confirmUnlink">Отвязать</v-btn>
+			</v-card-actions>
+		</v-card>
+	</v-dialog>
 </template>

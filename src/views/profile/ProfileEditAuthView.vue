@@ -44,7 +44,7 @@ const canUnlinked = computed(() =>
 					:key="button.method"
 					:button="button"
 					:disabled="profileStore.authMethods.length === 1"
-					unlink
+					:unlink="true"
 				/>
 			</div>
 		</section>
