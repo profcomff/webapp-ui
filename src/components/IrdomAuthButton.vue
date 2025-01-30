@@ -64,8 +64,8 @@ function cancelUnlink() {
 			<v-card-title class="headline">Вы точно хотите отвязать аккаунт?</v-card-title>
 			<v-card-actions>
 				<v-spacer />
-				<v-btn @click="cancelUnlink">Не отвязывать</v-btn>
-				<v-btn color="red" @click="confirmUnlink">Отвязать</v-btn>
+				<v-btn color="red" @click="cancelUnlink">Не отвязывать</v-btn>
+				<v-btn @click="confirmUnlink">Отвязать</v-btn>
 			</v-card-actions>
 		</v-card>
 	</v-dialog>
