@@ -7,6 +7,7 @@ import { useToolbar } from '@/store/toolbar';
 import { onMounted, ref, computed } from 'vue';
 import { AuthApi } from '@/api/controllers/auth/AuthApi';
 import { useToastStore } from '@/store/toast';
+import { RouterLink } from 'vue-router';
 
 const profileStore = useProfileStore();
 const toolbar = useToolbar();
@@ -99,6 +100,10 @@ onMounted(() => {
 
 		<AccessRestricted :scope="scopename.achievements.achievement.create">
 			<RouterLink to="/admin/achievement" class="link">Достижения</RouterLink>
+		</AccessRestricted>
+
+		<AccessRestricted :scope="scopename.services.button.create">
+			<RouterLink to="/admin/apps" class="link">Приложения</RouterLink>
 		</AccessRestricted>
 	</IrdomLayout>
 </template>

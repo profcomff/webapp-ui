@@ -30,4 +30,9 @@ export const scopename = Object.freeze({
 			show: 'webapp.admin.show',
 		},
 	},
+	services: {
+		button: {
+			create: 'services.button.create',
+		},
+	},
 });
