@@ -76,7 +76,7 @@ toolbar.setup({ title: 'Вход в профиль' });
 				variant="flat"
 				size="large"
 				class="oauth-button"
-			></IrdomAuthButton>
+			/>
 			<v-btn
 				v-if="showMoreButton"
 				variant="flat"
