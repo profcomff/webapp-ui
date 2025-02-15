@@ -18,7 +18,7 @@ interface Props {
 }
 const props = withDefaults(defineProps<Props>(), {
 	unlink: false,
-	location: 'login', // Значение по умолчанию
+	location: 'login',
 });
 
 const authUrl = ref<string | null>(null);
