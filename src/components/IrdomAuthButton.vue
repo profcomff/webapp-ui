@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
 import { AuthMethodLink, AuthMethodName } from '@/models';
-
 import apiClient from '@/api/';
 
 export interface AuthButton {
@@ -15,11 +14,14 @@ export interface AuthButton {
 interface Props {
 	button: AuthButton;
 	unlink?: boolean;
+	location?: 'login' | 'auth-edit';
 }
-const props = withDefaults(defineProps<Props>(), { unlink: false });
+const props = withDefaults(defineProps<Props>(), {
+	unlink: false,
+	location: 'login', // Значение по умолчанию
+});
 
 const authUrl = ref<string | null>(null);
-
 const dialogVisible = ref(false);
 
 onMounted(async () => {
@@ -48,7 +50,14 @@ function cancelUnlink() {
 </script>
 
 <template>
-	<v-btn type="button" :color="button.color" @click="clickHandler">
+	<v-btn
+		type="button"
+		:color="button.color"
+		:variant="location === 'login' ? 'flat' : 'text'"
+		:size="location === 'login' ? 'large' : 'default'"
+		:class="location === 'login' ? 'oauth-button' : 'auth-edit-button'"
+		@click="clickHandler"
+	>
 		<template #prepend>
 			<svg width="24" height="24" class="icon">
 				<use :xlink:href="button.icon" />
@@ -70,3 +79,19 @@ function cancelUnlink() {
 		</v-card>
 	</v-dialog>
 </template>
+
+<style scoped>
+.oauth-button {
+	min-width: 250px;
+	width: 40%;
+	border-radius: 4px !important;
+	overflow: hidden;
+}
+
+.auth-edit-button {
+	min-width: auto;
+	width: auto;
+	border-radius: 4px !important;
+	overflow: hidden;
+}
+</style>

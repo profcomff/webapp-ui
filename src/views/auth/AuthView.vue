@@ -26,7 +26,7 @@ async function clickShowMoreHandler() {
 	showButtonsCnt.value = authButtons.length;
 }
 
-// TODO: Разделить на 3 экрана
+// Переключение между шагами (логин, регистрация, восстановление пароля)
 const switchState = async (to: Step) => {
 	registerStep.value = to;
 	if (registerStep.value == Step.Login) {
@@ -43,32 +43,40 @@ toolbar.setup({ title: 'Вход в профиль' });
 
 <template>
 	<IrdomLayout class="container">
+		<!-- Форма регистрации -->
 		<RegistrationForm
 			v-if="registerStep == Step.Register"
 			class="loginform"
 			@success="switchState(Step.Login)"
 		/>
+
+		<!-- Форма входа -->
 		<LoginForm
 			v-if="registerStep == Step.Login"
 			class="loginform"
 			@reset-password="switchState(Step.ResetPassword)"
 		/>
+
+		<!-- Форма восстановления пароля -->
 		<ForgotPassordForm
 			v-if="registerStep == Step.ResetPassword"
 			class="loginform"
 			@success="switchState(Step.Login)"
 		/>
 
+		<!-- Список кнопок для авторизации через сторонние сервисы -->
 		<div class="oauth-button-list">
 			<IrdomAuthButton
 				v-for="i in showButtonsCnt"
 				:key="authButtons[i - 1].name"
 				type="button"
 				:button="authButtons[i - 1]"
+				:unlink="false"
+				location="login"
 				variant="flat"
 				size="large"
 				class="oauth-button"
-			/>
+			></IrdomAuthButton>
 			<v-btn
 				v-if="showMoreButton"
 				variant="flat"
@@ -82,6 +90,7 @@ toolbar.setup({ title: 'Вход в профиль' });
 			</v-btn>
 		</div>
 
+		<!-- Ссылки для переключения между формами -->
 		<div>
 			<div v-if="registerStep == Step.Login" class="link-text-register">
 				Еще нет профиля?
