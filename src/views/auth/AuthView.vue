@@ -66,9 +66,6 @@ toolbar.setup({ title: 'Вход в профиль' });
 				:button="authButtons[i - 1]"
 				:unlink="false"
 				location="login"
-				variant="flat"
-				size="large"
-				class="oauth-button"
 			/>
 			<v-btn
 				v-if="showMoreButton"
