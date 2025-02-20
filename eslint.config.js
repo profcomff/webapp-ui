@@ -24,7 +24,7 @@ export default [
 			'no-duplicate-imports': 'error',
 
 			'vue/html-self-closing': [
-				'warning',
+				'warn',
 				{
 					html: {
 						void: 'always',

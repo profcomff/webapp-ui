@@ -34,6 +34,10 @@ export const adminRoutes: RouteRecordRaw[] = [
 		path: 'apps',
 		component: () => import('../views/admin/apps/AdminAppView.vue'),
 	},
+	{
+		path: 'apps/category-:id(\\d+)',
+		component: () => import('../views/admin/apps/CategoryEditView.vue'),
+	},
 ];
 
 export const adminHandler: NavigationGuard = to => {

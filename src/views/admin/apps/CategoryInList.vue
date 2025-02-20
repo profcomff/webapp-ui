@@ -1,6 +1,7 @@
 <template>
 	<div
 		v-for="button in buttons"
+		:key="button.id"
 		class="w-100 my-2 py-2 d-flex align-center justify-start"
 		@click="console.log(button.id)"
 	>

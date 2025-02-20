@@ -14,15 +14,17 @@ const toastStore = useToastStore();
 const categories = ref(appsStore.categories);
 
 onMounted(async () => {
-	const { data, error } = await apiClient.GET('/services/category', {
-		params: { query: { info: ['buttons'] } },
-	});
-	if (data) {
-		appsStore.categories = data;
-	} else if (error) {
-		toastStore.push({
-			title: 'Какая-то ошибка',
+	if (appsStore.categories.length == 0) {
+		const { data, error } = await apiClient.GET('/services/category', {
+			params: { query: { info: ['buttons'] } },
 		});
+		if (data) {
+			appsStore.categories = data;
+		} else if (error) {
+			toastStore.push({
+				title: 'Какая-то ошибка',
+			});
+		}
 	}
 	console.log(appsStore.categories);
 	categories.value = appsStore.categories;
@@ -36,11 +38,15 @@ onMounted(async () => {
 		<v-expansion-panels class="mt-2">
 			<v-expansion-panel v-for="category in categories" :key="category.id">
 				<template #title>
-					<v-btn variant="text" :text="category.name ?? ''" @click.stop="" />
+					<v-btn
+						variant="text"
+						:text="category.name ?? ''"
+						@click.stop="$router.push(`/admin/apps/category-${category.id}`)"
+					/>
 				</template>
 				<template #text>
 					<CategoryInGrid v-if="category.type === 'grid3'" :buttons="category.buttons ?? []" />
-					<CategoryInList v-else :buttons="category.buttons ?? []"></CategoryInList>
+					<CategoryInList v-else :buttons="category.buttons ?? []" />
 				</template>
 			</v-expansion-panel>
 		</v-expansion-panels>
