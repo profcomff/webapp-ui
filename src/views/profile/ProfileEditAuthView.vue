@@ -32,7 +32,7 @@ const canUnlinked = computed(() =>
 		<section v-if="profileStore.authMethods?.length !== 8" class="section">
 			<h2>Привязать аккаунт</h2>
 			<div class="buttons">
-				<IrdomAuthButton 
+				<IrdomAuthButton
 					v-for="button of canLinked"
 					:key="button.method"
 					:button="button"
