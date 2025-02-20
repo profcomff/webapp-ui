@@ -58,16 +58,14 @@ toolbar.setup({ title: 'Вход в профиль' });
 			class="loginform"
 			@success="switchState(Step.Login)"
 		/>
-
 		<div class="oauth-button-list">
 			<IrdomAuthButton
 				v-for="i in showButtonsCnt"
 				:key="authButtons[i - 1].name"
 				type="button"
 				:button="authButtons[i - 1]"
-				variant="flat"
-				size="large"
-				class="oauth-button"
+				:unlink="false"
+				location="login"
 			/>
 			<v-btn
 				v-if="showMoreButton"
@@ -81,7 +79,6 @@ toolbar.setup({ title: 'Вход в профиль' });
 				Другие сервисы
 			</v-btn>
 		</div>
-
 		<div>
 			<div v-if="registerStep == Step.Login" class="link-text-register">
 				Еще нет профиля?
