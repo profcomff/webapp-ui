@@ -53,9 +53,9 @@ function cancelUnlink() {
 	<v-btn
 		type="button"
 		:color="button.color"
-		:variant="location === 'login' ? 'flat' : 'text'"
-		:size="location === 'login' ? 'large' : 'default'"
-		:class="location === 'login' ? 'oauth-button' : 'auth-edit-button'"
+		:variant="props.location === 'login' ? 'flat' : 'elevated'"
+		:size="props.location === 'login' ? 'large' : 'default'"
+		:class="props.location === 'login' ? 'oauth-button' : 'auth-edit-button'"
 		@click="clickHandler"
 	>
 		<template #prepend>
