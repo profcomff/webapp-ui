@@ -16,6 +16,15 @@ const router = useRouter();
 const profileStore = useProfileStore();
 const appStore = useAppsStore();
 
+const props = defineProps<{
+	lecturerData?: {
+		id?: string;
+		path?: string;
+	};
+}>();
+
+
+
 enum AppState {
 	WaitLoad = 1,
 	Show = 2,
@@ -35,18 +44,51 @@ toolbar.setup({
 	backUrl: '/apps',
 });
 
-const composeUrl = async (url: URL, token: string | null, scopes: string[]) => {
-	if (token !== null) {
-		url.searchParams.set('token', token);
+//const composeUrl = async (url: URL, token: string | null, scopes: string[]) => {
+//	if (props.relativePath) {
+//		url = new URL(props.relativePath, url); //|| ''
+//	}
+//	if (token !== null) {
+//		url.searchParams.set('token', token);
+//	}
+//	url.searchParams.set('scopes', scopes.join(','));
+//	if (!profileStore.id) {
+//		await AuthApi.getMe();
+//	}
+//	if (profileStore.id) {
+//		url.searchParams.set('user_id', profileStore.id.toString());
+//	}
+//	return url;
+//};
+
+const composeUrl = async (baseUrl: URL, token: string | null, scopes: string[]) => {
+	const targetUrl = new URL(baseUrl.href);
+
+	// 1. Добавляем путь из props
+	if (props.lecturerData?.path) {
+		targetUrl.pathname = `${targetUrl.pathname.replace(/\/$/, '')}${props.lecturerData.path}`;
 	}
-	url.searchParams.set('scopes', scopes.join(','));
+
+	// 2. Добавляем lecturer_id из props
+	if (props.lecturerData?.id) {
+		targetUrl.searchParams.set('lecturer_id', props.lecturerData.id);
+	}
+
+	if (token !== null) {
+		targetUrl.searchParams.set('token', token);
+	}
+	targetUrl.searchParams.set('scopes', scopes.join(','));
+
 	if (!profileStore.id) {
 		await AuthApi.getMe();
 	}
 	if (profileStore.id) {
-		url.searchParams.set('user_id', profileStore.id.toString());
+		targetUrl.searchParams.set('user_id', profileStore.id.toString());
 	}
-	return url;
+
+	targetUrl.pathname = targetUrl.pathname.replace(/\/+/g, '/');
+
+	return targetUrl;
 };
 
 // function showApproveScopesScreen() {
@@ -124,6 +166,11 @@ const openApp = async (data: ServiceData) => {
 	if (data.link === undefined || !data.link?.startsWith('https://')) {
 		appState.value = AppState.Error;
 		return;
+	}
+
+	// Используем данные из props вместо route.query
+	if (props.lecturerData?.id) {
+		scopes.value.push('lecturer:read'); // Добавляем необходимый scope
 	}
 	url.value = new URL(data.link);
 	toolbar.title = data.name ?? 'Ошибка';
