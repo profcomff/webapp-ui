@@ -17,13 +17,9 @@ const profileStore = useProfileStore();
 const appStore = useAppsStore();
 
 const props = defineProps<{
-	lecturerData?: {
-		id?: string;
-		path?: string;
-	};
+	lecturer?: string;
+	relativePath: string;
 }>();
-
-
 
 enum AppState {
 	WaitLoad = 1,
@@ -44,51 +40,21 @@ toolbar.setup({
 	backUrl: '/apps',
 });
 
-//const composeUrl = async (url: URL, token: string | null, scopes: string[]) => {
-//	if (props.relativePath) {
-//		url = new URL(props.relativePath, url); //|| ''
-//	}
-//	if (token !== null) {
-//		url.searchParams.set('token', token);
-//	}
-//	url.searchParams.set('scopes', scopes.join(','));
-//	if (!profileStore.id) {
-//		await AuthApi.getMe();
-//	}
-//	if (profileStore.id) {
-//		url.searchParams.set('user_id', profileStore.id.toString());
-//	}
-//	return url;
-//};
-
-const composeUrl = async (baseUrl: URL, token: string | null, scopes: string[]) => {
-	const targetUrl = new URL(baseUrl.href);
-
-	// 1. Добавляем путь из props
-	if (props.lecturerData?.path) {
-		targetUrl.pathname = `${targetUrl.pathname.replace(/\/$/, '')}${props.lecturerData.path}`;
+const composeUrl = async (url: URL, token: string | null, scopes: string[]) => {
+	if (props.relativePath) {
+		url = new URL(props.relativePath, url); //|| ''
 	}
-
-	// 2. Добавляем lecturer_id из props
-	if (props.lecturerData?.id) {
-		targetUrl.searchParams.set('lecturer_id', props.lecturerData.id);
-	}
-
 	if (token !== null) {
-		targetUrl.searchParams.set('token', token);
+		url.searchParams.set('token', token);
 	}
-	targetUrl.searchParams.set('scopes', scopes.join(','));
-
+	url.searchParams.set('scopes', scopes.join(','));
 	if (!profileStore.id) {
 		await AuthApi.getMe();
 	}
 	if (profileStore.id) {
-		targetUrl.searchParams.set('user_id', profileStore.id.toString());
+		url.searchParams.set('user_id', profileStore.id.toString());
 	}
-
-	targetUrl.pathname = targetUrl.pathname.replace(/\/+/g, '/');
-
-	return targetUrl;
+	return url;
 };
 
 // function showApproveScopesScreen() {
@@ -168,10 +134,6 @@ const openApp = async (data: ServiceData) => {
 		return;
 	}
 
-	// Используем данные из props вместо route.query
-	if (props.lecturerData?.id) {
-		scopes.value.push('lecturer:read'); // Добавляем необходимый scope
-	}
 	url.value = new URL(data.link);
 	toolbar.title = data.name ?? 'Ошибка';
 
@@ -202,6 +164,14 @@ const openApp = async (data: ServiceData) => {
 };
 
 onMounted(async () => {
+	//console.log('Received props:', props); // Выводим все props
+
+	//if (props.lecturer) {
+	//	console.log('Lecturer ID:', props.lecturer);
+	//}
+	//if (props.relativePath) {
+	//	console.log('Path:', props.relativePath);
+	//}
 	if (profileStore.token && !profileStore.id) {
 		await AuthApi.getMe(['session_scopes', 'user_scopes']);
 	}
