@@ -42,7 +42,7 @@ toolbar.setup({
 
 const composeUrl = async (url: URL, token: string | null, scopes: string[]) => {
 	if (props.relativePath) {
-		url = new URL(props.relativePath, url); //|| ''
+		url = new URL(props.relativePath, url);
 	}
 	if (token !== null) {
 		url.searchParams.set('token', token);
@@ -54,6 +54,14 @@ const composeUrl = async (url: URL, token: string | null, scopes: string[]) => {
 	if (profileStore.id) {
 		url.searchParams.set('user_id', profileStore.id.toString());
 	}
+	console.log('[AppFrame] Composed URL before params:', url.toString());
+	console.log('[AppFrame] Adding lecturer_id:', props.lecturer);
+
+	if (props.lecturer) {
+		url.searchParams.set('lecturer_id', props.lecturer);
+	}
+
+	console.log('[AppFrame] Final URL:', url.toString());
 	return url;
 };
 
@@ -164,14 +172,9 @@ const openApp = async (data: ServiceData) => {
 };
 
 onMounted(async () => {
-	//console.log('Received props:', props); // Выводим все props
-
-	//if (props.lecturer) {
-	//	console.log('Lecturer ID:', props.lecturer);
-	//}
-	//if (props.relativePath) {
-	//	console.log('Path:', props.relativePath);
-	//}
+	// Добавленные console.log
+	console.log('[AppFrame] Received relativePath:', props.relativePath);
+	console.log('[AppFrame] Received lecturerID:', props.lecturer);
 	if (profileStore.token && !profileStore.id) {
 		await AuthApi.getMe(['session_scopes', 'user_scopes']);
 	}

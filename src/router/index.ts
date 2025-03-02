@@ -22,14 +22,21 @@ const routes: RouteRecordRaw[] = [
 		component: () => import('@/views/apps/ApplicationFrame.vue'),
 	},
 	{
-		path: '/apps/44/lecturer', // на тесте 44, в раскатанном 62
+		path: '/apps/44/lecturer',
 		redirect: to => {
-			const query = to.query; // забираем параметры из URL
-			const relativePath = to.path.slice(to.path.lastIndexOf('/') + 1); // это кривое решение, но так находим путь
+			const query = to.query;
+			const relativePath = to.path.slice(to.path.lastIndexOf('/') + 1);
+
+			console.log('[Router] RelativePath:', relativePath);
+			console.log('[Router] LecturerID from query:', query.lecturer_id);
+
 			return {
 				path: '/apps/44',
-				props: { lecturer: query.lecturer, relativePath: relativePath }, // передаем в props ссылку на страницу и query
-				query: {}, // чистим ссылку
+				props: {
+					lecturer: query.lecturer_id,
+					relativePath: relativePath,
+				},
+				query: {},
 			};
 		},
 	},
