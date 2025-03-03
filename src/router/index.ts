@@ -20,7 +20,13 @@ const routes: RouteRecordRaw[] = [
 	{
 		path: '/apps/:id(\\d+)',
 		component: () => import('@/views/apps/ApplicationFrame.vue'),
+		props: route => ({
+			id: Number(route.params.id),
+			lecturer: route.query.lecturer_id,
+			relativePath: route.params.relativePath || '',
+		}),
 	},
+
 	{
 		path: '/apps/44/lecturer',
 		redirect: to => {
@@ -40,7 +46,6 @@ const routes: RouteRecordRaw[] = [
 			};
 		},
 	},
-
 	{
 		path: '/timetable',
 		children: timetableRoutes,

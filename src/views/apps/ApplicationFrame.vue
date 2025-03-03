@@ -173,8 +173,8 @@ const openApp = async (data: ServiceData) => {
 
 onMounted(async () => {
 	// Добавленные console.log
-	console.log('[AppFrame] Received relativePath:', props.relativePath);
-	console.log('[AppFrame] Received lecturerID:', props.lecturer);
+	//console.log('[AppFrame] Received relativePath:', props.relativePath);
+	//console.log('[AppFrame] Received lecturerID:', props.lecturer);
 	if (profileStore.token && !profileStore.id) {
 		await AuthApi.getMe(['session_scopes', 'user_scopes']);
 	}
