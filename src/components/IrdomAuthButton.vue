@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
 import { AuthMethodLink, AuthMethodName } from '@/models';
-import apiClient from '@/api/';
+import { apiClient } from '@/api/';
 
 export interface AuthButton {
 	name: string;

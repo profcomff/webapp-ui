@@ -7,7 +7,7 @@ import IrdomLayout from '@/components/IrdomLayout.vue';
 import { scopename } from '@/models/ScopeName';
 import { useToolbar } from '@/store/toolbar';
 
-import apiClient from '@/api/';
+import { apiClient } from '@/api/';
 
 const toolbar = useToolbar();
 

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useRoute, useRouter } from 'vue-router';
 import { useProfileStore } from '@/store/profile';
-import apiClient from '@/api/';
+import { apiClient } from '@/api/';
 
 export interface ToolbarMenuItem {
 	name: string;

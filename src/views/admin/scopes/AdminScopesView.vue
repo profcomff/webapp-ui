@@ -8,7 +8,7 @@ import AccessRestricted from '@/components/AccessRestricted.vue';
 import { useAuthStore } from '@/store/auth';
 import { useProfileStore } from '@/store/profile';
 import { useToolbar } from '@/store/toolbar';
-import apiClient from '@/api/';
+import { apiClient } from '@/api/';
 
 const authStore = useAuthStore();
 const profileStore = useProfileStore();

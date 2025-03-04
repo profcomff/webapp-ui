@@ -3,7 +3,7 @@ import ScopesTable from '../ScopesTable.vue';
 import { onMounted, computed } from 'vue';
 import { useRoute } from 'vue-router';
 import { AuthApi } from '@/api';
-import apiClient from '@/api/';
+import { apiClient } from '@/api/';
 import AccessRestricted from '@/components/AccessRestricted.vue';
 import IrdomLayout from '@/components/IrdomLayout.vue';
 import { scopename } from '@/models/ScopeName';

@@ -6,7 +6,7 @@ import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router';
 import { timetableRoutes, timetableHandler } from './timetable';
 import AppsView from '@/views/apps/AppsView.vue';
 import { useProfileStore } from '@/store/profile';
-import apiClient from '@/api/';
+import { apiClient } from '@/api/';
 
 const routes: RouteRecordRaw[] = [
 	{

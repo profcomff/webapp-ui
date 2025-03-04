@@ -5,7 +5,7 @@ import { useProfileStore } from '@/store/profile';
 import { useToastStore } from '@/store/toast';
 import { RouterLink } from 'vue-router';
 
-import apiClient from '@/api/';
+import { apiClient } from '@/api/';
 
 const appsStore = useAppsStore();
 const profileStore = useProfileStore();

@@ -6,7 +6,7 @@ import { useProfileStore } from '@/store/profile';
 import FullscreenLoader from '@/components/FullscreenLoader.vue';
 import { AuthApi } from '@/api/controllers/auth/AuthApi';
 import { ServiceData } from '@/models';
-import apiClient from '@/api/';
+import { apiClient } from '@/api/';
 import { msInHour } from '@/utils/time';
 import { useAppsStore } from '@/store/apps';
 

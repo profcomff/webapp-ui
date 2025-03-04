@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
 import Placeholder from '@/assets/profile_image_placeholder.webp';
-import apiClient, { AuthApi, UserdataApi } from '@/api';
+import { apiClient, AuthApi, UserdataApi } from '@/api';
 import { useRouter, useRoute } from 'vue-router';
 import { UserdataArray, UserdataCategoryName, UserdataParams } from '@/models';
 import AchievementsSlider from './achievement/AchievementsSlider.vue';
@@ -191,7 +191,9 @@ onMounted(async () => {
 	color: var(--m-3-sys-light-outline, #79747e);
 	font-size: 14px;
 	font-weight: 900;
-	line-height: 16px; /* 114.286% */
+	line-height: 16px;
+
+	/* 114.286% */
 	letter-spacing: 0.5px;
 	margin-top: 11px;
 
@@ -239,7 +241,9 @@ onMounted(async () => {
 	color: #000;
 	font-size: 20px;
 	font-weight: 600;
-	line-height: 16px; /* 80% */
+	line-height: 16px;
+
+	/* 80% */
 	letter-spacing: 0.5px;
 }
 </style>

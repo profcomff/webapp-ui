@@ -1,4 +1,4 @@
-import apiClient from '@/api';
+import { apiClient } from '@/api';
 import { RouteRecordRaw } from 'vue-router';
 
 export const profileRoutes: RouteRecordRaw[] = [

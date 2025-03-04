@@ -7,7 +7,7 @@ import { useToolbar } from '@/store/toolbar';
 import { useProfileStore } from '@/store/profile';
 import { scopename } from '@/models/ScopeName';
 
-import apiClient from '@/api/';
+import { apiClient } from '@/api/';
 
 const authStore = useAuthStore();
 const toolbar = useToolbar();

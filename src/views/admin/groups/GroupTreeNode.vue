@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import apiClient from '@/api/';
+import { apiClient } from '@/api/';
 import { scopename } from '@/models/ScopeName';
 import { StoreGroup, useAuthStore } from '@/store/auth';
 import { useProfileStore } from '@/store/profile';
