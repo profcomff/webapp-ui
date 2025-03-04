@@ -1,6 +1,6 @@
 import { apply, checkToken, showErrorToast } from './auth/decorators';
 import { UserdataUpdateUser } from '@/models';
-import apiClient from '@/api/';
+import { apiClient } from '../client';
 
 export class UserdataApi {
 	static getUser = apply(
