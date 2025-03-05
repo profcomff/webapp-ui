@@ -16,10 +16,17 @@ const router = useRouter();
 const profileStore = useProfileStore();
 const appStore = useAppsStore();
 
-const props = defineProps<{
-	lecturer?: string;
-	relativePath: string;
-}>();
+router.replace({ query: undefined });
+
+const props = defineProps({
+	lecturer: { type: String, required: false, default: null },
+	relativePath: { type: String, required: false, default: null },
+});
+
+const relPath = props.relativePath;
+const lect_id = props.lecturer;
+
+console.log('props: ', props.lecturer, props.relativePath);
 
 enum AppState {
 	WaitLoad = 1,
@@ -34,15 +41,17 @@ const appState = ref(AppState.WaitLoad);
 const scopes: Ref<string[]> = ref([]);
 
 const scopeNamesToRequest: Ref<string[]> = ref([]);
-// const userScopeApproved: Ref<boolean | undefined> = ref();
 
 toolbar.setup({
 	backUrl: '/apps',
 });
 
 const composeUrl = async (url: URL, token: string | null, scopes: string[]) => {
-	if (props.relativePath) {
-		url = new URL(props.relativePath, url);
+	if (relPath) {
+		url = new URL(relPath, url);
+	}
+	if (lect_id) {
+		url = new URL(`?lecturer_id=${lect_id}`, url);
 	}
 	if (token !== null) {
 		url.searchParams.set('token', token);
@@ -54,14 +63,6 @@ const composeUrl = async (url: URL, token: string | null, scopes: string[]) => {
 	if (profileStore.id) {
 		url.searchParams.set('user_id', profileStore.id.toString());
 	}
-	console.log('[AppFrame] Composed URL before params:', url.toString());
-	console.log('[AppFrame] Adding lecturer_id:', props.lecturer);
-
-	if (props.lecturer) {
-		url.searchParams.set('lecturer_id', props.lecturer);
-	}
-
-	console.log('[AppFrame] Final URL:', url.toString());
 	return url;
 };
 
@@ -172,9 +173,6 @@ const openApp = async (data: ServiceData) => {
 };
 
 onMounted(async () => {
-	// Добавленные console.log
-	//console.log('[AppFrame] Received relativePath:', props.relativePath);
-	//console.log('[AppFrame] Received lecturerID:', props.lecturer);
 	if (profileStore.token && !profileStore.id) {
 		await AuthApi.getMe(['session_scopes', 'user_scopes']);
 	}
