@@ -23,8 +23,11 @@ const routes: RouteRecordRaw[] = [
 		props: route => ({
 			id: Number(route.params.id),
 			lecturer: route.query.lecturer_id,
-			relativePath: route.params.relativePath || '',
+			relativePath: route.query.relativePath || '',
 		}),
+		beforeEnter: route => {
+			console.log(route.params, route.query);
+		},
 	},
 
 	{
@@ -33,16 +36,12 @@ const routes: RouteRecordRaw[] = [
 			const query = to.query;
 			const relativePath = to.path.slice(to.path.lastIndexOf('/') + 1);
 
-			console.log('[Router] RelativePath:', relativePath);
-			console.log('[Router] LecturerID from query:', query.lecturer_id);
-
 			return {
 				path: '/apps/44',
-				props: {
-					lecturer: query.lecturer_id,
+				query: {
+					lecturer_id: query.lecturer_id,
 					relativePath: relativePath,
 				},
-				query: {},
 			};
 		},
 	},
