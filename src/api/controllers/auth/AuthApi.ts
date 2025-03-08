@@ -7,7 +7,7 @@ import { LocalStorage, LocalStorageItem } from '@/models/LocalStorage';
 import { UNKNOWN_DEVICE } from '@/models';
 
 import router from '@/router';
-import apiClient from '@/api/';
+import { apiClient } from '../../client';
 
 export enum UserInfo {
 	Groups = 'groups',

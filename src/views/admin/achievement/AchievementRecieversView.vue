@@ -8,7 +8,7 @@ import { scopename } from '@/models/ScopeName';
 import { useToolbar } from '@/store/toolbar';
 import { getPictureUrl } from '@/utils/achievement';
 
-import apiClient from '@/api/';
+import { apiClient } from '@/api/';
 
 const route = useRoute();
 const toolbar = useToolbar();

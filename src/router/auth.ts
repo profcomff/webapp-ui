@@ -5,7 +5,7 @@ import { useToastStore } from '@/store/toast';
 import { AuthApi } from '@/api';
 import { UNKNOWN_DEVICE, LoginError } from '@/models';
 
-import apiClient from '@/api/';
+import { apiClient } from '@/api/';
 import { isAuthMethod } from '@/utils/authMethodName';
 
 export const authRoutes: RouteRecordRaw[] = [
