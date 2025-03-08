@@ -16,6 +16,18 @@ const router = useRouter();
 const profileStore = useProfileStore();
 const appStore = useAppsStore();
 
+router.replace({ query: undefined });
+
+const props = defineProps({
+	lecturer: { type: String, required: false, default: null },
+	relativePath: { type: String, required: false, default: null },
+});
+
+const relPath = props.relativePath;
+const lect_id = props.lecturer;
+
+console.log('props: ', props.lecturer, props.relativePath);
+
 enum AppState {
 	WaitLoad = 1,
 	Show = 2,
@@ -29,13 +41,18 @@ const appState = ref(AppState.WaitLoad);
 const scopes: Ref<string[]> = ref([]);
 
 const scopeNamesToRequest: Ref<string[]> = ref([]);
-// const userScopeApproved: Ref<boolean | undefined> = ref();
 
 toolbar.setup({
 	backUrl: '/apps',
 });
 
 const composeUrl = async (url: URL, token: string | null, scopes: string[]) => {
+	if (relPath) {
+		url = new URL(relPath, url);
+	}
+	if (lect_id) {
+		url = new URL(`?lecturer_id=${lect_id}`, url);
+	}
 	if (token !== null) {
 		url.searchParams.set('token', token);
 	}
@@ -125,6 +142,7 @@ const openApp = async (data: ServiceData) => {
 		appState.value = AppState.Error;
 		return;
 	}
+
 	url.value = new URL(data.link);
 	toolbar.title = data.name ?? 'Ошибка';
 

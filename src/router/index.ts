@@ -20,6 +20,30 @@ const routes: RouteRecordRaw[] = [
 	{
 		path: '/apps/:id(\\d+)',
 		component: () => import('@/views/apps/ApplicationFrame.vue'),
+		props: route => ({
+			id: Number(route.params.id),
+			lecturer: route.query.lecturer_id,
+			relativePath: route.query.relativePath || '',
+		}),
+		beforeEnter: route => {
+			console.log(route.params, route.query);
+		},
+	},
+
+	{
+		path: '/apps/44/lecturer',
+		redirect: to => {
+			const query = to.query;
+			const relativePath = to.path.slice(to.path.lastIndexOf('/') + 1);
+
+			return {
+				path: '/apps/44',
+				query: {
+					lecturer_id: query.lecturer_id,
+					relativePath: relativePath,
+				},
+			};
+		},
 	},
 	{
 		path: '/timetable',
