@@ -65,7 +65,7 @@
 		"vite-plugin-pwa": "^0.21.0",
 		"vite-plugin-stylelint": "^5.3.1",
 		"vite-plugin-vuetify": "^2.0.4",
-		"vitest": "^2.1.5",
+		"vitest": "^2.1.9",
 		"vue-tsc": "^2.1.10",
 		"vuetify": "^3.7.4"
 	},
