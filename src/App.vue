@@ -8,7 +8,7 @@ import IrdomToastList from './components/IrdomToastList.vue';
 import { useToolbar } from './store/toolbar';
 import IrdomToolbar from './components/IrdomToolbar.vue';
 import CalendarDropdown from './views/timetable/CalendarDropdown.vue';
-import apiClient from '@/api/';
+import { apiClient } from '@/api/';
 
 const profileStore = useProfileStore();
 const toolbar = useToolbar();

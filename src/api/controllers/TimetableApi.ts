@@ -1,6 +1,6 @@
 import { stringifyDate, getDateWithDayOffset } from './../../utils/date';
 import { useTimetableStore } from './../../store/timetable';
-import apiClient from '@/api/';
+import { apiClient } from '../client';
 
 interface GetLecturersParams {
 	query?: string;

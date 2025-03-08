@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import IrdomLayout from '@/components/IrdomLayout.vue';
-import apiClient from '@/api';
+import { apiClient } from '@/api';
 import { useToastStore } from '@/store/toast';
 import { useToolbar } from '@/store/toolbar';
 import { useProfileStore } from '@/store/profile';

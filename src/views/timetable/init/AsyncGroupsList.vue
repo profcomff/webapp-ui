@@ -2,7 +2,7 @@
 import { StudyGroup } from '@/models';
 import { computed } from 'vue';
 import GroupsListItem from './GroupsListItem.vue';
-import apiClient from '@/api/';
+import { apiClient } from '@/api/';
 
 const props = withDefaults(defineProps<{ query?: string }>(), {
 	query: '',

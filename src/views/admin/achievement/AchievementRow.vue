@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { AchievementGet } from '@/models';
-import apiClient from '@/api/';
+import { apiClient } from '@/api/';
 import { ref, watch } from 'vue';
 import { useRouter } from 'vue-router';
 import { getPictureUrl } from '@/utils/achievement';

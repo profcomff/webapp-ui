@@ -4,7 +4,7 @@ import { onMounted, ref, Ref } from 'vue';
 import { getPictureUrl } from '@/utils/achievement';
 import AchievementElement from './AchievementsElement.vue';
 import FullscreenLoader from '@/components/FullscreenLoader.vue';
-import apiClient from '@/api/';
+import { apiClient } from '@/api/';
 
 const props = defineProps<{ userId: number }>();
 const achievements: Ref<AchievementGet[]> = ref([]);

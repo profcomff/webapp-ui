@@ -3,7 +3,7 @@ import UAParser from 'ua-parser-js';
 
 import { SessionInfo, Session } from '@/models';
 
-import apiClient from '@/api/';
+import { apiClient } from '@/api/';
 
 import Apple from '@/assets/logo/Apple.svg';
 import Desktop from '@/assets/logo/Desktop.svg';

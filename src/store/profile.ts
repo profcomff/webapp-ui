@@ -3,7 +3,7 @@ import { scopename } from './../models/ScopeName';
 import { LocalStorage, LocalStorageItem } from '@/models/LocalStorage';
 import { defineStore } from 'pinia';
 import { computed, ref } from 'vue';
-import apiClient from '@/api/';
+import { apiClient } from '@/api/';
 
 export const useProfileStore = defineStore('profile', () => {
 	const id = ref<number | null>(null);

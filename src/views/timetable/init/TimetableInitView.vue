@@ -6,7 +6,7 @@ import IrdomLayout from '@/components/IrdomLayout.vue';
 import { useProfileStore } from '@/store/profile';
 import { useToolbar } from '@/store/toolbar';
 import FullscreenLoader from '@/components/FullscreenLoader.vue';
-import apiClient from '@/api/';
+import { apiClient } from '@/api/';
 
 const query = ref('');
 const profileStore = useProfileStore();
