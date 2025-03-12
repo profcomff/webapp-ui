@@ -6,7 +6,7 @@ import router from '@/router';
 import { useProfileStore } from '@/store/profile';
 import { useToastStore } from '@/store/toast';
 
-export type Func<R = any, FuncArgs extends any[] = any[]> = (...args: FuncArgs) => R;
+type Func<R = any, FuncArgs extends any[] = any[]> = (...args: FuncArgs) => R;
 type Decorator<F extends Func = Func, DecoratorArgs extends any[] = any[]> = Func<
 	F,
 	[F, ...DecoratorArgs]

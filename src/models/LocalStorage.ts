@@ -3,7 +3,6 @@ export enum LocalStorageItem {
 	Token = 'token',
 	TokenScopes = 'token-scopes',
 	MarketingId = 'marketing-id',
-	SuperappAuth = 'superapp-auth',
 	AppToken = 'app-token',
 }
 
