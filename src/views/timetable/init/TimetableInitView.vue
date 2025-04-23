@@ -37,24 +37,28 @@ const sendMarketing = (e: Event) => {
 		<p class="message">Наше приложение позволит получить доступ к сервисам для студентов ФФ МГУ!</p>
 		<p class="message">Для просмотра расписания выберите свою группу:</p>
 
-		<v-responsive class="align-self-center" width="344">
-			<v-text-field
-				v-model="query"
-				type="text"
-				label="Номер группы"
-				placeholder="Введите номер группы"
-				inputmode="numeric"
-				class="align-self-center input"
-				max-width="344"
-				@change.once="sendMarketing"
-			/>
-		</v-responsive>
+		<div class="search-container">
+			<v-responsive class="align-self-center" width="344">
+				<v-text-field
+					v-model="query"
+					type="text"
+					label="Номер группы"
+					placeholder="Введите номер группы"
+					inputmode="numeric"
+					class="align-self-center input"
+					max-width="344"
+					@change.once="sendMarketing"
+				/>
+			</v-responsive>
 
-		<Suspense>
-			<AsyncGroupsList :query="query" />
+			<Suspense>
+				<div class="results-container">
+					<AsyncGroupsList :query="query" />
+				</div>
 
-			<template #fallback> <FullscreenLoader /> </template>
-		</Suspense>
+				<template #fallback> <FullscreenLoader /> </template>
+			</Suspense>
+		</div>
 	</IrdomLayout>
 </template>
 <style scoped>
@@ -72,5 +76,18 @@ const sendMarketing = (e: Event) => {
 
 .message {
 	margin-bottom: 20px;
+}
+
+.search-container {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	width: 100%;
+}
+
+.results-container {
+	width: 100%;
+	max-width: 800px;
+	margin-top: 20px;
 }
 </style>
