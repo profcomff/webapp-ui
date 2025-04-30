@@ -2,7 +2,7 @@ import { createClient } from '@profcomff/api-uilib';
 import { type Middleware } from 'openapi-fetch';
 import { ApiError, ErrorInfo } from './types';
 
-export function recordError(url: string, status: number, error: ApiError | undefined) {
+function recordError(url: string, status: number, error: ApiError | undefined) {
 	if (error) {
 		const errorInfo: ErrorInfo = {
 			url,

@@ -9,25 +9,23 @@ import { UNKNOWN_DEVICE } from '@/models';
 import router from '@/router';
 import { apiClient } from '../../client';
 
-export enum UserInfo {
+enum UserInfo {
 	Groups = 'groups',
 	IndirectGroups = 'indirect_groups',
 	Scopes = 'scopes',
 }
 
-export enum SessionInfo {
+enum SessionInfo {
 	SessionScopes = 'session_scopes',
 	Token = 'token',
 	Expires = 'expires',
 }
 
-export type MySessionInfo =
+type MySessionInfo =
 	| ('groups' | 'indirect_groups' | 'session_scopes' | 'user_scopes' | 'auth_methods')[]
 	| undefined;
 
-export type UserSessionById =
-	| ('groups' | 'indirect_groups' | 'auth_methods' | 'scopes')[]
-	| undefined;
+type UserSessionById = ('groups' | 'indirect_groups' | 'auth_methods' | 'scopes')[] | undefined;
 
 export class AuthApi {
 	static getScopes = apply(async () => {

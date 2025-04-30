@@ -11,18 +11,6 @@ export type Scope = authComponents['schemas']['ScopeGet'];
 export type User = authComponents['schemas']['User'];
 export const UNKNOWN_DEVICE = 'unknown device';
 
-export enum AuthMethod {
-	Email = 'email',
-	Yandex = 'yandex',
-	Github = 'github',
-	Google = 'google',
-	LkMsu = 'lk-msu',
-	MyMsu = 'my-msu',
-	Physics = 'physics-msu',
-	VK = 'vk',
-	Authentic = 'authentic',
-}
-
 export const AuthMethodLinkList = [
 	'github',
 	'google',
@@ -35,7 +23,8 @@ export const AuthMethodLinkList = [
 ] as const;
 export type AuthMethodLink = (typeof AuthMethodLinkList)[number];
 
-export const AuthMethodNameList = [
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const AuthMethodNameList = [
 	'email',
 	'github_auth',
 	'google_auth',
@@ -48,18 +37,8 @@ export const AuthMethodNameList = [
 ] as const;
 export type AuthMethodName = (typeof AuthMethodNameList)[number];
 
-export type MySessionInfo =
-	| ('groups' | 'indirect_groups' | 'session_scopes' | 'user_scopes' | 'auth_methods')[]
-	| undefined;
-
-export type UserSessionById =
-	| ('groups' | 'indirect_groups' | 'auth_methods' | 'scopes')[]
-	| undefined;
-
 export enum SessionInfo {
-	SessionScopes = 'session_scopes',
 	Token = 'token',
-	Expires = 'expires',
 }
 
 export interface LoginError {
@@ -70,7 +49,7 @@ export interface LoginError {
 }
 
 // achievement models
-export type Reciever = achievementComponents['schemas']['RecieverGet'];
+type Reciever = achievementComponents['schemas']['RecieverGet'];
 export interface AchievementGet {
 	id: number;
 	name: string;
@@ -98,16 +77,11 @@ export interface AppToken {
 }
 
 // general models
-export interface Entity {
+interface Entity {
 	id: number;
 }
 
 // userdata models
-export interface UserdataSource extends Entity {
-	name: string;
-	trust_level: number;
-}
-
 export interface UserdataCategory extends Entity {
 	name: string;
 	read_scope?: string;
@@ -117,11 +91,9 @@ export interface UserdataCategory extends Entity {
 
 export enum UserdataParamResponseType {
 	All = 'all',
-	Last = 'last',
-	MostTrusted = 'most_trusted',
 }
 
-export interface UserdataParam extends Entity {
+interface UserdataParam extends Entity {
 	name: string;
 	is_required: boolean;
 	changeable: boolean;
@@ -129,7 +101,7 @@ export interface UserdataParam extends Entity {
 	category_id: number;
 }
 
-export interface UserdataRawItem {
+interface UserdataRawItem {
 	category: string;
 	param: string;
 	value?: string | null;
@@ -141,7 +113,6 @@ export interface UserdataItem {
 	value: UserdataExtendedValue;
 }
 
-export type UserdataAuth = authComponents['schemas']['UsersGet'];
 export interface UserdataRaw {
 	items: UserdataRawItem[];
 }
