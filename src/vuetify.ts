@@ -4,7 +4,7 @@ import { aliases, md } from 'vuetify/iconsets/md';
 const profcomffLight = {
 	dark: false,
 	colors: {
-		primary: 'rgb(0, 1, 76)',
+		primary: 'rgba(71, 28, 120)',
 		'on-primary': 'rgb(255, 255, 255)',
 
 		secondary: 'rgb(255, 139, 0)',
@@ -24,13 +24,13 @@ const profcomffLight = {
 const datePicker = {
 	dark: false,
 	colors: {
-		primary: 'rgb(0, 1, 76)',
+		primary: 'rgba(71, 28, 120)',
 		'on-primary': 'rgb(255, 255, 255)',
 
 		secondary: 'rgb(255, 139, 0)',
 		'on-secondary': 'rgb(0, 0, 0)',
 
-		surface: 'rgb(0, 1, 76)',
+		surface: 'rgba(71, 28, 120)',
 		'on-surface': 'rgb(255, 255, 255)',
 
 		'surface-variant': 'rgb(255, 139, 0)',
