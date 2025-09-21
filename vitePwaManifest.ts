@@ -127,4 +127,3 @@ export const vitePwaManifest: Partial<ManifestOptions> = {
 	lang: 'ru',
 	scope: process.env.BASE_URL,
 };
-
