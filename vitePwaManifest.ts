@@ -122,8 +122,8 @@ export const vitePwaManifest: Partial<ManifestOptions> = {
 	display: 'standalone',
 	start_url: '/timetable',
 	description: 'Приложение с сервисами для студентов и сотрудников физического факультета МГУ',
-	theme_color: '#471c78',
-	background_color: '#471c78',
+	theme_color: '#00004b',
+	background_color: '#00004b',
 	lang: 'ru',
 	scope: process.env.BASE_URL,
 };
