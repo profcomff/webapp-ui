@@ -12,14 +12,20 @@ const toolbar = useToolbar();
 
 toolbar.setup({
 	title: 'Аудитория',
-	backUrl:
-		router.options.history.state.back &&
-		router.options.history.state.back.toString().startsWith('/timetable/event')
-			? undefined
-			: '/timetable',
 	backable: true,
+	backUrl: undefined,
 	share: true,
 });
+
+const goToMap = () => {
+	router.push({
+		path: '/apps/2',
+		state: {
+			fromTimetable: true,
+			roomId: route.params.id
+		}
+	});
+};
 </script>
 
 <template>
@@ -28,19 +34,21 @@ toolbar.setup({
 			<Suspense>
 				<AsyncRoomInfo :id="+route.params.id" />
 
-				<template #fallback> <FullscreenLoader /> </template>
+				<template #fallback>
+					<FullscreenLoader />
+				</template>
 			</Suspense>
 		</section>
 
 		<section class="section">
 			<h3 class="h3">Карта этажа</h3>
 
-			<RouterLink to="/apps/2" class="map">
+			<div @click="goToMap" class="map">
 				<span class="text">
 					Посмотреть на карте
 					<v-icon icon="open_in_new" />
 				</span>
-			</RouterLink>
+			</div>
 		</section>
 
 		<section class="section">
@@ -49,7 +57,9 @@ toolbar.setup({
 			</p>
 			<Suspense>
 				<AsyncRoomSchedule :id="+route.params.id" />
-				<template #fallback><FullscreenLoader /></template>
+				<template #fallback>
+					<FullscreenLoader />
+				</template>
 			</Suspense>
 		</section>
 	</IrdomLayout>
@@ -79,6 +89,7 @@ toolbar.setup({
 	justify-content: center;
 	align-items: center;
 	text-decoration: none;
+	cursor: pointer;
 }
 
 .text {
