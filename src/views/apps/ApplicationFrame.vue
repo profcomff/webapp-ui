@@ -42,18 +42,8 @@ const scopes: Ref<string[]> = ref([]);
 
 const scopeNamesToRequest: Ref<string[]> = ref([]);
 
-// Определяем backUrl на основе истории навигации
-const getBackUrl = () => {
-	// Если есть состояние из расписания - используем router.back()
-	if (history.state?.fromTimetable) {
-		return undefined;
-	}
-	// Иначе - стандартное поведение (возврат в /apps)
-	return '/apps';
-};
-
 toolbar.setup({
-	backUrl: getBackUrl(),
+	backUrl: undefined,
 	backable: true,
 });
 
@@ -156,10 +146,9 @@ const openApp = async (data: ServiceData) => {
 
 	url.value = new URL(data.link);
 
-	// Обновляем тулбар с учетом контекста навигации
 	toolbar.setup({
 		title: data.name ?? 'Ошибка',
-		backUrl: getBackUrl(),
+		backUrl: undefined,
 		backable: true,
 	});
 

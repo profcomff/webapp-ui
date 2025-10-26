@@ -18,13 +18,7 @@ toolbar.setup({
 });
 
 const goToMap = () => {
-	router.push({
-		path: '/apps/2',
-		state: {
-			fromTimetable: true,
-			roomId: route.params.id
-		}
-	});
+	router.push('/apps/2');
 };
 </script>
 
