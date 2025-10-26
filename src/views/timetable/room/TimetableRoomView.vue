@@ -37,7 +37,7 @@ const goToMap = () => {
 		<section class="section">
 			<h3 class="h3">Карта этажа</h3>
 
-			<div @click="goToMap" class="map">
+			<div class="map" @click="goToMap">
 				<span class="text">
 					Посмотреть на карте
 					<v-icon icon="open_in_new" />

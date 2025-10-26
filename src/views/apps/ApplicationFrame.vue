@@ -196,8 +196,9 @@ onMounted(async () => {
 
 <template>
 	<v-main>
-		<iframe v-if="appState == AppState.Show && url" :src="url.toString()" frameborder="0" class="iframe"
-			allow="camera" />
+		<iframe
+		v-if="appState == AppState.Show && url" :src="url.toString()" frameborder="0" class="iframe" allow="camera"
+		/>
 		<FullscreenLoader v-else-if="appState == AppState.WaitLoad" />
 		<!-- Раскомментить, если появятся приложения от сторонних разработчиков -->
 		<!-- <div v-else-if="appState == AppState.WaitApprove" class="deligate-container">
@@ -237,7 +238,7 @@ v-main,
 	height: 100%;
 }
 
-.exception-container>* {
+.exception-container > * {
 	margin: 16px auto;
 }
 
@@ -252,7 +253,7 @@ v-main,
 	margin: 32px auto;
 	padding: 0 32px;
 
-	&>* {
+	& > * {
 		margin: 8px 0;
 	}
 
