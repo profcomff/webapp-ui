@@ -197,7 +197,11 @@ onMounted(async () => {
 <template>
 	<v-main>
 		<iframe
-		v-if="appState == AppState.Show && url" :src="url.toString()" frameborder="0" class="iframe" allow="camera"
+			v-if="appState == AppState.Show && url"
+			:src="url.toString()"
+			frameborder="0"
+			class="iframe"
+			allow="camera"
 		/>
 		<FullscreenLoader v-else-if="appState == AppState.WaitLoad" />
 		<!-- Раскомментить, если появятся приложения от сторонних разработчиков -->
