@@ -43,7 +43,8 @@ const scopes: Ref<string[]> = ref([]);
 const scopeNamesToRequest: Ref<string[]> = ref([]);
 
 toolbar.setup({
-	backUrl: '/apps',
+	backUrl: undefined,
+	backable: true,
 });
 
 const composeUrl = async (url: URL, token: string | null, scopes: string[]) => {
@@ -144,7 +145,12 @@ const openApp = async (data: ServiceData) => {
 	}
 
 	url.value = new URL(data.link);
-	toolbar.title = data.name ?? 'Ошибка';
+
+	toolbar.setup({
+		title: data.name ?? 'Ошибка',
+		backUrl: undefined,
+		backable: true,
+	});
 
 	scopes.value = data.scopes ? data.scopes : [];
 
