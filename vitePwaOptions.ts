@@ -28,10 +28,9 @@ export const vitePWAconfig: Partial<VitePWAOptions> = {
 			},
 			{
 				urlPattern: /^https:\/\/api(?:\.test)?\.profcomff\.com\/timetable\/.*/i,
-				handler: 'NetworkFirst',
+				handler: 'StaleWhileRevalidate',
 				options: {
 					cacheName: 'api-timetable',
-					networkTimeoutSeconds: 3,
 					expiration: {
 						maxEntries: 30,
 						maxAgeSeconds: 60 * 60 * 24 * 365,
