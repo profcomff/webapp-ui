@@ -9,6 +9,7 @@ import { useToolbar } from './store/toolbar';
 import IrdomToolbar from './components/IrdomToolbar.vue';
 import CalendarDropdown from './views/timetable/CalendarDropdown.vue';
 import { apiClient } from '@/api/';
+import { parseLocalYmdDate } from './utils/date';
 
 const profileStore = useProfileStore();
 const toolbar = useToolbar();
@@ -44,7 +45,7 @@ onMounted(async () => {
 		>
 			<CalendarDropdown
 				v-if="/\d{4}-\d{2}-\d{2}/.test($route.path)"
-				:date="new Date($route.params.date as string)"
+				:date="parseLocalYmdDate($route.params.date as string)"
 			/>
 		</IrdomToolbar>
 		<RouterView />
