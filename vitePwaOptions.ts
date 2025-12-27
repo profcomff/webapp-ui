@@ -19,7 +19,22 @@ export const vitePWAconfig: Partial<VitePWAOptions> = {
 					cacheName: 'google-fonts-webfonts',
 					expiration: {
 						maxEntries: 30,
-						maxAgeSeconds: 60 * 60 * 24 * 30,
+						maxAgeSeconds: 60 * 60 * 24 * 365,
+					},
+					cacheableResponse: {
+						statuses: [0, 200],
+					},
+				},
+			},
+			{
+				urlPattern: /^https:\/\/api(?:\.test)?\.profcomff\.com\/timetable\/.*/i,
+				handler: 'NetworkFirst',
+				options: {
+					cacheName: 'api-timetable',
+					networkTimeoutSeconds: 3,
+					expiration: {
+						maxEntries: 30,
+						maxAgeSeconds: 60 * 60 * 24 * 365,
 					},
 					cacheableResponse: {
 						statuses: [0, 200],
