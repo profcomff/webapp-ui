@@ -3,6 +3,11 @@ import { lz } from './utils';
 export const getWeekdayName = (date: Date, weekday: 'short' | 'long' = 'short') =>
 	date.toLocaleString('ru-RU', { weekday });
 
+export const parseLocalYmdDate = (ymd: string) => {
+	const [year, month, day] = ymd.split('-').map(Number);
+	return new Date(year, month - 1, day);
+};
+
 export const getDateWithDayOffset = (date: Date, offset: number) => {
 	const d = new Date(date);
 	d.setDate(date.getDate() + offset);
