@@ -33,7 +33,7 @@ export const vitePWAconfig: Partial<VitePWAOptions> = {
 					cacheName: 'api-timetable',
 					expiration: {
 						maxEntries: 30,
-						maxAgeSeconds: 60 * 60 * 24 * 365,
+						maxAgeSeconds: 60 * 60 * 24 * 30,
 					},
 					cacheableResponse: {
 						statuses: [0, 200],
