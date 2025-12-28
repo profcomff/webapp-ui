@@ -51,15 +51,8 @@ export const useTimetableStore = defineStore('timetable', () => {
 
 	function setDay(date: Date, eventList: Event[]) {
 		const key = stringifyDate(date);
-
-		if (!days.value.has(key)) {
-			days.value.set(key, []);
-		}
-
-		for (const e of eventList) {
-			setEvents(eventList);
-			days.value.get(key)?.push(e);
-		}
+		setEvents(eventList);
+		days.value.set(key, [...eventList]);
 	}
 
 	function setLecturerEvents(lecturerId: number, eventList: Event[]) {
