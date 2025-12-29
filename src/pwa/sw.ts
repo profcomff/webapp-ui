@@ -2,7 +2,7 @@
 import { CacheableResponsePlugin } from 'workbox-cacheable-response';
 import { clientsClaim } from 'workbox-core';
 import type { WorkboxPlugin } from 'workbox-core';
-import { ExpirationPlugin } from 'workbox-expiration';
+import { CacheExpiration, ExpirationPlugin } from 'workbox-expiration';
 import { precacheAndRoute, cleanupOutdatedCaches, createHandlerBoundToURL } from 'workbox-precaching';
 import { NavigationRoute, registerRoute } from 'workbox-routing';
 import { CacheFirst, StaleWhileRevalidate } from 'workbox-strategies';
@@ -32,7 +32,15 @@ const notifyTimetableCacheInvalid = async (requestUrl: string) => {
 	}
 };
 
+const timetableCacheName = 'api-timetable';
 const timetableHashCacheName = 'api-timetable-meta';
+const timetableCacheMaxEntries = 30;
+const timetableCacheMaxAgeSeconds = 60 * 60 * 24 * 30;
+
+const timetableHashExpiration = new CacheExpiration(timetableHashCacheName, {
+	maxEntries: timetableCacheMaxEntries,
+	maxAgeSeconds: timetableCacheMaxAgeSeconds,
+});
 
 type JsonValue = string | number | boolean | null | JsonValue[] | { [key: string]: JsonValue };
 
@@ -113,6 +121,11 @@ const getHashCacheKey = (request: Request) => new Request(request.url);
 
 const readTimetableHash = async (request: Request) => {
 	const metaCache = await caches.open(timetableHashCacheName);
+	const isExpired = await timetableHashExpiration.isURLExpired(request.url);
+	if (isExpired) {
+		await metaCache.delete(getHashCacheKey(request));
+		return null;
+	}
 	const cachedHashResponse = await metaCache.match(getHashCacheKey(request));
 	if (!cachedHashResponse) {
 		return null;
@@ -126,6 +139,8 @@ const writeTimetableHash = async (request: Request, hash: string) => {
 		getHashCacheKey(request),
 		new Response(hash, { headers: { 'content-type': 'text/plain' } }),
 	);
+	await timetableHashExpiration.updateTimestamp(request.url);
+	await timetableHashExpiration.expireEntries();
 };
 
 const getTimetableHash = async (request: Request, cachedResponse: Response) => {
@@ -187,11 +202,11 @@ const cacheInvalidTracker: WorkboxPlugin = {
 registerRoute(
 	/^https:\/\/api(?:\.test)?\.profcomff\.com\/timetable\/.*/i,
 	new StaleWhileRevalidate({
-		cacheName: 'api-timetable',
+		cacheName: timetableCacheName,
 		plugins: [
 			new ExpirationPlugin({
-				maxEntries: 30,
-				maxAgeSeconds: 60 * 60 * 24 * 30,
+				maxEntries: timetableCacheMaxEntries,
+				maxAgeSeconds: timetableCacheMaxAgeSeconds,
 			}),
 			new CacheableResponsePlugin({
 				statuses: [0, 200],
