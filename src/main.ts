@@ -8,6 +8,7 @@ import { createApp } from 'vue';
 import { createPinia } from 'pinia';
 import { registerSW } from 'virtual:pwa-register';
 import { vuetify } from './vuetify';
+import { useToastStore } from '@/store/toast';
 const pinia = createPinia();
 
 const updateSW = registerSW({
@@ -18,5 +19,15 @@ const updateSW = registerSW({
 		}
 	},
 });
+
+if ('serviceWorker' in navigator) {
+	const toastStore = useToastStore(pinia);
+	navigator.serviceWorker.addEventListener('message', (event) => {
+		if (event.data?.type !== 'timetable-cache-invalid') {
+			return;
+		}
+		toastStore.push({ title: 'Обновите страницу, данные могли устареть' });
+	});
+}
 
 createApp(App).use(router).use(pinia).use(vuetify).mount('#app');
