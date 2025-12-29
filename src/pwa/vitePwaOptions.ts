@@ -4,6 +4,6 @@ import { vitePwaManifest } from './vitePwaManifest';
 export const vitePWAconfig: Partial<VitePWAOptions> = {
 	manifest: vitePwaManifest,
 	strategies: 'injectManifest',
-	srcDir: 'src',
+	srcDir: 'src/pwa',
 	filename: 'sw.ts',
 };

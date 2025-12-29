@@ -160,7 +160,7 @@ const cacheInvalidTracker: WorkboxPlugin = {
 				state.latestNetworkHash = networkHash;
 			}
 		} catch {
-			
+			// Ignore hashing errors to avoid breaking the fetch flow.
 		}
 		const cachedHashPromise = state?.cachedHashPromise as Promise<string | null> | undefined;
 		if (cachedHashPromise) {
@@ -179,7 +179,7 @@ const cacheInvalidTracker: WorkboxPlugin = {
 			}
 			await writeTimetableHash(request, existingHash);
 		} catch {
-			
+			// Ignore hashing errors to avoid breaking the cache flow.
 		}
 	},
 };
