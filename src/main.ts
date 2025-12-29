@@ -8,6 +8,7 @@ import { createApp } from 'vue';
 import { createPinia } from 'pinia';
 import { registerSW } from 'virtual:pwa-register';
 import { vuetify } from './vuetify';
+import { setupSwMessages } from './pwa/swMessages';
 const pinia = createPinia();
 
 const updateSW = registerSW({
@@ -18,5 +19,7 @@ const updateSW = registerSW({
 		}
 	},
 });
+
+setupSwMessages(pinia);
 
 createApp(App).use(router).use(pinia).use(vuetify).mount('#app');
