@@ -1,9 +1,12 @@
 /// <reference lib="webworker" />
 import { CacheableResponsePlugin } from 'workbox-cacheable-response';
-import { clientsClaim } from 'workbox-core';
-import type { WorkboxPlugin } from 'workbox-core';
+import { clientsClaim, type WorkboxPlugin } from 'workbox-core';
 import { CacheExpiration, ExpirationPlugin } from 'workbox-expiration';
-import { precacheAndRoute, cleanupOutdatedCaches, createHandlerBoundToURL } from 'workbox-precaching';
+import {
+	precacheAndRoute,
+	cleanupOutdatedCaches,
+	createHandlerBoundToURL,
+} from 'workbox-precaching';
 import { NavigationRoute, registerRoute } from 'workbox-routing';
 import { CacheFirst, StaleWhileRevalidate } from 'workbox-strategies';
 
@@ -17,7 +20,7 @@ cleanupOutdatedCaches();
 precacheAndRoute(self.__WB_MANIFEST);
 clientsClaim();
 
-self.addEventListener('message', (event) => {
+self.addEventListener('message', event => {
 	if (event.data?.type === 'SKIP_WAITING') {
 		void self.skipWaiting();
 	}
@@ -137,7 +140,7 @@ const writeTimetableHash = async (request: Request, hash: string) => {
 	const metaCache = await caches.open(timetableHashCacheName);
 	await metaCache.put(
 		getHashCacheKey(request),
-		new Response(hash, { headers: { 'content-type': 'text/plain' } }),
+		new Response(hash, { headers: { 'content-type': 'text/plain' } })
 	);
 	await timetableHashExpiration.updateTimestamp(request.url);
 	await timetableHashExpiration.expireEntries();
@@ -213,14 +216,14 @@ registerRoute(
 			}),
 			cacheInvalidTracker,
 		],
-	}),
+	})
 );
 
 registerRoute(
 	/^https:\/\/fonts\.googleapis\.com\/.*/i,
 	new StaleWhileRevalidate({
 		cacheName: 'google-fonts-stylesheets',
-	}),
+	})
 );
 
 registerRoute(
@@ -236,5 +239,5 @@ registerRoute(
 				statuses: [0, 200],
 			}),
 		],
-	}),
+	})
 );

@@ -9,7 +9,7 @@ export const setupSwMessages = (pinia: Pinia) => {
 	}
 
 	const toastStore = useToastStore(pinia);
-	navigator.serviceWorker.addEventListener('message', (event) => {
+	navigator.serviceWorker.addEventListener('message', event => {
 		if (event.data?.type !== timetableCacheInvalidType) {
 			return;
 		}
