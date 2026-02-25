@@ -126,6 +126,8 @@ onMounted(async () => {
 		<span class="user-name">
 			{{ fullName }}
 		</span>
+		<span v-if="profileStore.id" class="user-id"> id: {{ profileStore.id }}</span>
+
 		<section v-if="profileStore.id !== null" class="section">
 			<h2>Достижения</h2>
 			<AchievementsSlider :user-id="profileStore.id" />
@@ -223,7 +225,7 @@ onMounted(async () => {
 }
 
 .user-name {
-	margin-bottom: 32px;
+	margin-bottom: 8px;
 	text-align: center;
 	display: inline-block;
 	align-self: center;
@@ -233,6 +235,16 @@ onMounted(async () => {
 	font-weight: 700;
 	line-height: 35px;
 	letter-spacing: 0.1px;
+}
+
+.user-id {
+	margin-bottom: 32px;
+	text-align: center;
+	align-self: center;
+	color: var(--m-3-sys-light-outline, #79747e);
+	font-size: 20px;
+	font-weight: 500;
+	letter-spacing: 0.5px;
 }
 
 .info {
