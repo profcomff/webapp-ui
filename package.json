@@ -23,7 +23,7 @@
 	},
 	"dependencies": {
 		"@profcomff/api-uilib": "^2024.11.24",
-		"markdown-it": "^14.1.0",
+		"markdown-it": "^14.1.1",
 		"openapi-fetch": "^0.13.0",
 		"pinia": "^2.2.6",
 		"ua-parser-js": "^1.0.39",
