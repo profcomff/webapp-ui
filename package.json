@@ -22,7 +22,6 @@
 		"check": "vue-tsc && pnpm run lint && pnpm run prettier && pnpm run stylelint"
 	},
 	"dependencies": {
-		"@profcomff/api-uilib": "^2024.11.24",
 		"markdown-it": "^14.1.0",
 		"openapi-fetch": "^0.13.0",
 		"pinia": "^2.2.6",
@@ -33,7 +32,7 @@
 	},
 	"devDependencies": {
 		"@eslint/js": "^9.15.0",
-		"@profcomff/api-uilib": "^2024.9.29",
+		"@profcomff/api-uilib": "^2026.3.30",
 		"@types/markdown-it": "^14.1.2",
 		"@types/node": "^22.9.3",
 		"@types/ua-parser-js": "^0.7.39",
