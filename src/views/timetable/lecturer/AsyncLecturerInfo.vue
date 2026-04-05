@@ -1,17 +1,17 @@
 <script setup lang="ts">
 import Placeholder from '@/assets/profile_image_placeholder.webp';
-import { computed } from 'vue';
+import Markdown from '@/components/MarkdownRenderer.vue';
 import { TimetableApi } from '@/api';
 import { useTimetableStore } from '@/store/timetable';
-import Markdown from '@/components/MarkdownRenderer.vue';
+import { computed, ref } from 'vue';
+import { useRouter } from 'vue-router';
 
 const timetableStore = useTimetableStore();
+const router = useRouter();
 
 const props = defineProps<{ id: number }>();
 
-const lecturerId = computed(() => props.id);
-
-if (!timetableStore.lecturers.has(lecturerId.value)) {
+if (!timetableStore.lecturers.has(props.id)) {
 	await TimetableApi.getLecturer(props.id);
 }
 
@@ -27,14 +27,43 @@ const fullName = computed(() => {
 
 const imgUrl = computed(() =>
 	lecturer.value?.avatar_link
-		? `${import.meta.env.VITE_API_URL}${lecturer.value?.avatar_link}`
+		? `${import.meta.env.VITE_API_URL}${lecturer.value.avatar_link}`
 		: Placeholder
 );
+
+const isLoadingRating = ref(false);
+
+async function goToRating() {
+	isLoadingRating.value = true;
+	try {
+		const ratingId = await TimetableApi.getLecturerByTimetableId(props.id);
+		if (ratingId !== undefined) {
+			await router.push(`/apps/44/lecturer?lecturer_id=${ratingId}`);
+		}
+	} finally {
+		isLoadingRating.value = false;
+	}
+}
 </script>
 
 <template>
 	<img :src="imgUrl" alt="Фотография преподавателя" class="avatar" width="256" height="256" />
 	<h2 class="full-name">{{ fullName }}</h2>
+
+	<v-btn
+		color="secondary"
+		variant="flat"
+		rounded="lg"
+		class="rating-btn"
+		:loading="isLoadingRating"
+		@click="goToRating"
+	>
+		<template #prepend>
+			<v-icon>nature</v-icon>
+		</template>
+		Рейтинг в «Дубинушке»
+	</v-btn>
+
 	<Markdown class="description" :text="lecturer?.description ?? ''" />
 </template>
 
@@ -54,6 +83,11 @@ const imgUrl = computed(() =>
 .full-name {
 	align-self: center;
 	text-align: center;
+}
+
+.rating-btn {
+	align-self: center;
+	margin-bottom: 16px;
 }
 
 .description {
