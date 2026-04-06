@@ -26,7 +26,7 @@ function getLecturer(id: number) {
 	});
 }
 
-function fetchLecturerByTimetableId(timetableId: number) {
+function fetchRatingLecturerByTimetableId(timetableId: number) {
 	return apiClient.GET('/rating/lecturer/timetable-id/{timetable_id}', {
 		params: { path: { timetable_id: timetableId } },
 	});
@@ -55,8 +55,8 @@ export class TimetableApi {
 		}
 	}
 
-	public static async getLecturerByTimetableId(timetableId: number): Promise<number | undefined> {
-		const { data } = await fetchLecturerByTimetableId(timetableId);
+	public static async getRatingLecturerByTimetableId(timetableId: number): Promise<number | undefined> {
+		const { data } = await fetchRatingLecturerByTimetableId(timetableId);
 		return data?.id;
 	}
 

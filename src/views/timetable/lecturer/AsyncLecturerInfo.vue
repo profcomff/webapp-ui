@@ -36,7 +36,7 @@ const isLoadingRating = ref(false);
 async function goToRating() {
 	isLoadingRating.value = true;
 	try {
-		const ratingId = await TimetableApi.getLecturerByTimetableId(props.id);
+		const ratingId = await TimetableApi.getRatingLecturerByTimetableId(props.id);
 		if (ratingId !== undefined) {
 			await router.push(`/apps/44/lecturer?lecturer_id=${ratingId}`);
 		}
