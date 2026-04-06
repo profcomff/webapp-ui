@@ -55,7 +55,9 @@ export class TimetableApi {
 		}
 	}
 
-	public static async getRatingLecturerByTimetableId(timetableId: number): Promise<number | undefined> {
+	public static async getRatingLecturerByTimetableId(
+		timetableId: number
+	): Promise<number | undefined> {
 		const { data } = await fetchRatingLecturerByTimetableId(timetableId);
 		return data?.id;
 	}
