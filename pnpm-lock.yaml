@@ -8,9 +8,6 @@ importers:
 
   .:
     dependencies:
-      '@profcomff/api-uilib':
-        specifier: ^2024.11.24
-        version: 2024.11.24
       markdown-it:
         specifier: ^14.1.0
         version: 14.1.0
@@ -36,6 +33,9 @@ importers:
       '@eslint/js':
         specifier: ^9.15.0
         version: 9.15.0
+      '@profcomff/api-uilib':
+        specifier: ^2026.3.30
+        version: 2026.3.30
       '@types/markdown-it':
         specifier: ^14.1.2
         version: 14.1.2
@@ -1140,8 +1140,8 @@ packages:
     resolution: {integrity: sha512-cq8o4cWH0ibXh9VGi5P20Tu9XF/0fFXl9EUinr9QfTM7a7p0oTA4iJRCQWppXR1Pg8dSM0UCItCkPwsk9qWWYA==}
     engines: {node: ^12.20.0 || ^14.18.0 || >=16.0.0}
 
-  '@profcomff/api-uilib@2024.11.24':
-    resolution: {integrity: sha512-Ox8bB5MyJYSmUUIuY6qJVQyDr9/bzwBdQ0EhlI/t/qnr7vvZBPqlPvLwDrqsElD3h4ZnwrH4JNCLhctLWjXiFQ==}
+  '@profcomff/api-uilib@2026.3.30':
+    resolution: {integrity: sha512-ZofRkckXf1I6TS8yjjYxrSmOqX6cL1hpOZnnB0+L7W6x8dX1bzO9hleKuPzW8+Mubbq+56R01tI5Skhr0S+UhA==}
 
   '@rollup/plugin-babel@5.3.1':
     resolution: {integrity: sha512-WFfdLWU/xVWKeRQnKmIAQULUI7Il0gZnBIH/ZFO069wYIfPu+8zrfp/KMW0atmELoRDq8FbiP3VCss9MhCut7Q==}
@@ -2140,7 +2140,7 @@ packages:
 
   glob@7.2.3:
     resolution: {integrity: sha512-nFR0zLpU2YCaRxwoCJvL6UvCH2JFyFVIvwTLsIf21AuHlMskA1hhTdk+LlYJtOlYt9v6dvszD2BGRqBL+iQK9Q==}
-    deprecated: Glob versions prior to v9 are no longer supported
+    deprecated: Old versions of glob are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exorbitant rates) by contacting i@izs.me
 
   global-modules@2.0.0:
     resolution: {integrity: sha512-NGbfmJBp9x8IxyJSd1P+otYK8vonoJactOogrVfFRIAEY1ukil8RSKDz2Yo7wh1oihl51l/r6W4epkeKJHqL8A==}
@@ -3124,6 +3124,7 @@ packages:
   source-map@0.8.0-beta.0:
     resolution: {integrity: sha512-2ymg6oRBpebeZi9UUNsgQ89bhx01TcTkmNTGnNO88imTmbSgy4nfujrgVEFKWpMTEGA11EDkTt7mqObTPdigIA==}
     engines: {node: '>= 8'}
+    deprecated: The work that was done in this beta branch won't be included in future versions
 
   sourcemap-codec@1.4.8:
     resolution: {integrity: sha512-9NykojV5Uih4lgo5So5dtw+f0JgJX30KCNI8gwhz2J9A15wD0Ml6tjHKwf6fTSa6fAdVBdZeNOs9eJ71qCk8vA==}
@@ -4796,7 +4797,7 @@ snapshots:
 
   '@pkgr/core@0.1.1': {}
 
-  '@profcomff/api-uilib@2024.11.24':
+  '@profcomff/api-uilib@2026.3.30':
     dependencies:
       openapi-fetch: 0.10.6
 

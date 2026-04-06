@@ -26,6 +26,12 @@ function getLecturer(id: number) {
 	});
 }
 
+function fetchRatingLecturerByTimetableId(timetableId: number) {
+	return apiClient.GET('/rating/lecturer/timetable-id/{timetable_id}', {
+		params: { path: { timetable_id: timetableId } },
+	});
+}
+
 function getLecturers(params?: GetLecturersParams) {
 	return apiClient.GET('/timetable/lecturer/', {
 		params: { query: params },
@@ -47,6 +53,13 @@ export class TimetableApi {
 		if (data) {
 			setLecturers(data.items);
 		}
+	}
+
+	public static async getRatingLecturerByTimetableId(
+		timetableId: number
+	): Promise<number | undefined> {
+		const { data } = await fetchRatingLecturerByTimetableId(timetableId);
+		return data?.id;
 	}
 
 	public static async getRoom(id: number) {

@@ -20,7 +20,12 @@ function recordError(url: string, status: number, error: ApiError | undefined) {
 
 const errorMiddleware: Middleware = {
 	async onResponse({ response }) {
-		const data = await response.clone();
+		if (response.url.includes('marketing')) {
+			return response;
+		}
+
+		const data = response.clone();
+
 		if (!response.ok) {
 			const error = await data.json();
 			recordError(response.url, response.status, await error);
