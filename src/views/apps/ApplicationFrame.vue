@@ -201,7 +201,7 @@ onMounted(async () => {
 			:src="url.toString()"
 			frameborder="0"
 			class="iframe"
-			allow="camera"
+			allow="camera; clipboard-write"
 		/>
 		<FullscreenLoader v-else-if="appState == AppState.WaitLoad" />
 		<!-- Раскомментить, если появятся приложения от сторонних разработчиков -->
