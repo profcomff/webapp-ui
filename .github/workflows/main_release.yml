@@ -102,6 +102,8 @@ jobs:
     permissions:
       packages: read
     steps:
+      - name: Log in to the Container registry
+        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ${{ env.REGISTRY }} -u ${{ github.actor }} --password-stdin
       - name: Run docker container
         run: |
           docker pull ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:preprod
@@ -140,6 +142,8 @@ jobs:
     permissions:
       packages: read
     steps:
+      - name: Log in to the Container registry
+        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ${{ env.REGISTRY }} -u ${{ github.actor }} --password-stdin
       - name: Run docker container
         run: |
           docker pull ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:prod
