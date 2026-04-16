@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-
 import { apiClient } from '../../client';
 import { ToastType } from '@/models';
 import router from '@/router';
