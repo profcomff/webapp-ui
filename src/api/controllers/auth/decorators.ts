@@ -1,10 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { ApiError } from '@/api';
+//import { ApiError } from '@/api';
 import { apiClient } from '../../client';
 import { ToastType } from '@/models';
 import router from '@/router';
 import { useProfileStore } from '@/store/profile';
 import { useToastStore } from '@/store/toast';
+//import { error } from 'console';
+//import { toRaw } from 'vue';
 
 type Func<R = any, FuncArgs extends any[] = any[]> = (...args: FuncArgs) => R;
 type Decorator<F extends Func = Func, DecoratorArgs extends any[] = any[]> = Func<
@@ -37,17 +39,22 @@ export function scoped<F extends Func>(
 
 export function showErrorToast<F extends Func>(
 	method: F
-): Func<Promise<ReturnType<F>>, Parameters<F>> {
+): Func<Promise<{ error: any; response: ReturnType<F> | null }>, Parameters<F>> {
 	return async (...args: any[]) => {
 		const toastStore = useToastStore();
 		try {
 			const response = await method(...args);
-			return response;
-		} catch (err) {
-			const error = err as ApiError;
+			if ('error' in response) {
+				const errormessage = response.error?.detail?.[0].msg;
+				throw new Error(errormessage);
+			} else {
+				return response;
+			}
+		} catch (err: any) {
+			const error = err?.detail?.[0] ?? err;
 			if (error) {
 				toastStore.push({
-					title: error.ru ?? error.message,
+					title: error.ru ?? error.msg ?? error,
 					type: ToastType.Error,
 				});
 			} else {
@@ -57,6 +64,7 @@ export function showErrorToast<F extends Func>(
 					type: ToastType.Error,
 				});
 			}
+			return { error: err, response: null };
 		}
 	};
 }
