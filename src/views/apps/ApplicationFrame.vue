@@ -192,16 +192,29 @@ onMounted(async () => {
 		appState.value = AppState.Error;
 	}
 });
+
+function addIframeStyles() {
+	const iframeDoc = ref();
+	const style = iframeDoc.value.createElement('style');
+	style.textContent = `
+        main, .container, #app > div {
+            min-height: 100vh;
+        }
+    `;
+	iframeDoc.value.head.appendChild(style);
+}
 </script>
 
 <template>
 	<v-main>
 		<iframe
 			v-if="appState == AppState.Show && url"
+			ref="iframe"
 			:src="url.toString()"
 			frameborder="0"
 			class="iframe"
 			allow="camera; clipboard-write"
+			@load="addIframeStyles()"
 		/>
 		<FullscreenLoader v-else-if="appState == AppState.WaitLoad" />
 		<!-- Раскомментить, если появятся приложения от сторонних разработчиков -->
