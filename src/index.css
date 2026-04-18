@@ -6,3 +6,9 @@ a {
 svg {
 	fill: currentcolor;
 }
+
+main,
+.container,
+#app > div {
+	min-height: 100vh;
+}
