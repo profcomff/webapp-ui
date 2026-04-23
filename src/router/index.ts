@@ -69,6 +69,17 @@ const routes: RouteRecordRaw[] = [
 		path: '/:pathMatch(.*)',
 		component: () => import('@/views/error/Error404View.vue'),
 	},
+	{
+		path: '/debug/zachet-card',
+		component: () => import('@/views/debug/ZachetCardDebugView.vue'),
+		beforeEnter: () => {
+			const token = LocalStorage.get(LocalStorageItem.Token);
+
+			if (!token) {
+				return { path: '/auth' };
+			}
+		},
+	},
 ];
 
 const router = createRouter({
