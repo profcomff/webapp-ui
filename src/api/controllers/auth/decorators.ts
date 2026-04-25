@@ -36,14 +36,13 @@ export function scoped<F extends Func>(
 
 export function showErrorToast<F extends Func>(
 	method: F
-): Func<Promise<{ error: any; response: ReturnType<F> | null }>, Parameters<F>> {
+): Func<Promise<ReturnType<F>>, Parameters<F>> {
 	return async (...args: any[]) => {
 		const toastStore = useToastStore();
 		try {
-			const response = await method(...args);
-			if ('error' in response) {
-				const errormessage = response.error?.detail?.[0].msg;
-				throw new Error(errormessage);
+			const { error, response } = await method(...args);
+			if (error) {
+				throw error;
 			} else {
 				return response;
 			}
@@ -61,7 +60,7 @@ export function showErrorToast<F extends Func>(
 					type: ToastType.Error,
 				});
 			}
-			return { error: err, response: null };
+			return undefined;
 		}
 	};
 }
