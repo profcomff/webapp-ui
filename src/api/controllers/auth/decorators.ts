@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { ApiError } from '@/api';
 import { apiClient } from '../../client';
 import { ToastType } from '@/models';
 import router from '@/router';
@@ -41,13 +40,17 @@ export function showErrorToast<F extends Func>(
 	return async (...args: any[]) => {
 		const toastStore = useToastStore();
 		try {
-			const response = await method(...args);
-			return response;
-		} catch (err) {
-			const error = err as ApiError;
+			const { error, response } = await method(...args);
+			if (error) {
+				throw error;
+			} else {
+				return response;
+			}
+		} catch (err: any) {
+			const error = err?.detail?.[0] ?? err;
 			if (error) {
 				toastStore.push({
-					title: error.ru ?? error.message,
+					title: error.ru ?? error.msg ?? error,
 					type: ToastType.Error,
 				});
 			} else {
@@ -57,6 +60,7 @@ export function showErrorToast<F extends Func>(
 					type: ToastType.Error,
 				});
 			}
+			return undefined;
 		}
 	};
 }
