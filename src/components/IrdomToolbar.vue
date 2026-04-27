@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useRoute, useRouter } from 'vue-router';
+import { useRouter } from 'vue-router';
 import { useProfileStore } from '@/store/profile';
 import { apiClient } from '@/api/';
 
@@ -32,12 +32,11 @@ const props = withDefaults(defineProps<Props>(), {
 	backUrl: undefined,
 });
 
-const route = useRoute();
 const router = useRouter();
 const profileStore = useProfileStore();
 
 const data = {
-	url: route.fullPath,
+	url: window.location.href,
 };
 const canShare = navigator.canShare && navigator.canShare(data);
 const shareHandler = async () => {
