@@ -1,4 +1,4 @@
-import { vitePWAconfig } from './vitePwaOptions';
+import { vitePWAconfig } from './src/pwa/vitePwaOptions';
 import { defineConfig } from 'vite';
 import { fileURLToPath, URL } from 'url';
 import { VitePWA } from 'vite-plugin-pwa';

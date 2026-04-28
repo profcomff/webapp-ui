@@ -20,6 +20,7 @@
 		"types": ["vite-plugin-pwa/client"]
 	},
 	"include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue"],
+	"exclude": ["src/pwa/vitePwaManifest.ts", "src/pwa/vitePwaOptions.ts"],
 	"references": [
 		{
 			"path": "./tsconfig.node.json"
