@@ -1,10 +1,12 @@
-import { vitePWAconfig } from './vitePwaOptions';
+import { vitePWAconfig } from './vitePwaOptions.js';
 import { defineConfig } from 'vite';
 import { fileURLToPath, URL } from 'url';
 import { VitePWA } from 'vite-plugin-pwa';
 import Vue from '@vitejs/plugin-vue';
 import postcssPresetEnv from 'postcss-preset-env';
 import vuetify from 'vite-plugin-vuetify';
+//@ts-expect-error Temp for migrating to another node ts config
+import ViteFonts from 'unplugin-fonts/vite';
 
 export default defineConfig({
 	css: {
@@ -18,7 +20,22 @@ export default defineConfig({
 			],
 		},
 	},
-	plugins: [Vue(), vuetify(), VitePWA(vitePWAconfig)],
+	plugins: [
+		Vue(),
+		vuetify(),
+		VitePWA(vitePWAconfig),
+		ViteFonts({
+			fontsource: {
+				families: [
+					{
+						name: 'Roboto',
+						weights: [100, 300, 400, 500, 700, 900],
+						styles: ['normal', 'italic'],
+					},
+				],
+			},
+		}),
+	],
 	resolve: {
 		alias: [{ find: '@', replacement: fileURLToPath(new URL('./src', import.meta.url)) }],
 	},

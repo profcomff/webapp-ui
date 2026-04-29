@@ -19,7 +19,6 @@ export const useProfileStore = defineStore('profile', () => {
 
 	function updateToken(newToken?: string) {
 		token.value = newToken ?? LocalStorage.get(LocalStorageItem.Token) ?? undefined;
-		token.value = newToken ?? LocalStorage.get(LocalStorageItem.Token) ?? undefined;
 		setupAuth(token.value);
 	}
 

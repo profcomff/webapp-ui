@@ -1,5 +1,6 @@
 import { createVuetify } from 'vuetify';
 import { aliases, md } from 'vuetify/iconsets/md';
+import { VuConfig } from '@profcomff/ui-kit';
 
 const profcomffLight = {
 	dark: false,
@@ -73,11 +74,13 @@ export const vuetify = createVuetify({
 			style: 'background-color: white;',
 		},
 	},
+	aliases: { ...VuConfig.aliases },
 	theme: {
 		defaultTheme: 'profcomffLight',
 		themes: {
 			profcomffLight,
 			datePicker,
+			VuTheme: VuConfig.theme.themes.profcomffLight,
 		},
 	},
 	locale: {
