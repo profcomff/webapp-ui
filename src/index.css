@@ -1,4 +1,4 @@
-@import '@profcomff/ui-kit/style.css';
+@import url('@profcomff/ui-kit/style.css');
 
 a {
 	text-decoration: none;
