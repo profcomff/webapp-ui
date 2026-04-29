@@ -51,10 +51,18 @@ export function showErrorToast<F extends Func>(
 		} catch (err: any) {
 			const error = err?.detail?.[0] ?? err;
 
-			toastStore.push({
-				title: error?.ru ?? error?.msg ?? error?.message ?? String(error),
-				type: ToastType.Error,
-			});
+			if (error) {
+				toastStore.push({
+					title: error?.ru ?? error?.msg ?? error?.message ?? String(error),
+					type: ToastType.Error,
+				});
+			} else {
+				toastStore.push({
+					title: 'Неизвестная ошибка',
+					description: '',
+					type: ToastType.Error,
+				});
+			}
 
 			return undefined;
 		}
