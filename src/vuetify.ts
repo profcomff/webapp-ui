@@ -1,5 +1,6 @@
 import { createVuetify } from 'vuetify';
 import { aliases, md } from 'vuetify/iconsets/md';
+import { VuConfig } from '@profcomff/ui-kit';
 
 const profcomffLight = {
 	dark: false,
@@ -73,14 +74,63 @@ export const vuetify = createVuetify({
 			style: 'background-color: white;',
 		},
 	},
+	aliases: { ...VuConfig.aliases },
 	theme: {
 		defaultTheme: 'profcomffLight',
 		themes: {
 			profcomffLight,
 			datePicker,
+			VuTheme: VuConfig.theme.themes.profcomffLight,
 		},
 	},
 	locale: {
 		locale: 'ru',
 	},
 });
+
+// export const vuetify = createVuetify({
+// 	icons: {
+// 		defaultSet: 'md',
+// 		aliases,
+// 		sets: {
+// 			md,
+// 		},
+// 	},
+// 	defaults: {
+// 		VChip: {
+// 			style: 'border-radius: 999px !important;',
+// 		},
+// 		VContainer: {
+// 			style: 'max-width: 900px;',
+// 		},
+// 		VBottomNavigation: {
+// 			style:
+// 				'background-color: rgb(var(--v-theme-primary)); color: rgb(var(--v-theme-on-primary));',
+// 		},
+// 		VAppBar: {
+// 			style:
+// 				'background-color: rgb(var(--v-theme-primary)); color: rgb(var(--v-theme-on-primary));',
+// 		},
+// 		VList: {
+// 			style:
+// 				'background-color: rgb(var(--v-theme-background)); color: rgb(var(--v-theme-on-background))',
+// 		},
+// 		VCard: {
+// 			style:
+// 				'background-color: rgb(var(--v-theme-surface)); color: rgba(var(--v-theme-on-surface))',
+// 		},
+// 		VSheet: {
+// 			style: 'background-color: white;',
+// 		},
+// 	},
+// 	theme: {
+// 		defaultTheme: 'profcomffLight',
+// 		themes: {
+// 			profcomffLight,
+// 			datePicker,
+// 		},
+// 	},
+// 	locale: {
+// 		locale: 'ru',
+// 	},
+// });
