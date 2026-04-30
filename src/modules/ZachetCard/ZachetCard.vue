@@ -1,18 +1,46 @@
 <script setup lang="ts">
-import { watch } from 'vue';
+import { ref, watch } from 'vue';
 import { useZachetCardController } from './controller/useZachetCardController';
+import ZachetCardFront from './ui/ZachetCardFront.vue';
+import ZachetCardBack from './ui/ZachetCardBack.vue';
 
 const props = defineProps<{
 	userId?: number;
 }>();
 
 const { card, loading, error, reload } = useZachetCardController(props);
+const isFrontSide = ref(true);
+
+async function copyUnionCardNumber() {
+	if (!card.value?.unionCardNumber || card.value.unionCardNumber === '—') {
+		logZachetCardComponent('copy skipped because union card number is empty');
+		return;
+	}
+
+	try {
+		await navigator.clipboard.writeText(card.value.unionCardNumber);
+		logZachetCardComponent('union card number copied', {
+			unionCardNumber: card.value.unionCardNumber,
+		});
+	} catch (error) {
+		errorZachetCardComponent('failed to copy union card number', error);
+	}
+}
+
+function toggleCardSide() {
+	isFrontSide.value = !isFrontSide.value;
+
+	logZachetCardComponent('card side toggled', {
+		isFrontSide: isFrontSide.value,
+	});
+}
 
 watch(
 	() => ({
 		loading: loading.value,
 		error: error.value,
 		card: card.value,
+		isFrontSide: isFrontSide.value,
 	}),
 	state => {
 		logZachetCardComponent('state changed', state);
@@ -32,6 +60,19 @@ function logZachetCardComponent(message: string, payload?: unknown) {
 
 	console.log('[ZachetCard][component]', message, payload);
 }
+
+function errorZachetCardComponent(message: string, payload?: unknown) {
+	if (!import.meta.env.DEV) {
+		return;
+	}
+
+	if (payload === undefined) {
+		console.error('[ZachetCard][component]', message);
+		return;
+	}
+
+	console.error('[ZachetCard][component]', message, payload);
+}
 </script>
 
 <template>
@@ -40,50 +81,27 @@ function logZachetCardComponent(message: string, payload?: unknown) {
 
 		<div v-else-if="error" class="zachet-card-module__state zachet-card-module__state_error">
 			<div>{{ error }}</div>
-			<button type="button" class="zachet-card-module__retry" @click="reload">Повторить</button>
+			<v-btn color="primary" @click="reload">Повторить</v-btn>
 		</div>
 
-		<div v-else-if="card" class="zachet-card">
-			<div class="zachet-card__header">
-				<div class="zachet-card__title">ПРОФСОЮЗНЫЙ БИЛЕТ</div>
-				<div class="zachet-card__number">№ {{ card.unionCardNumber }}</div>
-			</div>
+		<div v-else-if="card" class="zachet-card-module__content">
+			<ZachetCardFront
+				v-if="isFrontSide"
+				:card="card"
+				@copy-union-card-number="copyUnionCardNumber"
+			/>
 
-			<div class="zachet-card__content">
-				<div class="zachet-card__photo">
-					<img
-						v-if="card.photoUrl"
-						:src="card.photoUrl"
-						alt="Фото пользователя"
-						class="zachet-card__photo-image"
-					/>
-					<div v-else class="zachet-card__photo-placeholder">Нет фото</div>
-				</div>
+			<ZachetCardBack v-else :card="card" @copy-union-card-number="copyUnionCardNumber" />
 
-				<div class="zachet-card__info">
-					<div class="zachet-card__name">
-						<div>{{ card.fullNameRu }} /</div>
-						<div>{{ card.fullNameEn }}</div>
-					</div>
-
-					<div class="zachet-card__field">
-						<div class="zachet-card__label">ДАТА РОЖДЕНИЯ / DATE OF BIRTH</div>
-						<div class="zachet-card__value">{{ card.birthDate }}</div>
-					</div>
-
-					<div class="zachet-card__field">
-						<div class="zachet-card__label">ФАКУЛЬТЕТ / DEPARTMENT</div>
-						<div class="zachet-card__value">
-							<div>{{ card.facultyRu }}</div>
-							<div>{{ card.facultyEn }}</div>
-						</div>
-					</div>
-
-					<div class="zachet-card__status">{{ card.statusRu }} / {{ card.statusEn }}</div>
-				</div>
-			</div>
-
-			<div class="zachet-card__footer">LOMONOSOV MOSCOW STATE UNIVERSITY ID CARD</div>
+			<v-btn
+				block
+				size="x-large"
+				color="primary"
+				class="zachet-card-module__flip-btn"
+				@click="toggleCardSide"
+			>
+				ПЕРЕВЕРНУТЬ
+			</v-btn>
 		</div>
 
 		<div v-else class="zachet-card-module__state">Нет данных для отображения карты</div>
@@ -92,7 +110,23 @@ function logZachetCardComponent(message: string, payload?: unknown) {
 
 <style scoped>
 .zachet-card-module {
+	--zachet-card-red: #c2291b;
+	--zachet-card-face-min-height-mobile: 340px;
+	--zachet-card-face-min-height-desktop: 376px;
+
 	width: 100%;
+}
+
+.zachet-card-module__content {
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+	align-items: center;
+}
+
+.zachet-card-module__content > * {
+	width: 100%;
+	max-width: 560px;
 }
 
 .zachet-card-module__state {
@@ -102,10 +136,10 @@ function logZachetCardComponent(message: string, payload?: unknown) {
 	align-items: center;
 	justify-content: center;
 	min-height: 220px;
-	border-radius: 20px;
-	background: #f5f5f5;
-	color: #222;
 	padding: 16px;
+	border-radius: 20px;
+	background: rgb(var(--v-theme-surface));
+	color: rgba(var(--v-theme-on-surface));
 }
 
 .zachet-card-module__state_error {
@@ -113,166 +147,14 @@ function logZachetCardComponent(message: string, payload?: unknown) {
 	color: #b42318;
 }
 
-.zachet-card-module__retry {
-	padding: 8px 14px;
-	border: none;
-	border-radius: 10px;
-	background: #d80000;
-	color: #fff;
-	cursor: pointer;
-}
-
-.zachet-card {
-	display: flex;
-	flex-direction: column;
-	overflow: hidden;
-	border-radius: 22px;
-	background: #d80000;
-	color: #fff;
-	max-width: 900px;
-	width: 100%;
-	box-shadow: 0 12px 28px rgba(0, 0, 0, 0.18);
-}
-
-.zachet-card__header {
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	padding: 18px 28px;
-	border-bottom: 4px solid #ffffff;
+.zachet-card-module__flip-btn {
 	font-weight: 700;
-	gap: 12px;
-}
-
-.zachet-card__title {
-	font-size: 28px;
-	line-height: 1.1;
-	text-transform: uppercase;
-}
-
-.zachet-card__number {
-	font-size: 24px;
-	line-height: 1.1;
-	text-transform: uppercase;
-	white-space: nowrap;
-}
-
-.zachet-card__content {
-	display: grid;
-	grid-template-columns: 150px 1fr;
-	gap: 28px;
-	padding: 18px 28px 20px;
-	border-bottom: 4px solid #ffffff;
-	align-items: start;
-}
-
-.zachet-card__photo {
-	width: 150px;
-	height: 180px;
-	background: rgba(255, 255, 255, 0.14);
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	overflow: hidden;
-}
-
-.zachet-card__photo-image {
-	width: 100%;
-	height: 100%;
-	object-fit: cover;
-}
-
-.zachet-card__photo-placeholder {
-	padding: 12px;
-	text-align: center;
-	font-size: 14px;
-}
-
-.zachet-card__info {
-	display: flex;
-	flex-direction: column;
-	gap: 18px;
-}
-
-.zachet-card__name {
-	font-size: 24px;
-	font-weight: 700;
-	line-height: 1.15;
-	text-transform: uppercase;
-	word-break: break-word;
-}
-
-.zachet-card__field {
-	display: flex;
-	flex-direction: column;
-	gap: 6px;
-}
-
-.zachet-card__label {
-	font-size: 18px;
-	font-weight: 700;
-	line-height: 1.1;
-	text-transform: uppercase;
-}
-
-.zachet-card__value {
-	font-size: 18px;
-	font-weight: 600;
-	line-height: 1.25;
-	word-break: break-word;
-}
-
-.zachet-card__status {
-	font-size: 22px;
-	font-weight: 700;
-	line-height: 1.2;
-	text-transform: uppercase;
-	word-break: break-word;
-}
-
-.zachet-card__footer {
-	padding: 18px 28px;
-	font-size: 18px;
-	font-weight: 700;
-	line-height: 1.2;
-	text-transform: uppercase;
+	letter-spacing: 0.5px;
 }
 
 @media (max-width: 768px) {
-	.zachet-card__header {
-		flex-direction: column;
-		align-items: flex-start;
-	}
-
-	.zachet-card__content {
-		grid-template-columns: 1fr;
-	}
-
-	.zachet-card__photo {
-		width: 120px;
-		height: 145px;
-	}
-
-	.zachet-card__title {
-		font-size: 22px;
-	}
-
-	.zachet-card__number {
-		font-size: 20px;
-	}
-
-	.zachet-card__name {
-		font-size: 20px;
-	}
-
-	.zachet-card__label,
-	.zachet-card__value,
-	.zachet-card__footer {
-		font-size: 16px;
-	}
-
-	.zachet-card__status {
-		font-size: 18px;
+	.zachet-card-module__content > * {
+		max-width: 100%;
 	}
 }
 </style>
