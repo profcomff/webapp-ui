@@ -2,6 +2,14 @@ import type { UserdataItem, ZachetCardData } from './types';
 
 const FALLBACK = '—';
 
+const DEFAULT_CONTACTS = {
+	address: '1018а, Главное здание МГУ',
+	phone: '+7 (495)-939-14-58',
+	email: 'begomvprofcom@mail.ru',
+	vk: '@msuprofcom',
+	website: 'msuprof.com',
+};
+
 function normalizeValue(value?: string | null): string | null {
 	if (typeof value !== 'string') return null;
 
@@ -100,6 +108,7 @@ export function mapUserdataToZachetCard(items: UserdataItem[]): ZachetCardData {
 		statusRu: getFirstValue(items, 'Учёба', 'Должность') ?? FALLBACK,
 		statusEn: '-',
 		photoUrl: resolvePhotoUrl(items),
+		contacts: DEFAULT_CONTACTS,
 	};
 
 	logZachetCardMapper('mapped card result', mappedCard);

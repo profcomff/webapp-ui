@@ -8,6 +8,14 @@ export interface UserdataResponse {
 	items: UserdataItem[];
 }
 
+export interface ZachetCardContacts {
+	address: string;
+	phone: string;
+	email: string;
+	vk: string;
+	website: string;
+}
+
 export interface ZachetCardData {
 	unionCardNumber: string;
 	fullNameRu: string;
@@ -18,4 +26,5 @@ export interface ZachetCardData {
 	statusRu: string;
 	statusEn: string;
 	photoUrl?: string;
+	contacts: ZachetCardContacts;
 }
