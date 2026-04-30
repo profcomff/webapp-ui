@@ -4,33 +4,10 @@ import type { ZachetCardData } from '../controller/types';
 defineProps<{
 	card: ZachetCardData;
 }>();
-
-const emit = defineEmits<{
-	copyUnionCardNumber: [];
-}>();
-
-function handleCopyClick(event: MouseEvent) {
-	emit('copyUnionCardNumber');
-
-	const target = event.currentTarget as HTMLElement | null;
-	target?.blur();
-}
 </script>
 
 <template>
 	<div class="zachet-card-front">
-		<div class="zachet-card-front__header">
-			<div class="zachet-card-front__title">ПРОФСОЮЗНЫЙ БИЛЕТ</div>
-
-			<v-btn variant="flat" class="zachet-card-front__copy-btn" @click="handleCopyClick">
-				<template #prepend>
-					<v-icon icon="content_copy" />
-				</template>
-
-				№{{ card.unionCardNumber }}
-			</v-btn>
-		</div>
-
 		<div class="zachet-card-front__content">
 			<div class="zachet-card-front__photo">
 				<img
@@ -75,58 +52,23 @@ function handleCopyClick(event: MouseEvent) {
 .zachet-card-front {
 	display: flex;
 	flex-direction: column;
-	justify-content: space-between;
-	overflow: hidden;
-	min-height: var(--zachet-card-face-min-height-mobile);
-	border-radius: 16px;
-	background: var(--zachet-card-red);
-	color: rgb(var(--v-theme-on-primary));
-	box-shadow: 0 12px 28px rgba(0, 0, 0, 0.18);
-}
-
-.zachet-card-front__header {
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	gap: 12px;
-	padding: 12px 16px;
-	border-bottom: 2px solid rgba(255, 255, 255, 0.85);
-}
-
-.zachet-card-front__title {
-	font-size: 16px;
-	font-weight: 500;
-	line-height: 1.1;
-	text-transform: uppercase;
-}
-
-.zachet-card-front__copy-btn {
-	min-width: 0;
-	background: rgb(var(--v-theme-on-primary)) !important;
-	color: var(--zachet-card-red) !important;
-	border-radius: 8px;
-	font-size: 14px;
-	font-weight: 700;
-	text-transform: none;
-	box-shadow: none !important;
-}
-
-:deep(.zachet-card-front__copy-btn .v-btn__overlay),
-:deep(.zachet-card-front__copy-btn .v-btn__underlay) {
-	display: none;
+	flex: 1;
+	min-height: 0;
 }
 
 .zachet-card-front__content {
 	display: grid;
 	grid-template-columns: 84px 1fr;
 	gap: 16px;
-	padding: 10px 16px 14px;
-	border-bottom: 2px solid rgba(255, 255, 255, 0.85);
+	padding: 18px 18px 16px;
+	border-bottom: 1px solid rgba(255, 255, 255, 0.85);
+	flex: 1;
+	align-items: center;
 }
 
 .zachet-card-front__photo {
-	width: 74px;
-	height: 118px;
+	width: 79px;
+	height: 110px;
 	background: rgba(255, 255, 255, 0.08);
 	display: flex;
 	align-items: center;
@@ -143,101 +85,51 @@ function handleCopyClick(event: MouseEvent) {
 .zachet-card-front__photo-placeholder {
 	padding: 8px;
 	text-align: center;
-	font-size: 12px;
+	font-size: 10px;
 	font-weight: 500;
+	line-height: 1.2;
+	color: #ffffff;
 }
 
 .zachet-card-front__info {
 	display: flex;
 	flex-direction: column;
-	gap: 12px;
+	justify-content: center;
+	gap: 10px;
+	min-width: 0;
 }
 
 .zachet-card-front__field {
 	display: flex;
 	flex-direction: column;
-	gap: 4px;
+	gap: 2px;
 }
 
-.zachet-card-front__label {
-	font-size: 11px;
-	font-weight: 700;
-	line-height: 1.1;
-	text-transform: uppercase;
-}
-
-.zachet-card-front__value {
-	font-size: 12px;
-	font-weight: 700;
-	line-height: 1.2;
-	text-transform: uppercase;
-	word-break: break-word;
-}
-
-.zachet-card-front__value_name {
-	font-size: 13px;
-}
-
+.zachet-card-front__label,
+.zachet-card-front__value,
+.zachet-card-front__value_name,
 .zachet-card-front__status {
-	font-size: 12px;
+	font-size: 10.03px;
 	font-weight: 700;
-	line-height: 1.2;
+	line-height: 1;
+	letter-spacing: 0;
 	text-transform: uppercase;
+	color: #ffffff;
 	word-break: break-word;
 }
 
 .zachet-card-front__footer {
-	padding: 10px 16px 12px;
-	font-size: 10px;
-	font-weight: 700;
-	line-height: 1.2;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-shrink: 0;
+	padding: 10px 18px 12px;
+	font-size: 11.46px;
+	font-weight: 500;
+	line-height: 21.49px;
+	letter-spacing: 0;
 	text-align: center;
 	text-transform: uppercase;
-}
-
-@media (min-width: 768px) {
-	.zachet-card-front {
-		min-height: var(--zachet-card-face-min-height-desktop);
-	}
-
-	.zachet-card-front__header {
-		padding: 18px 24px;
-	}
-
-	.zachet-card-front__title {
-		font-size: 20px;
-	}
-
-	.zachet-card-front__content {
-		grid-template-columns: 112px 1fr;
-		gap: 20px;
-		padding: 14px 24px 18px;
-	}
-
-	.zachet-card-front__photo {
-		width: 92px;
-		height: 136px;
-	}
-
-	.zachet-card-front__value {
-		font-size: 16px;
-	}
-
-	.zachet-card-front__value_name {
-		font-size: 18px;
-	}
-
-	.zachet-card-front__label {
-		font-size: 13px;
-	}
-
-	.zachet-card-front__status {
-		font-size: 15px;
-	}
-
-	.zachet-card-front__footer {
-		padding: 12px 24px 14px;
-		font-size: 12px;
-	}
+	color: #ffffff;
 }
 </style>
