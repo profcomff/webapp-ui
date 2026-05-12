@@ -4,7 +4,7 @@ import { RouteRecordRaw } from 'vue-router';
 export const profileRoutes: RouteRecordRaw[] = [
 	{
 		path: '',
-		component: () => import('@/views/profile/ProfileView.vue'),
+		component: () => import('@/views/profile/ProfilePageV2.vue'),
 	},
 	{
 		path: 'sessions',
