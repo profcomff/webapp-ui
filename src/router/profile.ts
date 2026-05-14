@@ -4,6 +4,10 @@ import { RouteRecordRaw } from 'vue-router';
 export const profileRoutes: RouteRecordRaw[] = [
 	{
 		path: '',
+		component: () => import('@/views/profile/ProfileView.vue'),
+	},
+	{
+		path: '/redesign',
 		component: () => import('@/views/profile/ProfilePageV2.vue'),
 	},
 	{
