@@ -229,13 +229,8 @@ onMounted(async () => {
 .iframe {
 	display: block;
 	width: 100%;
-	min-height: calc(100vh - var(--v-layout-top) - var(--v-layout-bottom));
-}
-
-@supports (height: 100dvh) {
-	.iframe {
-		min-height: calc(100dvh - var(--v-layout-top) - var(--v-layout-bottom));
-	}
+	height: calc(100vh - var(--v-layout-top) - var(--v-layout-bottom));
+	height: calc(100dvh - var(--v-layout-top) - var(--v-layout-bottom));
 }
 
 .exception-container {
