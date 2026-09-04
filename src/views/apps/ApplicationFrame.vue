@@ -195,7 +195,7 @@ onMounted(async () => {
 </script>
 
 <template>
-	<v-main>
+	<v-main class="application-frame">
 		<iframe
 			v-if="appState == AppState.Show && url"
 			:src="url.toString()"
@@ -226,16 +226,17 @@ onMounted(async () => {
 </template>
 
 <style scoped>
-.iframe {
-	display: block;
-	width: 100%;
-	min-height: calc(100vh - var(--v-layout-top) - var(--v-layout-bottom));
+.application-frame {
+	display: flex;
+	flex-direction: column;
+	min-height: 0;
 }
 
-@supports (height: 100dvh) {
-	.iframe {
-		min-height: calc(100dvh - var(--v-layout-top) - var(--v-layout-bottom));
-	}
+.iframe {
+	flex: 1 1 auto;
+	display: block;
+	width: 100%;
+	min-height: 0;
 }
 
 .exception-container {
