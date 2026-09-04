@@ -1,4 +1,4 @@
-FROM node:18 AS build
+FROM node:22 AS build
 
 ARG BUILD_MODE=production
 ARG LAUNCH_MODE=production
@@ -9,7 +9,7 @@ ENV VITE_APP_VERSION=${APP_VERSION}
 
 WORKDIR /app
 ADD ./package.json ./pnpm-lock.yaml /app/
-RUN npm i -g pnpm && pnpm install
+RUN npm i -g pnpm@9.15.9 && pnpm install --frozen-lockfile
 ADD . /app
 RUN pnpm build --mode ${BUILD_MODE}
 
