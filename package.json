@@ -23,7 +23,7 @@
 	},
 	"dependencies": {
 		"@profcomff/ui-kit": "^0.0.4",
-		"markdown-it": "^14.1.0",
+		"markdown-it": "^14.2.0",
 		"openapi-fetch": "^0.13.0",
 		"pinia": "^2.2.6",
 		"ua-parser-js": "^1.0.39",
