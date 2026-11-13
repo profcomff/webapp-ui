@@ -230,6 +230,10 @@ onMounted(async () => {
 	display: flex;
 	flex-direction: column;
 	min-height: 0;
+
+	/* Give the iframe a definite flex container height, including in WebViews. */
+	height: 100vh;
+	height: 100dvh;
 }
 
 .iframe {
